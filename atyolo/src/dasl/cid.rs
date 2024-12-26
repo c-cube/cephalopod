@@ -1,24 +1,46 @@
 //! https://dasl.ing/cid.html
 
+use bumpalo::Bump;
+use sha2::{Digest, Sha256};
+
 use super::{
     errors::{DaslError::ParseError, Result},
-    utils::dec_leb128,
+    utils::{self, dec_leb128},
     DaslError,
 };
 use core::str;
 use std::borrow::Cow;
 
-#[derive(Clone, Copy, Eq, PartialEq, Debug)]
+#[derive(Clone, Copy, Eq, PartialEq, Hash, Debug)]
 pub enum Codec {
     Raw,
     DCBOR42,
 }
 
+// TODO: remove the bound! we can just use a fixed size of 32 for the hash
+
+const SIZE: usize = 32 + 4;
+
 /// A CID (content ID).
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Eq, PartialEq, Hash)]
 pub struct CID<'a> {
     pub codec: Codec,
     pub hash: Cow<'a, [u8]>,
+}
+
+impl<'a> std::fmt::Debug for CID<'a> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("CID")
+            .field("codec", &self.codec)
+            .field(
+                "hash",
+                &base32::encode(
+                    base32::Alphabet::Rfc4648Lower { padding: false },
+                    &self.hash,
+                ),
+            )
+            .finish()
+    }
 }
 
 impl Codec {
@@ -73,10 +95,8 @@ fn parse_binary_<'a>(s: &'a [u8]) -> Result<(CID<'a>, usize, ParsedInFull)> {
         codec,
         hash: Cow::from(&s[offset..offset + len]),
     };
-    Ok((cid, 3 + len, parsed_full))
+    Ok((cid, offset + len, parsed_full))
 }
-
-const SIZE: usize = 32 + 4;
 
 fn encode_binary(cid: &'_ CID, res: &mut [u8; SIZE]) {
     res[0] = 1;
@@ -87,6 +107,17 @@ fn encode_binary(cid: &'_ CID, res: &mut [u8; SIZE]) {
     res[4..].copy_from_slice(&cid.hash);
 }
 
+/// A constant dummy CID used for tests and allocations.
+pub const DUMMY: CID<'static> = CID {
+    codec: Codec::Raw,
+    hash: Cow::Borrowed(&[
+        1, 1, 1, 1, 1, 1, 1, 1, /* */
+        2, 2, 2, 2, 2, 2, 2, 2, /* */
+        3, 3, 3, 3, 3, 3, 3, 3, /* */
+        4, 4, 4, 4, 4, 4, 4, 4,
+    ]),
+};
+
 impl<'a> CID<'a> {
     pub fn to_owned(self) -> CID<'static> {
         let owned: Vec<u8> = self.hash.into_owned();
@@ -94,6 +125,22 @@ impl<'a> CID<'a> {
             codec: self.codec,
             hash: Cow::Owned(owned),
         }
+    }
+
+    /// Compute a CID by hashing the serialized data.
+    pub fn new_compute_hash(alloc: &'a Bump, codec: Codec, data: &[u8]) -> Result<CID<'a>> {
+        let hash = Sha256::digest(data);
+        debug_assert_eq!(32, hash.len());
+
+        Ok(CID {
+            codec,
+            hash: Cow::Borrowed(utils::alloc_slice_copy(alloc, &hash)?),
+        })
+    }
+
+    /// Compute a CID for raw data, with the Raw codec.
+    pub fn new_from_raw_data(alloc: &'a Bump, data: &[u8]) -> Result<CID<'a>> {
+        CID::new_compute_hash(alloc, Codec::Raw, data)
     }
 
     pub fn encode_to_binary(&'_ self) -> [u8; SIZE + 1] {
@@ -120,7 +167,7 @@ impl<'a> CID<'a> {
         if s.is_empty() || s[0] != 0 {
             parse_err!("CID is too short")
         }
-        let (cid, _, parsed_full) = parse_binary_(&s[1..])?;
+        let (cid, _n, parsed_full) = parse_binary_(&s[1..])?;
         if !parsed_full {
             parse_err!("CID has the wrong length")
         }
@@ -154,5 +201,16 @@ impl<'a> CID<'a> {
             parse_err!("CID has the wrong length")
         }
         Ok(cid.to_owned())
+    }
+
+    /// Copy into the given allocator.
+    pub fn tranfer_to<'b>(&self, alloc: &'b Bump) -> Result<CID<'b>> {
+        let data = utils::alloc_slice(alloc, self.hash.len(), 0)?;
+        data.copy_from_slice(&self.hash);
+        let cid = CID {
+            codec: self.codec,
+            hash: Cow::Borrowed(data),
+        };
+        Ok(cid)
     }
 }

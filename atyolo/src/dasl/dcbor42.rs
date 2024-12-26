@@ -6,20 +6,22 @@
 //! [1]: https://dasl.ing/dcbor42.html
 //! [2]: https://atproto.com/specs/data-model
 
-use std::alloc::Layout;
-
-use super::{cid::CID, errors::Result, DaslError};
+use super::{
+    cid::{self, CID},
+    errors::Result,
+    utils, DaslError,
+};
 pub use bumpalo::Bump;
 use ciborium_ll::{Decoder as CDecoder, Header as CHeader};
 
 /// A dCBOR42 value.
-#[derive(Clone, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Value<'a> {
     Null,
     Bool(bool),
     Positive(u64),
     Negative(u64),
-    CID(CID<'a>),
+    CID(&'a CID<'a>),
     Text(&'a str),
     Bytes(&'a [u8]),
     Array(&'a [Value<'a>]),
@@ -31,24 +33,6 @@ const MAX_STRING_SIZE: usize = 256 * 1024;
 const MAX_BLOB_SIZE: usize = 256 * 1024;
 const MAX_ARRAY_SIZE: usize = 10_000;
 const MAX_MAP_SIZE: usize = 10_000;
-
-#[inline(always)]
-fn alloc_slice<'a, T>(alloc: &'a Bump, len: usize, fill: T) -> Result<&'a mut [T]>
-where
-    T: Clone,
-{
-    use std::ptr;
-    let ptr: ptr::NonNull<T> = alloc
-        .try_alloc_layout(Layout::array::<T>(len).unwrap())?
-        .cast();
-    unsafe {
-        for i in 0..len {
-            ptr::write(ptr.as_ptr().add(i), fill.clone());
-        }
-        let buf = std::slice::from_raw_parts_mut(ptr.as_ptr(), len);
-        Ok(buf)
-    }
-}
 
 /// Parse a DCBOR42 value from bytes.
 pub fn decode<'a>(alloc: &'a Bump, bytes: &[u8]) -> Result<Value<'a>> {
@@ -62,7 +46,7 @@ pub fn decode<'a>(alloc: &'a Bump, bytes: &[u8]) -> Result<Value<'a>> {
 
     macro_rules! read_segment {
         ($alloc:expr, $len:expr, $segments:expr) => {{
-            let mut buf: &mut [u8] = alloc_slice($alloc, $len, 0u8)?;
+            let mut buf: &mut [u8] = super::utils::alloc_slice($alloc, $len, 0u8)?;
 
             match $segments
                 .pull()
@@ -114,8 +98,9 @@ pub fn decode<'a>(alloc: &'a Bump, bytes: &[u8]) -> Result<Value<'a>> {
             CHeader::Float(_) => fail!("dCBOR42 does not support floats"),
             CHeader::Tag(42) => {
                 if let Value::Bytes(s) = read_rec(alloc, dec, depth + 1)? {
+                    dbg!(&s);
                     let cid = CID::parse_binary(s)?;
-                    Value::CID(cid)
+                    Value::CID(alloc.alloc(cid))
                 } else {
                     fail!("Tag 42 must be followed by a binary CID")
                 }
@@ -152,7 +137,7 @@ pub fn decode<'a>(alloc: &'a Bump, bytes: &[u8]) -> Result<Value<'a>> {
                     fail!("Maximum array size exceeded")
                 }
 
-                let arr = alloc_slice(alloc, len, Value::Null)?;
+                let arr = utils::alloc_slice(alloc, len, Value::Null)?;
                 for i in 0..len {
                     arr[i] = read_rec(alloc, dec, depth + 1)?
                 }
@@ -163,7 +148,7 @@ pub fn decode<'a>(alloc: &'a Bump, bytes: &[u8]) -> Result<Value<'a>> {
                     fail!("Maximum map size exceeded")
                 }
 
-                let arr = alloc_slice(alloc, len, ("", Value::Null))?;
+                let arr = utils::alloc_slice(alloc, len, ("", Value::Null))?;
                 for i in 0..len {
                     let Value::Text(k) = read_rec(alloc, dec, depth + 1)? else {
                         fail!("Map keys must be strings");
@@ -251,6 +236,48 @@ pub fn encode(v: &Value, into: &mut Vec<u8>) -> Result<()> {
 
     encode_rec(&mut enc, v, 0)?;
     Ok(())
+}
+
+macro_rules! as_case {
+    ($name:ident, $cstor:path, $ret:ty) => {
+        #[inline(always)]
+        pub fn $name(&self) -> Option<$ret> {
+            match self {
+                $cstor(x) => Some(x),
+                _ => None,
+            }
+        }
+    };
+
+    ($name:ident, deref, $cstor:path, $ret:ty) => {
+        #[inline(always)]
+        pub fn $name(&self) -> Option<$ret> {
+            match self {
+                $cstor(x) => Some(*x),
+                _ => None,
+            }
+        }
+    };
+}
+
+impl<'a> Value<'a> {
+    as_case!(as_map, Value::Map, &'a [(&'a str, Value<'a>)]);
+    as_case!(as_array, Value::Array, &'a [Value<'a>]);
+    as_case!(as_cid, Value::CID, &'a CID<'a>);
+    as_case!(as_text, Value::Text, &'a str);
+    as_case!(as_bytes, Value::Bytes, &'a [u8]);
+    as_case!(as_positive, deref, Value::Positive, u64);
+    as_case!(as_negagive, deref, Value::Negative, u64);
+    as_case!(as_bool, deref, Value::Bool, bool);
+
+    /// Compute the CID. `buf` is used for temporary encoding, and will be cleared.
+    pub fn compute_cid<'b>(&'_ self, alloc: &'b Bump, buf: &mut Vec<u8>) -> Result<CID<'b>> {
+        buf.clear();
+        encode(self, buf)?;
+        let cid_res = CID::new_compute_hash(alloc, cid::Codec::DCBOR42, &buf);
+        buf.clear();
+        cid_res
+    }
 }
 
 // TODO: to json, from json

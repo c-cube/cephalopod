@@ -5,17 +5,15 @@ use atyolo::dasl::cid::*;
 // TODO: proptest for CID => binary => CID
 // TODO: proptest for CID => string => CID
 
-fn ref_cid() -> CID<'static> {
-    CID {
-        codec: Codec::Raw,
-        hash: Cow::from(&[
-            1, 1, 1, 1, 1, 1, 1, 1, /* */
-            2, 2, 2, 2, 2, 2, 2, 2, /* */
-            3, 3, 3, 3, 3, 3, 3, 3, /* */
-            4, 4, 4, 4, 4, 4, 4, 4,
-        ]),
-    }
-}
+const REF_CID: CID<'static> = CID {
+    codec: Codec::Raw,
+    hash: Cow::Borrowed(&[
+        1, 1, 1, 1, 1, 1, 1, 1, /* */
+        2, 2, 2, 2, 2, 2, 2, 2, /* */
+        3, 3, 3, 3, 3, 3, 3, 3, /* */
+        4, 4, 4, 4, 4, 4, 4, 4,
+    ]),
+};
 
 #[test]
 fn test_decode_binary() {
@@ -28,7 +26,7 @@ fn test_decode_binary() {
     ];
 
     let cid = CID::parse_binary(fake_cid).unwrap();
-    assert_eq!(ref_cid(), cid);
+    assert_eq!(REF_CID, cid);
 
     let encoded = cid.encode_to_binary();
     assert_eq!(fake_cid, &encoded);
@@ -38,5 +36,5 @@ fn test_decode_binary() {
 fn test_decode_str() {
     let cid_str = "bafkreiabaeaqcaibaeaqeaqcaibaeaqcambqgaydambqgbaeaqcaibaeaq";
     let parsed = CID::parse_str(cid_str).unwrap();
-    assert_eq!(ref_cid(), parsed)
+    assert_eq!(REF_CID, parsed)
 }

@@ -1,4 +1,6 @@
-#[derive(Debug, Clone, thiserror::Error)]
+use std::io;
+
+#[derive(Debug, thiserror::Error)]
 pub enum DaslError {
     #[error("Parse error: {0}")]
     ParseError(&'static str),
@@ -10,6 +12,8 @@ pub enum DaslError {
     DCBOR42EncodingError(&'static str),
     #[error("Invalid CAR: {0}")]
     InvalidCAR(&'static str),
+    #[error("IO error: {0}")]
+    IOError(#[from] io::Error),
 }
 
 pub type Result<T> = std::result::Result<T, DaslError>;

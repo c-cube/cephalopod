@@ -1,7 +1,5 @@
-use std::borrow::Cow;
-
 use atyolo::dasl::{
-    cid::{Codec, CID},
+    cid::{self},
     dcbor42,
 };
 use dcbor42::Value as V;
@@ -42,11 +40,6 @@ fn test_encode() {
     );
 }
 
-pub const DUMMY_CID: CID<'static> = CID {
-    codec: Codec::Raw,
-    hash: Cow::Borrowed(&[0u8; 32]),
-};
-
 #[test]
 fn test_encode2() {
     let v = V::Array(&[
@@ -56,7 +49,7 @@ fn test_encode2() {
         V::Bytes(&[0, 1, 2, 3]),
         V::Text(""),
         V::Map(&[
-            ("hello", V::CID(DUMMY_CID)),
+            ("hello", V::CID(&cid::DUMMY)),
             ("world", V::Null),
             ("neg", V::Negative(121515189)),
         ]),
@@ -79,7 +72,7 @@ fn test_encode_too_deep() {
 
     // way above our recursion limit
     for _ in 0..1200 {
-        v = V::Array(bump.alloc_slice_clone(&[v.clone()]))
+        v = V::Array(bump.alloc_slice_copy(&[v]))
     }
 
     let mut bytes = vec![];
