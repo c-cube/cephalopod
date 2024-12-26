@@ -2,6 +2,7 @@
 
 use super::{
     errors::{DaslError::ParseError, Result},
+    utils::dec_leb128,
     DaslError,
 };
 use core::str;
@@ -29,32 +30,15 @@ impl Codec {
     }
 }
 
-/// Decode LEB128, starting at `off`. Returns the result, and modifies `off`.
-fn dec_leb128(s: &[u8], off: &mut usize) -> Option<u64> {
-    let mut res: u64 = 0;
-
-    loop {
-        if *off >= s.len() {
-            return None;
-        }
-
-        let c = s[*off];
-        res = (res << 7) + (c & 0b0111_1111) as u64;
-
-        *off += 1;
-        if c & 0b1000_0000 == 0 {
-            return Some(res);
-        }
-    }
-}
-
 macro_rules! parse_err {
     ($msg:expr) => {
         return Err(ParseError($msg))
     };
 }
 
-fn parse_binary_<'a>(s: &'a [u8]) -> Result<CID<'a>> {
+type ParsedInFull = bool;
+
+fn parse_binary_<'a>(s: &'a [u8]) -> Result<(CID<'a>, usize, ParsedInFull)> {
     if s.len() < 3 {
         parse_err!("CID too short");
     };
@@ -82,14 +66,14 @@ fn parse_binary_<'a>(s: &'a [u8]) -> Result<CID<'a>> {
     if len != 32 {
         parse_err!("Expected length to be 32 (for SHA256)")
     }
-    if offset + len != s.len() {
-        parse_err!("CID has the wrong length")
-    }
 
-    Ok(CID {
+    let parsed_full = offset + len == s.len();
+
+    let cid = CID {
         codec,
         hash: Cow::from(&s[offset..offset + len]),
-    })
+    };
+    Ok((cid, 3 + len, parsed_full))
 }
 
 const SIZE: usize = 32 + 4;
@@ -131,12 +115,26 @@ impl<'a> CID<'a> {
         res
     }
 
-    /// Parse a binary CID
+    /// Parse a binary CID, consuming the whole slice.
     pub fn parse_binary(s: &'a [u8]) -> Result<CID<'a>> {
         if s.is_empty() || s[0] != 0 {
             parse_err!("CID is too short")
         }
-        parse_binary_(&s[1..])
+        let (cid, _, parsed_full) = parse_binary_(&s[1..])?;
+        if !parsed_full {
+            parse_err!("CID has the wrong length")
+        }
+        Ok(cid)
+    }
+
+    /// Like `parse_binary` but it returns how many bytes were read,
+    /// and does not expect to use the whole slice.
+    pub fn parse_binary_partial(s: &'a [u8]) -> Result<(CID<'a>, usize)> {
+        if s.is_empty() || s[0] != 0 {
+            parse_err!("CID is too short")
+        }
+        let (cid, n, _) = parse_binary_(&s[1..])?;
+        Ok((cid, n + 1))
     }
 
     pub fn parse_str(s: &str) -> Result<CID<'static>> {
@@ -151,27 +149,10 @@ impl<'a> CID<'a> {
         let bin: Vec<u8> =
             base32::decode(base32::Alphabet::Rfc4648Lower { padding: false }, s_rest)
                 .ok_or_else(|| DaslError::ParseError("invalid base32"))?;
-        let cid = parse_binary_(&bin)?;
+        let (cid, _, parsed_full) = parse_binary_(&bin)?;
+        if !parsed_full {
+            parse_err!("CID has the wrong length")
+        }
         Ok(cid.to_owned())
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_leb128() {
-        {
-            let mut off = 0;
-            let b: &[u8] = &[17];
-            assert_eq!(Some(17), dec_leb128(b, &mut off));
-        }
-
-        {
-            let mut off = 0;
-            let b: &[u8] = &[0x88, 0x85, 0x09];
-            assert_eq!(Some((8 << (7 + 7)) + (5 << 7) + 9), dec_leb128(b, &mut off));
-        }
     }
 }

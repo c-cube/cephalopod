@@ -8,6 +8,8 @@ pub enum DaslError {
     AllocError,
     #[error("Encoding error for DCBOR42: {0}")]
     DCBOR42EncodingError(&'static str),
+    #[error("Invalid CAR: {0}")]
+    InvalidCAR(&'static str),
 }
 
 pub type Result<T> = std::result::Result<T, DaslError>;
