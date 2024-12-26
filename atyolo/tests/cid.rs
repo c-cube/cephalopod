@@ -30,8 +30,7 @@ fn test_decode_binary() {
     let cid = CID::parse_binary(fake_cid).unwrap();
     assert_eq!(ref_cid(), cid);
 
-    let mut encoded = vec![];
-    cid.encode_to_binary(&mut encoded);
+    let encoded = cid.encode_to_binary();
     assert_eq!(fake_cid, &encoded);
 }
 

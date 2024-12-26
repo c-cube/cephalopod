@@ -111,12 +111,14 @@ impl<'a> CID<'a> {
             hash: Cow::Owned(owned),
         }
     }
-    pub fn encode_to_binary(&'_ self, res: &mut Vec<u8>) {
-        res.push(0);
-        res.reserve(SIZE);
-        let mut slice = [0u8; SIZE];
-        encode_binary(self, &mut slice);
-        res.extend_from_slice(&slice);
+
+    pub fn encode_to_binary(&'_ self) -> [u8; SIZE + 1] {
+        let mut res = [0u8; SIZE + 1];
+        res[0] = 0;
+
+        let res_rest: &mut [u8; SIZE] = (&mut res[1..]).try_into().unwrap();
+        encode_binary(self, res_rest);
+        res
     }
 
     pub fn encode_to_string(&'a self) -> String {

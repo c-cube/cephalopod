@@ -26,7 +26,7 @@ pub enum Value<'a> {
     Map(&'a [(&'a str, Value<'a>)]),
 }
 
-const MAX_DEPTH: usize = 16;
+const MAX_DEPTH: usize = 24;
 const MAX_STRING_SIZE: usize = 256 * 1024;
 const MAX_BLOB_SIZE: usize = 256 * 1024;
 const MAX_ARRAY_SIZE: usize = 10_000;
@@ -50,7 +50,8 @@ where
     }
 }
 
-pub fn parse<'a>(alloc: &'a Bump, bytes: &[u8]) -> Result<Value<'a>> {
+/// Parse a DCBOR42 value from bytes.
+pub fn decode<'a>(alloc: &'a Bump, bytes: &[u8]) -> Result<Value<'a>> {
     let mut dec = CDecoder::from(bytes);
 
     macro_rules! fail {
@@ -67,8 +68,9 @@ pub fn parse<'a>(alloc: &'a Bump, bytes: &[u8]) -> Result<Value<'a>> {
                 .pull()
                 .map_err(|_| DaslError::InvalidDCBOR42("Expected text segment"))?
             {
-                None if $len == 0 => (),
+                _ if $len == 0 => (),
                 None => fail!("Missing bytes data"),
+
                 Some(mut seg) => {
                     // must be reading in one go
                     let Some(_chunk) = seg
@@ -176,6 +178,79 @@ pub fn parse<'a>(alloc: &'a Bump, bytes: &[u8]) -> Result<Value<'a>> {
     }
 
     read_rec(alloc, &mut dec, 0)
+}
+
+/// Custom encoder that writes into a vec, but only up to a certain size.
+struct Enc<'a> {
+    v: &'a mut Vec<u8>,
+    max_size: usize,
+}
+
+impl<'a> ciborium_io::Write for Enc<'a> {
+    type Error = DaslError;
+
+    fn write_all(&mut self, data: &[u8]) -> std::result::Result<(), Self::Error> {
+        if data.len() + self.v.len() > self.max_size {
+            return Err(DaslError::DCBOR42EncodingError("Maximum size exceeded"));
+        }
+
+        self.v.reserve(data.len());
+        self.v.extend_from_slice(data);
+        Ok(())
+    }
+
+    fn flush(&mut self) -> std::result::Result<(), Self::Error> {
+        Ok(())
+    }
+}
+
+const MAX_ENCODING_SIZE: usize = 1 * 1024 * 1024;
+
+/// Encode into a vector of bytes.
+pub fn encode(v: &Value, into: &mut Vec<u8>) -> Result<()> {
+    use ciborium_ll::{simple as csimple, Header as CHeader};
+    let myenc = Enc {
+        v: into,
+        max_size: MAX_ENCODING_SIZE,
+    };
+    let mut enc = ciborium_ll::Encoder::from(myenc);
+
+    fn encode_rec(enc: &mut ciborium_ll::Encoder<Enc<'_>>, v: &Value, depth: usize) -> Result<()> {
+        if depth > MAX_DEPTH {
+            return Err(DaslError::DCBOR42EncodingError("Max depth exceeded"));
+        }
+        match v {
+            Value::Null => enc.push(CHeader::Simple(csimple::NULL))?,
+            Value::Bool(true) => enc.push(CHeader::Simple(csimple::TRUE))?,
+            Value::Bool(false) => enc.push(CHeader::Simple(csimple::FALSE))?,
+            Value::Positive(i) => enc.push(CHeader::Positive(*i))?,
+            Value::Negative(i) => enc.push(CHeader::Negative(*i))?,
+            Value::CID(cid) => {
+                enc.push(CHeader::Tag(42))?;
+                let cid_bytes = cid.encode_to_binary();
+                enc.bytes(&cid_bytes, None)?;
+            }
+            Value::Text(str) => enc.text(str, None)?,
+            Value::Bytes(b) => enc.bytes(b, None)?,
+            Value::Array(a) => {
+                enc.push(CHeader::Array(Some(a.len())))?;
+                for x in *a {
+                    encode_rec(enc, x, depth + 1)?
+                }
+            }
+            Value::Map(m) => {
+                enc.push(CHeader::Map(Some(m.len())))?;
+                for (k, v) in *m {
+                    enc.text(k, None)?;
+                    encode_rec(enc, v, depth + 1)?
+                }
+            }
+        };
+        Ok(())
+    }
+
+    encode_rec(&mut enc, v, 0)?;
+    Ok(())
 }
 
 // TODO: to json, from json

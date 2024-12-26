@@ -6,6 +6,8 @@ pub enum DaslError {
     InvalidDCBOR42(&'static str),
     #[error("AllocationError")]
     AllocError,
+    #[error("Encoding error for DCBOR42: {0}")]
+    DCBOR42EncodingError(&'static str),
 }
 
 pub type Result<T> = std::result::Result<T, DaslError>;
