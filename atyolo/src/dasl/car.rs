@@ -16,7 +16,7 @@ pub type Version = u64;
 #[derive(Clone, Copy, Debug)]
 pub struct Header<'a> {
     pub version: Version,
-    pub roots: &'a [&'a CID<'a>],
+    pub roots: &'a [&'a CID],
 }
 
 /// Each block has a payload, either a raw blob, or a DCBOR42 value.
@@ -37,7 +37,7 @@ enum BlockDataMaybeEncoded<'a, 'b> {
 /// Each block describes a node in the global content-addressed DAG.
 #[derive(Clone, Copy, Debug)]
 pub struct Block<'a> {
-    pub cid: &'a CID<'a>,
+    pub cid: &'a CID,
     pub data: BlockData<'a>,
 }
 
@@ -127,7 +127,7 @@ pub fn decode_slice<'a>(alloc: &'a Bump, s: &'_ [u8]) -> Result<CAR<'a>> {
         len -= n_bytes;
 
         // move `cid` to allocator
-        let cid: &'a CID<'a> = alloc.alloc(cid.tranfer_to(alloc)?);
+        let cid: &'a CID = alloc.alloc(cid);
 
         let data: BlockData<'a> = match cid.codec {
             cid::Codec::Raw => {
@@ -240,7 +240,7 @@ impl<W: io::Write> CARWriter<W> {
 
         dcbor42::encode(v, &mut self.buf)?;
         let data = utils::alloc_slice_copy(alloc, &self.buf)?;
-        let cid = CID::new_compute_hash(alloc, cid::Codec::DCBOR42, data)?;
+        let cid = CID::new_compute_hash(cid::Codec::DCBOR42, data)?;
         self.buf.clear();
 
         self.write_block_(&cid, BlockDataMaybeEncoded::Encoded(data))

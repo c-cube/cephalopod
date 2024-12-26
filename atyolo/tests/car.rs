@@ -9,16 +9,16 @@ fn test_encode_car() {
     let mut buf: Vec<u8> = vec![];
 
     let data1 = "hello world".as_bytes();
-    let cid1 = CID::new_from_raw_data(&alloc, data1).unwrap();
+    let cid1 = CID::new_from_raw_data(data1).unwrap();
     let block1 = car::BlockData::from(data1);
 
     let data2 = "howdy mate".as_bytes();
-    let cid2 = CID::new_from_raw_data(&alloc, data2).unwrap();
+    let cid2 = CID::new_from_raw_data(data2).unwrap();
     let block2 = car::BlockData::from(data2);
 
     let v_map = [("first", Value::CID(&cid1)), ("second", Value::CID(&cid2))];
     let v = Value::Map(&v_map);
-    let cid_v = v.compute_cid(&alloc, &mut buf).unwrap();
+    let cid_v = v.compute_cid(&mut buf).unwrap();
     dbg!(&cid_v);
 
     let mut w = car::CARWriter::new(&mut buf);
@@ -44,5 +44,4 @@ fn test_decode_car() {
 
     dbg!(&car);
     assert_eq!(1, car.header.roots.len());
-    assert!(false);
 }

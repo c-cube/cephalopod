@@ -21,7 +21,7 @@ pub enum Value<'a> {
     Bool(bool),
     Positive(u64),
     Negative(u64),
-    CID(&'a CID<'a>),
+    CID(&'a CID),
     Text(&'a str),
     Bytes(&'a [u8]),
     Array(&'a [Value<'a>]),
@@ -263,7 +263,7 @@ macro_rules! as_case {
 impl<'a> Value<'a> {
     as_case!(as_map, Value::Map, &'a [(&'a str, Value<'a>)]);
     as_case!(as_array, Value::Array, &'a [Value<'a>]);
-    as_case!(as_cid, Value::CID, &'a CID<'a>);
+    as_case!(as_cid, Value::CID, &'a CID);
     as_case!(as_text, Value::Text, &'a str);
     as_case!(as_bytes, Value::Bytes, &'a [u8]);
     as_case!(as_positive, deref, Value::Positive, u64);
@@ -271,10 +271,10 @@ impl<'a> Value<'a> {
     as_case!(as_bool, deref, Value::Bool, bool);
 
     /// Compute the CID. `buf` is used for temporary encoding, and will be cleared.
-    pub fn compute_cid<'b>(&'_ self, alloc: &'b Bump, buf: &mut Vec<u8>) -> Result<CID<'b>> {
+    pub fn compute_cid<'b>(&'_ self, buf: &mut Vec<u8>) -> Result<CID> {
         buf.clear();
         encode(self, buf)?;
-        let cid_res = CID::new_compute_hash(alloc, cid::Codec::DCBOR42, &buf);
+        let cid_res = CID::new_compute_hash(cid::Codec::DCBOR42, &buf);
         buf.clear();
         cid_res
     }

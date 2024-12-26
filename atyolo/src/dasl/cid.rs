@@ -1,15 +1,13 @@
 //! https://dasl.ing/cid.html
 
-use bumpalo::Bump;
 use sha2::{Digest, Sha256};
 
 use super::{
     errors::{DaslError::ParseError, Result},
-    utils::{self, dec_leb128},
+    utils::dec_leb128,
     DaslError,
 };
 use core::str;
-use std::borrow::Cow;
 
 #[derive(Clone, Copy, Eq, PartialEq, Hash, Debug)]
 pub enum Codec {
@@ -17,18 +15,18 @@ pub enum Codec {
     DCBOR42,
 }
 
-// TODO: remove the bound! we can just use a fixed size of 32 for the hash
-
-const SIZE: usize = 32 + 4;
+/// Size of SHA256 hashes.
+pub const SIZE_HASH: usize = 32;
+const SIZE_ENCODED: usize = SIZE_HASH + 4;
 
 /// A CID (content ID).
 #[derive(Clone, Eq, PartialEq, Hash)]
-pub struct CID<'a> {
+pub struct CID {
     pub codec: Codec,
-    pub hash: Cow<'a, [u8]>,
+    pub hash: [u8; SIZE_HASH],
 }
 
-impl<'a> std::fmt::Debug for CID<'a> {
+impl std::fmt::Debug for CID {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("CID")
             .field("codec", &self.codec)
@@ -60,7 +58,7 @@ macro_rules! parse_err {
 
 type ParsedInFull = bool;
 
-fn parse_binary_<'a>(s: &'a [u8]) -> Result<(CID<'a>, usize, ParsedInFull)> {
+fn parse_binary_(s: &[u8]) -> Result<(CID, ParsedInFull)> {
     if s.len() < 3 {
         parse_err!("CID too short");
     };
@@ -85,20 +83,18 @@ fn parse_binary_<'a>(s: &'a [u8]) -> Result<(CID<'a>, usize, ParsedInFull)> {
     let len =
         dec_leb128(s, &mut offset).ok_or_else(|| ParseError("Invalid LEB128 length"))? as usize;
 
-    if len != 32 {
+    if len != SIZE_HASH {
         parse_err!("Expected length to be 32 (for SHA256)")
     }
 
     let parsed_full = offset + len == s.len();
 
-    let cid = CID {
-        codec,
-        hash: Cow::from(&s[offset..offset + len]),
-    };
-    Ok((cid, offset + len, parsed_full))
+    let hash: [u8; SIZE_HASH] = (&s[offset..offset + len]).try_into().unwrap();
+    let cid = CID { codec, hash };
+    Ok((cid, parsed_full))
 }
 
-fn encode_binary(cid: &'_ CID, res: &mut [u8; SIZE]) {
+fn encode_binary(cid: &'_ CID, res: &mut [u8; SIZE_ENCODED]) {
     res[0] = 1;
     res[1] = cid.codec.to_hex();
     res[2] = 0x12; // hash
@@ -108,54 +104,41 @@ fn encode_binary(cid: &'_ CID, res: &mut [u8; SIZE]) {
 }
 
 /// A constant dummy CID used for tests and allocations.
-pub const DUMMY: CID<'static> = CID {
+pub const DUMMY: CID = CID {
     codec: Codec::Raw,
-    hash: Cow::Borrowed(&[
+    hash: [
         1, 1, 1, 1, 1, 1, 1, 1, /* */
         2, 2, 2, 2, 2, 2, 2, 2, /* */
         3, 3, 3, 3, 3, 3, 3, 3, /* */
         4, 4, 4, 4, 4, 4, 4, 4,
-    ]),
+    ],
 };
 
-impl<'a> CID<'a> {
-    pub fn to_owned(self) -> CID<'static> {
-        let owned: Vec<u8> = self.hash.into_owned();
-        CID {
-            codec: self.codec,
-            hash: Cow::Owned(owned),
-        }
-    }
-
+impl CID {
     /// Compute a CID by hashing the serialized data.
-    pub fn new_compute_hash(alloc: &'a Bump, codec: Codec, data: &[u8]) -> Result<CID<'a>> {
-        let hash = Sha256::digest(data);
-        debug_assert_eq!(32, hash.len());
-
-        Ok(CID {
-            codec,
-            hash: Cow::Borrowed(utils::alloc_slice_copy(alloc, &hash)?),
-        })
+    pub fn new_compute_hash(codec: Codec, data: &[u8]) -> Result<CID> {
+        let hash: [u8; SIZE_HASH] = Sha256::digest(data).try_into().unwrap();
+        Ok(CID { codec, hash })
     }
 
     /// Compute a CID for raw data, with the Raw codec.
-    pub fn new_from_raw_data(alloc: &'a Bump, data: &[u8]) -> Result<CID<'a>> {
-        CID::new_compute_hash(alloc, Codec::Raw, data)
+    pub fn new_from_raw_data(data: &[u8]) -> Result<CID> {
+        CID::new_compute_hash(Codec::Raw, data)
     }
 
-    pub fn encode_to_binary(&'_ self) -> [u8; SIZE + 1] {
-        let mut res = [0u8; SIZE + 1];
+    pub fn encode_to_binary(&'_ self) -> [u8; SIZE_ENCODED + 1] {
+        let mut res = [0u8; SIZE_ENCODED + 1];
         res[0] = 0;
 
-        let res_rest: &mut [u8; SIZE] = (&mut res[1..]).try_into().unwrap();
+        let res_rest: &mut [u8; SIZE_ENCODED] = (&mut res[1..]).try_into().unwrap();
         encode_binary(self, res_rest);
         res
     }
 
-    pub fn encode_to_string(&'a self) -> String {
+    pub fn encode_to_string(&self) -> String {
         let mut res = String::new();
         res.push('b');
-        let mut slice = [0u8; SIZE];
+        let mut slice = [0u8; SIZE_ENCODED];
         encode_binary(self, &mut slice);
         let b32_res = base32::encode(base32::Alphabet::Rfc4648Lower { padding: false }, &slice);
         res += &b32_res;
@@ -163,11 +146,11 @@ impl<'a> CID<'a> {
     }
 
     /// Parse a binary CID, consuming the whole slice.
-    pub fn parse_binary(s: &'a [u8]) -> Result<CID<'a>> {
+    pub fn parse_binary(s: &[u8]) -> Result<CID> {
         if s.is_empty() || s[0] != 0 {
             parse_err!("CID is too short")
         }
-        let (cid, _n, parsed_full) = parse_binary_(&s[1..])?;
+        let (cid, parsed_full) = parse_binary_(&s[1..])?;
         if !parsed_full {
             parse_err!("CID has the wrong length")
         }
@@ -176,15 +159,15 @@ impl<'a> CID<'a> {
 
     /// Like `parse_binary` but it returns how many bytes were read,
     /// and does not expect to use the whole slice.
-    pub fn parse_binary_partial(s: &'a [u8]) -> Result<(CID<'a>, usize)> {
+    pub fn parse_binary_partial(s: &[u8]) -> Result<(CID, usize)> {
         if s.is_empty() || s[0] != 0 {
             parse_err!("CID is too short")
         }
-        let (cid, n, _) = parse_binary_(&s[1..])?;
-        Ok((cid, n + 1))
+        let (cid, _) = parse_binary_(&s[1..])?;
+        Ok((cid, SIZE_ENCODED + 1))
     }
 
-    pub fn parse_str(s: &str) -> Result<CID<'static>> {
+    pub fn parse_str(s: &str) -> Result<CID> {
         let s = s.as_bytes();
         if s[0] != b'b' {
             parse_err!("Expected string CID to start with 'b'")
@@ -196,21 +179,10 @@ impl<'a> CID<'a> {
         let bin: Vec<u8> =
             base32::decode(base32::Alphabet::Rfc4648Lower { padding: false }, s_rest)
                 .ok_or_else(|| DaslError::ParseError("invalid base32"))?;
-        let (cid, _, parsed_full) = parse_binary_(&bin)?;
+        let (cid, parsed_full) = parse_binary_(&bin)?;
         if !parsed_full {
             parse_err!("CID has the wrong length")
         }
         Ok(cid.to_owned())
-    }
-
-    /// Copy into the given allocator.
-    pub fn tranfer_to<'b>(&self, alloc: &'b Bump) -> Result<CID<'b>> {
-        let data = utils::alloc_slice(alloc, self.hash.len(), 0)?;
-        data.copy_from_slice(&self.hash);
-        let cid = CID {
-            codec: self.codec,
-            hash: Cow::Borrowed(data),
-        };
-        Ok(cid)
     }
 }

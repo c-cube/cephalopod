@@ -1,18 +1,16 @@
-use std::borrow::Cow;
-
 use atyolo::dasl::cid::*;
 
 // TODO: proptest for CID => binary => CID
 // TODO: proptest for CID => string => CID
 
-const REF_CID: CID<'static> = CID {
+const REF_CID: CID = CID {
     codec: Codec::Raw,
-    hash: Cow::Borrowed(&[
+    hash: [
         1, 1, 1, 1, 1, 1, 1, 1, /* */
         2, 2, 2, 2, 2, 2, 2, 2, /* */
         3, 3, 3, 3, 3, 3, 3, 3, /* */
         4, 4, 4, 4, 4, 4, 4, 4,
-    ]),
+    ],
 };
 
 #[test]
