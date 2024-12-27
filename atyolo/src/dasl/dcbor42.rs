@@ -245,6 +245,107 @@ fn encode<W: io::Write>(v: &Value, w: &mut W) -> Result<()> {
     Ok(())
 }
 
+fn from_json_rec<'a>(alloc: &'a Bump, j: &json::JsonValue, depth: usize) -> Result<Value<'a>> {
+    use Value as V;
+    if depth > MAX_DEPTH {
+        fail!("JSON value too deep for DCBOR42")
+    }
+
+    let v = match j {
+        json::JsonValue::Null => V::Null,
+        json::JsonValue::Short(short) => {
+            let str = short.as_str();
+            V::Text(utils::alloc_str(alloc, str)?)
+        }
+        json::JsonValue::String(str) => V::Text(utils::alloc_str(alloc, str)?),
+        json::JsonValue::Number(number) => {
+            let i: f64 = Into::<f64>::into(*number);
+            if i >= 0. {
+                V::Positive(i as u64)
+            } else {
+                V::Negative((-i) as u64)
+            }
+        }
+        json::JsonValue::Boolean(b) => V::Bool(*b),
+        json::JsonValue::Array(arr) => {
+            let slice = utils::alloc_slice(alloc, arr.len(), V::Null)?;
+            for (i, j) in arr.iter().enumerate() {
+                slice[i] = from_json_rec(alloc, j, depth + 1)?
+            }
+            V::Array(slice)
+        }
+        json::JsonValue::Object(map) => {
+            if let Some(v) = map.get("$link") {
+                let Some(str) = v.as_str() else {
+                    fail!("$link must have a CID")
+                };
+                let cid = CID::parse_str(str)?;
+                V::CID(alloc.try_alloc(cid)?)
+            } else if let Some(v) = map.get("$bytes") {
+                let Some(str) = v.as_str() else {
+                    fail!("$bytes must have a string")
+                };
+                let data = base64::prelude::BASE64_STANDARD.decode(str).map_err(|_| {
+                    DaslError::InvalidDCBOR42("Expected $bytes to have a base64 string attached")
+                })?;
+                V::Bytes(utils::alloc_slice_copy(alloc, &data)?)
+            } else {
+                let slice = utils::alloc_slice(alloc, map.len(), ("", V::Null))?;
+                for (i, (k, v)) in map.iter().enumerate() {
+                    let k = utils::alloc_str(alloc, k)?;
+                    let v = from_json_rec(alloc, v, depth + 1)?;
+                    slice[i] = (k, v)
+                }
+                V::Map(slice)
+            }
+        }
+    };
+    Ok(v)
+}
+
+fn to_json_rec(v: &Value, depth: usize) -> Result<json::JsonValue> {
+    use json::JsonValue as J;
+    if depth > MAX_DEPTH {
+        fail!("Maximum depth exceeded")
+    }
+
+    let j = match v {
+        Value::Null => json::Null,
+        Value::Bool(b) => J::from(*b),
+        Value::Positive(i) => J::from(*i),
+        Value::Negative(i) => J::from(-((*i) as f64)),
+        Value::CID(cid) => {
+            let mut j = J::new_object();
+            j.insert("$link", J::from(cid.encode_to_string())).unwrap();
+            j
+        }
+        Value::Text(str) => J::from(*str),
+        Value::Bytes(bytes) => {
+            let bytes_b64 = base64::prelude::BASE64_STANDARD.encode(bytes);
+            let mut j = J::new_object();
+            j.insert("$bytes", J::from(bytes_b64)).unwrap();
+            j
+        }
+        Value::Array(arr) => {
+            let mut j = J::new_array();
+            for v in arr.iter() {
+                j.push(to_json_rec(v, depth + 1)?)
+                    .map_err(|_| DaslError::InvalidDCBOR42("Cannot encode to JSON array"))?;
+            }
+            J::from(j)
+        }
+        Value::Map(map) => {
+            let mut j = J::new_object();
+            for (k, v) in map.iter() {
+                j.insert(k, to_json_rec(v, depth + 1)?)
+                    .map_err(|_| DaslError::InvalidDCBOR42("Cannot encode to JSON object"))?;
+            }
+            J::from(j)
+        }
+    };
+    Ok(j)
+}
+
 macro_rules! as_case {
     ($name:ident, $cstor:path, $ret:ty) => {
         #[inline(always)]
@@ -305,122 +406,14 @@ impl<'a> Value<'a> {
     ///
     /// See <https://atproto.com/specs/data-model> for more details.
     pub fn to_json(&self) -> Result<json::JsonValue> {
-        use json::JsonValue as J;
-
-        fn to_json_rec(v: &Value, depth: usize) -> Result<J> {
-            if depth > MAX_DEPTH {
-                fail!("Maximum depth exceeded")
-            }
-
-            let j = match v {
-                Value::Null => json::Null,
-                Value::Bool(b) => J::from(*b),
-                Value::Positive(i) => J::from(*i),
-                Value::Negative(i) => J::from(-((*i) as f64)),
-                Value::CID(cid) => {
-                    let mut j = J::new_object();
-                    j.insert("$link", J::from(cid.encode_to_string())).unwrap();
-                    j
-                }
-                Value::Text(str) => J::from(*str),
-                Value::Bytes(bytes) => {
-                    let bytes_b64 = base64::prelude::BASE64_STANDARD.encode(bytes);
-                    let mut j = J::new_object();
-                    j.insert("$bytes", J::from(bytes_b64)).unwrap();
-                    j
-                }
-                Value::Array(arr) => {
-                    let mut j = J::new_array();
-                    for v in arr.iter() {
-                        j.push(to_json_rec(v, depth + 1)?).map_err(|_| {
-                            DaslError::InvalidDCBOR42("Cannot encode to JSON array")
-                        })?;
-                    }
-                    J::from(j)
-                }
-                Value::Map(map) => {
-                    let mut j = J::new_object();
-                    for (k, v) in map.iter() {
-                        j.insert(k, to_json_rec(v, depth + 1)?).map_err(|_| {
-                            DaslError::InvalidDCBOR42("Cannot encode to JSON object")
-                        })?;
-                    }
-                    J::from(j)
-                }
-            };
-            Ok(j)
-        }
         to_json_rec(self, 0)
     }
 
+    /// Read value from its JSON encoding.
+    ///
+    /// **NOTE**: a loss of precision can occur on large numbers
+    /// (larger than around 2^53) because JSON represents numbers as floats.
     pub fn from_json(alloc: &'a Bump, j: &json::JsonValue) -> Result<Value<'a>> {
-        use Value as V;
-
-        fn from_json_rec<'a>(
-            alloc: &'a Bump,
-            j: &json::JsonValue,
-            depth: usize,
-        ) -> Result<Value<'a>> {
-            if depth > MAX_DEPTH {
-                fail!("JSON value too deep for DCBOR42")
-            }
-
-            let v = match j {
-                json::JsonValue::Null => V::Null,
-                json::JsonValue::Short(short) => {
-                    let str = short.as_str();
-                    V::Text(utils::alloc_str(alloc, str)?)
-                }
-                json::JsonValue::String(str) => V::Text(utils::alloc_str(alloc, str)?),
-                json::JsonValue::Number(number) => {
-                    let i: f64 = Into::<f64>::into(*number);
-                    if i >= 0. {
-                        V::Positive(i as u64)
-                    } else {
-                        V::Negative((-i) as u64)
-                    }
-                }
-                json::JsonValue::Boolean(b) => V::Bool(*b),
-                json::JsonValue::Array(arr) => {
-                    let slice = utils::alloc_slice(alloc, arr.len(), V::Null)?;
-                    for (i, j) in arr.iter().enumerate() {
-                        slice[i] = from_json_rec(alloc, j, depth + 1)?
-                    }
-                    V::Array(slice)
-                }
-                json::JsonValue::Object(map) => {
-                    if let Some(v) = map.get("$link") {
-                        let Some(str) = v.as_str() else {
-                            fail!("$link must have a CID")
-                        };
-                        let cid = CID::parse_str(str)?;
-                        V::CID(alloc.try_alloc(cid)?)
-                    } else if let Some(v) = map.get("$bytes") {
-                        let Some(str) = v.as_str() else {
-                            fail!("$bytes must have a string")
-                        };
-                        let data = base64::prelude::BASE64_STANDARD.decode(str).map_err(|_| {
-                            DaslError::InvalidDCBOR42(
-                                "Expected $bytes to have a base64 string attached",
-                            )
-                        })?;
-                        V::Bytes(utils::alloc_slice_copy(alloc, &data)?)
-                    } else {
-                        let slice = utils::alloc_slice(alloc, map.len(), ("", V::Null))?;
-                        for (i, (k, v)) in map.iter().enumerate() {
-                            let k = utils::alloc_str(alloc, k)?;
-                            let v = from_json_rec(alloc, v, depth + 1)?;
-                            slice[i] = (k, v)
-                        }
-                        V::Map(slice)
-                    }
-                }
-            };
-            Ok(v)
-        }
-
         from_json_rec(alloc, j, 0)
     }
 }
-
-// TODO: to json, from json
