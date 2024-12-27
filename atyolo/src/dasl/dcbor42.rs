@@ -405,6 +405,7 @@ impl<'a> Value<'a> {
     /// Turn value into JSON.
     ///
     /// See <https://atproto.com/specs/data-model> for more details.
+    #[inline(always)]
     pub fn to_json(&self) -> Result<json::JsonValue> {
         to_json_rec(self, 0)
     }
@@ -413,6 +414,7 @@ impl<'a> Value<'a> {
     ///
     /// **NOTE**: a loss of precision can occur on large numbers
     /// (larger than around 2^53) because JSON represents numbers as floats.
+    #[inline(always)]
     pub fn from_json(alloc: &'a Bump, j: &json::JsonValue) -> Result<Value<'a>> {
         from_json_rec(alloc, j, 0)
     }
