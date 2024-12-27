@@ -6,6 +6,8 @@
 //! [1]: https://dasl.ing/dcbor42.html
 //! [2]: https://atproto.com/specs/data-model
 
+use std::io;
+
 use super::{
     cid::{self, CID},
     errors::Result,
@@ -34,8 +36,7 @@ const MAX_BLOB_SIZE: usize = 256 * 1024;
 const MAX_ARRAY_SIZE: usize = 10_000;
 const MAX_MAP_SIZE: usize = 10_000;
 
-/// Parse a DCBOR42 value from bytes.
-pub fn decode<'a>(alloc: &'a Bump, bytes: &[u8]) -> Result<Value<'a>> {
+fn decode<'a>(alloc: &'a Bump, bytes: &[u8]) -> Result<Value<'a>> {
     let mut dec = CDecoder::from(bytes);
 
     macro_rules! fail {
@@ -166,21 +167,22 @@ pub fn decode<'a>(alloc: &'a Bump, bytes: &[u8]) -> Result<Value<'a>> {
 }
 
 /// Custom encoder that writes into a vec, but only up to a certain size.
-struct Enc<'a> {
-    v: &'a mut Vec<u8>,
+struct Enc<'a, W: io::Write> {
+    w: &'a mut W,
+    written: usize,
     max_size: usize,
 }
 
-impl<'a> ciborium_io::Write for Enc<'a> {
+impl<'a, W: io::Write> ciborium_io::Write for Enc<'a, W> {
     type Error = DaslError;
 
     fn write_all(&mut self, data: &[u8]) -> std::result::Result<(), Self::Error> {
-        if data.len() + self.v.len() > self.max_size {
+        if self.written + data.len() > self.max_size {
             return Err(DaslError::DCBOR42EncodingError("Maximum size exceeded"));
         }
 
-        self.v.reserve(data.len());
-        self.v.extend_from_slice(data);
+        self.w.write_all(data)?;
+        self.written += data.len();
         Ok(())
     }
 
@@ -191,16 +193,20 @@ impl<'a> ciborium_io::Write for Enc<'a> {
 
 const MAX_ENCODING_SIZE: usize = 1 * 1024 * 1024;
 
-/// Encode into a vector of bytes.
-pub fn encode(v: &Value, into: &mut Vec<u8>) -> Result<()> {
+fn encode<W: io::Write>(v: &Value, w: &mut W) -> Result<()> {
     use ciborium_ll::{simple as csimple, Header as CHeader};
     let myenc = Enc {
-        v: into,
+        w,
+        written: 0,
         max_size: MAX_ENCODING_SIZE,
     };
     let mut enc = ciborium_ll::Encoder::from(myenc);
 
-    fn encode_rec(enc: &mut ciborium_ll::Encoder<Enc<'_>>, v: &Value, depth: usize) -> Result<()> {
+    fn encode_rec<W: io::Write>(
+        enc: &mut ciborium_ll::Encoder<Enc<'_, W>>,
+        v: &Value,
+        depth: usize,
+    ) -> Result<()> {
         if depth > MAX_DEPTH {
             return Err(DaslError::DCBOR42EncodingError("Max depth exceeded"));
         }
@@ -269,6 +275,21 @@ impl<'a> Value<'a> {
     as_case!(as_positive, deref, Value::Positive, u64);
     as_case!(as_negagive, deref, Value::Negative, u64);
     as_case!(as_bool, deref, Value::Bool, bool);
+
+    /// Parse a DCBOR42 value from bytes.
+    #[inline(always)]
+    pub fn decode(alloc: &'a Bump, bytes: &[u8]) -> Result<Value<'a>> {
+        decode(alloc, bytes)
+    }
+
+    /// Encode into a writer.
+    #[inline(always)]
+    pub fn encode<W>(&self, w: &mut W) -> Result<()>
+    where
+        W: io::Write,
+    {
+        encode(self, w)
+    }
 
     /// Compute the CID. `buf` is used for temporary encoding, and will be cleared.
     pub fn compute_cid<'b>(&'_ self, buf: &mut Vec<u8>) -> Result<CID> {

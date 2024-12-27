@@ -9,7 +9,7 @@ fn test_decode() {
     let bytes = hex::decode("830102623432").unwrap();
 
     let bump = dcbor42::Bump::new();
-    let d = dcbor42::decode(&bump, &bytes).unwrap();
+    let d = V::decode(&bump, &bytes).unwrap();
     dbg!(&d);
     assert_eq!(
         V::Array(&[V::Positive(1), V::Positive(2), V::Text("42")]),
@@ -23,11 +23,11 @@ fn test_encode() {
 
     let v = V::Array(&[V::Positive(1), V::Positive(2), V::Text("42")]);
     let mut bytes = vec![];
-    dcbor42::encode(&v, &mut bytes).unwrap();
+    V::encode(&v, &mut bytes).unwrap();
 
     {
         let bump = bumpalo::Bump::new();
-        let v2 = dcbor42::decode(&bump, &bytes).unwrap();
+        let v2 = V::decode(&bump, &bytes).unwrap();
         assert_eq!(&v, &v2);
     }
 
@@ -57,11 +57,11 @@ fn test_encode2() {
         V::Text("42"),
     ]);
     let mut bytes = vec![];
-    dcbor42::encode(&v, &mut bytes).unwrap();
+    v.encode(&mut bytes).unwrap();
     // dbg!(&hex::encode(&bytes));
 
     let bump = bumpalo::Bump::new();
-    let v2 = dcbor42::decode(&bump, &bytes).unwrap();
+    let v2 = V::decode(&bump, &bytes).unwrap();
     assert_eq!(&v, &v2);
 }
 
@@ -76,6 +76,6 @@ fn test_encode_too_deep() {
     }
 
     let mut bytes = vec![];
-    let res = dcbor42::encode(&v, &mut bytes);
+    let res = v.encode(&mut bytes);
     assert!(res.is_err(), "res: {res:?}");
 }

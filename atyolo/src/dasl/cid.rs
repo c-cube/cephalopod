@@ -1,4 +1,4 @@
-//! https://dasl.ing/cid.html
+//! CID: <https://dasl.ing/cid.html>
 
 use sha2::{Digest, Sha256};
 

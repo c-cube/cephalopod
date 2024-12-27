@@ -1,3 +1,5 @@
+//! Internal utilities.
+
 use bumpalo::Bump;
 
 use super::errors;
