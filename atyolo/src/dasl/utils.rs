@@ -100,6 +100,13 @@ where
     Ok(slice)
 }
 
+pub(crate) fn alloc_str<'a>(alloc: &'a Bump, str: &str) -> errors::Result<&'a str> {
+    let slice = alloc_slice(alloc, str.as_bytes().len(), b'0')?;
+    slice.copy_from_slice(str.as_bytes());
+    // SAFETY: we just copied from another (valid) str.
+    Ok(unsafe { std::str::from_utf8_unchecked(slice) })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
