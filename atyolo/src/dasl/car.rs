@@ -6,7 +6,7 @@ use std::{collections::HashSet, io};
 pub use super::Result;
 use super::{
     cid::{self, CID},
-    dcbor42::Value,
+    data::Value,
     utils::{self, dec_leb128},
     DaslError,
 };
@@ -105,7 +105,7 @@ pub fn decode_slice<'a>(alloc: &'a Bump, s: &'_ [u8]) -> Result<CAR<'a>> {
             .ok_or_else(|| DaslError::InvalidCAR("Cannot parse header"))?
             as usize;
 
-        let v = Value::decode(alloc, &s[offset..offset + len])?;
+        let v = Value::decode_dcbor42(alloc, &s[offset..offset + len])?;
         offset = offset + len;
         decode_header(alloc, v)?
     };
@@ -135,7 +135,7 @@ pub fn decode_slice<'a>(alloc: &'a Bump, s: &'_ [u8]) -> Result<CAR<'a>> {
                 BlockData::Raw(data)
             }
             cid::Codec::DCBOR42 => {
-                let v = Value::decode(alloc, &s[offset..offset + len])?;
+                let v = Value::decode_dcbor42(alloc, &s[offset..offset + len])?;
                 BlockData::DCBOR42(v)
             }
         };
@@ -192,7 +192,7 @@ impl<W: io::Write> CARWriter<W> {
         let v = Value::Map(&fields);
 
         self.buf.clear();
-        v.encode(&mut self.buf)?;
+        v.encode_dcbor42(&mut self.buf)?;
         write_len_leb128_(&mut self.w, self.buf.len())?;
         self.w.write_all(&self.buf)?;
 
@@ -213,7 +213,9 @@ impl<W: io::Write> CARWriter<W> {
         self.buf.extend_from_slice(&cid_data);
         match data {
             BlockDataMaybeEncoded::Data(BlockData::Raw(data)) => self.buf.extend_from_slice(data),
-            BlockDataMaybeEncoded::Data(BlockData::DCBOR42(v)) => v.encode(&mut self.buf)?,
+            BlockDataMaybeEncoded::Data(BlockData::DCBOR42(v)) => {
+                v.encode_dcbor42(&mut self.buf)?
+            }
             BlockDataMaybeEncoded::Encoded(s) => self.buf.extend_from_slice(s),
         }
 
@@ -236,7 +238,7 @@ impl<W: io::Write> CARWriter<W> {
     pub fn write_block_value(&mut self, alloc: &Bump, v: &Value) -> Result<()> {
         self.buf.clear();
 
-        v.encode(&mut self.buf)?;
+        v.encode_dcbor42(&mut self.buf)?;
         let data = utils::alloc_slice_copy(alloc, &self.buf)?;
         let cid = CID::new_compute_hash(cid::Codec::DCBOR42, data)?;
         self.buf.clear();

@@ -1,4 +1,4 @@
-use atyolo::dasl::{car, cid::CID, dcbor42::Value};
+use atyolo::dasl::{car, cid::CID, data::Value};
 use bumpalo::Bump;
 
 const ENCODED_CAR: &str = "hkrgo5tfojzws33oafsxe33porzydwbklasqaalrciqkdix6myt52yxzu3b3dnn7k63clzizi3hl3lugaht7whslj2ffsezqaaavkeraxfgspomtju7arjjokll5u7nl7lcij37dpjjyb3uqrd32zyxpzxuwqzlmnrxsa53pojwgjaifaaaxceraugrp4zrh3vrptjwdwg236v5wexsrsrwoxwximaph7mpewtuklej2ezlgnfzhg5gyfjmckaabkujcbokne64zgtj6bcss4uwx3j62x6weqtx6g6stqdxjbchxvtro7tpjmzzwky3pnzsnqksyeuaacviseak4nt7t2f4f2jct4ufxp3f75a6gk6o3ngvoirfkzxctqpj2u6szolyaafkreiavy3h7hulylusfhzilo7wl72b4mv45w2nk4rckvtofha6tvj5fs5ug653epeqg2ylumu";

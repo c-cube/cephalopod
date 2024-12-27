@@ -5,9 +5,10 @@
 
 pub mod car;
 pub mod cid;
+pub mod data;
 pub mod dcbor42;
 pub mod errors;
 mod utils;
 
-pub use dcbor42::Value as Dcbor42Value;
+pub use data::Value;
 pub use errors::{DaslError, Result};

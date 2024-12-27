@@ -1,16 +1,16 @@
 use atyolo::dasl::{
     cid::{self},
+    data::Value as V,
     dcbor42,
 };
 use bumpalo::Bump;
-use dcbor42::Value as V;
 
 #[test]
 fn test_decode() {
     let bytes = hex::decode("830102623432").unwrap();
 
     let bump = dcbor42::Bump::new();
-    let d = V::decode(&bump, &bytes).unwrap();
+    let d = V::decode_dcbor42(&bump, &bytes).unwrap();
     dbg!(&d);
     assert_eq!(
         V::Array(&[V::Positive(1), V::Positive(2), V::Text("42")]),
@@ -24,11 +24,11 @@ fn test_encode() {
 
     let v = V::Array(&[V::Positive(1), V::Positive(2), V::Text("42")]);
     let mut bytes = vec![];
-    V::encode(&v, &mut bytes).unwrap();
+    V::encode_dcbor42(&v, &mut bytes).unwrap();
 
     {
         let bump = bumpalo::Bump::new();
-        let v2 = V::decode(&bump, &bytes).unwrap();
+        let v2 = V::decode_dcbor42(&bump, &bytes).unwrap();
         assert_eq!(&v, &v2);
     }
 
@@ -60,11 +60,11 @@ const BIG_VALUE: V<'static> = V::Array(&[
 fn test_encode2() {
     let v = BIG_VALUE;
     let mut bytes = vec![];
-    v.encode(&mut bytes).unwrap();
+    v.encode_dcbor42(&mut bytes).unwrap();
     // dbg!(&hex::encode(&bytes));
 
     let bump = bumpalo::Bump::new();
-    let v2 = V::decode(&bump, &bytes).unwrap();
+    let v2 = V::decode_dcbor42(&bump, &bytes).unwrap();
     assert_eq!(&v, &v2);
 }
 
@@ -79,7 +79,7 @@ fn test_encode_too_deep() {
     }
 
     let mut bytes = vec![];
-    let res = v.encode(&mut bytes);
+    let res = v.encode_dcbor42(&mut bytes);
     assert!(res.is_err(), "res: {res:?}");
 }
 
