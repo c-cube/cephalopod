@@ -13,14 +13,15 @@ struct Cli {
     /// If true, print each LEB128-prefixed segment's length
     #[arg(long)]
     dump_segment_lengths: bool,
+    #[arg(short = 'q', long)]
+    quiet: bool,
 }
 
 pub fn main() -> Result<()> {
     let cli = Cli::try_parse()?;
 
-    let alloc = Bump::new();
+    let mut alloc = Bump::new();
     let data = std::fs::read(&cli.file).with_context(|| "while reading file")?;
-    dbg!(data.len());
 
     if cli.dump_segment_lengths {
         for part in car::iter_leb128_delimited_parts(&data) {
@@ -34,18 +35,21 @@ pub fn main() -> Result<()> {
 
     let car = CAR::decode_slice(&alloc, &data)?;
 
-    println!(
-        "# CAR file, version={} roots={:?}",
-        car.header.version, car.header.roots
-    );
-    println!("# {} blocks follow:", car.blocks.len());
-    for block in car.blocks.iter() {
-        println!("# block, cid={:?}", block.cid);
-        match block.data {
-            car::BlockData::Raw(data) => println!("## raw data: {}", hex::encode(data)),
-            car::BlockData::DCBOR42(v) => println!("## dCBOR42 data: {:#?}", v),
+    if !cli.quiet {
+        println!(
+            "# CAR file, version={} roots={:?}",
+            car.header.version, car.header.roots
+        );
+        println!("# {} blocks follow:", car.blocks.len());
+        for block in car.blocks.iter() {
+            println!("# block, cid={:?}", block.cid);
+            match block.data {
+                car::BlockData::Raw(data) => println!("## raw data: {}", hex::encode(data)),
+                car::BlockData::DCBOR42(v) => println!("## dCBOR42 data: {:#?}", v),
+            }
         }
     }
+    alloc.reset();
 
     Ok(())
 }
