@@ -1,4 +1,4 @@
-use atyolo::dasl::cid::*;
+use cccad::dasl::cid::*;
 
 // TODO: proptest for CID => binary => CID
 // TODO: proptest for CID => string => CID
@@ -23,10 +23,10 @@ fn test_decode_binary() {
         4, 4, 4, 4, 4, 4, 4, 4,
     ];
 
-    let cid = CID::parse_binary(fake_cid).unwrap();
+    let cid = CID::decode_binary_with_zero(fake_cid).unwrap();
     assert_eq!(REF_CID, cid);
 
-    let encoded = cid.encode_to_binary();
+    let encoded = cid.encode_to_binary_with_zero();
     assert_eq!(fake_cid, &encoded);
 }
 

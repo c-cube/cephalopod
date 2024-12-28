@@ -10,5 +10,6 @@ pub mod dcbor42;
 pub mod errors;
 mod utils;
 
+pub use car::CAR;
 pub use data::Value;
 pub use errors::{DaslError, Result};

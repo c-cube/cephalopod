@@ -56,6 +56,38 @@ macro_rules! fail {
     };
 }
 
+struct LengthIter<'a> {
+    data: &'a [u8],
+    offset: usize,
+}
+
+impl<'a> Iterator for LengthIter<'a> {
+    type Item = Result<&'a [u8]>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.offset == self.data.len() {
+            return None;
+        }
+
+        let mut offset = self.offset;
+        let len = match dec_leb128(self.data, &mut offset) {
+            Some(len) if len > (usize::MAX as u64) => {
+                return Some(Err(DaslError::InvalidCAR("LEB128 exceeds usize::MAX")))
+            }
+            Some(len) => len as usize,
+            None => return Some(Err(DaslError::InvalidCAR("Cannot parse LEB128 length"))),
+        };
+
+        self.offset = offset + len;
+        Some(Ok(&self.data[offset..offset + len]))
+    }
+}
+
+/// Iterate on byte slices that are prefixed by their length as LEB128
+pub fn iter_leb128_delimited_parts<'a>(data: &'a [u8]) -> impl Iterator<Item = Result<&'a [u8]>> {
+    return LengthIter { data, offset: 0 };
+}
+
 fn decode_header<'a>(alloc: &'a Bump, v: Value<'a>) -> Result<Header<'a>> {
     let Some(map) = v.as_map() else {
         fail!("Header must be a map")
@@ -95,53 +127,47 @@ fn decode_header<'a>(alloc: &'a Bump, v: Value<'a>) -> Result<Header<'a>> {
     Ok(Header { version, roots })
 }
 
+fn decode_block<'a>(alloc: &'a Bump, data: &'_ [u8]) -> Result<Block<'a>> {
+    let (cid, cid_offset) = CID::decode_binary(data)?;
+    debug_assert!(cid_offset <= data.len());
+
+    // move `cid` to allocator
+    let cid: &'a CID = alloc.alloc(cid);
+
+    let data: BlockData<'a> = match cid.codec {
+        cid::Codec::Raw => {
+            let data = utils::alloc_slice_copy(alloc, &data[cid_offset..])?;
+            BlockData::Raw(data)
+        }
+        cid::Codec::DCBOR42 => {
+            let v = Value::decode_dcbor42(alloc, &data[cid_offset..])?;
+            BlockData::DCBOR42(v)
+        }
+    };
+
+    Ok(Block { cid, data })
+}
+
 /// Decode a CAR from a byte slice
-pub fn decode_slice<'a>(alloc: &'a Bump, s: &'_ [u8]) -> Result<CAR<'a>> {
-    let mut offset: usize = 0;
+fn decode_slice<'a>(alloc: &'a Bump, data: &'_ [u8]) -> Result<CAR<'a>> {
+    let mut parts = iter_leb128_delimited_parts(data);
 
     // read header
-    let header = {
-        let len = dec_leb128(s, &mut offset)
-            .ok_or_else(|| DaslError::InvalidCAR("Cannot parse header"))?
-            as usize;
-
-        let v = Value::decode_dcbor42(alloc, &s[offset..offset + len])?;
-        offset = offset + len;
-        decode_header(alloc, v)?
+    let header = match parts.next() {
+        None => fail!("Expected the CAR to start with a header"),
+        Some(Err(err)) => return Err(err),
+        Some(Ok(data)) => {
+            let v = Value::decode_dcbor42(alloc, data)?;
+            decode_header(alloc, v)?
+        }
     };
 
     // read blocks
     let mut local_blocks: Vec<Block<'a>> = vec![];
-    while offset < s.len() {
-        let mut len = dec_leb128(s, &mut offset)
-            .ok_or_else(|| DaslError::InvalidCAR("Cannot parse block header"))?
-            as usize;
-
-        dbg!(offset, len);
-        let (cid, n_bytes) = CID::parse_binary_partial(&s[offset..])?;
-        dbg!(&cid, n_bytes);
-        if len < n_bytes {
-            fail!("Block length is shorter than CID length")
-        }
-        offset += n_bytes;
-        len -= n_bytes;
-
-        // move `cid` to allocator
-        let cid: &'a CID = alloc.alloc(cid);
-
-        let data: BlockData<'a> = match cid.codec {
-            cid::Codec::Raw => {
-                let data = utils::alloc_slice_copy(alloc, &s[offset..offset + len])?;
-                BlockData::Raw(data)
-            }
-            cid::Codec::DCBOR42 => {
-                let v = Value::decode_dcbor42(alloc, &s[offset..offset + len])?;
-                BlockData::DCBOR42(v)
-            }
-        };
-
-        local_blocks.push(Block { cid, data });
-        offset += len;
+    for part in parts {
+        let data_part = part?;
+        let block = decode_block(alloc, data_part)?;
+        local_blocks.push(block);
     }
 
     // now allocate the result in `alloc`
@@ -248,7 +274,7 @@ impl<W: io::Write> CARWriter<W> {
 }
 
 /// Encode into an IO writer.
-pub fn write_car<'a, W>(w: W, car: &CAR) -> Result<()>
+fn encode_to<'a, W>(w: W, car: &CAR) -> Result<()>
 where
     W: io::Write,
 {
@@ -279,5 +305,18 @@ impl<'a> From<&'a [u8]> for BlockData<'a> {
 impl<'a> From<Value<'a>> for BlockData<'a> {
     fn from(value: Value<'a>) -> Self {
         BlockData::DCBOR42(value)
+    }
+}
+
+impl<'a> CAR<'a> {
+    pub fn decode_slice(alloc: &'a Bump, s: &'_ [u8]) -> Result<CAR<'a>> {
+        decode_slice(alloc, s)
+    }
+
+    pub fn encode_to<W>(&self, w: W) -> Result<()>
+    where
+        W: io::Write,
+    {
+        encode_to(w, self)
     }
 }

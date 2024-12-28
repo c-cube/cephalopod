@@ -7,18 +7,26 @@ use super::errors;
 /// Decode LEB128, starting at `off`. Returns the result, and modifies `off`.
 pub(crate) fn dec_leb128(s: &[u8], off: &mut usize) -> Option<u64> {
     let mut res: u64 = 0;
+    let mut shift = 0;
 
     loop {
         if *off >= s.len() {
             return None;
         }
 
-        let c = s[*off];
-        res = (res << 7) + (c & 0b0111_1111) as u64;
-
+        let byte = s[*off];
         *off += 1;
-        if c & 0b1000_0000 == 0 {
-            return Some(res);
+
+        let cur = byte & 0b0111_1111;
+        res = res | ((cur as u64) << shift);
+        if cur == byte {
+            if shift < 63 || cur <= 1 {
+                return Some(res);
+            } else {
+                return None;
+            }
+        } else {
+            shift += 7;
         }
     }
 }
@@ -37,30 +45,20 @@ pub(crate) fn dec_leb128_start(s: &[u8]) -> Option<u64> {
 pub(crate) fn enc_leb128(mut n: u64, buf: &mut [u8]) -> usize {
     assert!(buf.len() >= 10);
 
-    // we encode backward into a local buffer
-    let mut local = [0u8; 10];
-    let mut offset = 9;
-
-    let mut mask = 0; // 0b1000_0000 after the first iteration
     let mut count = 0;
-
     loop {
-        dbg!(count, n);
-        count += 1;
-        let c = ((n & 0b0111_1111) as u8) | mask;
-        local[offset] = c;
+        let c = (n & 0b0111_1111) as u8;
 
-        n = n >> 7;
-        if n == 0 {
-            break;
+        if c as u64 == n {
+            buf[count] = c;
+            count += 1;
+            return count;
         } else {
-            mask = 0b1000_0000;
-            offset -= 1;
+            buf[count] = c | 0b1000_0000;
+            count += 1;
+            n = n >> 7;
         }
     }
-
-    buf[0..count].copy_from_slice(&local[offset..]);
-    count
 }
 
 /// Helper to allocate a slice from a bumpalo
@@ -110,6 +108,7 @@ pub(crate) fn alloc_str<'a>(alloc: &'a Bump, str: &str) -> errors::Result<&'a st
 #[cfg(test)]
 mod tests {
     use super::*;
+    use proptest::prelude::*;
 
     #[test]
     fn test_dec_leb128() {
@@ -122,7 +121,7 @@ mod tests {
         {
             let mut off = 0;
             let b: &[u8] = &[0x88, 0x85, 0x09];
-            assert_eq!(Some((8 << (7 + 7)) + (5 << 7) + 9), dec_leb128(b, &mut off));
+            assert_eq!(Some((9 << (7 + 7)) + (5 << 7) + 8), dec_leb128(b, &mut off));
         }
     }
 
@@ -144,6 +143,29 @@ mod tests {
             assert_eq!(10, n);
             dbg!(&buf);
             assert_eq!(Some(u64::MAX), dec_leb128_start(&buf));
+        }
+    }
+
+    proptest! {
+        #[test]
+        fn same_as_leb128_crate(n: u64){
+            let mut ours = [0u8; 12];
+            let ours_len = enc_leb128(n, &mut ours[..]);
+
+            let mut ref_v = vec![];
+            let _ref_len = leb128::write::unsigned( &mut ref_v,n).unwrap();
+            assert_eq!(&ref_v, &ours[0..ours_len])
+        }
+
+        #[test]
+        fn decode_from_leb128_crate(n: u64){
+            let mut ref_v = vec![];
+            let ref_len = leb128::write::unsigned( &mut ref_v,n).unwrap();
+
+            let mut offset = 0;
+            let n2 = dec_leb128(&ref_v, &mut offset).unwrap();
+            assert_eq!(n2, n);
+            assert_eq!(ref_len, offset)
         }
     }
 }

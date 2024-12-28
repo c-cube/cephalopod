@@ -82,8 +82,7 @@ pub(crate) fn decode<'a>(alloc: &'a Bump, bytes: &[u8]) -> Result<Value<'a>> {
             CHeader::Float(_) => fail!("dCBOR42 does not support floats"),
             CHeader::Tag(42) => {
                 if let Value::Bytes(s) = read_rec(alloc, dec, depth + 1)? {
-                    dbg!(&s);
-                    let cid = CID::parse_binary(s)?;
+                    let cid = CID::decode_binary_with_zero(s)?;
                     Value::CID(alloc.try_alloc(cid)?)
                 } else {
                     fail!("Tag 42 must be followed by a binary CID")
@@ -201,7 +200,7 @@ pub(crate) fn encode<W: io::Write>(v: &Value, w: &mut W) -> Result<()> {
             Value::Negative(i) => enc.push(CHeader::Negative(*i))?,
             Value::CID(cid) => {
                 enc.push(CHeader::Tag(42))?;
-                let cid_bytes = cid.encode_to_binary();
+                let cid_bytes = cid.encode_to_binary_with_zero();
                 enc.bytes(&cid_bytes, None)?;
             }
             Value::Text(str) => enc.text(str, None)?,

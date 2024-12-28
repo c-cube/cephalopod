@@ -1,7 +1,7 @@
-use atyolo::dasl::{car, cid::CID, data::Value};
 use bumpalo::Bump;
+use cccad::dasl::{car, cid::CID, data::Value, CAR};
 
-const ENCODED_CAR: &str = "hkrgo5tfojzws33oafsxe33porzydwbklasqaalrciqkdix6myt52yxzu3b3dnn7k63clzizi3hl3lugaht7whslj2ffsezqaaavkeraxfgspomtju7arjjokll5u7nl7lcij37dpjjyb3uqrd32zyxpzxuwqzlmnrxsa53pojwgjaifaaaxceraugrp4zrh3vrptjwdwg236v5wexsrsrwoxwximaph7mpewtuklej2ezlgnfzhg5gyfjmckaabkujcbokne64zgtj6bcss4uwx3j62x6weqtx6g6stqdxjbchxvtro7tpjmzzwky3pnzsnqksyeuaacviseak4nt7t2f4f2jct4ufxp3f75a6gk6o3ngvoirfkzxctqpj2u6szolyaafkreiavy3h7hulylusfhzilo7wl72b4mv45w2nk4rckvtofha6tvj5fs5ug653epeqg2ylumu";
+const ENCODED_CAR: &str = "hgrgo5tfojzws33oafsxe33porzydwbklasac4isebukqxzylfvtuovpxfzgi33rym6zuvq7yp57bz74il6fxt36543hqlybkujcbokne64zgtj6bcss4uwx3j62x6weqtx6g6stqdxjbchxvtro7tpjnbswy3dpeb3w64tmmsbacalrciqgrkc7hbmwwor2v64xezdpohbt3gswd7b7x4hh7rbpyw6pp3xtm6fcmvtgs4ttotmcuwbeafkreifzjut3te2nhyekklss27nh3k72ysco7y32koao5eei66wof36n5fthgzldn5xgjwbklasacviseak4nt7t2f4f2jct4ufxp3f75a6gk6o3ngvoirfkzxctqpj2u6szolqbkujcafogz7z5c6c5erj6kc3x5s76qpdfphnwtkxeisvm3rjyhu5kpjmxnbxxozdzebwwc5df";
 
 #[test]
 fn test_encode_car() {
@@ -40,7 +40,7 @@ fn test_decode_car() {
         ENCODED_CAR,
     )
     .expect("decode base32 data");
-    let car = car::decode_slice(&alloc, &data).expect("decode CAR");
+    let car = CAR::decode_slice(&alloc, &data).expect("decode CAR");
 
     dbg!(&car);
     assert_eq!(1, car.header.roots.len());

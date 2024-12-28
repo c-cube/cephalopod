@@ -2,8 +2,8 @@ use std::io;
 
 #[derive(Debug, thiserror::Error)]
 pub enum DaslError {
-    #[error("Parse error: {0}")]
-    ParseError(&'static str),
+    #[error("CID Parse error: {0}")]
+    CIDParseError(&'static str),
     #[error("Invalid dCBOR42: {0}")]
     InvalidDCBOR42(&'static str),
     #[error("AllocationError")]

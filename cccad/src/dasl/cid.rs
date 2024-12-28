@@ -3,7 +3,7 @@
 use sha2::{Digest, Sha256};
 
 use super::{
-    errors::{DaslError::ParseError, Result},
+    errors::{DaslError::CIDParseError, Result},
     utils::dec_leb128,
     DaslError,
 };
@@ -52,14 +52,12 @@ impl Codec {
 
 macro_rules! parse_err {
     ($msg:expr) => {
-        return Err(ParseError($msg))
+        return Err(CIDParseError($msg))
     };
 }
 
-type ParsedInFull = bool;
-
-fn parse_binary_(s: &[u8]) -> Result<(CID, ParsedInFull)> {
-    if s.len() < 3 {
+fn decode_binary_(s: &[u8]) -> Result<CID> {
+    if s.len() < SIZE_ENCODED {
         parse_err!("CID too short");
     };
 
@@ -81,17 +79,15 @@ fn parse_binary_(s: &[u8]) -> Result<(CID, ParsedInFull)> {
 
     let mut offset: usize = 3;
     let len =
-        dec_leb128(s, &mut offset).ok_or_else(|| ParseError("Invalid LEB128 length"))? as usize;
+        dec_leb128(s, &mut offset).ok_or_else(|| CIDParseError("Invalid LEB128 length"))? as usize;
 
     if len != SIZE_HASH {
         parse_err!("Expected length to be 32 (for SHA256)")
     }
 
-    let parsed_full = offset + len == s.len();
-
     let hash: [u8; SIZE_HASH] = (&s[offset..offset + len]).try_into().unwrap();
     let cid = CID { codec, hash };
-    Ok((cid, parsed_full))
+    Ok(cid)
 }
 
 fn encode_binary(cid: &'_ CID, res: &mut [u8; SIZE_ENCODED]) {
@@ -126,7 +122,14 @@ impl CID {
         CID::new_compute_hash(Codec::Raw, data)
     }
 
-    pub fn encode_to_binary(&'_ self) -> [u8; SIZE_ENCODED + 1] {
+    /// Encode to binary, in 36 bytes. No leading zero.
+    pub fn encode_to_binary(&'_ self) -> [u8; SIZE_ENCODED] {
+        let mut res = [0u8; SIZE_ENCODED];
+        encode_binary(self, &mut res);
+        res
+    }
+
+    pub fn encode_to_binary_with_zero(&'_ self) -> [u8; SIZE_ENCODED + 1] {
         let mut res = [0u8; SIZE_ENCODED + 1];
         res[0] = 0;
 
@@ -145,26 +148,23 @@ impl CID {
         res
     }
 
-    /// Parse a binary CID, consuming the whole slice.
-    pub fn parse_binary(s: &[u8]) -> Result<CID> {
-        if s.is_empty() || s[0] != 0 {
-            parse_err!("CID is too short")
-        }
-        let (cid, parsed_full) = parse_binary_(&s[1..])?;
-        if !parsed_full {
+    /// Parse a binary CID  that starts with '0', consuming the whole slice.
+    pub fn decode_binary_with_zero(s: &[u8]) -> Result<CID> {
+        if s.len() != SIZE_ENCODED + 1 {
             parse_err!("CID has the wrong length")
         }
+        if s[0] != 0 {
+            parse_err!("CID must start with '0'")
+        }
+        let cid = decode_binary_(&s[1..])?;
         Ok(cid)
     }
 
-    /// Like `parse_binary` but it returns how many bytes were read,
-    /// and does not expect to use the whole slice.
-    pub fn parse_binary_partial(s: &[u8]) -> Result<(CID, usize)> {
-        if s.is_empty() || s[0] != 0 {
-            parse_err!("CID is too short")
-        }
-        let (cid, _) = parse_binary_(&s[1..])?;
-        Ok((cid, SIZE_ENCODED + 1))
+    /// Decode a binary CID, without leading '0'. This consumes 36 bytes
+    /// from the slice, starting with '1'. It returns how many bytes were read (36).
+    pub fn decode_binary(s: &[u8]) -> Result<(CID, usize)> {
+        let cid = decode_binary_(&s)?;
+        Ok((cid, SIZE_ENCODED))
     }
 
     pub fn parse_str(s: &str) -> Result<CID> {
@@ -178,11 +178,11 @@ impl CID {
 
         let bin: Vec<u8> =
             base32::decode(base32::Alphabet::Rfc4648Lower { padding: false }, s_rest)
-                .ok_or_else(|| DaslError::ParseError("invalid base32"))?;
-        let (cid, parsed_full) = parse_binary_(&bin)?;
-        if !parsed_full {
+                .ok_or_else(|| DaslError::CIDParseError("invalid base32"))?;
+        if bin.len() != SIZE_ENCODED {
             parse_err!("CID has the wrong length")
         }
+        let cid = decode_binary_(&bin)?;
         Ok(cid.to_owned())
     }
 }
