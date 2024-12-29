@@ -1,5 +1,5 @@
 use bumpalo::Bump;
-use cccad::dasl::{
+use cephalopod_dasl::{
     cid::{self},
     data::Value as V,
     dcbor42,

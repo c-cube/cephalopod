@@ -1,6 +1,6 @@
 //! Simple implementation for <https://dasl.ing/>.
 //!
-//! This module provides the basic building blocks for
+//! This crate provides the basic building blocks for
 //! distributed content-addressed applications.
 
 pub mod car;

@@ -2,4 +2,4 @@
 [workspace]
 
 resolver = "2"
-members = ["cccad"]
+members = ["cephalopod_dasl"]

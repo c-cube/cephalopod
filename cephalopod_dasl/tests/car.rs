@@ -1,5 +1,5 @@
 use bumpalo::Bump;
-use cccad::dasl::{car, cid::CID, data::Value, CAR};
+use cephalopod_dasl::{car, cid::CID, data::Value, CAR};
 
 const ENCODED_CAR: &str = "hkrgo5tfojzws33oafsxe33porzydwbklasqaalrciqkdix6myt52yxzu3b3dnn7k63clzizi3hl3lugaht7whslj2ffsezpafkreifzjut3te2nhyekklss27nh3k72ysco7y32koao5eei66wof36n5fugk3dmn4qho33snrsiiaiboejcbinc7ztcpxlc7gtmhmnvx5l3mjpfdfdm5pnoqya6p6y6jnhiuwitujswm2lson2nqksyeuaacvisec4u2j5zsngt4cfffzjnpwt5vp5mjbhp4n5fhahoscepplhc57g6szttmvrw63te3avfqjiaafkreiavy3h7hulylusfhzilo7wl72b4mv45w2nk4rckvtofha6tvj5fs4xacviseak4nt7t2f4f2jct4ufxp3f75a6gk6o3ngvoirfkzxctqpj2u6szo2dpo5shsidnmf2gk";
 

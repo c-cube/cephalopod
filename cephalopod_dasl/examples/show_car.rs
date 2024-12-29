@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use anyhow::{Context, Result};
 use bumpalo::Bump;
-use cccad::dasl::{car, CAR};
+use cephalopod_dasl::{car, CAR};
 use clap::Parser;
 
 // TODO: parse CLI, parse CAR file, show CAR
