@@ -82,9 +82,7 @@ pub enum Type {
         accept: Option<String>,
         maxSize: Option<usize>,
     },
-    Token {
-        description: Option<String>,
-    },
+    Token(Token),
     Ref {
         /// Reference to another definition
         #[serde(rename = "ref")]
@@ -98,6 +96,11 @@ pub enum Type {
 pub struct Error {
     pub description: Option<String>,
     pub name: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct Token {
+    pub description: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -128,8 +131,22 @@ pub struct Params {
 pub enum Encoding {
     #[serde(rename = "application/json")]
     Json,
+    #[serde(rename = "application/vnd.ipld.car")]
+    CAR,
     #[serde(untagged)]
     Other(String),
+}
+
+impl Encoding {
+    /// Mime type for this encoding    
+    pub fn to_mime(&self) -> &str {
+        use Encoding::*;
+        match self {
+            Json => "application/json",
+            CAR => "application/vnd.ipld.car",
+            Other(s) => &s,
+        }
+    }
 }
 
 #[derive(Debug, Deserialize)]
@@ -180,13 +197,14 @@ pub struct Record {
 #[derive(Debug, Deserialize)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Def {
-    Object(Object),
     Query(Query),
-    Procedure(Query),
+    Procedure(Procedure),
     Record(Record),
     Subscription(Subscription),
-    #[serde(other)]
-    Other,
+    #[serde(untagged)]
+    Object(Object),
+    #[serde(untagged)]
+    Token(Token),
 }
 
 #[derive(Debug, Deserialize)]
@@ -196,13 +214,4 @@ pub struct Lexicon {
     // must be 1
     pub lexicon: i32,
     pub defs: HashMap<String, Def>,
-}
-
-impl Def {
-    pub fn is_other(&self) -> bool {
-        match self {
-            Def::Other => true,
-            _ => false,
-        }
-    }
 }

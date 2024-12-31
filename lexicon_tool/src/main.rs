@@ -44,14 +44,15 @@ impl Parse {
         }
         dbg!(&lexicons);
 
-        let n_other = lexicons
-            .iter()
-            .flat_map(|l: &ast::Lexicon| l.defs.iter().map(|kv| kv.1))
-            .filter(|v| v.is_other())
-            .count();
-        if n_other > 0 {
-            eprintln!("{n_other} definitions were not parsed")
-        }
+        /*let n_other = lexicons
+                    .iter()
+                    .flat_map(|l: &ast::Lexicon| l.defs.iter().map(|kv| kv.1))
+                    .filter(|v| v.is_other())
+                    .count();
+                if n_other > 0 {
+                    eprintln!("{n_other} definitions were not parsed")
+                }
+        */
 
         Ok(())
     }
