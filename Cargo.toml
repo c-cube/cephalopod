@@ -2,4 +2,4 @@
 [workspace]
 
 resolver = "2"
-members = ["cephalopod_dasl"]
+members = ["cephalopod_dasl", "lexicon_tool"]
