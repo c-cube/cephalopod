@@ -1,0 +1,7 @@
+[project]
+name = "lexicon-tool"
+version = "0.1.0"
+description = "Python tool to parse ATproto lexicons and generate code from them"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["click"]
