@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use crate::ast;
 use anyhow::{anyhow, Result};
-use egui::{Color32, Ui};
+use egui::{Color32, RichText, Ui};
 
 #[derive(Default)]
 struct App {
@@ -25,17 +25,21 @@ fn render_descr(d: &Option<String>, ui: &mut Ui) {
     render_optional("descr", d, ui)
 }
 
+fn bold_green(s: &str) -> egui::RichText {
+    egui::RichText::new(s).strong().color(Color32::DARK_GREEN)
+}
+
 fn render_type(ty: &ast::Type, ui: &mut egui::Ui) {
     ui.vertical(|ui| match ty {
         ast::Type::Null { description } => {
-            ui.colored_label(egui::Color32::LIGHT_RED, "null");
+            ui.label(bold_green("null"));
             render_descr(description, ui);
         }
         ast::Type::Boolean {
             default,
             description,
         } => {
-            ui.colored_label(egui::Color32::DARK_GREEN, "bool");
+            ui.label(bold_green("bool"));
             render_descr(description, ui);
         }
         ast::Type::Integer {
@@ -46,7 +50,7 @@ fn render_type(ty: &ast::Type, ui: &mut egui::Ui) {
             default,
             const_,
         } => {
-            ui.colored_label(egui::Color32::DARK_GREEN, "int");
+            ui.label(bold_green("int"));
             render_descr(description, ui);
         }
         ast::Type::String {
@@ -58,7 +62,7 @@ fn render_type(ty: &ast::Type, ui: &mut egui::Ui) {
             default,
             const_,
         } => {
-            ui.colored_label(egui::Color32::DARK_GREEN, "string");
+            ui.label(bold_green("string"));
             render_descr(description, ui);
         }
 
@@ -67,7 +71,7 @@ fn render_type(ty: &ast::Type, ui: &mut egui::Ui) {
             minLength,
             maxLength,
         } => {
-            ui.colored_label(egui::Color32::DARK_GREEN, "bytes");
+            ui.label(bold_green("bytes"));
             render_descr(description, ui);
         }
         ast::Type::Blob {
@@ -75,16 +79,16 @@ fn render_type(ty: &ast::Type, ui: &mut egui::Ui) {
             accept,
             maxSize,
         } => {
-            ui.colored_label(egui::Color32::DARK_GREEN, "blob");
+            ui.label(bold_green("blob"));
             render_descr(description, ui);
             render_optional("accept", accept, ui);
         }
         ast::Type::Token(tok) => {
-            ui.colored_label(egui::Color32::DARK_GREEN, "token");
+            ui.label(bold_green("token"));
             render_descr(&tok.description, ui);
         }
         ast::Type::CidLink { description } => {
-            ui.colored_label(egui::Color32::DARK_GREEN, "cid-link");
+            ui.label(bold_green("cid-link"));
             render_descr(description, ui);
         }
         ast::Type::Array {
@@ -92,7 +96,7 @@ fn render_type(ty: &ast::Type, ui: &mut egui::Ui) {
             minLength,
             maxLength,
         } => {
-            ui.colored_label(egui::Color32::DARK_GREEN, "array");
+            ui.label(bold_green("array"));
             egui::CollapsingHeader::new("items").show(ui, |ui| {
                 ui.push_id("array", |ui| render_type(items, ui));
             });
@@ -102,13 +106,13 @@ fn render_type(ty: &ast::Type, ui: &mut egui::Ui) {
         }
         ast::Type::Ref { ref_ } => {
             ui.horizontal(|ui| {
-                ui.colored_label(egui::Color32::DARK_BLUE, "ref");
+                ui.label(bold_green("ref"));
                 ui.label(": ");
                 ui.label(ref_);
             });
         }
         ast::Type::Union(u) => {
-            ui.colored_label(egui::Color32::DARK_GREEN, "union");
+            ui.label(bold_green("union"));
             for r in &u.refs {
                 ui.label(r);
                 ui.label(" ");
@@ -126,7 +130,7 @@ fn render_properties(props: &HashMap<String, ast::Type>, ui: &mut egui::Ui) {
             for (name, v) in props.iter() {
                 ui.push_id(name, |ui| {
                     ui.horizontal(|ui| {
-                        ui.label(name);
+                        ui.label(RichText::new(name).underline());
                         ui.label(": ");
                         render_type(v, ui);
                     });
@@ -139,14 +143,16 @@ fn render_properties(props: &HashMap<String, ast::Type>, ui: &mut egui::Ui) {
 fn render_params(d: &Option<ast::Params>, ui: &mut Ui) {
     if let Some(d) = d {
         ui.horizontal(|ui| {
-            egui::CollapsingHeader::new(egui::RichText::new("params").color(Color32::DARK_BLUE))
-                .show(ui, |ui| {
+            egui::CollapsingHeader::new(RichText::new("params").color(Color32::DARK_BLUE)).show(
+                ui,
+                |ui| {
                     ui.push_id("params", |ui| {
                         ui.vertical(|ui| {
                             render_properties(&d.properties, ui);
                         })
                     })
-                });
+                },
+            );
         });
     }
 }
@@ -175,14 +181,11 @@ fn render_io(d: &Option<ast::InputOrOutput>, name: &str, ui: &mut Ui) {
 }
 
 fn render_object(o: &ast::Object, ui: &mut egui::Ui) {
-    egui::CollapsingHeader::new(egui::RichText::new("object").color(Color32::DARK_GREEN)).show(
-        ui,
-        |ui| {
-            ui.push_id("object", |ui| {
-                render_properties(&o.properties, ui);
-            });
-        },
-    );
+    egui::CollapsingHeader::new(bold_green("object")).show(ui, |ui| {
+        ui.push_id("object", |ui| {
+            render_properties(&o.properties, ui);
+        });
+    });
 }
 
 fn render_def(def: &ast::Def, ui: &mut egui::Ui) {
@@ -248,7 +251,7 @@ fn render_lexicon(l: &ast::Lexicon, ui: &mut Ui) {
                                     ui.vertical(|ui| {
                                         ui.indent(2, |ui| {
                                             ui.horizontal(|ui| {
-                                                ui.label(name);
+                                                ui.label(RichText::new(name).underline());
                                                 ui.label(": ");
                                             });
                                             render_def(def, ui);
