@@ -3,8 +3,8 @@ use clap::Parser;
 use std::path::PathBuf;
 
 mod ast;
+mod gui;
 mod parse;
-mod tui;
 
 #[derive(Debug, clap::Parser)]
 struct Dirs {
@@ -14,7 +14,7 @@ struct Dirs {
 #[derive(Debug, clap::Parser)]
 enum Cli {
     Parse(Dirs),
-    Explore(Dirs),
+    Gui(Dirs),
 }
 
 impl Cli {
@@ -25,11 +25,9 @@ impl Cli {
                 let lexicons = parse::parse(&p.dirs)?;
                 println!("lexicons:\n{lexicons:#?}");
             }
-            Cli::Explore(p) => {
-                // TODO: https://docs.rs/tui-logger/latest/tui_logger/ in a tab
-
+            Cli::Gui(p) => {
                 let lexicons = parse::parse(&p.dirs)?;
-                tui::explore(lexicons)?;
+                gui::run(lexicons)?;
             }
         }
         Ok(())

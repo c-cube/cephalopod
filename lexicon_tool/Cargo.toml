@@ -3,13 +3,18 @@ name = "lexicon_tool"
 version = "0.1.0"
 edition = "2021"
 
+# not for public use
+publish = false
+
 [dependencies]
 anyhow = "1.0.95"
 clap = { version = "4.5.23", features = ["derive"] }
+eframe = { version = "0.30.0", default-features = false, features = ["default_fonts", "glow", "x11"] }
+egui = "0.30.0"
+egui_json_tree = "0.9.0"
+egui_logger = "0.6.2"
 env_logger = { version = "0.11.6", default-features = false }
 log = "0.4.22"
-ratatui = "0.29.0"
-serde = { version = "1.0.217", features = ["derive"] }
+serde = { version = "1.0.217", features = ["derive"], default-features = false }
 serde_json = "1.0.134"
-tui-tree-widget = "0.23.0"
 walkdir = "2.5.0"
