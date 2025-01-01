@@ -81,7 +81,7 @@ impl<'a> Value<'a> {
     ///
     /// See <https://atproto.com/specs/data-model> for more details.
     #[inline(always)]
-    pub fn to_json(&self) -> Result<json::JsonValue> {
+    pub fn to_json(&self) -> Result<serde_json::Value> {
         dcbor42::to_json_rec(self, 0)
     }
 
@@ -90,7 +90,7 @@ impl<'a> Value<'a> {
     /// **NOTE**: a loss of precision can occur on large numbers
     /// (larger than around 2^53) because JSON represents numbers as floats.
     #[inline(always)]
-    pub fn from_json(alloc: &'a Bump, j: &json::JsonValue) -> Result<Value<'a>> {
+    pub fn from_json(alloc: &'a Bump, j: &serde_json::Value) -> Result<Value<'a>> {
         dcbor42::from_json_rec(alloc, j, 0)
     }
 }

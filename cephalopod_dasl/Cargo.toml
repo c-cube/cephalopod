@@ -9,7 +9,7 @@ base64 = { version = "0.22.1", default-features = false, features = ["std"] }
 bumpalo = { version = "3.16.0", default-features = false }
 ciborium-io = "0.2.2"
 ciborium-ll = "0.2.2"
-json = { version = "0.12.4", default-features = false }
+serde_json = { version = "1.0.134", default-features = false, features = ["preserve_order", "std"] }
 sha2 = "0.10.8"
 thiserror = "2.0.9"
 
