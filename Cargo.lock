@@ -1444,7 +1444,6 @@ dependencies = [
  "clap",
  "eframe",
  "egui",
- "egui_json_tree",
  "egui_logger",
  "env_logger",
  "log",
