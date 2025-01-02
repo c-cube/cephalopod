@@ -1,5 +1,5 @@
 [package]
-name = "lexicon_tool"
+name = "cephalopod_cli"
 version = "0.1.0"
 edition = "2021"
 
@@ -8,12 +8,19 @@ publish = false
 
 [dependencies]
 anyhow = "1.0.95"
+bytes = "1.9.0"
+chrono = { version = "0.4.39", default-features = false, features = ["std", "clock", "now"] }
 clap = { version = "4.5.23", features = ["derive"] }
 eframe = { version = "0.30.0", default-features = false, features = ["default_fonts", "glow", "x11"] }
 egui = "0.30.0"
 egui_logger = "0.6.2"
 env_logger = { version = "0.11.6", default-features = false }
+futures = "0.3.31"
 log = "0.4.22"
+rustls = { version = "^0.23", features = ["ring"], default-features = false }
 serde = { version = "1.0.217", features = ["derive"], default-features = false }
 serde_json = "1.0.134"
+tokio = { version = "^1.40.0", features = ["macros", "net", "rt-multi-thread", "sync"] }
+tokio-tungstenite = { version = "^0.26", features = ["rustls-tls-webpki-roots"] }
+tracing = "0.1.41"
 walkdir = "2.5.0"

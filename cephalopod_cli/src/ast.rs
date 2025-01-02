@@ -2,7 +2,7 @@
 //!
 //! https://atproto.com/specs/lexicon
 
-#![allow(non_snake_case)]
+#![allow(non_snake_case, unused)]
 
 use std::collections::HashMap;
 
@@ -63,6 +63,7 @@ pub enum Type {
         default: Option<String>,
         #[serde(rename = "const")]
         const_: Option<String>,
+        knownValues: Option<Vec<String>>,
     },
     Bytes {
         description: Option<String>,

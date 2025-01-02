@@ -7,27 +7,23 @@ mod gui;
 mod parse;
 
 #[derive(Debug, clap::Parser)]
-struct Dirs {
-    dirs: Vec<PathBuf>,
-}
-
-#[derive(Debug, clap::Parser)]
 enum Cli {
-    Parse(Dirs),
-    Gui(Dirs),
+    ParseLexicons { dirs: Vec<PathBuf> },
+    Gui { lexicon_dir: Option<PathBuf> },
 }
 
 impl Cli {
     fn run(self) -> Result<()> {
         match self {
-            Cli::Parse(p) => {
+            Cli::ParseLexicons { dirs } => {
                 env_logger::try_init()?;
-                let lexicons = parse::parse(&p.dirs)?;
+                let lexicons = parse::parse(&dirs)?;
                 println!("lexicons:\n{lexicons:#?}");
             }
-            Cli::Gui(p) => {
+            Cli::Gui { lexicon_dir } => {
                 egui_logger::builder().init()?;
-                let lexicons = parse::parse(&p.dirs)?;
+                let dirs: Vec<PathBuf> = lexicon_dir.iter().cloned().collect();
+                let lexicons = parse::parse(&dirs)?;
                 gui::run(lexicons)?;
             }
         }

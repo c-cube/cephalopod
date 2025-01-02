@@ -27,5 +27,6 @@ pub fn parse(dirs: &[impl AsRef<Path>]) -> Result<Vec<ast::Lexicon>> {
         lexicons.push(lexicon);
     }
 
+    lexicons.sort_by(|l1, l2| l1.id.cmp(&l2.id));
     Ok(lexicons)
 }
