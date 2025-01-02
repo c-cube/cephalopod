@@ -64,6 +64,10 @@ fn render_type(ty: &ast::Type, ui: &mut egui::Ui) {
         } => {
             ui.label(bold_green("string"));
             render_descr(description, ui);
+            if let Some(f) = format {
+                ui.label(format!("format: {:?}", f));
+            }
+            render_optional("default", const_, ui);
         }
 
         ast::Type::Bytes {
@@ -149,6 +153,7 @@ fn render_params(d: &Option<ast::Params>, ui: &mut Ui) {
                     ui.push_id("params", |ui| {
                         ui.vertical(|ui| {
                             render_properties(&d.properties, ui);
+                            render_required(&d.required, ui);
                         })
                     })
                 },
@@ -166,6 +171,7 @@ fn render_io(d: &Option<ast::InputOrOutput>, name: &str, ui: &mut Ui) {
                     ui.push_id(name, |ui| {
                         ui.vertical(|ui| {
                             render_descr(&d.description, ui);
+                            ui.label(format!("encoding: {:?}", d.encoding));
                             if let Some(ty) = &d.schema {
                                 ui.horizontal(|ui| {
                                     ui.label("schema: ");
@@ -180,12 +186,45 @@ fn render_io(d: &Option<ast::InputOrOutput>, name: &str, ui: &mut Ui) {
     }
 }
 
+fn render_message(m: &Option<ast::Message>, ui: &mut Ui) {
+    if let Some(m) = m {
+        ui.horizontal(|ui| {
+            egui::CollapsingHeader::new(RichText::new("message").color(Color32::DARK_BLUE)).show(
+                ui,
+                |ui| {
+                    ui.push_id("message", |ui| {
+                        render_descr(&m.description, ui);
+                        render_type(&m.schema, ui);
+                    });
+                },
+            );
+        });
+    }
+}
+
 fn render_object(o: &ast::Object, ui: &mut egui::Ui) {
     egui::CollapsingHeader::new(bold_green("object")).show(ui, |ui| {
         ui.push_id("object", |ui| {
             render_properties(&o.properties, ui);
+            render_required(&o.required, ui);
         });
     });
+}
+
+fn render_required(req: &Option<Vec<String>>, ui: &mut egui::Ui) {
+    if let Some(req) = req {
+        ui.horizontal(|ui| {
+            let mut res = "required: [".to_string();
+            for (i, s) in req.iter().enumerate() {
+                if i > 0 {
+                    res += ", "
+                }
+                res += s
+            }
+            res += "]";
+            ui.label(res)
+        });
+    }
 }
 
 fn render_def(def: &ast::Def, ui: &mut egui::Ui) {
@@ -212,8 +251,11 @@ fn render_def(def: &ast::Def, ui: &mut egui::Ui) {
             });
             render_object(&r.record, ui);
         }
-        ast::Def::Subscription(_) => {
+        ast::Def::Subscription(sub) => {
             ui.label("subscription: ");
+            render_descr(&sub.description, ui);
+            render_params(&sub.parameters, ui);
+            render_message(&sub.message, ui);
         }
         ast::Def::Object(o) => {
             egui::Frame::default()
@@ -247,6 +289,8 @@ fn render_lexicon(l: &ast::Lexicon, ui: &mut Ui) {
                         ui.push_id(name, |ui| {
                             egui::Frame::default()
                                 .stroke(egui::Stroke::new(2., Color32::GRAY))
+                                .inner_margin(2.)
+                                .outer_margin(3.)
                                 .show(ui, |ui| {
                                     ui.vertical(|ui| {
                                         ui.indent(2, |ui| {

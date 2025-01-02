@@ -26,7 +26,7 @@ impl Cli {
                 println!("lexicons:\n{lexicons:#?}");
             }
             Cli::Gui(p) => {
-                egui_logger::builder().build();
+                egui_logger::builder().init()?;
                 let lexicons = parse::parse(&p.dirs)?;
                 gui::run(lexicons)?;
             }
