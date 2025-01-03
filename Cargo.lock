@@ -388,7 +388,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "cephalopod_dasl"
+name = "cephalopod_core"
 version = "0.1.0"
 dependencies = [
  "anyhow",
@@ -402,6 +402,7 @@ dependencies = [
  "hex",
  "leb128",
  "proptest",
+ "serde",
  "serde_json",
  "sha2",
  "thiserror 2.0.9",

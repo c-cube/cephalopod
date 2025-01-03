@@ -95,6 +95,23 @@ pub enum Type {
     Unknown,
 }
 
+impl Type {
+    pub fn description(&self) -> Option<&str> {
+        match self {
+            Type::Null { description }
+            | Type::Boolean { description, .. }
+            | Type::Integer { description, .. }
+            | Type::String { description, .. }
+            | Type::Bytes { description, .. }
+            | Type::CidLink { description }
+            | Type::Blob { description, .. } => description.as_deref(),
+            Type::Token(t) => t.description.as_deref(),
+            Type::Object(o) => o.description.as_deref(),
+            Type::Ref { .. } | Type::Union(_) | Type::Unknown | Type::Array { .. } => None,
+        }
+    }
+}
+
 #[derive(Debug, Deserialize)]
 pub struct Error {
     pub description: Option<String>,

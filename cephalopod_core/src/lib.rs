@@ -9,6 +9,7 @@ pub mod data;
 pub mod dcbor42;
 pub mod errors;
 mod utils;
+pub mod xrpc;
 
 pub use car::CAR;
 pub use data::Value;
