@@ -1,11 +1,9 @@
 use anyhow::Result;
+use cephalopod_cli::{codegen, parse};
 use clap::Parser;
 use std::path::PathBuf;
 
-mod ast;
-mod codegen;
 mod gui;
-mod parse;
 
 #[derive(Debug, clap::Parser)]
 enum Cli {

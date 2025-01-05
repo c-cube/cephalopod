@@ -10,9 +10,9 @@ use std::{
     time,
 };
 
-use crate::ast;
 use anyhow::{anyhow, Result};
 use bytes::Bytes;
+use cephalopod_cli::ast;
 use chrono::{DateTime, Local};
 use egui::{Color32, RichText, Ui, Widget};
 use futures::TryStreamExt;
