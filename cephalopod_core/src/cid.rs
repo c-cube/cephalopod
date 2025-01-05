@@ -1,6 +1,9 @@
 //! CID: <https://dasl.ing/cid.html>
 
+use bumpalo::Bump;
 use sha2::{Digest, Sha256};
+
+use crate::{data::Encodable, Value};
 
 use super::{
     errors::{DaslError::CIDParseError, Result},
@@ -184,5 +187,18 @@ impl CID {
         }
         let cid = decode_binary_(&bin)?;
         Ok(cid.to_owned())
+    }
+}
+
+impl<'a> Encodable<'a> for CID {
+    fn encode<'res>(&'_ self, alloc: &'res bumpalo::Bump) -> crate::Result<crate::Value<'res>> {
+        Ok(Value::CID(alloc.try_alloc(self.clone())?))
+    }
+
+    fn decode(_alloc: &'a Bump, v: &'_ crate::Value) -> crate::Result<Self> {
+        match v {
+            Value::CID(cid) => Ok((*cid).clone()),
+            _ => Err(DaslError::CIDParseError("expected value to be a CID")),
+        }
     }
 }

@@ -1,23 +1,25 @@
-use serde::{Deserialize, Serialize};
+//! Core definitions for XRPC
+
+use crate::data::Encodable;
 
 /// A XRPC query
 pub trait Query {
-    type Params: Serialize + Deserialize;
-    type Input: Serialize + Deserialize;
-    type Output: Serialize + Deserialize;
+    type Params: for<'a> Encodable<'a>;
+    type Input: for<'a> Encodable<'a>;
+    type Output: for<'a> Encodable<'a>;
     type Error;
 }
 
 /// A XRPC procedure
 pub trait Procedure {
-    type Params: Serialize + Deserialize;
-    type Input: Serialize + Deserialize;
-    type Output: Serialize + Deserialize;
+    type Params: for<'a> Encodable<'a>;
+    type Input: for<'a> Encodable<'a>;
+    type Output: for<'a> Encodable<'a>;
     type Error;
 }
 
 /// A XRPC subscription (websocket)
 pub trait Subscription {
-    type Message: Serialize + Deserialize;
+    type Message: for<'a> Encodable<'a>;
     type Error;
 }

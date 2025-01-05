@@ -1,4 +1,4 @@
-use cephalopod_dasl::cid::*;
+use cephalopod_core::cid::*;
 
 // TODO: proptest for CID => binary => CID
 // TODO: proptest for CID => string => CID

@@ -1,5 +1,5 @@
 use bumpalo::Bump;
-use cephalopod_dasl::{
+use cephalopod_core::{
     cid::{self},
     data::Value as V,
     dcbor42,

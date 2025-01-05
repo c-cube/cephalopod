@@ -94,3 +94,12 @@ impl<'a> Value<'a> {
         dcbor42::from_json_rec(alloc, j, 0)
     }
 }
+
+/// Types encodable into our data model
+pub trait Encodable<'a>: Sized + 'a {
+    /// Encode to data
+    fn encode<'res>(&'_ self, alloc: &'res Bump) -> crate::Result<crate::Value<'res>>;
+
+    /// Decode a value.
+    fn decode(alloc: &'a Bump, v: &Value) -> crate::Result<Self>;
+}
