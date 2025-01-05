@@ -2,5 +2,5 @@
 [workspace]
 
 resolver = "2"
-members = ["cephalopod_core", "cephalopod_cli"]
-default-members = ["cephalopod_core"]
+members = ["cephalopod_core", "cephalopod_cli", "cephalopod_types"]
+default-members = ["cephalopod_core", "cephalopod_types"]

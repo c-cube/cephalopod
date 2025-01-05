@@ -1,0 +1,10 @@
+[package]
+name = "cephalopod_types"
+version = "0.1.0"
+edition = "2021"
+
+# not for public use
+publish = false
+
+[dependencies]
+cephalopod_core = {version="*", path="../cephalopod_core/"}

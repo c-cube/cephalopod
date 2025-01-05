@@ -402,10 +402,16 @@ dependencies = [
  "hex",
  "leb128",
  "proptest",
- "serde",
  "serde_json",
  "sha2",
  "thiserror 2.0.9",
+]
+
+[[package]]
+name = "cephalopod_types"
+version = "0.1.0"
+dependencies = [
+ "cephalopod_core",
 ]
 
 [[package]]
