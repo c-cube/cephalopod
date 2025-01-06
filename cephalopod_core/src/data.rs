@@ -24,6 +24,7 @@ pub enum Value<'a> {
 }
 
 /// Special kind of map: a blob, representing some media file stored separately.
+#[derive(Debug, Clone)]
 pub struct Blob<'a> {
     /// The CID of the stored object (codec: raw).
     ref_: CID,

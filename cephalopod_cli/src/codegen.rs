@@ -7,11 +7,18 @@ use crate::ast::*;
 use anyhow::Result;
 use egui::ahash::HashMap;
 
+const PRELUDE: &'static str = r#"
+//! auto-generated from lexicons, do not edit
+
+#![allow(non_snake_case)]
+
+"#;
+
 #[derive(Debug, Default)]
 struct Mod {
     id: String,
     content: String,
-    side_content: String,
+    after_content: String,
     children: HashMap<String, Mod>,
 }
 
@@ -126,24 +133,21 @@ fn name_type_of_name<'a>(lex_id: &'a str, mut name: &'a str) -> String {
     res.extend(name_chars.next().unwrap().to_uppercase());
     res.extend(name_chars);
 
+    if res == "Option" || res == "Result" {
+        res += "_";
+    }
+
     res
 }
 
 fn sanitize_field_name(name: &str) -> &str {
     if name == "ref" {
         "ref_"
+    } else if name == "type" {
+        "type_"
     } else {
         name
     }
-}
-
-fn sanitize_const_name(name: &str) -> String {
-    let mut name = name.to_string();
-    if name.contains('-') {
-        name = name.replace('-', "_");
-    }
-    name = name.to_uppercase();
-    name
 }
 
 /// Resolve reference into a rust path (from module with id `m_id`)
@@ -181,31 +185,17 @@ fn gen_ty(m: &mut Mod, ty: &Type) {
         Type::Integer { .. } => {
             writef!(m, "i64")
         }
-        Type::String {
-            description: _,
-            format: _,
-            enum_: _,
-            default: _,
-            const_: _,
-            knownValues,
-            ..
-        } => {
+        Type::String(s) => {
             writef!(m, "&'a str");
 
-            // define the known values
-            if let Some(kv) = knownValues {
-                for v in kv.iter() {
-                    let mut name: &str = &v;
-                    if let Some((_, v)) = name.split_once("#") {
-                        name = v;
-                    }
+            let mut annotation = String::new();
 
-                    m.side_content += &format!(
-                        "\n/// known value:\nconst {}: &'static str = {:?};\n",
-                        sanitize_const_name(name),
-                        v
-                    );
-                }
+            if let Some(format) = &s.format {
+                write!(&mut annotation, "format: {format:?}").unwrap();
+            }
+
+            if !annotation.is_empty() {
+                writef!(m, "/* {annotation} */");
             }
         }
         Type::Bytes {
@@ -216,7 +206,7 @@ fn gen_ty(m: &mut Mod, ty: &Type) {
             writef!(m, "&'a [u8]");
         }
         Type::CidLink { description: _ } => {
-            writef!(m, "cephalopod_core::Cid");
+            writef!(m, "cephalopod_core::cid::CID");
         }
         Type::Array { items, .. } => {
             writef!(m, "&'a [");
@@ -231,20 +221,20 @@ fn gen_ty(m: &mut Mod, ty: &Type) {
             accept: _,
             ..
         } => {
-            writef!(m, "() /* TODO: blob */");
+            writef!(m, "cephalopod_core::data::Blob<'a>");
         }
         Type::Token(_) => {
-            writef!(m, "() /* TODO: token */");
+            writef!(m, "&'a str /* token */");
         }
         Type::Ref { ref_ } => {
             let r = gen_ref(&m.id, ref_);
-            writef!(m, "{r}<'a> /* ref */");
+            writef!(m, "&'a {r}<'a> /* ref {ref_:?} */");
         }
         Type::Union(u) => {
             writef!(m, "() /* TODO: union {u:?} */");
         }
         Type::Unknown => {
-            writef!(m, "Value<'a> /* unknown. */");
+            writef!(m, "cephalopod_core::Value<'a> /* unknown. */");
         }
     }
 }
@@ -254,22 +244,75 @@ fn gen_object(m: &mut Mod, name: &str, o: &Object) {
         writef!(m, "/// {d}\n");
     }
 
+    // required fields
+    let required: &[String] = o.required.as_deref().unwrap_or(&[]);
+
     // TODO: Encodable
     writef!(m, "#[derive(Debug)]\n");
-    writef!(m, "struct {name}<'a> {{\n");
+    writef!(m, "pub struct {name}<'a> {{\n");
     for (prop_name, ty) in o.properties.iter() {
+        let prop_required = required.iter().any(|r| r == prop_name);
         if let Some(d) = ty.description() {
             writef!(m, "  /// {d}\n");
         }
 
+        if let Some(known_values) = ty.known_values() {
+            for v in known_values.iter() {
+                let mut name: &str = &v;
+                if let Some((_, v)) = name.split_once("#") {
+                    name = v;
+                }
+
+                writef!(m, "  /// known value: {name:?}\n")
+            }
+        }
+
+        if prop_required {
+            writef!(m, "  /// (Required)\n");
+        }
+
         let field_name = sanitize_field_name(prop_name);
 
-        writef!(m, "  {field_name}: ");
-        gen_ty(m, ty);
+        writef!(m, "  pub {field_name}: ");
+        if prop_required {
+            gen_ty(m, ty);
+        } else {
+            writef!(m, "Option<");
+            gen_ty(m, ty);
+            writef!(m, ">");
+        }
         writef!(m, ",\n");
     }
 
+    writef!(
+        m,
+        "  /// (generated): make sure we use the lifetime parameters.\n"
+    );
+    writef!(m, "  pub _phantom: std::marker::PhantomData<&'a ()>\n");
     writef!(m, "}}\n");
+}
+
+fn gen_ty_def(m: &mut Mod, name: &str, ty: &Type) {
+    if let Some(d) = ty.description() {
+        writef!(m, "/// {d}\n");
+    }
+
+    // TODO: Encodable
+
+    if let Some(known_values) = ty.known_values() {
+        for v in known_values.iter() {
+            let mut name: &str = &v;
+            if let Some((_, v)) = name.split_once("#") {
+                name = v;
+            }
+
+            writef!(m, "/// known value: {name:?}\n")
+        }
+    }
+
+    writef!(m, "pub type {name}<'a> = ");
+    gen_ty(m, ty);
+    writef!(m, ";\n");
 }
 
 /// Generate code for a lexicon entry
@@ -286,10 +329,32 @@ fn gen_lexicon(mut m: &mut Mod, lexicon: &Lexicon) {
     }
 
     // sort, for determinism
-    let mut defs: Vec<_> = lexicon.defs.iter().collect();
+    let mut defs: Vec<_> = lexicon
+        .defs
+        .iter()
+        .map(|(name, def)| (name, name_type_of_name(&lexicon.id, name), def))
+        .collect();
     defs.sort_by_key(|kv| kv.0);
-    for (name, def) in defs {
-        let def_name = name_type_of_name(&lexicon.id, name);
+
+    // Is there a definition "main" that will be renamed to "Foo", and
+    // a definition for "foo" that will also be renamed to "Foo"?
+    // Example: see `app.bsky.embed.defs`
+    let has_collision_on_main: bool = defs.iter().any(|entry1| {
+        entry1.0 == "main"
+            && defs
+                .iter()
+                .any(|entry2| entry2.0 != "main" && entry2.1 == entry1.1)
+    });
+
+    for (i, (name, mut def_name, def)) in defs.into_iter().enumerate() {
+        if i > 0 {
+            writef!(m, "\n");
+        }
+
+        if name == "main" && has_collision_on_main {
+            log::debug!("Collision in {}, not renaming Main.", &m.id);
+            def_name = "Main".to_string();
+        }
 
         match def {
             Def::Query(_) => {
@@ -307,23 +372,17 @@ fn gen_lexicon(mut m: &mut Mod, lexicon: &Lexicon) {
             Def::Object(o) => {
                 gen_object(m, &def_name, o);
             }
-            Def::Token(t) => writef!(m, "// TODO: generate tok {def_name} {t:?}\n"),
+            Def::Type(ty) => {
+                gen_ty_def(m, &def_name, ty);
+            }
         }
 
-        m.content += &m.side_content;
-        m.side_content.clear();
-
-        writef!(m, "\n");
+        if !m.after_content.is_empty() {
+            m.content += &m.after_content;
+            m.after_content.clear();
+        }
     }
 }
-
-const PRELUDE: &'static str = r#"
-//! auto-generated from lexicons, do not edit
-
-use serde::{Serialize, Deserialize};
-use cephalopod_core::{CID, data::{Value, Encodable}};
-
-"#;
 
 pub fn run(lexicons: Vec<Lexicon>, out_file: &Path) -> Result<()> {
     log::info!(

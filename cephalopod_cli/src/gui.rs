@@ -12,7 +12,7 @@ use std::{
 
 use anyhow::{anyhow, Result};
 use bytes::Bytes;
-use cephalopod_cli::ast;
+use cephalopod_cli::ast::{self, StringTy};
 use chrono::{DateTime, Local};
 use egui::{Color32, RichText, Ui, Widget};
 use futures::TryStreamExt;
@@ -123,7 +123,7 @@ fn render_type(ty: &ast::Type, ui: &mut egui::Ui) {
             ui.label(bold_green("int"));
             render_descr(description, ui);
         }
-        ast::Type::String {
+        ast::Type::String(StringTy {
             description,
             format,
             minLength: _,
@@ -132,7 +132,7 @@ fn render_type(ty: &ast::Type, ui: &mut egui::Ui) {
             default: _,
             const_,
             knownValues,
-        } => {
+        }) => {
             ui.label(bold_green("string"));
             render_descr(description, ui);
             if let Some(f) = format {
@@ -159,7 +159,13 @@ fn render_type(ty: &ast::Type, ui: &mut egui::Ui) {
         } => {
             ui.label(bold_green("blob"));
             render_descr(description, ui);
-            render_optional("accept", accept, ui);
+            if let Some(a) = accept {
+                ui.horizontal(|ui| {
+                    ui.label("accept");
+                    ui.label(": ");
+                    ui.add(egui::Label::new(format!("{a:?}")).wrap());
+                });
+            }
         }
         ast::Type::Token(tok) => {
             ui.label(bold_green("token"));
@@ -367,8 +373,8 @@ fn render_def(def: &ast::Def, ui: &mut egui::Ui) {
                     render_object(o, ui);
                 });
         }
-        ast::Def::Token(tok) => {
-            render_descr(&tok.description, ui);
+        ast::Def::Type(ty) => {
+            render_type(ty, ui);
         }
     };
 }

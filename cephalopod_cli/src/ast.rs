@@ -34,6 +34,27 @@ pub enum StringFormat {
 }
 
 #[derive(Debug, Deserialize)]
+#[serde(untagged)]
+pub enum Accept {
+    Accept1(String),
+    AcceptN(Vec<String>),
+}
+
+#[derive(Debug, Deserialize)]
+pub struct StringTy {
+    pub description: Option<String>,
+    pub format: Option<StringFormat>,
+    pub minLength: Option<usize>,
+    pub maxLength: Option<usize>,
+    #[serde(rename = "enum")]
+    pub enum_: Option<Vec<String>>,
+    pub default: Option<String>,
+    #[serde(rename = "const")]
+    pub const_: Option<String>,
+    pub knownValues: Option<Vec<String>>,
+}
+
+#[derive(Debug, Deserialize)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Type {
     Null {
@@ -53,18 +74,7 @@ pub enum Type {
         #[serde(rename = "const")]
         const_: Option<i64>,
     },
-    String {
-        description: Option<String>,
-        format: Option<StringFormat>,
-        minLength: Option<usize>,
-        maxLength: Option<usize>,
-        #[serde(rename = "enum")]
-        enum_: Option<Vec<String>>,
-        default: Option<String>,
-        #[serde(rename = "const")]
-        const_: Option<String>,
-        knownValues: Option<Vec<String>>,
-    },
+    String(StringTy),
     Bytes {
         description: Option<String>,
         minLength: Option<usize>,
@@ -82,7 +92,7 @@ pub enum Type {
     Object(Object),
     Blob {
         description: Option<String>,
-        accept: Option<String>,
+        accept: Option<Accept>,
         maxSize: Option<usize>,
     },
     Token(Token),
@@ -101,13 +111,20 @@ impl Type {
             Type::Null { description }
             | Type::Boolean { description, .. }
             | Type::Integer { description, .. }
-            | Type::String { description, .. }
+            | Type::String(StringTy { description, .. })
             | Type::Bytes { description, .. }
             | Type::CidLink { description }
             | Type::Blob { description, .. } => description.as_deref(),
             Type::Token(t) => t.description.as_deref(),
             Type::Object(o) => o.description.as_deref(),
             Type::Ref { .. } | Type::Union(_) | Type::Unknown | Type::Array { .. } => None,
+        }
+    }
+
+    pub fn known_values(&self) -> Option<&[String]> {
+        match self {
+            Type::String(s) => s.knownValues.as_deref(),
+            _ => None,
         }
     }
 }
@@ -221,10 +238,9 @@ pub enum Def {
     Procedure(Procedure),
     Record(Record),
     Subscription(Subscription),
-    #[serde(untagged)]
     Object(Object),
     #[serde(untagged)]
-    Token(Token),
+    Type(Type),
 }
 
 #[derive(Debug, Deserialize)]
