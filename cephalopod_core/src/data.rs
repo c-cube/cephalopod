@@ -1,5 +1,7 @@
 use std::io;
 
+use crate::utils;
+
 use super::{
     cid::{self, CID},
     dcbor42,
@@ -19,6 +21,16 @@ pub enum Value<'a> {
     Bytes(&'a [u8]),
     Array(&'a [Value<'a>]),
     Map(&'a [(&'a str, Value<'a>)]),
+}
+
+/// Special kind of map: a blob, representing some media file stored separately.
+pub struct Blob<'a> {
+    /// The CID of the stored object (codec: raw).
+    ref_: CID,
+    /// Mime type of the stored object.
+    mime_type: &'a str,
+    /// Size of data in bytes.
+    size: u64,
 }
 
 macro_rules! as_case {
@@ -52,6 +64,34 @@ impl<'a> Value<'a> {
     as_case!(as_positive, deref, Value::Positive, u64);
     as_case!(as_negagive, deref, Value::Negative, u64);
     as_case!(as_bool, deref, Value::Bool, bool);
+
+    /// Read a blob from this value.
+    pub fn as_blob(&self) -> Option<Blob<'a>> {
+        match self {
+            Value::Map(m) => {
+                let ref_ = m
+                    .iter()
+                    .find(|kv| kv.0 == "ref")
+                    .and_then(|kv| kv.1.as_cid())?
+                    .clone();
+                let mime_type = m
+                    .iter()
+                    .find(|kv| kv.0 == "mimeType")
+                    .and_then(|kv| kv.1.as_text())?;
+                let size = m
+                    .iter()
+                    .find(|kv| kv.0 == "size")
+                    .and_then(|kv| kv.1.as_positive())?
+                    .clone();
+                Some(Blob {
+                    ref_,
+                    mime_type,
+                    size,
+                })
+            }
+            _ => None,
+        }
+    }
 
     /// Parse a DCBOR42 value from bytes.
     #[inline(always)]
@@ -92,6 +132,21 @@ impl<'a> Value<'a> {
     #[inline(always)]
     pub fn from_json(alloc: &'a Bump, j: &serde_json::Value) -> Result<Value<'a>> {
         dcbor42::from_json_rec(alloc, j, 0)
+    }
+}
+
+impl<'a> Blob<'a> {
+    /// Export to a value.
+    pub fn to_value<'res>(&'_ self, alloc: &'res Bump) -> Result<Value<'res>> {
+        let mut pairs = vec![];
+        pairs.push(("ref", Value::CID(alloc.try_alloc(self.ref_.clone())?)));
+        pairs.push((
+            "mimeType",
+            Value::Text(utils::alloc_str(alloc, self.mime_type)?),
+        ));
+        pairs.push(("size", Value::Positive(self.size)));
+        let map = utils::alloc_slice_copy(alloc, &pairs)?;
+        Ok(Value::Map(map))
     }
 }
 
