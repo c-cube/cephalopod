@@ -411,6 +411,7 @@ dependencies = [
 name = "cephalopod_types"
 version = "0.1.0"
 dependencies = [
+ "bumpalo",
  "cephalopod_core",
 ]
 

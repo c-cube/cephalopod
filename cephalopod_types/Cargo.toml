@@ -8,3 +8,4 @@ publish = false
 
 [dependencies]
 cephalopod_core = {version="*", path="../cephalopod_core/"}
+bumpalo = { version = "3.16.0", default-features = false }

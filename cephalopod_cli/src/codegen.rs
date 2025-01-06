@@ -239,6 +239,77 @@ fn gen_ty(m: &mut Mod, ty: &Type) {
     }
 }
 
+fn gen_encode_of_ty(m: &mut Mod, ty: &Type, x: &str) {
+    match ty {
+        Type::Null { .. } => writef!(m, "cephalopod_core::Value::Null"),
+        Type::Boolean { .. } => writef!(m, "cephalopod_core::Value::Bool({x})"),
+        Type::Integer { .. } => writef!(m, "cephalopod_core::Value::from(({x}:i64))"),
+
+        Type::Token(_) | Type::String(_) => {
+            writef!(m, "cephalopod_core::Value::from_text(alloc, {x})")
+        }
+        Type::Bytes { .. } => writef!(m, "cephalopod_core::Value::from_bytes(alloc, {x})"),
+
+        Type::CidLink { .. } => writef!(m, "cephalopod_core::Value::CID({x})"),
+        Type::Array { .. } => writef!(m, "cephalopod_core::Value::from_array(alloc, &{x})"),
+        Type::Object(o) => gen_encode_of_object(m, o, x),
+        Type::Blob { .. } => writef!(m, "{x}.to_value(alloc)?"),
+        Type::Ref { ref_ } => {
+            let r = gen_ref(&m.id, ref_);
+            writef!(m, "{r}::encode(alloc, {x})?");
+        }
+        Type::Union(u) => {
+            writef!(m, "todo!() /* TODO: union {u:?} */");
+        }
+        Type::Unknown => {
+            writef!(m, "unimplemented!() /* unknown. */");
+        }
+    }
+}
+
+fn gen_encode_of_object(m: &mut Mod, o: &Object, x: &str) {
+    writef!(m, "cephalopod_core::data::MapBuilder::new(alloc)\n");
+
+    let required = o.required.as_deref().unwrap_or(&[]);
+    for (name, _ty) in o.properties.iter() {
+        let is_required = required.iter().any(|k| k == name);
+        if is_required {
+            writef!(m, "  .add({name:?}, &{x}.{name})?\n");
+        } else {
+            writef!(m, "  .add_opt({name:?}, &{x}.{name})?\n");
+        }
+    }
+    writef!(m, "  .into_value()?")
+}
+
+fn gen_decode_of_ty(m: &mut Mod, ty: &Type, x: &str) {
+    match ty {
+        Type::Null { .. } => writef!(m, "()"),
+        Type::Boolean { .. } => writef!(m, "{x}.as_bool()?"),
+        Type::Integer { .. } => writef!(m, "{x}.as_i64()?"),
+
+        Type::Token(_) | Type::String(_) => {
+            writef!(m, "{x}.as_text()?")
+        }
+        Type::Bytes { .. } => writef!(m, "{x}.as_bytes()?"),
+
+        Type::CidLink { .. } => writef!(m, "{x}.as_cid()?"),
+        Type::Array { .. } => writef!(m, "todo!(\"array\")"),
+        Type::Object(o) => writef!(m, "todo!(\"object\")"),
+        Type::Blob { .. } => writef!(m, "{x}.as_blob()?"),
+        Type::Ref { ref_ } => {
+            let r = gen_ref(&m.id, ref_);
+            writef!(m, "{r}::decode(alloc, {x})?");
+        }
+        Type::Union(u) => {
+            writef!(m, "todo!() /* TODO: union {u:?} */");
+        }
+        Type::Unknown => {
+            writef!(m, "unimplemented!() /* unknown. */");
+        }
+    }
+}
+
 fn gen_object(m: &mut Mod, name: &str, o: &Object) {
     if let Some(d) = &o.description {
         writef!(m, "/// {d}\n");
@@ -247,7 +318,6 @@ fn gen_object(m: &mut Mod, name: &str, o: &Object) {
     // required fields
     let required: &[String] = o.required.as_deref().unwrap_or(&[]);
 
-    // TODO: Encodable
     writef!(m, "#[derive(Debug)]\n");
     writef!(m, "pub struct {name}<'a> {{\n");
     for (prop_name, ty) in o.properties.iter() {
@@ -289,6 +359,30 @@ fn gen_object(m: &mut Mod, name: &str, o: &Object) {
         "  /// (generated): make sure we use the lifetime parameters.\n"
     );
     writef!(m, "  pub _phantom: std::marker::PhantomData<&'a ()>\n");
+    writef!(m, "}}\n");
+
+    // TODO: Encodable
+    writef!(m, "\n");
+    writef!(
+        m,
+        "impl<'a> cephalopod_core::data::Encodable<'a> for {name}<'a> {{\n"
+    );
+
+    writef!(m, "fn encode<'res>(&self, alloc: &'res bumpalo::Bump) -> cephalopod_core::Result<cephalopod_core::Value<'res>> {{\n");
+    writef!(m, "  let res = ");
+    gen_encode_of_object(m, o, "self");
+    writef!(m, ";\n");
+    writef!(m, "  Ok(res)\n");
+    writef!(m, "}}\n");
+
+    writef!(m, "\n");
+    writef!(
+        m,
+        "fn decode(alloc: &'a bumpalo::Bump, v: &Value<'a>) -> cephalopod_core::Result<Self> {{\n"
+    );
+    writef!(m, "  todo!()\n");
+    writef!(m, "}}\n");
+
     writef!(m, "}}\n");
 }
 
