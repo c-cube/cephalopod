@@ -1,6 +1,7 @@
 (* adapted from ocaml-protoc from code by c-cube *)
 
 module Byte_slice = CCByte_slice
+module Byte_buffer = CCByte_buffer
 
 module Decode = struct
   let skip (sl : Byte_slice.t) off : int =
@@ -84,15 +85,9 @@ module Encode = struct
   [@@noalloc]
   (** Write this int as varint into the given slice *)
 
-  let u64_size : int64 -> int = varint_size
-  let[@inline] i64_size (i : int64) : int = varint_size (encode_zigzag i)
-  let[@inline] uint_size (i : int) : int = varint_size (Int64.of_int i)
-
-  let[@inline] int_size (i : int) : int =
-    varint_size (encode_zigzag (Int64.of_int i))
-
-  let[@inline] u64 (buf : Byte_slice.t) (i : int64) =
+  let[@inline] u64 (buf : Byte_buffer.t) (i : int64) =
     let n = varint_size i in
+    Byte_buffer.ensure_free buf n;
     assert (buf.len + n <= Bytes.length buf.bs);
     varint_slice buf.bs buf.len i;
     buf.len <- buf.len + n

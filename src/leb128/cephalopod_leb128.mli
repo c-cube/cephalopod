@@ -3,6 +3,7 @@
     See https://en.wikipedia.org/wiki/LEB128 . *)
 
 module Byte_slice = CCByte_slice
+module Byte_buffer = CCByte_buffer
 
 module Decode : sig
   val decode_zigzag : int64 -> int64
@@ -34,23 +35,15 @@ module Encode : sig
   val encode_zigzag : int64 -> int64
   (** Turn a signed int64 into a u64 via zigzag encoding. *)
 
-  val u64_size : int64 -> int
-
-  val u64 : Byte_slice.t -> int64 -> unit
+  val u64 : Byte_buffer.t -> int64 -> unit
   (** Write a unsigned int *)
 
-  val i64_size : int64 -> int
-
-  val i64 : Byte_slice.t -> int64 -> unit
+  val i64 : Byte_buffer.t -> int64 -> unit
   (** Write a signed int via zigzag encoding *)
 
-  val uint_size : int -> int
-
-  val uint : Byte_slice.t -> int -> unit
+  val uint : Byte_buffer.t -> int -> unit
   (** Turn an uint into a u64 and write it *)
 
-  val int_size : int -> int
-
-  val int : Byte_slice.t -> int -> unit
+  val int : Byte_buffer.t -> int -> unit
   (** Turn an int into a int64 and write it *)
 end
