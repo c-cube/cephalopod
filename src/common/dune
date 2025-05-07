@@ -1,0 +1,7 @@
+(library
+ (name cephalopod_common)
+ (public_name cephalopod.common)
+ (synopsis "core utils for cephalopod")
+ (preprocess
+  (pps ppx_deriving.std))
+ (libraries containers))

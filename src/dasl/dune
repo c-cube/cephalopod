@@ -1,0 +1,13 @@
+(library
+ (name cephalopod_dasl)
+ (public_name cephalopod.dasl)
+ (synopsis "dasl.ing for cephalopod")
+ (preprocess
+  (pps ppx_deriving.std))
+ (flags :standard -open Cephalopod_common)
+ (libraries
+  cephalopod_common
+  containers
+  cephalopod.leb128
+  containers.cbor
+  digestif))
