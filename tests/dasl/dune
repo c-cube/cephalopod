@@ -1,4 +1,3 @@
-
 (tests
-  (names t_cid)
-  (libraries cephalopod.dasl))
+ (names t_cid)
+ (libraries cephalopod.dasl))
