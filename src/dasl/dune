@@ -10,4 +10,5 @@
   containers
   cephalopod.leb128
   containers.cbor
+  yojson
   digestif))

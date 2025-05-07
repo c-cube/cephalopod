@@ -47,6 +47,9 @@ let decode_binary (bs : Byte_slice.t) : (t, [> error_decode ]) result =
 
   { codec; hash }
 
+let[@inline] decode_binary_str str : (t, _) result =
+  decode_binary (Byte_slice.unsafe_of_string str)
+
 let encode_binary (self : t) : string =
   let bs = Bytes.create size_encoded in
   Bytes.set bs 0 (Char.chr 1);
@@ -56,6 +59,8 @@ let encode_binary (self : t) : string =
   Bytes.set bs 3 (Char.chr size_hash);
   Bytes.blit_string (self.hash :> string) 0 bs 4 Sha256.size_hash;
   Bytes.unsafe_to_string bs
+
+let decode_text _str : _ result = Error (`CidParseError "TODO: text")
 
 (** A constant dummy CID used for tests and allocations.*)
 let dummy : t =

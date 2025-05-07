@@ -20,6 +20,7 @@
   (containers (>= 3.13))
   (digestif (>= 1.0))
   ppx_deriving
+  (yojson (>= 2.0))
   ; mirage-crypto
 
   (trace :with-test)
