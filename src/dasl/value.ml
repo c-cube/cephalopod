@@ -84,13 +84,13 @@ type error_of_yojson =
 
 let of_yojson (j : Yojson.t) : (t, [> error_of_yojson ]) result =
   let@ ectx = Error.try_with in
-  let rec loop (j : Yojson.t) =
+  let rec loop (j : Yojson.t) : t =
     match j with
     | (`Null | `Bool _) as c -> c
     | `Int i -> `Int (Int64.of_int i)
     | `Intlit i ->
       (try `Int (Int64.of_string i)
-       with _ -> Error.fail ectx (`InvalidJson j, "Integer literal"))
+       with _ -> Error.fail ectx (`InvalidJson (j, "Integer literal")))
     | `Tuple l | `List l -> `Array (List.map loop l)
     | `String s -> `Text s
     | `Assoc l ->
@@ -104,6 +104,6 @@ let of_yojson (j : Yojson.t) : (t, [> error_of_yojson ]) result =
       ) else
         `Map (List.map (fun (k, v) -> k, loop v) l)
     | `Variant _ | `Float _ | `Stringlit _ | `Floatlit _ ->
-      Error.fail ectx (`InvalidJson j, "Unsupported yojson")
+      Error.fail ectx (`InvalidJson (j, "Unsupported yojson"))
   in
   loop j
