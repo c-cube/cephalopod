@@ -72,19 +72,16 @@ let to_cbor_str (self : t) : string =
   let c = to_cbor self in
   CBOR.encode c
 
-(* TODO:  *)
-let as_blob (self : t) : Blob.t option = assert false
-
 type error_of_yojson =
-  [ `InvalidJson of Yojson.t * string
+  [ `InvalidJson of Json.t * string
   | `YojsonParseError of string
   | Cid.error_decode
   ]
 [@@deriving show]
 
-let of_yojson (j : Yojson.t) : (t, [> error_of_yojson ]) result =
+let of_yojson' (j : Json.t) : (t, [> error_of_yojson ]) result =
   let@ ectx = Error.try_with in
-  let rec loop (j : Yojson.t) : t =
+  let rec loop (j : Json.t) : t =
     match j with
     | (`Null | `Bool _) as c -> c
     | `Int i -> `Int (Int64.of_int i)
@@ -103,7 +100,10 @@ let of_yojson (j : Yojson.t) : (t, [> error_of_yojson ]) result =
         | _ -> Error.fail ectx (`InvalidJson (j, "$link must be a string"))
       ) else
         `Map (List.map (fun (k, v) -> k, loop v) l)
-    | `Variant _ | `Float _ | `Stringlit _ | `Floatlit _ ->
+    | `Variant _ | `Float _ ->
       Error.fail ectx (`InvalidJson (j, "Unsupported yojson"))
   in
   loop j
+
+let[@inline] of_yojson j : (t, string) result =
+  of_yojson' j |> Result.map_error show_error_of_yojson

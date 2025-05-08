@@ -25,10 +25,8 @@ let () =
   let cid =
     match Cid.decode_binary (Byte_slice.unsafe_of_string fake_cid_str) with
     | Ok cid -> cid
-    | Error (`CodecParseError c) ->
-      failwith (spf "could not decode codec: %C" c)
-    | Error (`CidParseError msg) ->
-      failwith (spf "could not decode CID: %s" msg)
+    | Error err ->
+      failwith (spf "could not decode CID: %s" (Cid.show_error_decode err))
   in
 
   assert (Cid.equal cid ref_cid);
@@ -36,4 +34,14 @@ let () =
   let encoded = Cid.encode_binary cid in
   (* Printf.printf "encoded=%S\nref    =%S\n" encoded fake_cid_str; *)
   assert (encoded = fake_cid_str);
+  ()
+
+let () =
+  let cid_str = "bafkreiabaeaqcaibaeaqeaqcaibaeaqcambqgaydambqgbaeaqcaibaeaq" in
+  let parsed =
+    match Cid.decode_text cid_str |> Result.map_error Cid.show_error_decode with
+    | Ok x -> x
+    | Error err -> failwith err
+  in
+  assert (Cid.equal parsed ref_cid);
   ()

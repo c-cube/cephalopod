@@ -9,6 +9,7 @@ type t = {
 
 type error_decode =
   [ `CidParseError of string
+  | `Base32Error of string
   | Codec.error
   ]
 [@@deriving show]
@@ -60,7 +61,36 @@ let encode_binary (self : t) : string =
   Bytes.blit_string (self.hash :> string) 0 bs 4 Sha256.size_hash;
   Bytes.unsafe_to_string bs
 
-let decode_text _str : _ result = Error (`CidParseError "TODO: text")
+let alphabet = Base32.make_alphabet "abcdefghijklmnopqrstuvwxyz234567"
+
+let decode_text (str : string) : (t, [> error_decode ]) result =
+  let@ ectx = Error.try_with in
+  if String.length str = 0 then Error.fail ectx (`CidParseError "Empty string");
+
+  let c0 = String.get str 0 in
+  if c0 <> 'b' then Error.fail ectx (`CidParseError "CID must start with 'b'");
+
+  let bin : string =
+    match Base32.decode ~alphabet str ~off:1 with
+    | Ok s -> s
+    | Error (`Msg m) -> Error.fail ectx (`Base32Error m)
+  in
+  decode_binary_str bin |> Error.unwrap ectx
+
+let encode_text (self : t) : string =
+  let bin = encode_binary self in
+  let bin_base32 = Base32.encode_exn ~pad:false ~alphabet bin in
+  "b" ^ bin_base32
+
+let[@inline] to_yojson (self : t) : Json.t =
+  `Assoc [ "$link", `String (encode_text self) ]
+
+let of_yojson (j : Json.t) : (t, string) result =
+  try
+    let l = Json.Util.to_assoc j in
+    let str = Json.Util.to_string @@ List.assoc "$link" l in
+    decode_text str |> Result.map_error show_error_decode
+  with _ -> Error "invalid CID"
 
 (** A constant dummy CID used for tests and allocations.*)
 let dummy : t =
