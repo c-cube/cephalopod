@@ -11,30 +11,30 @@ let of_value (v : Value.t) : t option =
   try
     let l =
       match v with
-      | `Map l -> l
+      | Map l -> l
       | _ -> raise Exit
     in
 
     let ref_ =
       match List.assoc "ref" l with
-      | `Cid c -> c
+      | Cid c -> c
       | _ -> raise Exit
     and mime_type =
       match List.assoc "mimeType" l with
-      | `Text s -> s
+      | Text s -> s
       | _ -> raise Exit
     and size =
       match List.assoc "size" l with
-      | `Int i -> i
+      | Int i -> i
       | _ -> raise Exit
     in
     Some { ref_; mime_type; size }
   with _ -> None
 
 let to_value (self : t) : Value.t =
-  `Map
+  Map
     [
-      "ref", `Cid self.ref_;
-      "mimeType", `Text self.mime_type;
-      "size", `Int self.size;
+      "ref", Cid self.ref_;
+      "mimeType", Text self.mime_type;
+      "size", Int self.size;
     ]

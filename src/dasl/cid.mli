@@ -1,5 +1,8 @@
 val size_hash : int
 
+val size_encoded : int
+(** Number of a bytes of a CID encoded in binary *)
+
 type t = {
   codec: Codec.t;
   hash: Sha256.t;

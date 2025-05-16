@@ -9,7 +9,6 @@
   cephalopod_common
   cephalopod.leb128
   containers
-  containers.cbor
   base32
   yojson
   digestif))
