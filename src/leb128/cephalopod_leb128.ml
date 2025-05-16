@@ -28,23 +28,24 @@ module Decode = struct
 
     !n_consumed
 
-  let u64 (sl : Byte_slice.t) (off : int) : int64 * int =
+  let u64 (data0 : Byte_slice.t) (off : int) : int64 * int =
+    (* copy of the slice *)
+    let data = { data0 with off = data0.off + off } in
     let shift = ref 0 in
     let res = ref 0L in
     let continue = ref true in
 
-    let off = ref off in
     let n_consumed = ref 0 in
 
     while !continue do
-      if sl.len <= 0 then invalid_arg "out of bound";
+      if data.len < 0 then invalid_arg "out of bound";
       incr n_consumed;
-      let b = Char.code (Bytes.get sl.bs !off) in
+      let b = Char.code (Bytes.get data.bs data.off) in
       let cur = b land 0x7f in
       if cur <> b then (
         (* at least one byte follows this one *)
         (res := Int64.(logor !res (shift_left (of_int cur) !shift)));
-        incr off;
+        data.off <- data.off + 1;
         shift := !shift + 7
       ) else if !shift < 63 || b land 0x7f <= 1 then (
         (res := Int64.(logor !res (shift_left (of_int b) !shift)));
