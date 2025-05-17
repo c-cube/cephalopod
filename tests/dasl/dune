@@ -1,5 +1,5 @@
 (tests
- (names t_cid t_value)
+ (names t_cid t_value t_car)
  (preprocess
   (pps ppx_deriving.std ppx_deriving_qcheck))
  (libraries test_cid_util cephalopod.dasl qcheck))

@@ -6,26 +6,29 @@ type header = {
   version: int64;
   roots: Cid.t list;
 }
-[@@deriving show { with_path = false }]
+[@@deriving eq, show { with_path = false }]
 
 open struct end
 
 type block_data =
-  | Raw of (Byte_slice.t[@printer pp_byte_slice_len])
+  | Raw of
+      (Byte_slice.t
+      [@printer pp_byte_slice_len]
+      [@equal fun a b -> Byte_slice.contents a = Byte_slice.contents b])
   | DCBOR42 of Value.t
-[@@deriving show { with_path = false }]
+[@@deriving eq, show { with_path = false }]
 
 type block = {
   cid: Cid.t;
   data: block_data;
 }
-[@@deriving show { with_path = false }]
+[@@deriving eq, show { with_path = false }]
 
 type t = {
   header: header;
   blocks: block list;
 }
-[@@deriving show { with_path = false }]
+[@@deriving eq, show { with_path = false }]
 
 type error_decode =
   [ `InvalidHeader of string

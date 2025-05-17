@@ -64,3 +64,49 @@ module U_value = struct
       let* size = 0 -- 5 in
       gen_sized size)
 end
+
+module U_car = struct
+  type header = Car.header = {
+    version: (int64[@gen Q.Gen.return 1L]);
+    roots: U_cid.t list;
+  }
+  [@@deriving qcheck2]
+
+  type block_data = Car.block_data
+
+  let gen_raw_block_data : block_data Q.Gen.t =
+    Q.Gen.(
+      let+ data =
+        let+ x = string_size (0 -- 10) in
+        CCByte_slice.create @@ Bytes.unsafe_of_string x
+      in
+      Car.Raw data)
+
+  let gen_dcbor42_block_data : block_data Q.Gen.t =
+    Q.Gen.(
+      let+ v = U_value.gen in
+      Car.DCBOR42 v)
+
+  let gen_block_data (cid : Cid.t) : block_data Q.Gen.t =
+    match cid.codec with
+    | Raw -> gen_raw_block_data
+    | DCBOR42 -> gen_dcbor42_block_data
+
+  type block = Car.block = {
+    cid: U_cid.t;
+    data: block_data;
+  }
+
+  let gen_block : block Q.Gen.t =
+    Q.Gen.(
+      let* cid = U_cid.gen in
+      (* make block data compatible with the CID's codec *)
+      let+ data = gen_block_data cid in
+      { cid; data })
+
+  type t = Car.t = {
+    header: header;
+    blocks: (block list[@gen Q.Gen.(list_size (1 -- 17) gen_block)]);
+  }
+  [@@deriving qcheck2]
+end
