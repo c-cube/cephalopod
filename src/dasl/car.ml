@@ -149,3 +149,69 @@ let decode_string (str : string) : (t, [> error_decode ]) result =
     let blocks = read_blocks [] in
     { header; blocks }
   with Decode.E err -> Error err
+
+module Encode = struct
+  class type out = object
+    method output : bytes -> int -> int -> unit
+  end
+
+  type st = {
+    buf_len: Byte_buffer.t;
+    local: Byte_buffer.t;
+    out: out;
+  }
+
+  let create (out : #out) : st =
+    let out = (out :> out) in
+    {
+      out;
+      buf_len = Byte_buffer.create ~cap:10 ();
+      local = Byte_buffer.create ();
+    }
+
+  let write_ (self : st) =
+    let len = Byte_buffer.length self.local in
+    Byte_buffer.clear self.buf_len;
+    Cephalopod_leb128.Encode.u64 self.buf_len (Int64.of_int len);
+    self.out#output self.buf_len.bs 0 self.buf_len.len;
+    Byte_buffer.clear self.buf_len;
+    self.out#output self.local.bs 0 self.local.len;
+    Byte_buffer.clear self.local;
+    ()
+
+  let encode_header (self : st) (h : header) =
+    assert (Byte_buffer.is_empty self.local);
+    let v : Value.t =
+      Map
+        [
+          "roots", Array (List.map (fun cid -> Value.Cid cid) h.roots);
+          "version", Int 1L;
+        ]
+    in
+    Value.to_cbor self.local v;
+    write_ self
+
+  let encode_block (self : st) (b : block) : unit =
+    assert (Byte_buffer.is_empty self.local);
+    let cid_bytes = Cid.encode_binary b.cid in
+    Byte_buffer.append_string self.local cid_bytes;
+    (match b.data with
+    | Raw data ->
+      Byte_buffer.append_subbytes self.local data.bs data.off data.len
+    | DCBOR42 v -> Value.to_cbor self.local v);
+    write_ self
+end
+
+let encode (out : #Encode.out) (self : t) : unit =
+  let st = Encode.create out in
+  Encode.encode_header st self.header;
+  List.iter (Encode.encode_block st) self.blocks
+
+let encode_to_string (self : t) : string =
+  let buf = Buffer.create 32 in
+  encode
+    (object
+       method output = Buffer.add_subbytes buf
+    end)
+    self;
+  Buffer.contents buf

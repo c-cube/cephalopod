@@ -69,14 +69,23 @@ let decode_binary_with_zero (data : Byte_slice.t) :
 let[@inline] decode_binary_str str : (t, _) result =
   decode_binary (Byte_slice.unsafe_of_string str)
 
+let encode_binary_ bs off (self : t) : unit =
+  Bytes.set bs (off + 0) (Char.chr 1);
+  Bytes.set bs (off + 1) (Codec.to_hex self.codec);
+  Bytes.set bs (off + 2) (Char.chr 0x12) (* hash *);
+  assert (String.length (self.hash :> string) = Sha256.size_hash);
+  Bytes.set bs (off + 3) (Char.chr size_hash);
+  Bytes.blit_string (self.hash :> string) 0 bs (off + 4) Sha256.size_hash
+
 let encode_binary (self : t) : string =
   let bs = Bytes.create size_encoded in
-  Bytes.set bs 0 (Char.chr 1);
-  Bytes.set bs 1 (Codec.to_hex self.codec);
-  Bytes.set bs 2 (Char.chr 0x12) (* hash *);
-  assert (String.length (self.hash :> string) = Sha256.size_hash);
-  Bytes.set bs 3 (Char.chr size_hash);
-  Bytes.blit_string (self.hash :> string) 0 bs 4 Sha256.size_hash;
+  encode_binary_ bs 0 self;
+  Bytes.unsafe_to_string bs
+
+let encode_binary_with_zero (self : t) : string =
+  let bs = Bytes.create (size_encoded + 1) in
+  Bytes.set bs 0 '\x00';
+  encode_binary_ bs 1 self;
   Bytes.unsafe_to_string bs
 
 let alphabet = Base32.make_alphabet "abcdefghijklmnopqrstuvwxyz234567"

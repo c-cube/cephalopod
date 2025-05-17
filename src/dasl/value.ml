@@ -65,7 +65,7 @@ let of_cbor (c : Cbor.Decoder.t) : (t, [> error_of_cbor ]) result =
   in
   loop c
 
-let rec to_cbor (buf : Buffer.t) (self : t) : unit =
+let rec to_cbor (buf : Byte_buffer.t) (self : t) : unit =
   let module CE = Cbor.Encoder in
   match self with
   | Bool b -> CE.push buf (Bool b)
@@ -75,7 +75,8 @@ let rec to_cbor (buf : Buffer.t) (self : t) : unit =
   | Int i -> CE.push buf (Int i)
   | Cid cid ->
     CE.push buf (Tag 42);
-    CE.push buf (Bytes (Byte_slice.unsafe_of_string @@ Cid.encode_binary cid))
+    CE.push buf
+      (Bytes (Byte_slice.unsafe_of_string @@ Cid.encode_binary_with_zero cid))
   | Array l ->
     CE.push buf (Array (List.length l));
     List.iter (to_cbor buf) l
@@ -93,9 +94,9 @@ let parse_cbor_str ?off ?len (str : string) : (t, [> error_of_cbor ]) result =
   of_cbor (Cbor.Decoder.of_string ?off ?len str) |> Error.unwrap ectx
 
 let to_cbor_str (self : t) : string =
-  let buf = Buffer.create 32 in
+  let buf = Byte_buffer.create ~cap:32 () in
   to_cbor buf self;
-  Buffer.contents buf
+  Byte_buffer.contents buf
 
 type error_of_yojson =
   [ `InvalidJson of Json.t * string

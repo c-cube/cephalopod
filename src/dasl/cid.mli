@@ -23,7 +23,12 @@ val decode_binary : Byte_slice.t -> (t, [> error_decode ]) result
 (** Decode a binary blob *)
 
 val decode_binary_with_zero : Byte_slice.t -> (t, [> error_decode ]) result
+(** Decode a 0-prefixed binary blob *)
+
 val decode_binary_str : String.t -> (t, [> error_decode ]) result
+
+val encode_binary_with_zero : t -> string
+(** Encode to binary blob, with leading zero *)
 
 val encode_binary : t -> string
 (** Encode to binary blob *)

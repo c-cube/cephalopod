@@ -27,5 +27,5 @@ module Decoder : sig
 end
 
 module Encoder : sig
-  val push : Buffer.t -> token -> unit
+  val push : Byte_buffer.t -> token -> unit
 end

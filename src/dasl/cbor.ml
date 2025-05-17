@@ -117,10 +117,18 @@ module Decoder = struct
 end
 
 module Encoder = struct
-  let[@inline] add_byte (buf : Buffer.t) (high : int) (low : int) =
+  let[@inline] add_byte (buf : Byte_buffer.t) (high : int) (low : int) =
     let i = (high lsl 5) lor low in
     assert (i land 0xff == i);
-    Buffer.add_char buf (Char.unsafe_chr i)
+    Byte_buffer.add_char buf (Char.unsafe_chr i)
+
+  open struct
+    let reserve_ (buf : Byte_buffer.t) n : int =
+      let off = buf.len in
+      Byte_buffer.ensure_free buf n;
+      buf.len <- buf.len + n;
+      off
+  end
 
   (* add unsigned integer, including first tag byte *)
   let add_uint buf (high : int) (x : int64) =
@@ -129,19 +137,22 @@ module Encoder = struct
       add_byte buf high (i64_to_int x)
     else if x <= 0xffL then (
       add_byte buf high 24;
-      Buffer.add_char buf (Char.unsafe_chr (i64_to_int x))
+      Byte_buffer.add_char buf (Char.unsafe_chr (i64_to_int x))
     ) else if x <= 0xff_ffL then (
       add_byte buf high 25;
-      Buffer.add_uint16_be buf (i64_to_int x)
+      let off = reserve_ buf 2 in
+      Bytes.set_int16_be buf.bs off (i64_to_int x)
     ) else if x <= 0xff_ff_ff_ffL then (
       add_byte buf high 26;
-      Buffer.add_int32_be buf (Int64.to_int32 x)
+      let off = reserve_ buf 4 in
+      Bytes.set_int32_be buf.bs off (Int64.to_int32 x)
     ) else (
       add_byte buf high 27;
-      Buffer.add_int64_be buf x
+      let off = reserve_ buf 8 in
+      Bytes.set_int64_be buf.bs off x
     )
 
-  let push (buf : Buffer.t) (t : token) : unit =
+  let push (buf : Byte_buffer.t) (t : token) : unit =
     match t with
     | Bool false -> add_byte buf 7 20
     | Bool true -> add_byte buf 7 21
@@ -151,10 +162,10 @@ module Encoder = struct
     | Map len -> add_uint buf 5 (Int64.of_int len)
     | Text s ->
       add_uint buf 3 (Int64.of_int s.len);
-      Buffer.add_subbytes buf s.bs s.off s.len
+      Byte_buffer.append_subbytes buf s.bs s.off s.len
     | Bytes s ->
       add_uint buf 2 (Int64.of_int s.len);
-      Buffer.add_subbytes buf s.bs s.off s.len
+      Byte_buffer.append_subbytes buf s.bs s.off s.len
     | Tag t -> add_uint buf 6 (Int64.of_int t)
     | Int i ->
       if i >= Int64.zero then
@@ -162,7 +173,8 @@ module Encoder = struct
       else if Int64.add Int64.min_int 2L > i then (
         (* large negative int, be careful. encode [(-i)-1] via int64. *)
         add_byte buf 1 27;
-        Buffer.add_int64_be buf Int64.(neg (add 1L i))
+        let off = reserve_ buf 8 in
+        Bytes.set_int64_be buf.bs off Int64.(neg (add 1L i))
       ) else
         add_uint buf 1 Int64.(sub (neg i) one)
 end
