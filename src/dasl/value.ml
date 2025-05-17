@@ -26,7 +26,8 @@ let of_cbor (c : Cbor.Decoder.t) : (t, [> error_of_cbor ]) result =
   let module D = Cbor.Decoder in
   let rec loop (c : D.t) : t =
     let off = D.offset c in
-    match D.next c with
+    let t = D.next c in
+    match t with
     | Bool b -> Bool b
     | Null -> Null
     | Text bs -> Text (Byte_slice.contents bs)
@@ -35,7 +36,7 @@ let of_cbor (c : Cbor.Decoder.t) : (t, [> error_of_cbor ]) result =
     | Tag 42 ->
       (match D.next c with
       | Bytes bs ->
-        let cid = Cid.decode_binary bs |> Error.unwrap ectx in
+        let cid = Cid.decode_binary_with_zero bs |> Error.unwrap ectx in
         Cid cid
       | _ ->
         Error.fail ectx (`InvalidDCBOR42 (`Offset off, "Tag 42 must be bytes")))

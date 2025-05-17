@@ -4,17 +4,17 @@ module Byte_slice = CCByte_slice
 module Byte_buffer = CCByte_buffer
 
 module Decode = struct
-  let skip (sl : Byte_slice.t) off : int =
+  let skip (data : Byte_slice.t) : int =
     let shift = ref 0 in
     let continue = ref true in
 
-    let off = ref off in
+    let off = ref data.off in
     let n_consumed = ref 0 in
 
     while !continue do
-      if sl.len <= 0 then invalid_arg "out of bound";
+      if data.len <= 0 then invalid_arg "out of bound";
       incr n_consumed;
-      let b = Char.code (Bytes.get sl.bs !off) in
+      let b = Char.code (Bytes.get data.bs !off) in
       let cur = b land 0x7f in
       if cur <> b then (
         (* at least one byte follows this one *)
@@ -28,9 +28,9 @@ module Decode = struct
 
     !n_consumed
 
-  let u64 (data0 : Byte_slice.t) (off : int) : int64 * int =
+  let u64 (data : Byte_slice.t) : int64 * int =
     (* copy of the slice *)
-    let data = { data0 with off = data0.off + off } in
+    let off = ref data.off in
     let shift = ref 0 in
     let res = ref 0L in
     let continue = ref true in
@@ -40,12 +40,12 @@ module Decode = struct
     while !continue do
       if data.len < 0 then invalid_arg "out of bound";
       incr n_consumed;
-      let b = Char.code (Bytes.get data.bs data.off) in
+      let b = Char.code (Bytes.get data.bs !off) in
       let cur = b land 0x7f in
       if cur <> b then (
         (* at least one byte follows this one *)
         (res := Int64.(logor !res (shift_left (of_int cur) !shift)));
-        data.off <- data.off + 1;
+        incr off;
         shift := !shift + 7
       ) else if !shift < 63 || b land 0x7f <= 1 then (
         (res := Int64.(logor !res (shift_left (of_int b) !shift)));
@@ -54,21 +54,22 @@ module Decode = struct
         invalid_arg "leb128 varint is too long"
     done;
 
+    (* Format.printf "leb128: got %Ld, in %d B at off %d@." !res !n_consumed data.off; *)
     !res, !n_consumed
 
-  let[@inline] uint_truncate sl off =
-    let v, n_consumed = u64 sl off in
+  let[@inline] uint_truncate sl =
+    let v, n_consumed = u64 sl in
     Int64.to_int v, n_consumed
 
   let[@inline] decode_zigzag (v : int64) : int64 =
     Int64.(logxor (shift_right v 1) (neg (logand v Int64.one)))
 
-  let[@inline] i64 sl off : int64 * int =
-    let v, n_consumed = u64 sl off in
+  let[@inline] i64 sl : int64 * int =
+    let v, n_consumed = u64 sl in
     decode_zigzag v, n_consumed
 
-  let[@inline] int_truncate sl off =
-    let v, n_consumed = u64 sl off in
+  let[@inline] int_truncate sl =
+    let v, n_consumed = u64 sl in
     Int64.to_int (decode_zigzag v), n_consumed
 end
 

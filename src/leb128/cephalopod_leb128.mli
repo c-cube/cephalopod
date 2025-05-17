@@ -12,22 +12,22 @@ module Decode : sig
       See https://en.wikipedia.org/wiki/Variable-length_quantity#Zigzag_encoding
   *)
 
-  val skip : Byte_slice.t -> int -> int
+  val skip : Byte_slice.t -> int
   (** [skip slice off] reads an integer at offset [off], and returns how many
       bytes the integer occupies. *)
 
-  val u64 : Byte_slice.t -> int -> int64 * int
-  (** [u64 slice off] reads an integer at offset [off], and returns a pair
-      [v, n_consumed]. [v] is the read integer, [n_consumed] is the number of
-      bytes consumed during reading. *)
+  val u64 : Byte_slice.t -> int64 * int
+  (** [u64 slice] reads an integer, and returns a pair [v, n_consumed]. [v] is
+      the read integer, [n_consumed] is the number of bytes consumed during
+      reading. *)
 
-  val i64 : Byte_slice.t -> int -> int64 * int
+  val i64 : Byte_slice.t -> int64 * int
   (** Read a signed int64 by reading a u64 and zigzag decoding it *)
 
-  val int_truncate : Byte_slice.t -> int -> int * int
+  val int_truncate : Byte_slice.t -> int * int
   (** Like {!i64} but truncates to integer. Returns a pair [v, n_consumed]. *)
 
-  val uint_truncate : Byte_slice.t -> int -> int * int
+  val uint_truncate : Byte_slice.t -> int * int
   (** Like {!u64} but truncates to integer. *)
 end
 

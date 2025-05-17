@@ -33,6 +33,7 @@ type error_decode =
   | Cid.error_decode
   | Value.error_of_cbor
   ]
+[@@deriving show]
 
 module Decode = struct
   exception E of error_decode
@@ -42,25 +43,24 @@ module Decode = struct
     | Ok x -> x
     | Error e -> raise (E e)
 
-  type st = {
-    data: Byte_slice.t;
-    mutable off: offset;
-  }
+  type st = { data: Byte_slice.t } [@@unboxed]
   (** Decoding state *)
 
-  let[@inline] eof (self : st) : bool =
-    self.off >= self.data.off + self.data.len
+  let[@inline] create (data0 : Byte_slice.t) : st =
+    { data = { data0 with bs = data0.bs } }
+
+  let[@inline] eof (self : st) : bool = self.data.len = 0
 
   let next_slice_exn (self : st) : Byte_slice.t option =
     if eof self then
       None
     else (
-      let len, len_bytes = Cephalopod_leb128.Decode.u64 self.data self.off in
       (* where the data slice begins *)
-      let off_begin = self.off + len_bytes in
+      let off0 = self.data.off in
+      let len, n_bytes_in_len = Cephalopod_leb128.Decode.u64 self.data in
       let len = Int64.to_int len in
-      self.off <- off_begin + len;
-      Some (Byte_slice.create self.data.bs ~off:off_begin ~len)
+      Byte_slice.consume self.data (n_bytes_in_len + len);
+      Some (Byte_slice.create self.data.bs ~off:(off0 + n_bytes_in_len) ~len)
     )
 
   let decode_header_exn offset (v : Value.t) : header =
@@ -98,14 +98,21 @@ module Decode = struct
   let decode_block_exn (data : Byte_slice.t) : (block, [> error_decode ]) result
       =
     let@ ectx = Error.try_with in
-    let cid = Cid.decode_binary data |> unwrap_ in
+    if data.len < Cid.size_encoded then
+      Error.fail ectx
+        (`CarParseError ("block is too short to contain a CID", data.off));
+    let cid =
+      Cid.decode_binary { data with len = Cid.size_encoded } |> unwrap_
+    in
     let data =
       match cid.codec with
       | Raw ->
         Raw (Byte_slice.sub data Cid.size_encoded (data.len - Cid.size_encoded))
       | DCBOR42 ->
         let v =
-          Value.parse_cbor_str ~off:data.off ~len:data.len
+          Value.parse_cbor_str
+            ~off:(data.off + Cid.size_encoded)
+            ~len:(data.len - Cid.size_encoded)
             (Bytes.unsafe_to_string data.bs)
           |> Error.unwrap ectx
         in
@@ -117,8 +124,7 @@ end
 let decode_string (str : string) : (t, [> error_decode ]) result =
   try
     let@ ectx = Error.try_with in
-
-    let dec : Decode.st = { off = 0; data = Byte_slice.unsafe_of_string str } in
+    let dec : Decode.st = Decode.create @@ Byte_slice.unsafe_of_string str in
     let header =
       match Decode.next_slice_exn dec with
       | None -> Error.fail ectx (`InvalidHeader "missing header")
@@ -128,6 +134,7 @@ let decode_string (str : string) : (t, [> error_decode ]) result =
             (Bytes.unsafe_to_string data.bs)
           |> Error.unwrap ectx
         in
+        (* Format.printf "header: %a (off=%d, len=%d)@." Value.pp v data.off data.len; *)
         Decode.decode_header_exn data.off v
     in
 

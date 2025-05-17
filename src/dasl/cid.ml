@@ -16,37 +16,55 @@ type error_decode =
 
 open struct
   let fail_decode ectx msg = Error.fail ectx (`CidParseError msg)
+  let fail_decodef ectx msg = Printf.ksprintf (fail_decode ectx) msg
 end
 
-let decode_binary (bs : Byte_slice.t) : (t, [> error_decode ]) result =
+let decode_binary_owned (data : Byte_slice.t) : (t, [> error_decode ]) result =
   let@ ectx = Error.try_with in
-  if bs.len <> size_encoded then fail_decode ectx "CID length is wrong";
+  if data.len <> size_encoded then
+    fail_decodef ectx "CID length is wrong (got %d, expected %d)" data.len
+      size_encoded;
 
-  let version = Bytes.get bs.bs bs.off in
+  let version = Bytes.get data.bs data.off in
   if Char.code version <> 1 then fail_decode ectx "Expected version to be 1";
 
   let codec =
-    Bytes.get bs.bs (bs.off + 1) |> Codec.of_hex |> Error.unwrap ectx
+    Bytes.get data.bs (data.off + 1) |> Codec.of_hex |> Error.unwrap ectx
   in
 
-  let hash_type = Bytes.get bs.bs (bs.off + 2) in
+  let hash_type = Bytes.get data.bs (data.off + 2) in
   if Char.code hash_type <> 0x12 then
     fail_decode ectx "Expected hash type to be SHA256";
 
+  Byte_slice.consume data 3;
   let len, n_bytes_in_len =
-    try Cephalopod_leb128.Decode.u64 bs 3
+    try Cephalopod_leb128.Decode.u64 data
     with _ -> fail_decode ectx "Could not read LEB128 length"
   in
   if len <> Int64.of_int Sha256.size_hash then
     fail_decode ectx
     @@ spf "Expected length to be 32 (hash is SHA256), got %Ld instead" len;
+  assert (n_bytes_in_len = 1);
+  Byte_slice.consume data n_bytes_in_len;
 
   let hash =
-    Bytes.sub_string bs.bs (bs.off + 3 + n_bytes_in_len) Sha256.size_hash
-    |> Sha256.Private_.make
+    Bytes.sub_string data.bs data.off Sha256.size_hash |> Sha256.Private_.make
   in
 
   { codec; hash }
+
+let decode_binary (data : Byte_slice.t) : (t, [> error_decode ]) result =
+  decode_binary_owned { data with off = data.off }
+
+let decode_binary_with_zero (data : Byte_slice.t) :
+    (t, [> error_decode ]) result =
+  if data.len = 0 || Bytes.get data.bs data.off != '\x00' then
+    Error (`CidParseError "Expected leading 0")
+  else (
+    let data = { data with off = data.off } in
+    Byte_slice.consume data 1;
+    decode_binary_owned data
+  )
 
 let[@inline] decode_binary_str str : (t, _) result =
   decode_binary (Byte_slice.unsafe_of_string str)

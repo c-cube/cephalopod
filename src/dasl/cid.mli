@@ -22,6 +22,7 @@ val dummy : t
 val decode_binary : Byte_slice.t -> (t, [> error_decode ]) result
 (** Decode a binary blob *)
 
+val decode_binary_with_zero : Byte_slice.t -> (t, [> error_decode ]) result
 val decode_binary_str : String.t -> (t, [> error_decode ]) result
 
 val encode_binary : t -> string
