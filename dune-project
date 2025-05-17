@@ -30,7 +30,6 @@
   (trace-tef :with-test)
   (qcheck :with-test)
   (ppx_deriving_qcheck :with-test)
-  (thread-local-storage (and (>= 0.2) (< 0.3)))
   (odoc :with-doc)
   (hmap :with-test))
  (depopts
