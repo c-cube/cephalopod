@@ -1,0 +1,4 @@
+
+(executables
+ (names codegen)
+ (libraries containers containers.scc cephalopod.lexicon))

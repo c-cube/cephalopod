@@ -1,0 +1,14 @@
+(library
+ (name cephalopod_models)
+ (public_name cephalopod-models)
+ (libraries cephalopod.dasl))
+
+(rule
+ (targets models.ml)
+ (mode promote)
+ (deps
+  (:gen ./bin/codegen.exe)
+  (:dirs
+   (source_tree %{project_root}/vendor/atproto/lexicons)))
+ (action
+  (run %{gen} %{dirs} -o %{targets})))

@@ -2,6 +2,8 @@
 
     https://atproto.com/specs/lexicon , also see [vendor/] *)
 
+type 'a iter = ('a -> unit) -> unit
+
 open struct
   module J = Yojson.Safe
   module JU = J.Util
@@ -107,7 +109,9 @@ type string_ty = {
 
 type ref = {
   raw: string;  (** The raw string ref *)
-  name: string;  (** Qualified name, like ["com.atproto.foo"] *)
+  name: string;
+      (** Qualified name, like ["com.atproto.foo"]. Empty string for current
+          module. *)
   fragment: string option;  (** Fragment, ie the ["#yolo"] part *)
 }
 [@@deriving show { with_path = false }]
@@ -186,6 +190,17 @@ and ty_view =
   | Unknown
 [@@deriving show { with_path = false }]
 
+let rec iter_refs_ty (ty : ty) : ref iter =
+ fun yield ->
+  match ty.view with
+  | Array { items; _ } -> iter_refs_ty items yield
+  | Ref { ref } -> yield ref
+  | Union u -> List.iter yield u.refs
+  | Object o -> List.iter (fun (_, ty) -> iter_refs_ty ty yield) o.properties
+  | Null | Boolean _ | Int _ | String _ | Bytes _ | CidLink | Blob _ | Unknown
+  | Token ->
+    ()
+
 let rec ty_of_yojson j =
   let@ () = try_catch "type" in
   let l = object_ j in
@@ -242,6 +257,9 @@ type params = {
 }
 [@@deriving show { with_path = false }, of_yojson { strict = false }]
 
+let iter_refs_params (p : params) yield =
+  List.iter (fun (_, ty) -> iter_refs_ty ty yield) p.properties
+
 type encoding =
   | Json
   | CAR
@@ -266,6 +284,9 @@ type input_or_output = {
 }
 [@@deriving show { with_path = false }, of_yojson { strict = false }]
 
+let iter_refs_input_or_output (io : input_or_output) yield =
+  Option.iter (fun ty -> iter_refs_ty ty yield) io.schema
+
 type query = {
   description: string option; [@default None]
   parameters: params option; [@default None]
@@ -273,6 +294,10 @@ type query = {
   errors: error list option; [@default None]
 }
 [@@deriving show { with_path = false }, of_yojson { strict = false }]
+
+let iter_refs_query (self : query) yield =
+  Option.iter (fun ty -> iter_refs_input_or_output ty yield) self.output;
+  Option.iter (fun ty -> iter_refs_params ty yield) self.parameters
 
 type procedure = {
   description: string option; [@default None]
@@ -283,11 +308,18 @@ type procedure = {
 }
 [@@deriving show { with_path = false }, of_yojson { strict = false }]
 
+let iter_refs_procedure (self : procedure) yield =
+  Option.iter (fun ty -> iter_refs_params ty yield) self.parameters;
+  Option.iter (fun ty -> iter_refs_input_or_output ty yield) self.input;
+  Option.iter (fun ty -> iter_refs_input_or_output ty yield) self.output
+
 type message = {
   description: string option; [@default None]
   schema: ty;
 }
 [@@deriving show { with_path = false }, of_yojson { strict = false }]
+
+let iter_refs_message (self : message) yield = iter_refs_ty self.schema yield
 
 type subscription = {
   description: string option; [@default None]
@@ -297,12 +329,19 @@ type subscription = {
 }
 [@@deriving show { with_path = false }, of_yojson { strict = false }]
 
+let iter_refs_subscription (self : subscription) yield =
+  Option.iter (fun ty -> iter_refs_message ty yield) self.message;
+  Option.iter (fun ty -> iter_refs_params ty yield) self.parameters
+
 type record = {
   description: string option; [@default None]
   key: string;
   record: object_;
 }
 [@@deriving show { with_path = false }, of_yojson { strict = false }]
+
+let iter_refs_record (self : record) yield =
+  List.iter (fun (_, v) -> iter_refs_ty v yield) self.record.properties
 
 type def =
   | Query of query
@@ -312,6 +351,16 @@ type def =
   | Object of object_
   | Type of ty
 [@@deriving show { with_path = false }]
+
+let iter_refs_def (d : def) : ref iter =
+ fun yield ->
+  match d with
+  | Query q -> iter_refs_query q yield
+  | Procedure p -> iter_refs_procedure p yield
+  | Record r -> iter_refs_record r yield
+  | Subscription s -> iter_refs_subscription s yield
+  | Object o -> List.iter (fun (_, ty) -> iter_refs_ty ty yield) o.properties
+  | Type ty -> iter_refs_ty ty yield
 
 let def_of_yojson j : (def, _) result =
   let@ () = try_catch "Def" in
@@ -334,3 +383,6 @@ type lexicon = {
   defs: def assoc_list;
 }
 [@@deriving show { with_path = false }, of_yojson { strict = false }]
+
+let iter_refs_lexicon (self : lexicon) : ref iter =
+ fun yield -> List.iter (fun (_, def) -> iter_refs_def def yield) self.defs

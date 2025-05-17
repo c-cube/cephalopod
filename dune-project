@@ -37,6 +37,12 @@
  (tags
   (atproto bluesky xrpc dasl)))
 
+(package
+  (name cephalopod-models)
+  (synopsis "Generated code from the bsky lexicons")
+  (depends
+    (cephalopod (= :version))))
+
  ; moonpool
  ; (picos (and (>= 0.5) (< 0.7)))
  ; (picos_std (and (>= 0.5) (< 0.7)))
