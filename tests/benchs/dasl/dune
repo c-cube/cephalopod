@@ -1,4 +1,3 @@
-
 (executable
-  (name car)
-  (libraries containers cephalopod.dasl unix))
+ (name car)
+ (libraries containers cephalopod.dasl unix))
