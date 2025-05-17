@@ -1,3 +1,16 @@
 (tests
  (names t_cid)
  (libraries cephalopod.dasl))
+
+(executable
+  (name car_dump)
+  (modules car_dump)
+  (libraries cephalopod.dasl unix))
+
+(rule
+  (alias runtest)
+  (targets repo.car.txt)
+  (deps car_dump.exe (:file repo.car))
+  (action (progn
+            (with-stdout-to %{targets} (run ./car_dump.exe %{file}))
+            (diff repo.car.txt.expected repo.car.txt))))
