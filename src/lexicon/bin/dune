@@ -1,0 +1,3 @@
+(executable
+ (name parse_lexicon)
+ (libraries containers cephalopod.lexicon))
