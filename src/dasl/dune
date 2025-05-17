@@ -10,5 +10,6 @@
   cephalopod.leb128
   containers
   base32
+  base64
   yojson
   digestif))

@@ -98,6 +98,22 @@ let to_cbor_str (self : t) : string =
   to_cbor buf self;
   Byte_buffer.contents buf
 
+let rec to_yojson (self : t) : Json.t =
+  match self with
+  | Null -> `Null
+  | Bool b -> `Bool b
+  | Int i ->
+    let i2 = Int64.to_int i in
+    if i = Int64.of_int i2 then
+      `Int i2
+    else
+      `Intlit (Int64.to_string i)
+  | Array l -> `List (List.map to_yojson l)
+  | Map l -> `Assoc (List.map (fun (k, v) -> k, to_yojson v) l)
+  | Text s -> `String s
+  | Bytes bs -> `Assoc [ "$bytes", `String (Base64.encode_exn bs) ]
+  | Cid cid -> Cid.to_yojson cid
+
 type error_of_yojson =
   [ `InvalidJson of Json.t * string
   | `YojsonParseError of string
@@ -119,12 +135,20 @@ let of_yojson' (j : Json.t) : (t, [> error_of_yojson ]) result =
     | `String s -> Text s
     | `Assoc l ->
       if List.mem_assoc "$link" l then (
-        (* cid *)
-          match List.assoc "$link" l with
+        match Cid.of_yojson j with
+        | Ok cid -> Cid cid
+        | Error msg -> Error.fail ectx (`InvalidJson (j, "invalid cid: " ^ msg))
+      ) else if List.mem_assoc "$bytes" l then (
+        (* bytes *)
+          match List.assoc "$bytes" l with
         | `String str ->
-          let cid = Cid.decode_text str |> Error.unwrap ectx in
-          Cid cid
-        | _ -> Error.fail ectx (`InvalidJson (j, "$link must be a string"))
+          let bs =
+            try Base64.decode_exn str
+            with _ ->
+              Error.fail ectx (`InvalidJson (j, "$bytes must be base64"))
+          in
+          Bytes bs
+        | _ -> Error.fail ectx (`InvalidJson (j, "$bytes must be a string"))
       ) else
         Map (List.map (fun (k, v) -> k, loop v) l)
     | `Variant _ | `Float _ ->

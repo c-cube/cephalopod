@@ -22,11 +22,14 @@
   ppx_deriving
   ppx_deriving_yojson
   base32
+  base64
   (yojson (>= 2.0))
   ; mirage-crypto
 
   (trace :with-test)
   (trace-tef :with-test)
+  (qcheck :with-test)
+  (ppx_deriving_qcheck :with-test)
   (thread-local-storage (and (>= 0.2) (< 0.3)))
   (odoc :with-doc)
   (hmap :with-test))

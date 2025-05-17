@@ -1,6 +1,8 @@
 (tests
- (names t_cid)
- (libraries cephalopod.dasl))
+ (names t_cid t_value)
+ (preprocess
+  (pps ppx_deriving.std ppx_deriving_qcheck))
+ (libraries test_cid_util cephalopod.dasl qcheck))
 
 (executable
  (name car_dump)

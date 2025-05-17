@@ -1,3 +1,4 @@
+module Q = QCheck2
 open Cephalopod_common
 open Cephalopod_dasl
 
@@ -45,3 +46,39 @@ let () =
   in
   assert (Cid.equal parsed ref_cid);
   ()
+
+let t_encode_decode_bin =
+  Q.Test.make ~name:__FUNCTION__ ~print:Cid.show Util.U_cid.gen (fun cid ->
+      let str = Cid.encode_binary cid in
+      match Cid.decode_binary_str str with
+      | Ok cid2 when Cid.equal cid cid2 -> true
+      | Ok cid2 ->
+        Q.Test.fail_reportf "cid: %a, decode(encode(cid)): %a" Cid.pp cid Cid.pp
+          cid2
+      | Error err ->
+        Q.Test.fail_reportf "cannot parse cid back: %a" Cid.pp_error_decode err)
+
+let t_encode_decode_with_zero =
+  Q.Test.make ~name:__FUNCTION__ ~print:Cid.show Util.U_cid.gen (fun cid ->
+      let str = Cid.encode_binary_with_zero cid in
+      match Cid.decode_binary_with_zero (Byte_slice.unsafe_of_string str) with
+      | Ok cid2 when Cid.equal cid cid2 -> true
+      | Ok cid2 ->
+        Q.Test.fail_reportf "cid: %a, decode(encode(cid)): %a" Cid.pp cid Cid.pp
+          cid2
+      | Error err ->
+        Q.Test.fail_reportf "cannot parse cid back: %a" Cid.pp_error_decode err)
+
+let t_encode_decode_json =
+  Q.Test.make ~name:__FUNCTION__ ~print:Cid.show Util.U_cid.gen (fun cid ->
+      let j = Cid.to_yojson cid in
+      match Cid.of_yojson j with
+      | Ok cid2 when Cid.equal cid cid2 -> true
+      | Ok cid2 ->
+        Q.Test.fail_reportf "cid: %a, decode(encode(cid)): %a" Cid.pp cid Cid.pp
+          cid2
+      | Error err -> Q.Test.fail_reportf "cannot parse cid back: %s" err)
+
+let () =
+  QCheck_base_runner.run_tests_main
+    [ t_encode_decode_bin; t_encode_decode_with_zero; t_encode_decode_json ]

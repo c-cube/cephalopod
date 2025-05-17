@@ -1,0 +1,6 @@
+(library
+ (name test_cid_util)
+ (wrapped false)
+ (preprocess
+  (pps ppx_deriving.std ppx_deriving_qcheck))
+ (libraries cephalopod.dasl qcheck))
