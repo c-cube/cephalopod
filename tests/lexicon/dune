@@ -1,0 +1,12 @@
+(rule
+ (alias runtest)
+ (deps
+  (:parser %{project_root}/src/lexicon/bin/parse_lexicon.exe)
+  (:dir
+   (source_tree ../../vendor/atproto/lexicons/)))
+ (action
+  (progn
+   (with-stdout-to
+    parsed.txt
+    (run %{parser} %{dir} --list-files))
+   (diff parsed.txt.expected parsed.txt))))
