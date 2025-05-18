@@ -108,21 +108,24 @@ type string_ty = {
 [@@deriving show { with_path = false }, of_yojson { strict = false }]
 
 type ref = {
-  raw: string;  (** The raw string ref *)
-  name: string;
-      (** Qualified name, like ["com.atproto.foo"]. Empty string for current
-          module. *)
-  fragment: string option;  (** Fragment, ie the ["#yolo"] part *)
+  mutable name: string;
+      (** Qualified name, like ["com.atproto.foo"]. If [""], might be replaced
+          later by lexicon id. *)
+  fragment: string;
+      (** Fragment, ie the ["#yolo"] part. "main" if not specified. *)
 }
-[@@deriving show { with_path = false }]
+[@@deriving eq]
+
+let show_ref (self : ref) : string = spf {|"%s#%s"|} self.name self.fragment
+let pp_ref out (self : ref) = Format.pp_print_string out (show_ref self)
 
 let ref_of_string raw =
   let name, fragment =
     match CCString.Split.right ~by:"#" raw with
-    | None -> raw, None
-    | Some (l, r) -> l, Some r
+    | None -> raw, "main"
+    | Some (l, r) -> l, r
   in
-  { raw; name; fragment }
+  { name; fragment }
 
 let ref_of_yojson j =
   let@ () = try_catch "ref" in
@@ -185,7 +188,10 @@ and ty_view =
       maxSize: int option; [@default None]
     }
   | Token
-  | Ref of { ref: ref }
+  | Ref of {
+      raw: string;
+      ref: ref;
+    }
   | Union of union
   | Unknown
 [@@deriving show { with_path = false }]
@@ -194,7 +200,7 @@ let rec iter_refs_ty (ty : ty) : ref iter =
  fun yield ->
   match ty.view with
   | Array { items; _ } -> iter_refs_ty items yield
-  | Ref { ref } -> yield ref
+  | Ref { raw = _; ref } -> yield ref
   | Union u -> List.iter yield u.refs
   | Object o -> List.iter (fun (_, ty) -> iter_refs_ty ty yield) o.properties
   | Null | Boolean _ | Int _ | String _ | Bytes _ | CidLink | Blob _ | Unknown
@@ -224,8 +230,9 @@ let rec ty_of_yojson j =
     mk @@ Object o
   | "token" -> mk @@ Token
   | "ref" ->
-    let ref = field "ref" string l |> ref_of_string in
-    mk @@ Ref { ref }
+    let raw = field "ref" string l in
+    let ref = ref_of_string raw in
+    mk @@ Ref { raw; ref }
   | "blob" ->
     let accept = field_opt' "accept" accept_of_yojson l in
     let maxSize = field_opt "maxSize" int l in
