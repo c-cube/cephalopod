@@ -1635,7 +1635,6 @@ module Com_Atproto_Temp_RequestPhoneVerification = struct
   type com_atproto_temp_requestphoneverification_main_input = {
     phoneNumber: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Request a verification code to be sent to the supplied phone number *)
@@ -1656,12 +1655,11 @@ module Com_Atproto_Temp_FetchLabels = struct
     since: int64 option;
     limit: int64 option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_temp_fetchlabels_main_output = {
     labels: com_atproto_label_defs_label list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** DEPRECATED: use queryLabels or subscribeLabels instead -- Fetch all labels from a labeler created after a certain date. *)
@@ -1687,7 +1685,6 @@ module Com_Atproto_Temp_CheckSignupQueue = struct
     placeInQueue: int64 option;
     estimatedTimeMs: int64 option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Check accounts location in signup queue. *)
@@ -1707,11 +1704,9 @@ module Com_Atproto_Temp_AddReservedHandle = struct
   type com_atproto_temp_addreservedhandle_main_input = {
     handle: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_temp_addreservedhandle_main_output = [`_com_atproto_temp_addreservedhandle_main_output]
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Add a handle to the set of reserved handles. *)
@@ -1745,7 +1740,7 @@ module Com_Atproto_Sync_SubscribeRepos = struct
   type com_atproto_sync_subscriberepos_main_params = {
     cursor: int64 option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_sync_subscriberepos_main_error = [ | `FutureCursor  | `ConsumerTooSlow ]
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -1851,7 +1846,6 @@ module Com_Atproto_Sync_RequestCrawl = struct
   type com_atproto_sync_requestcrawl_main_input = {
     hostname: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_sync_requestcrawl_main_error = [ | `HostBanned ]
@@ -1875,7 +1869,6 @@ module Com_Atproto_Sync_NotifyOfUpdate = struct
   type com_atproto_sync_notifyofupdate_main_input = {
     hostname: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Notify a crawling service of a recent update, and that crawling should resume. Intended use is after a gap between repo stream events caused the crawling service to disconnect. Does not require auth; implemented by Relay. DEPRECATED: just use com.atproto.sync.requestCrawl *)
@@ -1897,13 +1890,12 @@ module Com_Atproto_Sync_ListReposByCollection = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_sync_listreposbycollection_main_output = {
     cursor: string option;
     repos: com_atproto_sync_listreposbycollection_repo list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Enumerates all the DIDs which have records with the given collection NSID. *)
@@ -1937,13 +1929,12 @@ module Com_Atproto_Sync_ListRepos = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_sync_listrepos_main_output = {
     cursor: string option;
     repos: com_atproto_sync_listrepos_repo list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Enumerates all the DID, rev, and commit CID for all repos hosted by this service. Does not require auth; implemented by PDS and Relay. *)
@@ -1981,13 +1972,12 @@ module Com_Atproto_Sync_ListHosts = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_sync_listhosts_main_output = {
     cursor: string option;
     hosts: com_atproto_sync_listhosts_host list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Enumerates upstream hosts (eg, PDS or relay instances) that this service consumes from. Implemented by relays. *)
@@ -2026,13 +2016,12 @@ module Com_Atproto_Sync_ListBlobs = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_sync_listblobs_main_output = {
     cursor: string option;
     cids: string list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_sync_listblobs_main_error = [ | `RepoNotFound  | `RepoTakendown  | `RepoSuspended  | `RepoDeactivated ]
@@ -2060,7 +2049,7 @@ module Com_Atproto_Sync_GetRepoStatus = struct
   type com_atproto_sync_getrepostatus_main_params = {
     did: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_sync_getrepostatus_main_output = {
     did: string;
@@ -2068,7 +2057,6 @@ module Com_Atproto_Sync_GetRepoStatus = struct
     status: string option;
     rev: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_sync_getrepostatus_main_error = [ | `RepoNotFound ]
@@ -2097,7 +2085,7 @@ module Com_Atproto_Sync_GetRepo = struct
     did: string;
     since: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_sync_getrepo_main_error = [ | `RepoNotFound  | `RepoTakendown  | `RepoSuspended  | `RepoDeactivated ]
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -2123,7 +2111,7 @@ module Com_Atproto_Sync_GetRecord = struct
     collection: string;
     rkey: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_sync_getrecord_main_error = [ | `RecordNotFound  | `RepoNotFound  | `RepoTakendown  | `RepoSuspended  | `RepoDeactivated ]
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -2147,13 +2135,12 @@ module Com_Atproto_Sync_GetLatestCommit = struct
   type com_atproto_sync_getlatestcommit_main_params = {
     did: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_sync_getlatestcommit_main_output = {
     cid: string;
     rev: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_sync_getlatestcommit_main_error = [ | `RepoNotFound  | `RepoTakendown  | `RepoSuspended  | `RepoDeactivated ]
@@ -2181,7 +2168,7 @@ module Com_Atproto_Sync_GetHostStatus = struct
   type com_atproto_sync_gethoststatus_main_params = {
     hostname: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_sync_gethoststatus_main_output = {
     hostname: string;
@@ -2189,7 +2176,6 @@ module Com_Atproto_Sync_GetHostStatus = struct
     accountCount: int64 option;
     status: com_atproto_sync_defs_hoststatus option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_sync_gethoststatus_main_error = [ | `HostNotFound ]
@@ -2217,12 +2203,11 @@ module Com_Atproto_Sync_GetHead = struct
   type com_atproto_sync_gethead_main_params = {
     did: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_sync_gethead_main_output = {
     root: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_sync_gethead_main_error = [ | `HeadNotFound ]
@@ -2250,7 +2235,7 @@ module Com_Atproto_Sync_GetCheckout = struct
   type com_atproto_sync_getcheckout_main_params = {
     did: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   (** DEPRECATED - please use com.atproto.sync.getRepo instead *)
   let main: _ Base.query = Base.make_query 
@@ -2271,7 +2256,7 @@ module Com_Atproto_Sync_GetBlocks = struct
     did: string;
     cids: string list;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_sync_getblocks_main_error = [ | `BlockNotFound  | `RepoNotFound  | `RepoTakendown  | `RepoSuspended  | `RepoDeactivated ]
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -2296,7 +2281,7 @@ module Com_Atproto_Sync_GetBlob = struct
     did: string;
     cid: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_sync_getblob_main_error = [ | `BlobNotFound  | `RepoNotFound  | `RepoTakendown  | `RepoSuspended  | `RepoDeactivated ]
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -2335,7 +2320,6 @@ module Com_Atproto_Server_UpdateEmail = struct
     emailAuthFactor: bool option;
     token: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_updateemail_main_error = [ | `ExpiredToken  | `InvalidToken  | `TokenRequired ]
@@ -2359,7 +2343,6 @@ module Com_Atproto_Server_RevokeAppPassword = struct
   type com_atproto_server_revokeapppassword_main_input = {
     name: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Revoke an App Password by name. *)
@@ -2380,7 +2363,6 @@ module Com_Atproto_Server_ResetPassword = struct
     token: string;
     password: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_resetpassword_main_error = [ | `ExpiredToken  | `InvalidToken ]
@@ -2404,13 +2386,11 @@ module Com_Atproto_Server_ReserveSigningKey = struct
   type com_atproto_server_reservesigningkey_main_input = {
     did: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_reservesigningkey_main_output = {
     signingKey: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Reserve a repo signing key, for use with account creation. Necessary so that a DID PLC update operation can be constructed during an account migraiton. Public and does not require auth; implemented by PDS. NOTE: this endpoint may change when full account migration is implemented. *)
@@ -2434,7 +2414,6 @@ module Com_Atproto_Server_RequestPasswordReset = struct
   type com_atproto_server_requestpasswordreset_main_input = {
     email: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Initiate a user account password reset via email. *)
@@ -2454,7 +2433,6 @@ module Com_Atproto_Server_RequestEmailUpdate = struct
   type com_atproto_server_requestemailupdate_main_output = {
     tokenRequired: bool;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Request a token in order to update email. *)
@@ -2500,7 +2478,6 @@ module Com_Atproto_Server_RefreshSession = struct
     active: bool option;
     status: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_refreshsession_main_error = [ | `AccountTakedown ]
@@ -2524,7 +2501,6 @@ module Com_Atproto_Server_ListAppPasswords = struct
   type com_atproto_server_listapppasswords_main_output = {
     passwords: com_atproto_server_listapppasswords_apppassword list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_listapppasswords_main_error = [ | `AccountTakedown ]
@@ -2566,7 +2542,6 @@ module Com_Atproto_Server_GetSession = struct
     active: bool option;
     status: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get information about the current auth session. Requires auth. *)
@@ -2588,12 +2563,11 @@ module Com_Atproto_Server_GetServiceAuth = struct
     exp: int64 option;
     lxm: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_server_getserviceauth_main_output = {
     token: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_getserviceauth_main_error = [ | `BadExpiration ]
@@ -2622,12 +2596,11 @@ module Com_Atproto_Server_GetAccountInviteCodes = struct
     includeUsed: bool option;
     createAvailable: bool option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_server_getaccountinvitecodes_main_output = {
     codes: com_atproto_server_defs_invitecode list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_getaccountinvitecodes_main_error = [ | `DuplicateCreate ]
@@ -2660,7 +2633,6 @@ module Com_Atproto_Server_DescribeServer = struct
     contact: com_atproto_server_describeserver_contact option;
     did: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Describes the server's account creation requirements and capabilities. Implemented by PDS. *)
@@ -2711,7 +2683,6 @@ module Com_Atproto_Server_DeleteAccount = struct
     password: string;
     token: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_deleteaccount_main_error = [ | `ExpiredToken  | `InvalidToken ]
@@ -2735,7 +2706,6 @@ module Com_Atproto_Server_DeactivateAccount = struct
   type com_atproto_server_deactivateaccount_main_input = {
     deleteAfter: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Deactivates a currently active account. Stops serving of repo, and future writes to repo until reactivated. Used to finalize account migration with the old host after the account has been activated on the new host. *)
@@ -2758,7 +2728,6 @@ module Com_Atproto_Server_CreateSession = struct
     authFactorToken: string option;
     allowTakendown: bool option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_createsession_main_output = {
@@ -2773,7 +2742,6 @@ module Com_Atproto_Server_CreateSession = struct
     active: bool option;
     status: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_createsession_main_error = [ | `AccountTakedown  | `AuthFactorTokenRequired ]
@@ -2803,13 +2771,11 @@ module Com_Atproto_Server_CreateInviteCodes = struct
     useCount: int64;
     forAccounts: string list option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_createinvitecodes_main_output = {
     codes: com_atproto_server_createinvitecodes_accountcodes list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Create invite codes. *)
@@ -2844,13 +2810,11 @@ module Com_Atproto_Server_CreateInviteCode = struct
     useCount: int64;
     forAccount: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_createinvitecode_main_output = {
     code: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Create an invite code. *)
@@ -2875,11 +2839,9 @@ module Com_Atproto_Server_CreateAppPassword = struct
     name: string;
     privileged: bool option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_createapppassword_main_output = com_atproto_server_createapppassword_apppassword
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_createapppassword_main_error = [ | `AccountTakedown ]
@@ -2927,7 +2889,6 @@ module Com_Atproto_Server_CreateAccount = struct
     recoveryKey: string option;
     plcOp: Value.t (* unknown *) option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_createaccount_main_output = {
@@ -2937,7 +2898,6 @@ module Com_Atproto_Server_CreateAccount = struct
     did: string;
     didDoc: Value.t (* unknown *) option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_createaccount_main_error = [ | `InvalidHandle  | `InvalidPassword  | `InvalidInviteCode  | `HandleNotAvailable  | `UnsupportedDomain  | `UnresolvableDid  | `IncompatibleDidDoc ]
@@ -2966,7 +2926,6 @@ module Com_Atproto_Server_ConfirmEmail = struct
     email: string;
     token: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_server_confirmemail_main_error = [ | `AccountNotFound  | `ExpiredToken  | `InvalidToken  | `InvalidEmail ]
@@ -2998,7 +2957,6 @@ module Com_Atproto_Server_CheckAccountStatus = struct
     expectedBlobs: int64;
     importedBlobs: int64;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Returns the status of an account, especially as pertaining to import or recovery. Can be called many times over the course of an account migration. Requires auth and can only be called pertaining to oneself. *)
@@ -3028,7 +2986,6 @@ module Com_Atproto_Repo_UploadBlob = struct
   type com_atproto_repo_uploadblob_main_output = {
     blob: Blob.t;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Upload a new blob, to be referenced from a repository record. The blob will be deleted if it is not referenced within a time window (eg, minutes). Blob restrictions (mimetype, size, etc) are enforced when the reference is created. Requires auth, implemented by PDS. *)
@@ -3055,7 +3012,6 @@ module Com_Atproto_Repo_PutRecord = struct
     swapRecord: string option;
     swapCommit: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_repo_putrecord_main_output = {
@@ -3064,7 +3020,6 @@ module Com_Atproto_Repo_PutRecord = struct
     commit: com_atproto_repo_defs_commitmeta option;
     validationStatus: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_repo_putrecord_main_error = [ | `InvalidSwap ]
@@ -3096,13 +3051,12 @@ module Com_Atproto_Repo_ListRecords = struct
     cursor: string option;
     reverse: bool option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_repo_listrecords_main_output = {
     cursor: string option;
     records: com_atproto_repo_listrecords_record list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** List a range of records in a repository, matching a specific collection. Does not require auth. *)
@@ -3138,13 +3092,12 @@ module Com_Atproto_Repo_ListMissingBlobs = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_repo_listmissingblobs_main_output = {
     cursor: string option;
     blobs: com_atproto_repo_listmissingblobs_recordblob list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Returns a list of missing blobs for the requesting account. Intended to be used in the account migration flow. *)
@@ -3192,14 +3145,13 @@ module Com_Atproto_Repo_GetRecord = struct
     rkey: string;
     cid: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_repo_getrecord_main_output = {
     uri: string;
     cid: string option;
     value: Value.t (* unknown *);
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_repo_getrecord_main_error = [ | `RecordNotFound ]
@@ -3227,7 +3179,7 @@ module Com_Atproto_Repo_DescribeRepo = struct
   type com_atproto_repo_describerepo_main_params = {
     repo: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_repo_describerepo_main_output = {
     handle: string;
@@ -3236,7 +3188,6 @@ module Com_Atproto_Repo_DescribeRepo = struct
     collections: string list;
     handleIsCorrect: bool;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get information about an account and repository, including the list of collections. Does not require auth. *)
@@ -3264,13 +3215,11 @@ module Com_Atproto_Repo_DeleteRecord = struct
     swapRecord: string option;
     swapCommit: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_repo_deleterecord_main_output = {
     commit: com_atproto_repo_defs_commitmeta option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_repo_deleterecord_main_error = [ | `InvalidSwap ]
@@ -3303,7 +3252,6 @@ module Com_Atproto_Repo_CreateRecord = struct
     record: Value.t (* unknown *);
     swapCommit: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_repo_createrecord_main_output = {
@@ -3312,7 +3260,6 @@ module Com_Atproto_Repo_CreateRecord = struct
     commit: com_atproto_repo_defs_commitmeta option;
     validationStatus: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_repo_createrecord_main_error = [ | `InvalidSwap ]
@@ -3347,7 +3294,6 @@ module Com_Atproto_Repo_ApplyWrites = struct
     ] list;
     swapCommit: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_repo_applywrites_main_output = {
@@ -3358,7 +3304,6 @@ module Com_Atproto_Repo_ApplyWrites = struct
     | `Com_atproto_repo_applywrites_deleteresult of com_atproto_repo_applywrites_deleteresult
     ] list option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_repo_applywrites_main_error = [ | `InvalidSwap ]
@@ -3469,7 +3414,6 @@ module Com_Atproto_Moderation_CreateReport = struct
     | `Other of Value.t (** Non closed union *)
     ];
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_moderation_createreport_main_output = {
@@ -3484,7 +3428,6 @@ module Com_Atproto_Moderation_CreateReport = struct
     reportedBy: string;
     createdAt: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Submit a moderation report regarding an atproto account or record. Implemented by moderation services (with PDS proxying), and requires auth. *)
@@ -3508,7 +3451,7 @@ module Com_Atproto_Lexicon_Schema = struct
   (** Representation of Lexicon schemas themselves, when published as atproto records. Note that the schema language is not defined in Lexicon; this meta schema currently only includes a single version field ('lexicon'). See the atproto specifications for description of the other expected top-level fields ('id', 'defs', etc). *)
   type main = {
     lexicon: int64;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 
@@ -3529,7 +3472,7 @@ module Com_Atproto_Label_SubscribeLabels = struct
   type com_atproto_label_subscribelabels_main_params = {
     cursor: int64 option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_label_subscribelabels_main_error = [ | `FutureCursor ]
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -3578,13 +3521,12 @@ module Com_Atproto_Label_QueryLabels = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_label_querylabels_main_output = {
     cursor: string option;
     labels: com_atproto_label_defs_label list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Find labels relevant to the provided AT-URI patterns. Public endpoint for moderation services, though may return different or additional results with auth. *)
@@ -3608,7 +3550,6 @@ module Com_Atproto_Identity_UpdateHandle = struct
   type com_atproto_identity_updatehandle_main_input = {
     handle: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Updates the current account's handle. Verifies handle validity, and updates did:plc document if necessary. Implemented by PDS, and requires auth. *)
@@ -3628,7 +3569,6 @@ module Com_Atproto_Identity_SubmitPlcOperation = struct
   type com_atproto_identity_submitplcoperation_main_input = {
     operation: Value.t (* unknown *);
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Validates a PLC operation to ensure that it doesn't violate a service's constraints or get the identity into a bad state, then submits it to the PLC registry *)
@@ -3652,13 +3592,11 @@ module Com_Atproto_Identity_SignPlcOperation = struct
     verificationMethods: Value.t (* unknown *) option;
     services: Value.t (* unknown *) option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_identity_signplcoperation_main_output = {
     operation: Value.t (* unknown *);
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Signs a PLC operation to update some value(s) in the requesting DID's document. *)
@@ -3682,10 +3620,9 @@ module Com_Atproto_Identity_ResolveIdentity = struct
   type com_atproto_identity_resolveidentity_main_params = {
     identifier: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_identity_resolveidentity_main_output = com_atproto_identity_defs_identityinfo
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_identity_resolveidentity_main_error = [ | `HandleNotFound  | `DidNotFound  | `DidDeactivated ]
@@ -3713,12 +3650,11 @@ module Com_Atproto_Identity_ResolveHandle = struct
   type com_atproto_identity_resolvehandle_main_params = {
     handle: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_identity_resolvehandle_main_output = {
     did: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_identity_resolvehandle_main_error = [ | `HandleNotFound ]
@@ -3746,12 +3682,11 @@ module Com_Atproto_Identity_ResolveDid = struct
   type com_atproto_identity_resolvedid_main_params = {
     did: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_identity_resolvedid_main_output = {
     didDoc: Value.t (* unknown *);
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_identity_resolvedid_main_error = [ | `DidNotFound  | `DidDeactivated ]
@@ -3789,11 +3724,9 @@ module Com_Atproto_Identity_RefreshIdentity = struct
   type com_atproto_identity_refreshidentity_main_input = {
     identifier: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_identity_refreshidentity_main_output = com_atproto_identity_defs_identityinfo
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_identity_refreshidentity_main_error = [ | `HandleNotFound  | `DidNotFound  | `DidDeactivated ]
@@ -3824,7 +3757,6 @@ module Com_Atproto_Identity_GetRecommendedDidCredentials = struct
     verificationMethods: Value.t (* unknown *) option;
     services: Value.t (* unknown *) option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Describe the credentials that should be included in the DID doc of an account that is migrating to this service. *)
@@ -3868,7 +3800,6 @@ module Com_Atproto_Admin_UpdateSubjectStatus = struct
     takedown: com_atproto_admin_defs_statusattr option;
     deactivated: com_atproto_admin_defs_statusattr option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_admin_updatesubjectstatus_main_output = {
@@ -3880,7 +3811,6 @@ module Com_Atproto_Admin_UpdateSubjectStatus = struct
     ];
     takedown: com_atproto_admin_defs_statusattr option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Update the service-specific admin status of a subject (account, record, or blob). *)
@@ -3905,7 +3835,6 @@ module Com_Atproto_Admin_UpdateAccountSigningKey = struct
     did: string;
     signingKey: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Administrative action to update an account's signing key in their Did document. *)
@@ -3926,7 +3855,6 @@ module Com_Atproto_Admin_UpdateAccountPassword = struct
     did: string;
     password: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Update the password for a user account as an administrator. *)
@@ -3947,7 +3875,6 @@ module Com_Atproto_Admin_UpdateAccountHandle = struct
     did: string;
     handle: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Administrative action to update an account's handle. *)
@@ -3968,7 +3895,6 @@ module Com_Atproto_Admin_UpdateAccountEmail = struct
     account: string;
     email: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Administrative action to update an account's email. *)
@@ -3992,13 +3918,11 @@ module Com_Atproto_Admin_SendEmail = struct
     senderDid: string;
     comment: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type com_atproto_admin_sendemail_main_output = {
     sent: bool;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Send email to a user's account email address. *)
@@ -4024,13 +3948,12 @@ module Com_Atproto_Admin_SearchAccounts = struct
     cursor: string option;
     limit: int64 option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_admin_searchaccounts_main_output = {
     cursor: string option;
     accounts: com_atproto_admin_defs_accountview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get list of accounts that matches your search query. *)
@@ -4056,7 +3979,7 @@ module Com_Atproto_Admin_GetSubjectStatus = struct
     uri: string option;
     blob: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_admin_getsubjectstatus_main_output = {
     subject: [
@@ -4068,7 +3991,6 @@ module Com_Atproto_Admin_GetSubjectStatus = struct
     takedown: com_atproto_admin_defs_statusattr option;
     deactivated: com_atproto_admin_defs_statusattr option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get the service-specific admin status of a subject (account, record, or blob). *)
@@ -4094,13 +4016,12 @@ module Com_Atproto_Admin_GetInviteCodes = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_admin_getinvitecodes_main_output = {
     cursor: string option;
     codes: com_atproto_server_defs_invitecode list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get an admin view of invite codes. *)
@@ -4124,12 +4045,11 @@ module Com_Atproto_Admin_GetAccountInfos = struct
   type com_atproto_admin_getaccountinfos_main_params = {
     dids: string list;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_admin_getaccountinfos_main_output = {
     infos: com_atproto_admin_defs_accountview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get details about some accounts. *)
@@ -4153,10 +4073,9 @@ module Com_Atproto_Admin_GetAccountInfo = struct
   type com_atproto_admin_getaccountinfo_main_params = {
     did: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type com_atproto_admin_getaccountinfo_main_output = com_atproto_admin_defs_accountview
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get details about an account. *)
@@ -4181,7 +4100,6 @@ module Com_Atproto_Admin_EnableAccountInvites = struct
     account: string;
     note: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Re-enable an account's ability to receive invite codes. *)
@@ -4202,7 +4120,6 @@ module Com_Atproto_Admin_DisableInviteCodes = struct
     codes: string list option;
     accounts: string list option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Disable some set of codes and/or all codes associated with a set of users. *)
@@ -4223,7 +4140,6 @@ module Com_Atproto_Admin_DisableAccountInvites = struct
     account: string;
     note: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Disable an account from receiving new invite codes, but does not invalidate existing codes. *)
@@ -4243,7 +4159,6 @@ module Com_Atproto_Admin_DeleteAccount = struct
   type com_atproto_admin_deleteaccount_main_input = {
     did: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Delete a user account as an administrator. *)
@@ -4360,7 +4275,6 @@ module App_Bsky_Video_UploadVideo = struct
   type app_bsky_video_uploadvideo_main_output = {
     jobStatus: app_bsky_video_defs_jobstatus;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Upload a video to be processed then stored on the PDS. *)
@@ -4385,7 +4299,6 @@ module App_Bsky_Video_GetUploadLimits = struct
     message: string option;
     error: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get video upload limits for the authenticated user. *)
@@ -4405,12 +4318,11 @@ module App_Bsky_Video_GetJobStatus = struct
   type app_bsky_video_getjobstatus_main_params = {
     jobId: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_video_getjobstatus_main_output = {
     jobStatus: app_bsky_video_defs_jobstatus;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get status details for a video processing job. *)
@@ -4458,14 +4370,13 @@ module App_Bsky_Unspecced_SearchStarterPacksSkeleton = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_unspecced_searchstarterpacksskeleton_main_output = {
     cursor: string option;
     hitsTotal: int64 option;
     starterPacks: app_bsky_unspecced_defs_skeletonsearchstarterpack list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type app_bsky_unspecced_searchstarterpacksskeleton_main_error = [ | `BadQueryString ]
@@ -4505,14 +4416,13 @@ module App_Bsky_Unspecced_SearchPostsSkeleton = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_unspecced_searchpostsskeleton_main_output = {
     cursor: string option;
     hitsTotal: int64 option;
     posts: app_bsky_unspecced_defs_skeletonsearchpost list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type app_bsky_unspecced_searchpostsskeleton_main_error = [ | `BadQueryString ]
@@ -4544,14 +4454,13 @@ module App_Bsky_Unspecced_SearchActorsSkeleton = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_unspecced_searchactorsskeleton_main_output = {
     cursor: string option;
     hitsTotal: int64 option;
     actors: app_bsky_unspecced_defs_skeletonsearchactor list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type app_bsky_unspecced_searchactorsskeleton_main_error = [ | `BadQueryString ]
@@ -4580,12 +4489,11 @@ module App_Bsky_Unspecced_GetTrendsSkeleton = struct
     viewer: string option;
     limit: int64 option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_unspecced_gettrendsskeleton_main_output = {
     trends: app_bsky_unspecced_defs_skeletontrend list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get the skeleton of trends on the network. Intended to be called and then hydrated through app.bsky.unspecced.getTrends *)
@@ -4609,12 +4517,11 @@ module App_Bsky_Unspecced_GetTrends = struct
   type app_bsky_unspecced_gettrends_main_params = {
     limit: int64 option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_unspecced_gettrends_main_output = {
     trends: app_bsky_unspecced_defs_trendview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get the current trends on the network *)
@@ -4639,13 +4546,12 @@ module App_Bsky_Unspecced_GetTrendingTopics = struct
     viewer: string option;
     limit: int64 option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_unspecced_gettrendingtopics_main_output = {
     topics: app_bsky_unspecced_defs_trendingtopic list;
     suggested: app_bsky_unspecced_defs_trendingtopic list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a list of trending topics *)
@@ -4669,7 +4575,6 @@ module App_Bsky_Unspecced_GetTaggedSuggestions = struct
   type app_bsky_unspecced_gettaggedsuggestions_main_output = {
     suggestions: app_bsky_unspecced_gettaggedsuggestions_suggestion list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a list of suggestions (feeds and users) tagged with categories *)
@@ -4703,7 +4608,7 @@ module App_Bsky_Unspecced_GetSuggestionsSkeleton = struct
     cursor: string option;
     relativeToDid: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_unspecced_getsuggestionsskeleton_main_output = {
     cursor: string option;
@@ -4711,7 +4616,6 @@ module App_Bsky_Unspecced_GetSuggestionsSkeleton = struct
     relativeToDid: string option;
     recId: int64 option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a skeleton of suggested actors. Intended to be called and then hydrated through app.bsky.actor.getSuggestions *)
@@ -4737,12 +4641,11 @@ module App_Bsky_Unspecced_GetSuggestedUsersSkeleton = struct
     category: string option;
     limit: int64 option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_unspecced_getsuggestedusersskeleton_main_output = {
     dids: string list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a skeleton of suggested users. Intended to be called and hydrated by app.bsky.unspecced.getSuggestedUsers *)
@@ -4767,12 +4670,11 @@ module App_Bsky_Unspecced_GetSuggestedUsers = struct
     category: string option;
     limit: int64 option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_unspecced_getsuggestedusers_main_output = {
     actors: app_bsky_actor_defs_profileview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a list of suggested users *)
@@ -4797,12 +4699,11 @@ module App_Bsky_Unspecced_GetSuggestedStarterPacksSkeleton = struct
     viewer: string option;
     limit: int64 option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_unspecced_getsuggestedstarterpacksskeleton_main_output = {
     starterPacks: string list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a skeleton of suggested starterpacks. Intended to be called and hydrated by app.bsky.unspecced.getSuggestedStarterpacks *)
@@ -4826,12 +4727,11 @@ module App_Bsky_Unspecced_GetSuggestedStarterPacks = struct
   type app_bsky_unspecced_getsuggestedstarterpacks_main_params = {
     limit: int64 option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_unspecced_getsuggestedstarterpacks_main_output = {
     starterPacks: app_bsky_graph_defs_starterpackview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a list of suggested starterpacks *)
@@ -4856,12 +4756,11 @@ module App_Bsky_Unspecced_GetSuggestedFeedsSkeleton = struct
     viewer: string option;
     limit: int64 option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_unspecced_getsuggestedfeedsskeleton_main_output = {
     feeds: string list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a skeleton of suggested feeds. Intended to be called and hydrated by app.bsky.unspecced.getSuggestedFeeds *)
@@ -4885,12 +4784,11 @@ module App_Bsky_Unspecced_GetSuggestedFeeds = struct
   type app_bsky_unspecced_getsuggestedfeeds_main_params = {
     limit: int64 option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_unspecced_getsuggestedfeeds_main_output = {
     feeds: app_bsky_feed_defs_generatorview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a list of suggested feeds *)
@@ -4916,13 +4814,12 @@ module App_Bsky_Unspecced_GetPopularFeedGenerators = struct
     cursor: string option;
     query: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_unspecced_getpopularfeedgenerators_main_output = {
     cursor: string option;
     feeds: app_bsky_feed_defs_generatorview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** An unspecced view of globally popular feed generators. *)
@@ -4947,7 +4844,6 @@ module App_Bsky_Unspecced_GetConfig = struct
     checkEmailConfirmed: bool option;
     liveNow: app_bsky_unspecced_getconfig_livenowconfig list option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get miscellaneous runtime configuration. *)
@@ -5054,7 +4950,6 @@ module App_Bsky_Notification_UpdateSeen = struct
   type app_bsky_notification_updateseen_main_input = {
     seenAt: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Notify server that the requesting account has seen notifications. Requires auth. *)
@@ -5077,7 +4972,6 @@ module App_Bsky_Notification_RegisterPush = struct
     platform: string;
     appId: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Register to receive push notifications, via a specified service, for the requesting account. Requires auth. *)
@@ -5097,7 +4991,6 @@ module App_Bsky_Notification_PutPreferences = struct
   type app_bsky_notification_putpreferences_main_input = {
     priority: bool;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Set notification-related preferences for an account. Requires auth. *)
@@ -5121,7 +5014,7 @@ module App_Bsky_Notification_ListNotifications = struct
     cursor: string option;
     seenAt: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_notification_listnotifications_main_output = {
     cursor: string option;
@@ -5129,7 +5022,6 @@ module App_Bsky_Notification_ListNotifications = struct
     priority: bool option;
     seenAt: string option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Enumerate notifications for the requesting account. Requires auth. *)
@@ -5171,12 +5063,11 @@ module App_Bsky_Notification_GetUnreadCount = struct
     priority: bool option;
     seenAt: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_notification_getunreadcount_main_output = {
     count: int64;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Count the number of unread notifications for the requesting account. Requires auth. *)
@@ -5221,7 +5112,7 @@ module App_Bsky_Labeler_Service = struct
     reasonTypes: com_atproto_moderation_defs_reasontype list option;
     subjectTypes: com_atproto_moderation_defs_subjecttype list option;
     subjectCollections: string list option;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 
@@ -5236,7 +5127,7 @@ module App_Bsky_Labeler_GetServices = struct
     dids: string list;
     detailed: bool option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_labeler_getservices_main_output = {
     views: [
@@ -5245,7 +5136,6 @@ module App_Bsky_Labeler_GetServices = struct
     | `Other of Value.t (** Non closed union *)
     ] list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get information about a list of labeler services. *)
@@ -5272,7 +5162,7 @@ module App_Bsky_Graph_Verification = struct
     handle: string;
     displayName: string;
     createdAt: string;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 
@@ -5286,7 +5176,6 @@ module App_Bsky_Graph_UnmuteThread = struct
   type app_bsky_graph_unmutethread_main_input = {
     root: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Unmutes the specified thread. Requires auth. *)
@@ -5306,7 +5195,6 @@ module App_Bsky_Graph_UnmuteActorList = struct
   type app_bsky_graph_unmuteactorlist_main_input = {
     list: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Unmutes the specified list of accounts. Requires auth. *)
@@ -5326,7 +5214,6 @@ module App_Bsky_Graph_UnmuteActor = struct
   type app_bsky_graph_unmuteactor_main_input = {
     actor: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Unmutes the specified account. Requires auth. *)
@@ -5351,7 +5238,7 @@ module App_Bsky_Graph_Starterpack = struct
     list: string;
     feeds: app_bsky_graph_starterpack_feeditem list option;
     createdAt: string;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 
@@ -5376,13 +5263,12 @@ module App_Bsky_Graph_SearchStarterPacks = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_graph_searchstarterpacks_main_output = {
     cursor: string option;
     starterPacks: app_bsky_graph_defs_starterpackviewbasic list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Find starter packs matching search criteria. Does not require auth. *)
@@ -5406,7 +5292,6 @@ module App_Bsky_Graph_MuteThread = struct
   type app_bsky_graph_mutethread_main_input = {
     root: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Mutes a thread preventing notifications from the thread and any of its children. Mutes are private in Bluesky. Requires auth. *)
@@ -5426,7 +5311,6 @@ module App_Bsky_Graph_MuteActorList = struct
   type app_bsky_graph_muteactorlist_main_input = {
     list: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Creates a mute relationship for the specified list of accounts. Mutes are private in Bluesky. Requires auth. *)
@@ -5446,7 +5330,6 @@ module App_Bsky_Graph_MuteActor = struct
   type app_bsky_graph_muteactor_main_input = {
     actor: string;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Creates a mute relationship for the specified account. Mutes are private in Bluesky. Requires auth. *)
@@ -5468,7 +5351,7 @@ module App_Bsky_Graph_Listitem = struct
     subject: string;
     list: string;
     createdAt: string;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 
@@ -5483,7 +5366,7 @@ module App_Bsky_Graph_Listblock = struct
   type main = {
     subject: string;
     createdAt: string;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 
@@ -5506,7 +5389,7 @@ module App_Bsky_Graph_List = struct
     | `Other of Value.t (** Non closed union *)
     ] option;
     createdAt: string;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 
@@ -5520,14 +5403,13 @@ module App_Bsky_Graph_GetSuggestedFollowsByActor = struct
   type app_bsky_graph_getsuggestedfollowsbyactor_main_params = {
     actor: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_graph_getsuggestedfollowsbyactor_main_output = {
     suggestions: app_bsky_actor_defs_profileview list;
     isFallback: bool option;
     recId: int64 option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Enumerates follows similar to a given account (actor). Expected use is to recommend additional accounts immediately after following one account. *)
@@ -5551,12 +5433,11 @@ module App_Bsky_Graph_GetStarterPacks = struct
   type app_bsky_graph_getstarterpacks_main_params = {
     uris: string list;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_graph_getstarterpacks_main_output = {
     starterPacks: app_bsky_graph_defs_starterpackviewbasic list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get views for a list of starter packs. *)
@@ -5580,12 +5461,11 @@ module App_Bsky_Graph_GetStarterPack = struct
   type app_bsky_graph_getstarterpack_main_params = {
     starterPack: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_graph_getstarterpack_main_output = {
     starterPack: app_bsky_graph_defs_starterpackview;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Gets a view of a starter pack. *)
@@ -5610,7 +5490,7 @@ module App_Bsky_Graph_GetRelationships = struct
     actor: string;
     others: string list option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_graph_getrelationships_main_output = {
     actor: string option;
@@ -5620,7 +5500,6 @@ module App_Bsky_Graph_GetRelationships = struct
     | `Other of Value.t (** Non closed union *)
     ] list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type app_bsky_graph_getrelationships_main_error = [ | `ActorNotFound ]
@@ -5649,13 +5528,12 @@ module App_Bsky_Graph_GetMutes = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_graph_getmutes_main_output = {
     cursor: string option;
     mutes: app_bsky_actor_defs_profileview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Enumerates accounts that the requesting account (actor) currently has muted. Requires auth. *)
@@ -5681,13 +5559,12 @@ module App_Bsky_Graph_GetLists = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_graph_getlists_main_output = {
     cursor: string option;
     lists: app_bsky_graph_defs_listview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Enumerates the lists created by a specified account (actor). *)
@@ -5712,13 +5589,12 @@ module App_Bsky_Graph_GetListMutes = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_graph_getlistmutes_main_output = {
     cursor: string option;
     lists: app_bsky_graph_defs_listview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Enumerates mod lists that the requesting account (actor) currently has muted. Requires auth. *)
@@ -5743,13 +5619,12 @@ module App_Bsky_Graph_GetListBlocks = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_graph_getlistblocks_main_output = {
     cursor: string option;
     lists: app_bsky_graph_defs_listview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get mod lists that the requesting account (actor) is blocking. Requires auth. *)
@@ -5775,14 +5650,13 @@ module App_Bsky_Graph_GetList = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_graph_getlist_main_output = {
     cursor: string option;
     list: app_bsky_graph_defs_listview;
     items: app_bsky_graph_defs_listitemview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Gets a 'view' (with additional context) of a specified list. *)
@@ -5808,14 +5682,13 @@ module App_Bsky_Graph_GetKnownFollowers = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_graph_getknownfollowers_main_output = {
     subject: app_bsky_actor_defs_profileview;
     cursor: string option;
     followers: app_bsky_actor_defs_profileview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Enumerates accounts which follow a specified account (actor) and are followed by the viewer. *)
@@ -5841,14 +5714,13 @@ module App_Bsky_Graph_GetFollows = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_graph_getfollows_main_output = {
     subject: app_bsky_actor_defs_profileview;
     cursor: string option;
     follows: app_bsky_actor_defs_profileview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Enumerates accounts which a specified account (actor) follows. *)
@@ -5874,14 +5746,13 @@ module App_Bsky_Graph_GetFollowers = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_graph_getfollowers_main_output = {
     subject: app_bsky_actor_defs_profileview;
     cursor: string option;
     followers: app_bsky_actor_defs_profileview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Enumerates accounts which follow a specified account (actor). *)
@@ -5906,13 +5777,12 @@ module App_Bsky_Graph_GetBlocks = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_graph_getblocks_main_output = {
     cursor: string option;
     blocks: app_bsky_actor_defs_profileview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Enumerates which accounts the requesting account is currently blocking. Requires auth. *)
@@ -5938,13 +5808,12 @@ module App_Bsky_Graph_GetActorStarterPacks = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_graph_getactorstarterpacks_main_output = {
     cursor: string option;
     starterPacks: app_bsky_graph_defs_starterpackviewbasic list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a list of starter packs created by the actor. *)
@@ -5969,7 +5838,7 @@ module App_Bsky_Graph_Follow = struct
   type main = {
     subject: string;
     createdAt: string;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 
@@ -5984,7 +5853,7 @@ module App_Bsky_Graph_Block = struct
   type main = {
     subject: string;
     createdAt: string;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 
@@ -5998,11 +5867,9 @@ module App_Bsky_Feed_SendInteractions = struct
   type app_bsky_feed_sendinteractions_main_input = {
     interactions: app_bsky_feed_defs_interaction list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type app_bsky_feed_sendinteractions_main_output = [`_app_bsky_feed_sendinteractions_main_output]
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Send information about interactions with feed items back to the feed generator that served them. *)
@@ -6037,14 +5904,13 @@ module App_Bsky_Feed_SearchPosts = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_feed_searchposts_main_output = {
     cursor: string option;
     hitsTotal: int64 option;
     posts: app_bsky_feed_defs_postview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type app_bsky_feed_searchposts_main_error = [ | `BadQueryString ]
@@ -6073,7 +5939,7 @@ module App_Bsky_Feed_Repost = struct
   type main = {
     subject: com_atproto_repo_strongref_main;
     createdAt: string;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 
@@ -6105,7 +5971,7 @@ module App_Bsky_Feed_Post = struct
     ] option;
     tags: string list option;
     createdAt: string;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 
@@ -6151,7 +6017,7 @@ module App_Bsky_Feed_Like = struct
   type main = {
     subject: com_atproto_repo_strongref_main;
     createdAt: string;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 
@@ -6167,13 +6033,12 @@ module App_Bsky_Feed_GetTimeline = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_feed_gettimeline_main_output = {
     cursor: string option;
     feed: app_bsky_feed_defs_feedviewpost list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a view of the requesting account's home timeline. This is expected to be some form of reverse-chronological feed. *)
@@ -6198,13 +6063,12 @@ module App_Bsky_Feed_GetSuggestedFeeds = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_feed_getsuggestedfeeds_main_output = {
     cursor: string option;
     feeds: app_bsky_feed_defs_generatorview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a list of suggested feeds (feed generators) for the requesting account. *)
@@ -6231,7 +6095,7 @@ module App_Bsky_Feed_GetRepostedBy = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_feed_getrepostedby_main_output = {
     uri: string;
@@ -6239,7 +6103,6 @@ module App_Bsky_Feed_GetRepostedBy = struct
     cursor: string option;
     repostedBy: app_bsky_actor_defs_profileview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a list of reposts for a given post. *)
@@ -6266,7 +6129,7 @@ module App_Bsky_Feed_GetQuotes = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_feed_getquotes_main_output = {
     uri: string;
@@ -6274,7 +6137,6 @@ module App_Bsky_Feed_GetQuotes = struct
     cursor: string option;
     posts: app_bsky_feed_defs_postview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a list of quotes for a given post. *)
@@ -6298,12 +6160,11 @@ module App_Bsky_Feed_GetPosts = struct
   type app_bsky_feed_getposts_main_params = {
     uris: string list;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_feed_getposts_main_output = {
     posts: app_bsky_feed_defs_postview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Gets post views for a specified list of posts (by AT-URI). This is sometimes referred to as 'hydrating' a 'feed skeleton'. *)
@@ -6329,7 +6190,7 @@ module App_Bsky_Feed_GetPostThread = struct
     depth: int64 option;
     parentHeight: int64 option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_feed_getpostthread_main_output = {
     thread: [
@@ -6340,7 +6201,6 @@ module App_Bsky_Feed_GetPostThread = struct
     ];
     threadgate: app_bsky_feed_defs_threadgateview option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type app_bsky_feed_getpostthread_main_error = [ | `NotFound ]
@@ -6370,13 +6230,12 @@ module App_Bsky_Feed_GetListFeed = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_feed_getlistfeed_main_output = {
     cursor: string option;
     feed: app_bsky_feed_defs_feedviewpost list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type app_bsky_feed_getlistfeed_main_error = [ | `UnknownList ]
@@ -6407,7 +6266,7 @@ module App_Bsky_Feed_GetLikes = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_feed_getlikes_main_output = {
     uri: string;
@@ -6415,7 +6274,6 @@ module App_Bsky_Feed_GetLikes = struct
     cursor: string option;
     likes: app_bsky_feed_getlikes_like list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get like records which reference a subject (by AT-URI and CID). *)
@@ -6452,13 +6310,12 @@ module App_Bsky_Feed_GetFeedSkeleton = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_feed_getfeedskeleton_main_output = {
     cursor: string option;
     feed: app_bsky_feed_defs_skeletonfeedpost list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type app_bsky_feed_getfeedskeleton_main_error = [ | `UnknownFeed ]
@@ -6486,12 +6343,11 @@ module App_Bsky_Feed_GetFeedGenerators = struct
   type app_bsky_feed_getfeedgenerators_main_params = {
     feeds: string list;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_feed_getfeedgenerators_main_output = {
     feeds: app_bsky_feed_defs_generatorview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get information about a list of feed generators. *)
@@ -6515,14 +6371,13 @@ module App_Bsky_Feed_GetFeedGenerator = struct
   type app_bsky_feed_getfeedgenerator_main_params = {
     feed: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_feed_getfeedgenerator_main_output = {
     view: app_bsky_feed_defs_generatorview;
     isOnline: bool;
     isValid: bool;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get information about a feed generator. Implemented by AppView. *)
@@ -6548,13 +6403,12 @@ module App_Bsky_Feed_GetFeed = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_feed_getfeed_main_output = {
     cursor: string option;
     feed: app_bsky_feed_defs_feedviewpost list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type app_bsky_feed_getfeed_main_error = [ | `UnknownFeed ]
@@ -6586,13 +6440,12 @@ module App_Bsky_Feed_GetAuthorFeed = struct
     filter: string option;
     includePins: bool option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_feed_getauthorfeed_main_output = {
     cursor: string option;
     feed: app_bsky_feed_defs_feedviewpost list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type app_bsky_feed_getauthorfeed_main_error = [ | `BlockedActor  | `BlockedByActor ]
@@ -6622,13 +6475,12 @@ module App_Bsky_Feed_GetActorLikes = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_feed_getactorlikes_main_output = {
     cursor: string option;
     feed: app_bsky_feed_defs_feedviewpost list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   type app_bsky_feed_getactorlikes_main_error = [ | `BlockedActor  | `BlockedByActor ]
@@ -6658,13 +6510,12 @@ module App_Bsky_Feed_GetActorFeeds = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_feed_getactorfeeds_main_output = {
     cursor: string option;
     feeds: app_bsky_feed_defs_generatorview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a list of feeds (feed generator records) created by the actor (in the actor's repo). *)
@@ -6699,7 +6550,7 @@ module App_Bsky_Feed_Generator = struct
     ] option;
     contentMode: string option;
     createdAt: string;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 
@@ -6715,7 +6566,6 @@ module App_Bsky_Feed_DescribeFeedGenerator = struct
     feeds: app_bsky_feed_describefeedgenerator_feed list;
     links: app_bsky_feed_describefeedgenerator_links option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get information about a feed generator, including policies and offered feed URIs. Does not require auth; implemented by Feed Generator services (not App View). *)
@@ -6760,7 +6610,7 @@ module App_Bsky_Actor_Status = struct
     ] option;
     durationMinutes: int64 option;
     createdAt: string;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 
@@ -6783,12 +6633,11 @@ module App_Bsky_Actor_SearchActorsTypeahead = struct
     q: string option;
     limit: int64 option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_actor_searchactorstypeahead_main_output = {
     actors: app_bsky_actor_defs_profileviewbasic list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Find actor suggestions for a prefix search term. Expected use is for auto-completion during text field entry. Does not require auth. *)
@@ -6815,13 +6664,12 @@ module App_Bsky_Actor_SearchActors = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_actor_searchactors_main_output = {
     cursor: string option;
     actors: app_bsky_actor_defs_profileview list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Find actors (profiles) matching search criteria. Does not require auth. *)
@@ -6845,7 +6693,6 @@ module App_Bsky_Actor_PutPreferences = struct
   type app_bsky_actor_putpreferences_main_input = {
     preferences: app_bsky_actor_defs_preferences;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Set the private preferences attached to the account. *)
@@ -6875,7 +6722,7 @@ module App_Bsky_Actor_Profile = struct
     joinedViaStarterPack: com_atproto_repo_strongref_main option;
     pinnedPost: com_atproto_repo_strongref_main option;
     createdAt: string option;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 
@@ -6890,14 +6737,13 @@ module App_Bsky_Actor_GetSuggestions = struct
     limit: int64 option;
     cursor: string option;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_actor_getsuggestions_main_output = {
     cursor: string option;
     actors: app_bsky_actor_defs_profileview list;
     recId: int64 option;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a list of suggested actors. Expected use is discovery of accounts to follow during new account onboarding. *)
@@ -6921,12 +6767,11 @@ module App_Bsky_Actor_GetProfiles = struct
   type app_bsky_actor_getprofiles_main_params = {
     actors: string list;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_actor_getprofiles_main_output = {
     profiles: app_bsky_actor_defs_profileviewdetailed list;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get detailed profile views of multiple actors. *)
@@ -6950,10 +6795,9 @@ module App_Bsky_Actor_GetProfile = struct
   type app_bsky_actor_getprofile_main_params = {
     actor: string;
   }
-  [@@deriving show {with_path=false}, yojson {strict=false}]
+  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
   type app_bsky_actor_getprofile_main_output = app_bsky_actor_defs_profileviewdetailed
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get detailed profile view of an actor. Does not require auth, but contains relevant metadata with auth. *)
@@ -6977,7 +6821,6 @@ module App_Bsky_Actor_GetPreferences = struct
   type app_bsky_actor_getpreferences_main_output = {
     preferences: app_bsky_actor_defs_preferences;
   }
-
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get private preferences attached to the current account. Expected use is synchronization between multiple devices, and import/export during account migration. Requires auth. *)
@@ -8386,7 +8229,7 @@ module App_Bsky_Feed_Threadgate = struct
     ] list option;
     createdAt: string;
     hiddenReplies: string list option;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 
@@ -8436,7 +8279,7 @@ module App_Bsky_Feed_Postgate = struct
     | `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule
     | `Other of Value.t (** Non closed union *)
     ] list option;
-  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+  }  [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
 
 

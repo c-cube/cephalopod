@@ -243,14 +243,15 @@ module Codegen = struct
     bpf out "  type %s = " (name_of_params ~ref p);
     gen_fields ~inside:ref ~required:p.required ~nullable:None
       ~properties:p.properties out ();
-    bpf out "\n  [@@deriving show {with_path=false}, yojson {strict=false}]\n\n"
+    bpf out
+      "\n  [@@deriving show {with_path=false}, yojson {strict=false}, make]\n\n"
 
   let define_io ~ref ~(which : [ `In | `Out ]) out (io : A.input_or_output) :
       unit =
     let name = name_of_io ~ref ~which io in
     assert (io.schema <> None);
     let ty = Option.get io.schema in
-    bpf out "  type %s = %a\n" name
+    bpf out "  type %s = %a" name
       (gen_ty ~inside:{ A.name = ""; fragment = name })
       ty;
     bpf out "\n  [@@deriving show {with_path=false}, yojson {strict=false}]\n\n"
@@ -389,7 +390,8 @@ module Codegen = struct
       bpf out "  type %s = " name;
       gen_fields ~inside:ref ~required:r.record.required
         ~nullable:r.record.nullable ~properties:r.record.properties out ();
-      bpf out "  [@@deriving show {with_path=false}, yojson {strict=false}]\n\n"
+      bpf out
+        "  [@@deriving show {with_path=false}, yojson {strict=false}, make]\n\n"
 
   let gen_lex (oc : out_channel) (lex : A.lexicon) : unit =
     let out = Buffer.create 32 in
