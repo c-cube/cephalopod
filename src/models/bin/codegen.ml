@@ -198,8 +198,7 @@ module Codegen = struct
     match def with
     | A.Object o -> gen_object out (ref, o)
     | A.Type ty -> gen_ty_def out (ref, ty)
-    | A.Query _ | A.Procedure _ | A.Record _ | A.Subscription _ ->
-      bpf out "%s = [`Todo] (* TODO *)\n" (val_name_of_ref ref)
+    | A.Query _ | A.Procedure _ | A.Record _ | A.Subscription _ -> assert false
 
   let gen_type_clique (oc : out_channel) (clique : (A.ref * A.def) list) : unit
       =
@@ -378,7 +377,12 @@ module Codegen = struct
       Option.iter (bpf out "  (** %s *)\n") p.description;
       bpf out "  let %s: _ Base.procedure = Base.make_procedure %s %s %s %s"
         name params input output errors
-    | A.Record _ -> bpf out "  let %s = [`Todo] (* TODO: record *)\n" name
+    | A.Record r ->
+      Option.iter (bpf out "  (** %s *)\n") r.description;
+      bpf out "  type %s = " name;
+      gen_fields ~inside:ref ~required:r.record.required
+        ~nullable:r.record.nullable ~properties:r.record.properties out ();
+      bpf out "  [@@deriving show {with_path=false}, yojson {strict=false}]\n\n"
 
   let gen_lex (oc : out_channel) (lex : A.lexicon) : unit =
     let out = Buffer.create 32 in

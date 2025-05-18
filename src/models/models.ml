@@ -3505,7 +3505,11 @@ end
   *)
 module Com_Atproto_Lexicon_Schema = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** Representation of Lexicon schemas themselves, when published as atproto records. Note that the schema language is not defined in Lexicon; this meta schema currently only includes a single version field ('lexicon'). See the atproto specifications for description of the other expected top-level fields ('id', 'defs', etc). *)
+  type main = {
+    lexicon: int64;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
 end
@@ -5206,7 +5210,19 @@ end
   *)
 module App_Bsky_Labeler_Service = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** A declaration of the existence of labeler service. *)
+  type main = {
+    policies: app_bsky_labeler_defs_labelerpolicies;
+    labels: [
+    | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
+    | `Other of Value.t (** Non closed union *)
+    ] option;
+    createdAt: string;
+    reasonTypes: com_atproto_moderation_defs_reasontype list option;
+    subjectTypes: com_atproto_moderation_defs_subjecttype list option;
+    subjectCollections: string list option;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
 end
@@ -5250,7 +5266,14 @@ end
   *)
 module App_Bsky_Graph_Verification = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** Record declaring a verification relationship between two accounts. Verifications are only considered valid by an app if issued by an account the app considers trusted. *)
+  type main = {
+    subject: string;
+    handle: string;
+    displayName: string;
+    createdAt: string;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
 end
@@ -5320,7 +5343,16 @@ end
   *)
 module App_Bsky_Graph_Starterpack = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** Record defining a starter pack of actors and feeds for new users. *)
+  type main = {
+    name: string;
+    description: string option;
+    descriptionFacets: app_bsky_richtext_facet_main list option;
+    list: string;
+    feeds: app_bsky_graph_starterpack_feeditem list option;
+    createdAt: string;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
   (** def feedItem *)
@@ -5431,7 +5463,13 @@ end
   *)
 module App_Bsky_Graph_Listitem = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** Record representing an account's inclusion on a specific list. The AppView will ignore duplicate listitem records. *)
+  type main = {
+    subject: string;
+    list: string;
+    createdAt: string;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
 end
@@ -5441,7 +5479,12 @@ end
   *)
 module App_Bsky_Graph_Listblock = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** Record representing a block relationship against an entire an entire list of accounts (actors). *)
+  type main = {
+    subject: string;
+    createdAt: string;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
 end
@@ -5451,7 +5494,20 @@ end
   *)
 module App_Bsky_Graph_List = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** Record representing a list of accounts (actors). Scope includes both moderation-oriented lists and curration-oriented lists. *)
+  type main = {
+    purpose: app_bsky_graph_defs_listpurpose;
+    name: string;
+    description: string option;
+    descriptionFacets: app_bsky_richtext_facet_main list option;
+    avatar: Blob.t option;
+    labels: [
+    | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
+    | `Other of Value.t (** Non closed union *)
+    ] option;
+    createdAt: string;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
 end
@@ -5909,7 +5965,12 @@ end
   *)
 module App_Bsky_Graph_Follow = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** Record declaring a social 'follow' relationship of another account. Duplicate follows will be ignored by the AppView. *)
+  type main = {
+    subject: string;
+    createdAt: string;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
 end
@@ -5919,7 +5980,12 @@ end
   *)
 module App_Bsky_Graph_Block = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** Record declaring a 'block' relationship against another account. NOTE: blocks are public in Bluesky; see blog posts for details. *)
+  type main = {
+    subject: string;
+    createdAt: string;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
 end
@@ -6003,7 +6069,12 @@ end
   *)
 module App_Bsky_Feed_Repost = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** Record representing a 'repost' of an existing Bluesky post. *)
+  type main = {
+    subject: com_atproto_repo_strongref_main;
+    createdAt: string;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
 end
@@ -6013,7 +6084,29 @@ end
   *)
 module App_Bsky_Feed_Post = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** Record containing a Bluesky post. *)
+  type main = {
+    text: string;
+    entities: app_bsky_feed_post_entity list option;
+    facets: app_bsky_richtext_facet_main list option;
+    reply: app_bsky_feed_post_replyref option;
+    embed: [
+    | `App_bsky_embed_images_main of app_bsky_embed_images_main
+    | `App_bsky_embed_video_main of app_bsky_embed_video_main
+    | `App_bsky_embed_external_main of app_bsky_embed_external_main
+    | `App_bsky_embed_record_main of app_bsky_embed_record_main
+    | `App_bsky_embed_recordwithmedia_main of app_bsky_embed_recordwithmedia_main
+    | `Other of Value.t (** Non closed union *)
+    ] option;
+    langs: string list option;
+    labels: [
+    | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
+    | `Other of Value.t (** Non closed union *)
+    ] option;
+    tags: string list option;
+    createdAt: string;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
   (** def replyRef *)
@@ -6054,7 +6147,12 @@ end
   *)
 module App_Bsky_Feed_Like = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** Record declaring a 'like' of a piece of subject content. *)
+  type main = {
+    subject: com_atproto_repo_strongref_main;
+    createdAt: string;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
 end
@@ -6587,7 +6685,22 @@ end
   *)
 module App_Bsky_Feed_Generator = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** Record declaring of the existence of a feed generator, and containing metadata about it. The record can exist in any repository. *)
+  type main = {
+    did: string;
+    displayName: string;
+    description: string option;
+    descriptionFacets: app_bsky_richtext_facet_main list option;
+    avatar: Blob.t option;
+    acceptsInteractions: bool option;
+    labels: [
+    | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
+    | `Other of Value.t (** Non closed union *)
+    ] option;
+    contentMode: string option;
+    createdAt: string;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
 end
@@ -6638,7 +6751,17 @@ end
   *)
 module App_Bsky_Actor_Status = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** A declaration of a Bluesky account status. *)
+  type main = {
+    status: string;
+    embed: [
+    | `App_bsky_embed_external_main of app_bsky_embed_external_main
+    | `Other of Value.t (** Non closed union *)
+    ] option;
+    durationMinutes: int64 option;
+    createdAt: string;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
   (** def live *)
@@ -6739,7 +6862,21 @@ end
   *)
 module App_Bsky_Actor_Profile = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** A declaration of a Bluesky account profile. *)
+  type main = {
+    displayName: string option;
+    description: string option;
+    avatar: Blob.t option;
+    banner: Blob.t option;
+    labels: [
+    | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
+    | `Other of Value.t (** Non closed union *)
+    ] option;
+    joinedViaStarterPack: com_atproto_repo_strongref_main option;
+    pinnedPost: com_atproto_repo_strongref_main option;
+    createdAt: string option;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
 end
@@ -8237,7 +8374,20 @@ end
   *)
 module App_Bsky_Feed_Threadgate = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** Record defining interaction gating rules for a thread (aka, reply controls). The record key (rkey) of the threadgate record must match the record key of the thread's root post, and that record must be in the same repository. *)
+  type main = {
+    post: string;
+    allow: [
+    | `App_bsky_feed_threadgate_mentionrule of app_bsky_feed_threadgate_mentionrule
+    | `App_bsky_feed_threadgate_followerrule of app_bsky_feed_threadgate_followerrule
+    | `App_bsky_feed_threadgate_followingrule of app_bsky_feed_threadgate_followingrule
+    | `App_bsky_feed_threadgate_listrule of app_bsky_feed_threadgate_listrule
+    | `Other of Value.t (** Non closed union *)
+    ] list option;
+    createdAt: string;
+    hiddenReplies: string list option;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
   (** def mentionRule *)
@@ -8277,7 +8427,17 @@ end
   *)
 module App_Bsky_Feed_Postgate = struct
   (** def main *)
-  let main = [`Todo] (* TODO: record *)
+  (** Record defining interaction rules for a post. The record key (rkey) of the postgate record must match the record key of the post, and that record must be in the same repository. *)
+  type main = {
+    createdAt: string;
+    post: string;
+    detachedEmbeddingUris: string list option;
+    embeddingRules: [
+    | `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule
+    | `Other of Value.t (** Non closed union *)
+    ] list option;
+  }  [@@deriving show {with_path=false}, yojson {strict=false}]
+
 
 
   (** def disableRule *)
