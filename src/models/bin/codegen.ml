@@ -2,11 +2,15 @@ module Lex = Cephalopod_lexicon
 module A = Lex.Ast
 module Str_map = Map.Make (String)
 
-let ( let@ ) = ( @@ )
-let spf = Printf.sprintf
-let debug = ref false
-let log_ msg = if !debug then Printf.eprintf "%s\n%!" msg
-let logf msg = Printf.ksprintf log_ msg
+open struct
+  type 'a iter = ('a -> unit) -> unit
+
+  let ( let@ ) = ( @@ )
+  let spf = Printf.sprintf
+  let debug = ref false
+  let log_ msg = if !debug then Printf.eprintf "%s\n%!" msg
+  let logf msg = Printf.ksprintf log_ msg
+end
 
 module Sort = struct
   module Tbl = Hashtbl.Make (struct
@@ -17,11 +21,10 @@ module Sort = struct
   end)
 
   (** Find dependencies of [lex] *)
-  let deps_of_lex (lex : A.lexicon) : string list =
-    let res = ref [] in
+  let deps_of_lex (lex : A.lexicon) : string iter =
+   fun yield ->
     A.iter_refs_lexicon lex (fun (r : A.ref) ->
-        if r.name <> "" then res := r.name :: !res);
-    !res
+        if r.name <> "" then yield r.name)
 
   let find_lex lex_map name =
     try Str_map.find name lex_map
@@ -35,7 +38,7 @@ module Sort = struct
       ~tbl:(module Tbl)
       ~graph:lex_map
       ~children:(fun lex_map (lex : A.lexicon) ->
-        deps_of_lex lex |> List.rev_map (find_lex lex_map) |> CCList.to_iter)
+        fun yield -> deps_of_lex lex (fun name -> yield (find_lex lex_map name)))
       ~nodes:lex ()
     |> List.map (function
          | [ lex ] -> lex
