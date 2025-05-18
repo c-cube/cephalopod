@@ -172,7 +172,14 @@ module Codegen = struct
           else
             " option"
         in
-        bpf out "    %s: %a%s;\n" (field_name k) recurse ty option_suffix)
+        let fname = field_name k in
+        let key_attr =
+          if fname <> k then
+            spf " [@key %S]" k
+          else
+            ""
+        in
+        bpf out "    %s: %a%s;%s\n" fname recurse ty option_suffix key_attr)
       properties;
     bpf out "  }"
 

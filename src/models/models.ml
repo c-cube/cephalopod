@@ -42,11 +42,11 @@ module Types = struct
     src: string;
     uri: string;
     cid: string option;
-    val_: string;
+    val_: string; [@key "val"]
     neg: bool option;
     cts: string;
     exp: string option;
-    sig_: bytes option;
+    sig_: bytes option; [@key "sig"]
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
@@ -105,7 +105,7 @@ module Types = struct
 
   (** def "app.bsky.embed.external#view" *)
   type app_bsky_embed_external_view = {
-    external_: app_bsky_embed_external_viewexternal;
+    external_: app_bsky_embed_external_viewexternal; [@key "external"]
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
@@ -379,7 +379,7 @@ module Types = struct
   (** def "app.bsky.actor.defs#savedFeed" *)
   type app_bsky_actor_defs_savedfeed = {
     id: string;
-    type_: string;
+    type_: string; [@key "type"]
     value: string;
     pinned: bool;
   }
@@ -885,7 +885,7 @@ module Types = struct
   (** def "app.bsky.feed.post#textSlice" *)
   type app_bsky_feed_post_textslice = {
     start: int64;
-    end_: int64;
+    end_: int64; [@key "end"]
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
@@ -1285,7 +1285,7 @@ module Types = struct
 
   (** def "com.atproto.label.defs#selfLabel" *)
   type com_atproto_label_defs_selflabel = {
-    val_: string;
+    val_: string; [@key "val"]
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
@@ -1386,7 +1386,7 @@ module Types = struct
 
   (** def "app.bsky.embed.external#main" *)
   type app_bsky_embed_external_main = {
-    external_: app_bsky_embed_external_external;
+    external_: app_bsky_embed_external_external; [@key "external"]
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
@@ -1545,7 +1545,7 @@ module Types = struct
   (** def "app.bsky.feed.post#entity" *)
   type app_bsky_feed_post_entity = {
     index: app_bsky_feed_post_textslice;
-    type_: string;
+    type_: string; [@key "type"]
     value: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -6122,7 +6122,7 @@ module App_Bsky_Feed_Post = struct
   (** def entity *)
   type nonrec entity = app_bsky_feed_post_entity = {
     index: app_bsky_feed_post_textslice;
-    type_: string;
+    type_: string; [@key "type"]
     value: string;
   }
   let pp_entity = pp_app_bsky_feed_post_entity
@@ -6133,7 +6133,7 @@ module App_Bsky_Feed_Post = struct
   (** def textSlice *)
   type nonrec textslice = app_bsky_feed_post_textslice = {
     start: int64;
-    end_: int64;
+    end_: int64; [@key "end"]
   }
   let pp_textslice = pp_app_bsky_feed_post_textslice
   let textslice_of_yojson = app_bsky_feed_post_textslice_of_yojson
@@ -7158,7 +7158,7 @@ module App_Bsky_Actor_Defs = struct
   (** def savedFeed *)
   type nonrec savedfeed = app_bsky_actor_defs_savedfeed = {
     id: string;
-    type_: string;
+    type_: string; [@key "type"]
     value: string;
     pinned: bool;
   }
@@ -8306,11 +8306,11 @@ module Com_Atproto_Label_Defs = struct
     src: string;
     uri: string;
     cid: string option;
-    val_: string;
+    val_: string; [@key "val"]
     neg: bool option;
     cts: string;
     exp: string option;
-    sig_: bytes option;
+    sig_: bytes option; [@key "sig"]
   }
   let pp_label = pp_com_atproto_label_defs_label
   let label_of_yojson = com_atproto_label_defs_label_of_yojson
@@ -8328,7 +8328,7 @@ module Com_Atproto_Label_Defs = struct
 
   (** def selfLabel *)
   type nonrec selflabel = com_atproto_label_defs_selflabel = {
-    val_: string;
+    val_: string; [@key "val"]
   }
   let pp_selflabel = pp_com_atproto_label_defs_selflabel
   let selflabel_of_yojson = com_atproto_label_defs_selflabel_of_yojson
@@ -8455,7 +8455,7 @@ end
 module App_Bsky_Embed_External = struct
   (** def main *)
   type nonrec main = app_bsky_embed_external_main = {
-    external_: app_bsky_embed_external_external;
+    external_: app_bsky_embed_external_external; [@key "external"]
   }
   let pp_main = pp_app_bsky_embed_external_main
   let main_of_yojson = app_bsky_embed_external_main_of_yojson
@@ -8476,7 +8476,7 @@ module App_Bsky_Embed_External = struct
 
   (** def view *)
   type nonrec view = app_bsky_embed_external_view = {
-    external_: app_bsky_embed_external_viewexternal;
+    external_: app_bsky_embed_external_viewexternal; [@key "external"]
   }
   let pp_view = pp_app_bsky_embed_external_view
   let view_of_yojson = app_bsky_embed_external_view_of_yojson
