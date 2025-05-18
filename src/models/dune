@@ -1,7 +1,8 @@
 (library
  (name cephalopod_models)
  (public_name cephalopod-models)
- (preprocess (pps ppx_deriving.std ppx_deriving_yojson))
+ (preprocess
+  (pps ppx_deriving.std ppx_deriving_yojson))
  (libraries cephalopod.dasl))
 
 (rule
@@ -12,4 +13,9 @@
   (:lexicons
    (source_tree %{project_root}/vendor/atproto/lexicons/)))
  (action
-  (run %{gen} %{project_root}/vendor/atproto/lexicons/app/bsky/ %{project_root}/vendor/atproto/lexicons/com/atproto/ -o %{targets})))
+  (run
+   %{gen}
+   %{project_root}/vendor/atproto/lexicons/app/bsky/
+   %{project_root}/vendor/atproto/lexicons/com/atproto/
+   -o
+   %{targets})))
