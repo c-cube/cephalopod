@@ -10,6 +10,8 @@ bug-reports: "https://github.com/c-cube/cephalopod/issues"
 depends: [
   "dune" {>= "3.0"}
   "cephalopod" {= version}
+  "ppx_deriving"
+  "ppx_deriving_yojson"
   "odoc" {with-doc}
 ]
 build: [

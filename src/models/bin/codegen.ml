@@ -124,7 +124,7 @@ module Codegen = struct
     else
       s
 
-  let field_name s = String.lowercase_ascii s |> remove_keyword
+  let field_name s = String.uncapitalize_ascii s |> remove_keyword
 
   let val_name_of_ref (ref : A.ref) : string =
     spf "%s_%s"
@@ -152,36 +152,40 @@ module Codegen = struct
     | A.Blob _ -> bpf out "Blob.t"
     | A.Array { items; _ } -> bpf out "%a list" recurse items
     | A.Object { required; nullable; properties } ->
-      bpf out "{\n";
-      List.iter
-        (fun (k, ty) ->
-          let required =
-            match required, nullable with
-            | Some r, _ when List.mem k r -> true
-            | _, Some n when List.mem k n -> false
-            | Some _, _ -> false
-            | None, _ -> true
-          in
-          let option_suffix =
-            if required then
-              ""
-            else
-              " option"
-          in
-          bpf out "    %s: %a%s;\n" (field_name k) recurse ty option_suffix)
-        properties;
-      bpf out "  }"
-    | A.Union { refs; closed } ->
-      bpf out "[\n";
-      List.iter
-        (fun (r : A.ref) ->
-          let cstor = cstor_name_of_ref r in
-          bpf out "    | `%s of %s\n" cstor (val_name_of_ref r))
-        refs;
-      if not closed then
-        bpf out "    | `Other of Value.t (** Non closed union *)\n";
-      bpf out "    ]";
-      ()
+      gen_fields ~inside ~required ~nullable ~properties out ()
+    | A.Union { refs; closed } -> gen_union ~inside ~refs ~closed out ()
+
+  and gen_fields ~inside ~required ~nullable ~properties out () =
+    let recurse out ty = gen_ty ~inside out ty in
+    bpf out "{\n";
+    List.iter
+      (fun (k, ty) ->
+        let required =
+          match required, nullable with
+          | Some r, _ when List.mem k r -> true
+          | _, Some n when List.mem k n -> false
+          | _ -> false
+        in
+        let option_suffix =
+          if required then
+            ""
+          else
+            " option"
+        in
+        bpf out "    %s: %a%s;\n" (field_name k) recurse ty option_suffix)
+      properties;
+    bpf out "  }"
+
+  and gen_union ~inside:_ ~refs ~closed out () =
+    bpf out "[\n";
+    List.iter
+      (fun (r : A.ref) ->
+        let cstor = cstor_name_of_ref r in
+        bpf out "    | `%s of %s\n" cstor (val_name_of_ref r))
+      refs;
+    if not closed then
+      bpf out "    | `Other of Value.t (** Non closed union *)\n";
+    bpf out "    ]"
 
   let gen_object (out : out) ((ref, o) : A.ref * A.object_) : unit =
     bpf out "%s = %a" (val_name_of_ref ref) (gen_ty ~inside:ref)
@@ -202,33 +206,179 @@ module Codegen = struct
     let out = Buffer.create 32 in
     List.iteri
       (fun i (ref, def) ->
-        bpf out "  (** def %s *)\n" (A.show_ref ref);
+        bpf out "\n  (** def %s *)\n" (A.show_ref ref);
         if i = 0 then
           bpf out "  type "
         else
           bpf out "  and ";
         gen_def_type out (ref, def);
-        bpf out "\n\n")
+        bpf out "\n")
       clique;
+    bpf out "  [@@deriving show {with_path=false}, yojson {strict=false}]\n\n";
     Buffer.output_buffer oc out
+
+  let name_of_params ~ref (_p : A.params) : string =
+    spf "%s_params" (val_name_of_ref ref)
+
+  let name_of_io ~ref ~(which : [ `In | `Out ]) (_p : A.input_or_output) :
+      string =
+    spf "%s_%s" (val_name_of_ref ref)
+      (match which with
+      | `In -> "input"
+      | `Out -> "output")
+
+  let name_of_errors ~ref (_errs : A.error list) : string =
+    spf "%s_error" (val_name_of_ref ref)
+
+  let name_of_message ~ref (_m : A.message) : string =
+    spf "%s_msg" (val_name_of_ref ref)
+
+  let define_params ~ref out (p : A.params) : unit =
+    bpf out "  type %s = " (name_of_params ~ref p);
+    gen_fields ~inside:ref ~required:p.required ~nullable:None
+      ~properties:p.properties out ();
+    bpf out "\n  [@@deriving show {with_path=false}, yojson {strict=false}]\n\n"
+
+  let define_io ~ref ~(which : [ `In | `Out ]) out (io : A.input_or_output) :
+      unit =
+    let name = name_of_io ~ref ~which io in
+    assert (io.schema <> None);
+    let ty = Option.get io.schema in
+    bpf out "  type %s = %a\n" name
+      (gen_ty ~inside:{ A.name = ""; fragment = name })
+      ty;
+    bpf out "\n  [@@deriving show {with_path=false}, yojson {strict=false}]\n\n"
+
+  let define_errors ~ref out (errs : A.error list) : unit =
+    assert (errs <> []);
+    bpf out "  type %s = [" (name_of_errors ~ref errs);
+    List.iter
+      (fun (e : A.error) ->
+        bpf out " | `%s " (String.capitalize_ascii e.name |> remove_keyword))
+      errs;
+    bpf out "]";
+    bpf out "\n  [@@deriving show {with_path=false}, yojson {strict=false}]\n\n"
+
+  let define_message ~ref out (m : A.message) : unit =
+    let name = name_of_message ~ref m in
+    bpf out "  type %s = %a" name
+      (gen_ty ~inside:{ A.name = ""; fragment = name })
+      m.schema;
+    bpf out "\n  [@@deriving show {with_path=false}, yojson {strict=false}]\n\n"
+
+  let base_typ_of_name name : string =
+    spf
+      "{\n\
+      \    to_yojson=%s_to_yojson;\n\
+      \    of_yojson=%s_of_yojson;\n\
+      \    pp=pp_%s}"
+      name name name
 
   let gen_def_in_mod (out : out) ((ref, def) : A.ref * A.def) : unit =
     let name = String.lowercase_ascii ref.fragment |> remove_keyword in
+
+    let alias_pp_json name ref =
+      bpf out "  let pp_%s = pp_%s\n" name (val_name_of_ref ref);
+      bpf out "  let %s_of_yojson = %s_of_yojson\n" name (val_name_of_ref ref);
+      bpf out "  let %s_to_yojson = %s_to_yojson\n" name (val_name_of_ref ref)
+    in
+
+    let params_as_argument (p : A.params option) : string =
+      match p with
+      | Some p when p.properties <> [] ->
+        define_params ~ref out p;
+        let name = name_of_params ~ref p in
+        spf "\n    ~parameters:(Params %s)" (base_typ_of_name name)
+      | _ -> "~parameters:No_params"
+    in
+
+    let input_as_argument (io : A.input_or_output option) : string =
+      match io with
+      | Some io ->
+        let name = name_of_io ~ref ~which:`In io in
+        if Option.is_some io.schema then (
+          define_io ~ref ~which:`In out io;
+          spf "\n    ~input:(IO_jsonable {encoding=%s; json=%s})"
+            (A.show_encoding io.encoding)
+            (base_typ_of_name name)
+        ) else
+          spf "\n    ~input:(IO_opaque {encoding=%s})"
+            (A.show_encoding io.encoding)
+      | _ -> "~input:No_io"
+    in
+
+    let output_as_argument (io : A.input_or_output option) : string =
+      match io with
+      | Some io ->
+        let name = name_of_io ~ref ~which:`Out io in
+        if Option.is_some io.schema then (
+          define_io ~ref ~which:`Out out io;
+          spf "\n    ~output:(IO_jsonable {encoding=%s; json=%s})"
+            (A.show_encoding io.encoding)
+            (base_typ_of_name name)
+        ) else
+          spf "\n    ~output:(IO_opaque {encoding=%s})"
+            (A.show_encoding io.encoding)
+      | _ -> "~output:No_io"
+    in
+
+    let errors_as_argument (errors : A.error list option) =
+      match errors with
+      | None | Some [] -> "~errors:No_errors"
+      | Some errs ->
+        let name = name_of_errors ~ref errs in
+        define_errors ~ref out errs;
+        spf "\n    ~errors:(Errors {pp=pp_%s})" name
+    in
+
+    let message_as_argument (msg : A.message option) =
+      match msg with
+      | None -> "~message:No_message"
+      | Some m ->
+        let name = name_of_message ~ref m in
+        define_message ~ref out m;
+        spf "~message:(Message %s)" (base_typ_of_name name)
+    in
+
     match def with
     | A.Type ({ view = Object { properties = _ :: _; _ }; _ } as ty) ->
       (* alias and redefine *)
-      bpf out "nonrec %s = %s = %a" name (val_name_of_ref ref)
-        (gen_ty ~inside:ref) ty
+      bpf out "  type nonrec %s = %s = %a\n" name (val_name_of_ref ref)
+        (gen_ty ~inside:ref) ty;
+      alias_pp_json name ref
     | A.Object ({ properties = _ :: _; _ } as o) ->
       (* alias and redefine *)
-      bpf out "nonrec %s = %s = %a" name (val_name_of_ref ref)
+      bpf out "  type nonrec %s = %s = %a\n" name (val_name_of_ref ref)
         (gen_ty ~inside:ref)
-        { A.description = None; view = Object o }
+        { A.description = None; view = Object o };
+      alias_pp_json name ref
     | A.Type _ | A.Object _ ->
       (* alias to the real definition *)
-      bpf out "nonrec %s = %s" name (val_name_of_ref ref)
-    | A.Query _ | A.Procedure _ | A.Record _ | A.Subscription _ ->
-      bpf out "%s = [`Todo] (* TODO *)\n" name
+      bpf out "  type nonrec %s = %s\n" name (val_name_of_ref ref);
+      alias_pp_json name ref
+    | A.Query q ->
+      let params = params_as_argument q.parameters in
+      let output = output_as_argument q.output in
+      let errors = errors_as_argument q.errors in
+      Option.iter (bpf out "  (** %s *)\n") q.description;
+      bpf out "  let %s: _ Base.query = Base.make_query %s %s %s" name params
+        output errors
+    | A.Subscription sub ->
+      let msg = message_as_argument sub.message in
+      let params = params_as_argument sub.parameters in
+      let errors = errors_as_argument sub.errors in
+      Option.iter (bpf out "  (** %s *)\n") sub.description;
+      bpf out "  let %s: _ Base.subscription = Base.make_subscription %s %s %s"
+        name params msg errors
+    | A.Procedure p ->
+      let params = params_as_argument p.parameters in
+      let input = input_as_argument p.input in
+      let output = output_as_argument p.output in
+      let errors = errors_as_argument p.errors in
+      Option.iter (bpf out "  (** %s *)\n") p.description;
+      bpf out "  let %s: _ Base.procedure = Base.make_procedure %s %s %s %s"
+        name params input output errors
+    | A.Record _ -> bpf out "  let %s = [`Todo] (* TODO: record *)\n" name
 
   let gen_lex (oc : out_channel) (lex : A.lexicon) : unit =
     let out = Buffer.create 32 in
@@ -236,17 +386,16 @@ module Codegen = struct
     let gen_def_in_lex out (def_name, def) =
       let ref = A.{ name = lex.id; fragment = def_name } in
       bpf out "  (** def %s *)\n" def_name;
-      bpf out "  type ";
       gen_def_in_mod out (ref, def);
       bpf out "\n\n"
     in
 
     List.iter (gen_def_in_lex out) lex.defs;
 
-    fpf oc "(** lexicon %s\n" lex.id;
+    fpf oc "\n(** lexicon %S\n" lex.id;
     Option.iter (fpf oc "  %s\n") lex.description;
     fpf oc "  *)\n";
-    fpf oc "\nmodule %s = struct\n" (mod_name lex.id);
+    fpf oc "module %s = struct\n" (mod_name lex.id);
     Buffer.output_buffer oc out;
     fpf oc "end\n\n";
     ()

@@ -1,3 +1,5 @@
+
+; check that we can parse everything
 (rule
  (alias runtest)
  (deps

@@ -1,6 +1,7 @@
 (library
  (name cephalopod_models)
  (public_name cephalopod-models)
+ (preprocess (pps ppx_deriving.std ppx_deriving_yojson))
  (libraries cephalopod.dasl))
 
 (rule
@@ -8,7 +9,7 @@
  (mode promote)
  (deps
   (:gen ./bin/codegen.exe)
-  (:dirs
-   (source_tree %{project_root}/vendor/atproto/lexicons)))
+  (:lexicons
+   (source_tree %{project_root}/vendor/atproto/lexicons/)))
  (action
-  (run %{gen} %{dirs} -o %{targets})))
+  (run %{gen} %{project_root}/vendor/atproto/lexicons/app/bsky/ %{project_root}/vendor/atproto/lexicons/com/atproto/ -o %{targets})))
