@@ -1632,7 +1632,7 @@ open Types
   *)
 module Com_Atproto_Temp_RequestPhoneVerification = struct
   (** def main *)
-  type com_atproto_temp_requestphoneverification_main_input = {
+  type main_input = {
     phoneNumber: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -1640,9 +1640,9 @@ module Com_Atproto_Temp_RequestPhoneVerification = struct
   (** Request a verification code to be sent to the supplied phone number *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_temp_requestphoneverification_main_input_to_yojson;
-    of_yojson=com_atproto_temp_requestphoneverification_main_input_of_yojson;
-    pp=pp_com_atproto_temp_requestphoneverification_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -1651,13 +1651,13 @@ end
   *)
 module Com_Atproto_Temp_FetchLabels = struct
   (** def main *)
-  type com_atproto_temp_fetchlabels_main_params = {
+  type main_params = {
     since: int64 option;
     limit: int64 option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_temp_fetchlabels_main_output = {
+  type main_output = {
     labels: com_atproto_label_defs_label list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -1665,13 +1665,13 @@ module Com_Atproto_Temp_FetchLabels = struct
   (** DEPRECATED: use queryLabels or subscribeLabels instead -- Fetch all labels from a labeler created after a certain date. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_temp_fetchlabels_main_params_to_yojson;
-    of_yojson=com_atproto_temp_fetchlabels_main_params_of_yojson;
-    pp=pp_com_atproto_temp_fetchlabels_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_temp_fetchlabels_main_output_to_yojson;
-    of_yojson=com_atproto_temp_fetchlabels_main_output_of_yojson;
-    pp=pp_com_atproto_temp_fetchlabels_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -1680,7 +1680,7 @@ end
   *)
 module Com_Atproto_Temp_CheckSignupQueue = struct
   (** def main *)
-  type com_atproto_temp_checksignupqueue_main_output = {
+  type main_output = {
     activated: bool;
     placeInQueue: int64 option;
     estimatedTimeMs: int64 option;
@@ -1690,9 +1690,9 @@ module Com_Atproto_Temp_CheckSignupQueue = struct
   (** Check accounts location in signup queue. *)
   let main: _ Base.query = Base.make_query ~parameters:No_params 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_temp_checksignupqueue_main_output_to_yojson;
-    of_yojson=com_atproto_temp_checksignupqueue_main_output_of_yojson;
-    pp=pp_com_atproto_temp_checksignupqueue_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -1701,24 +1701,24 @@ end
   *)
 module Com_Atproto_Temp_AddReservedHandle = struct
   (** def main *)
-  type com_atproto_temp_addreservedhandle_main_input = {
+  type main_input = {
     handle: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_temp_addreservedhandle_main_output = [`_com_atproto_temp_addreservedhandle_main_output]
+  type main_output = [`_main_output]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Add a handle to the set of reserved handles. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_temp_addreservedhandle_main_input_to_yojson;
-    of_yojson=com_atproto_temp_addreservedhandle_main_input_of_yojson;
-    pp=pp_com_atproto_temp_addreservedhandle_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_temp_addreservedhandle_main_output_to_yojson;
-    of_yojson=com_atproto_temp_addreservedhandle_main_output_of_yojson;
-    pp=pp_com_atproto_temp_addreservedhandle_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -1727,7 +1727,7 @@ end
   *)
 module Com_Atproto_Sync_SubscribeRepos = struct
   (** def main *)
-  type com_atproto_sync_subscriberepos_main_msg = [
+  type main_msg = [
     `Com_atproto_sync_subscriberepos_commit of com_atproto_sync_subscriberepos_commit [@name "commit"]
     | `Com_atproto_sync_subscriberepos_sync of com_atproto_sync_subscriberepos_sync [@name "sync"]
     | `Com_atproto_sync_subscriberepos_identity of com_atproto_sync_subscriberepos_identity [@name "identity"]
@@ -1737,24 +1737,24 @@ module Com_Atproto_Sync_SubscribeRepos = struct
     ]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_sync_subscriberepos_main_params = {
+  type main_params = {
     cursor: int64 option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_subscriberepos_main_error = [ `FutureCursor [@name "FutureCursor"] | `ConsumerTooSlow [@name "ConsumerTooSlow"]]
+  type main_error = [ `FutureCursor [@name "FutureCursor"] | `ConsumerTooSlow [@name "ConsumerTooSlow"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Repository event stream, aka Firehose endpoint. Outputs repo commits with diff data, and identity update events, for all repositories on the current server. See the atproto specifications for details around stream sequencing, repo versioning, CAR diff format, and more. Public and does not require auth; implemented by PDS and Relay. *)
   let main: _ Base.subscription = Base.make_subscription 
     ~parameters:(Params {
-    to_yojson=com_atproto_sync_subscriberepos_main_params_to_yojson;
-    of_yojson=com_atproto_sync_subscriberepos_main_params_of_yojson;
-    pp=pp_com_atproto_sync_subscriberepos_main_params}) ~message:(Message {
-    to_yojson=com_atproto_sync_subscriberepos_main_msg_to_yojson;
-    of_yojson=com_atproto_sync_subscriberepos_main_msg_of_yojson;
-    pp=pp_com_atproto_sync_subscriberepos_main_msg}) 
-    ~errors:(Errors {pp=pp_com_atproto_sync_subscriberepos_main_error})
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) ~message:(Message {
+    to_yojson=main_msg_to_yojson;
+    of_yojson=main_msg_of_yojson;
+    pp=pp_main_msg}) 
+    ~errors:(Errors {pp=pp_main_error})
 
   (** def commit *)
   type nonrec commit = com_atproto_sync_subscriberepos_commit = {
@@ -1843,21 +1843,21 @@ end
   *)
 module Com_Atproto_Sync_RequestCrawl = struct
   (** def main *)
-  type com_atproto_sync_requestcrawl_main_input = {
+  type main_input = {
     hostname: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_sync_requestcrawl_main_error = [ `HostBanned [@name "HostBanned"]]
+  type main_error = [ `HostBanned [@name "HostBanned"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Request a service to persistently crawl hosted repos. Expected use is new PDS instances declaring their existence to Relays. Does not require auth. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_sync_requestcrawl_main_input_to_yojson;
-    of_yojson=com_atproto_sync_requestcrawl_main_input_of_yojson;
-    pp=pp_com_atproto_sync_requestcrawl_main_input}}) ~output:No_io 
-    ~errors:(Errors {pp=pp_com_atproto_sync_requestcrawl_main_error})
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -1866,7 +1866,7 @@ end
   *)
 module Com_Atproto_Sync_NotifyOfUpdate = struct
   (** def main *)
-  type com_atproto_sync_notifyofupdate_main_input = {
+  type main_input = {
     hostname: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -1874,9 +1874,9 @@ module Com_Atproto_Sync_NotifyOfUpdate = struct
   (** Notify a crawling service of a recent update, and that crawling should resume. Intended use is after a gap between repo stream events caused the crawling service to disconnect. Does not require auth; implemented by Relay. DEPRECATED: just use com.atproto.sync.requestCrawl *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_sync_notifyofupdate_main_input_to_yojson;
-    of_yojson=com_atproto_sync_notifyofupdate_main_input_of_yojson;
-    pp=pp_com_atproto_sync_notifyofupdate_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -1885,14 +1885,14 @@ end
   *)
 module Com_Atproto_Sync_ListReposByCollection = struct
   (** def main *)
-  type com_atproto_sync_listreposbycollection_main_params = {
+  type main_params = {
     collection: string;
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_listreposbycollection_main_output = {
+  type main_output = {
     cursor: string option;
     repos: com_atproto_sync_listreposbycollection_repo list;
   }
@@ -1901,13 +1901,13 @@ module Com_Atproto_Sync_ListReposByCollection = struct
   (** Enumerates all the DIDs which have records with the given collection NSID. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_sync_listreposbycollection_main_params_to_yojson;
-    of_yojson=com_atproto_sync_listreposbycollection_main_params_of_yojson;
-    pp=pp_com_atproto_sync_listreposbycollection_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_sync_listreposbycollection_main_output_to_yojson;
-    of_yojson=com_atproto_sync_listreposbycollection_main_output_of_yojson;
-    pp=pp_com_atproto_sync_listreposbycollection_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
   (** def repo *)
   type nonrec repo = com_atproto_sync_listreposbycollection_repo = {
@@ -1925,13 +1925,13 @@ end
   *)
 module Com_Atproto_Sync_ListRepos = struct
   (** def main *)
-  type com_atproto_sync_listrepos_main_params = {
+  type main_params = {
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_listrepos_main_output = {
+  type main_output = {
     cursor: string option;
     repos: com_atproto_sync_listrepos_repo list;
   }
@@ -1940,13 +1940,13 @@ module Com_Atproto_Sync_ListRepos = struct
   (** Enumerates all the DID, rev, and commit CID for all repos hosted by this service. Does not require auth; implemented by PDS and Relay. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_sync_listrepos_main_params_to_yojson;
-    of_yojson=com_atproto_sync_listrepos_main_params_of_yojson;
-    pp=pp_com_atproto_sync_listrepos_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_sync_listrepos_main_output_to_yojson;
-    of_yojson=com_atproto_sync_listrepos_main_output_of_yojson;
-    pp=pp_com_atproto_sync_listrepos_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
   (** def repo *)
   type nonrec repo = com_atproto_sync_listrepos_repo = {
@@ -1968,13 +1968,13 @@ end
   *)
 module Com_Atproto_Sync_ListHosts = struct
   (** def main *)
-  type com_atproto_sync_listhosts_main_params = {
+  type main_params = {
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_listhosts_main_output = {
+  type main_output = {
     cursor: string option;
     hosts: com_atproto_sync_listhosts_host list;
   }
@@ -1983,13 +1983,13 @@ module Com_Atproto_Sync_ListHosts = struct
   (** Enumerates upstream hosts (eg, PDS or relay instances) that this service consumes from. Implemented by relays. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_sync_listhosts_main_params_to_yojson;
-    of_yojson=com_atproto_sync_listhosts_main_params_of_yojson;
-    pp=pp_com_atproto_sync_listhosts_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_sync_listhosts_main_output_to_yojson;
-    of_yojson=com_atproto_sync_listhosts_main_output_of_yojson;
-    pp=pp_com_atproto_sync_listhosts_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
   (** def host *)
   type nonrec host = com_atproto_sync_listhosts_host = {
@@ -2010,7 +2010,7 @@ end
   *)
 module Com_Atproto_Sync_ListBlobs = struct
   (** def main *)
-  type com_atproto_sync_listblobs_main_params = {
+  type main_params = {
     did: string;
     since: string option;
     limit: int64 option;
@@ -2018,26 +2018,26 @@ module Com_Atproto_Sync_ListBlobs = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_listblobs_main_output = {
+  type main_output = {
     cursor: string option;
     cids: string list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_sync_listblobs_main_error = [ `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
+  type main_error = [ `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** List blob CIDs for an account, since some repo revision. Does not require auth; implemented by PDS. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_sync_listblobs_main_params_to_yojson;
-    of_yojson=com_atproto_sync_listblobs_main_params_of_yojson;
-    pp=pp_com_atproto_sync_listblobs_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_sync_listblobs_main_output_to_yojson;
-    of_yojson=com_atproto_sync_listblobs_main_output_of_yojson;
-    pp=pp_com_atproto_sync_listblobs_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_sync_listblobs_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2046,12 +2046,12 @@ end
   *)
 module Com_Atproto_Sync_GetRepoStatus = struct
   (** def main *)
-  type com_atproto_sync_getrepostatus_main_params = {
+  type main_params = {
     did: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_getrepostatus_main_output = {
+  type main_output = {
     did: string;
     active: bool;
     status: string option;
@@ -2059,20 +2059,20 @@ module Com_Atproto_Sync_GetRepoStatus = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_sync_getrepostatus_main_error = [ `RepoNotFound [@name "RepoNotFound"]]
+  type main_error = [ `RepoNotFound [@name "RepoNotFound"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get the hosting status for a repository, on this server. Expected to be implemented by PDS and Relay. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_sync_getrepostatus_main_params_to_yojson;
-    of_yojson=com_atproto_sync_getrepostatus_main_params_of_yojson;
-    pp=pp_com_atproto_sync_getrepostatus_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_sync_getrepostatus_main_output_to_yojson;
-    of_yojson=com_atproto_sync_getrepostatus_main_output_of_yojson;
-    pp=pp_com_atproto_sync_getrepostatus_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_sync_getrepostatus_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2081,23 +2081,23 @@ end
   *)
 module Com_Atproto_Sync_GetRepo = struct
   (** def main *)
-  type com_atproto_sync_getrepo_main_params = {
+  type main_params = {
     did: string;
     since: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_getrepo_main_error = [ `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
+  type main_error = [ `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Download a repository export as CAR file. Optionally only a 'diff' since a previous revision. Does not require auth; implemented by PDS. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_sync_getrepo_main_params_to_yojson;
-    of_yojson=com_atproto_sync_getrepo_main_params_of_yojson;
-    pp=pp_com_atproto_sync_getrepo_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_opaque {encoding=CAR}) 
-    ~errors:(Errors {pp=pp_com_atproto_sync_getrepo_main_error})
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2106,24 +2106,24 @@ end
   *)
 module Com_Atproto_Sync_GetRecord = struct
   (** def main *)
-  type com_atproto_sync_getrecord_main_params = {
+  type main_params = {
     did: string;
     collection: string;
     rkey: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_getrecord_main_error = [ `RecordNotFound [@name "RecordNotFound"] | `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
+  type main_error = [ `RecordNotFound [@name "RecordNotFound"] | `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get data blocks needed to prove the existence or non-existence of record in the current version of repo. Does not require auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_sync_getrecord_main_params_to_yojson;
-    of_yojson=com_atproto_sync_getrecord_main_params_of_yojson;
-    pp=pp_com_atproto_sync_getrecord_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_opaque {encoding=CAR}) 
-    ~errors:(Errors {pp=pp_com_atproto_sync_getrecord_main_error})
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2132,31 +2132,31 @@ end
   *)
 module Com_Atproto_Sync_GetLatestCommit = struct
   (** def main *)
-  type com_atproto_sync_getlatestcommit_main_params = {
+  type main_params = {
     did: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_getlatestcommit_main_output = {
+  type main_output = {
     cid: string;
     rev: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_sync_getlatestcommit_main_error = [ `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
+  type main_error = [ `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get the current commit CID & revision of the specified repo. Does not require auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_sync_getlatestcommit_main_params_to_yojson;
-    of_yojson=com_atproto_sync_getlatestcommit_main_params_of_yojson;
-    pp=pp_com_atproto_sync_getlatestcommit_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_sync_getlatestcommit_main_output_to_yojson;
-    of_yojson=com_atproto_sync_getlatestcommit_main_output_of_yojson;
-    pp=pp_com_atproto_sync_getlatestcommit_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_sync_getlatestcommit_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2165,12 +2165,12 @@ end
   *)
 module Com_Atproto_Sync_GetHostStatus = struct
   (** def main *)
-  type com_atproto_sync_gethoststatus_main_params = {
+  type main_params = {
     hostname: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_gethoststatus_main_output = {
+  type main_output = {
     hostname: string;
     seq: int64 option;
     accountCount: int64 option;
@@ -2178,20 +2178,20 @@ module Com_Atproto_Sync_GetHostStatus = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_sync_gethoststatus_main_error = [ `HostNotFound [@name "HostNotFound"]]
+  type main_error = [ `HostNotFound [@name "HostNotFound"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Returns information about a specified upstream host, as consumed by the server. Implemented by relays. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_sync_gethoststatus_main_params_to_yojson;
-    of_yojson=com_atproto_sync_gethoststatus_main_params_of_yojson;
-    pp=pp_com_atproto_sync_gethoststatus_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_sync_gethoststatus_main_output_to_yojson;
-    of_yojson=com_atproto_sync_gethoststatus_main_output_of_yojson;
-    pp=pp_com_atproto_sync_gethoststatus_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_sync_gethoststatus_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2200,30 +2200,30 @@ end
   *)
 module Com_Atproto_Sync_GetHead = struct
   (** def main *)
-  type com_atproto_sync_gethead_main_params = {
+  type main_params = {
     did: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_gethead_main_output = {
+  type main_output = {
     root: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_sync_gethead_main_error = [ `HeadNotFound [@name "HeadNotFound"]]
+  type main_error = [ `HeadNotFound [@name "HeadNotFound"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** DEPRECATED - please use com.atproto.sync.getLatestCommit instead *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_sync_gethead_main_params_to_yojson;
-    of_yojson=com_atproto_sync_gethead_main_params_of_yojson;
-    pp=pp_com_atproto_sync_gethead_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_sync_gethead_main_output_to_yojson;
-    of_yojson=com_atproto_sync_gethead_main_output_of_yojson;
-    pp=pp_com_atproto_sync_gethead_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_sync_gethead_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2232,7 +2232,7 @@ end
   *)
 module Com_Atproto_Sync_GetCheckout = struct
   (** def main *)
-  type com_atproto_sync_getcheckout_main_params = {
+  type main_params = {
     did: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
@@ -2240,9 +2240,9 @@ module Com_Atproto_Sync_GetCheckout = struct
   (** DEPRECATED - please use com.atproto.sync.getRepo instead *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_sync_getcheckout_main_params_to_yojson;
-    of_yojson=com_atproto_sync_getcheckout_main_params_of_yojson;
-    pp=pp_com_atproto_sync_getcheckout_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_opaque {encoding=CAR}) ~errors:No_errors
 
 end
@@ -2252,23 +2252,23 @@ end
   *)
 module Com_Atproto_Sync_GetBlocks = struct
   (** def main *)
-  type com_atproto_sync_getblocks_main_params = {
+  type main_params = {
     did: string;
     cids: string list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_getblocks_main_error = [ `BlockNotFound [@name "BlockNotFound"] | `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
+  type main_error = [ `BlockNotFound [@name "BlockNotFound"] | `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get data blocks from a given repo, by CID. For example, intermediate MST nodes, or records. Does not require auth; implemented by PDS. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_sync_getblocks_main_params_to_yojson;
-    of_yojson=com_atproto_sync_getblocks_main_params_of_yojson;
-    pp=pp_com_atproto_sync_getblocks_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_opaque {encoding=CAR}) 
-    ~errors:(Errors {pp=pp_com_atproto_sync_getblocks_main_error})
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2277,23 +2277,23 @@ end
   *)
 module Com_Atproto_Sync_GetBlob = struct
   (** def main *)
-  type com_atproto_sync_getblob_main_params = {
+  type main_params = {
     did: string;
     cid: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_getblob_main_error = [ `BlobNotFound [@name "BlobNotFound"] | `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
+  type main_error = [ `BlobNotFound [@name "BlobNotFound"] | `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a blob associated with a given account. Returns the full blob as originally uploaded. Does not require auth; implemented by PDS. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_sync_getblob_main_params_to_yojson;
-    of_yojson=com_atproto_sync_getblob_main_params_of_yojson;
-    pp=pp_com_atproto_sync_getblob_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_opaque {encoding=(Other "*/*")}) 
-    ~errors:(Errors {pp=pp_com_atproto_sync_getblob_main_error})
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2315,23 +2315,23 @@ end
   *)
 module Com_Atproto_Server_UpdateEmail = struct
   (** def main *)
-  type com_atproto_server_updateemail_main_input = {
+  type main_input = {
     email: string;
     emailAuthFactor: bool option;
     token: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_updateemail_main_error = [ `ExpiredToken [@name "ExpiredToken"] | `InvalidToken [@name "InvalidToken"] | `TokenRequired [@name "TokenRequired"]]
+  type main_error = [ `ExpiredToken [@name "ExpiredToken"] | `InvalidToken [@name "InvalidToken"] | `TokenRequired [@name "TokenRequired"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Update an account's email. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_updateemail_main_input_to_yojson;
-    of_yojson=com_atproto_server_updateemail_main_input_of_yojson;
-    pp=pp_com_atproto_server_updateemail_main_input}}) ~output:No_io 
-    ~errors:(Errors {pp=pp_com_atproto_server_updateemail_main_error})
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2340,7 +2340,7 @@ end
   *)
 module Com_Atproto_Server_RevokeAppPassword = struct
   (** def main *)
-  type com_atproto_server_revokeapppassword_main_input = {
+  type main_input = {
     name: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -2348,9 +2348,9 @@ module Com_Atproto_Server_RevokeAppPassword = struct
   (** Revoke an App Password by name. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_revokeapppassword_main_input_to_yojson;
-    of_yojson=com_atproto_server_revokeapppassword_main_input_of_yojson;
-    pp=pp_com_atproto_server_revokeapppassword_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -2359,22 +2359,22 @@ end
   *)
 module Com_Atproto_Server_ResetPassword = struct
   (** def main *)
-  type com_atproto_server_resetpassword_main_input = {
+  type main_input = {
     token: string;
     password: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_resetpassword_main_error = [ `ExpiredToken [@name "ExpiredToken"] | `InvalidToken [@name "InvalidToken"]]
+  type main_error = [ `ExpiredToken [@name "ExpiredToken"] | `InvalidToken [@name "InvalidToken"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Reset a user account password using a token. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_resetpassword_main_input_to_yojson;
-    of_yojson=com_atproto_server_resetpassword_main_input_of_yojson;
-    pp=pp_com_atproto_server_resetpassword_main_input}}) ~output:No_io 
-    ~errors:(Errors {pp=pp_com_atproto_server_resetpassword_main_error})
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2383,12 +2383,12 @@ end
   *)
 module Com_Atproto_Server_ReserveSigningKey = struct
   (** def main *)
-  type com_atproto_server_reservesigningkey_main_input = {
+  type main_input = {
     did: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_reservesigningkey_main_output = {
+  type main_output = {
     signingKey: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -2396,13 +2396,13 @@ module Com_Atproto_Server_ReserveSigningKey = struct
   (** Reserve a repo signing key, for use with account creation. Necessary so that a DID PLC update operation can be constructed during an account migraiton. Public and does not require auth; implemented by PDS. NOTE: this endpoint may change when full account migration is implemented. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_reservesigningkey_main_input_to_yojson;
-    of_yojson=com_atproto_server_reservesigningkey_main_input_of_yojson;
-    pp=pp_com_atproto_server_reservesigningkey_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_reservesigningkey_main_output_to_yojson;
-    of_yojson=com_atproto_server_reservesigningkey_main_output_of_yojson;
-    pp=pp_com_atproto_server_reservesigningkey_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -2411,7 +2411,7 @@ end
   *)
 module Com_Atproto_Server_RequestPasswordReset = struct
   (** def main *)
-  type com_atproto_server_requestpasswordreset_main_input = {
+  type main_input = {
     email: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -2419,9 +2419,9 @@ module Com_Atproto_Server_RequestPasswordReset = struct
   (** Initiate a user account password reset via email. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_requestpasswordreset_main_input_to_yojson;
-    of_yojson=com_atproto_server_requestpasswordreset_main_input_of_yojson;
-    pp=pp_com_atproto_server_requestpasswordreset_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -2430,7 +2430,7 @@ end
   *)
 module Com_Atproto_Server_RequestEmailUpdate = struct
   (** def main *)
-  type com_atproto_server_requestemailupdate_main_output = {
+  type main_output = {
     tokenRequired: bool;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -2438,9 +2438,9 @@ module Com_Atproto_Server_RequestEmailUpdate = struct
   (** Request a token in order to update email. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params ~input:No_io 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_requestemailupdate_main_output_to_yojson;
-    of_yojson=com_atproto_server_requestemailupdate_main_output_of_yojson;
-    pp=pp_com_atproto_server_requestemailupdate_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -2469,7 +2469,7 @@ end
   *)
 module Com_Atproto_Server_RefreshSession = struct
   (** def main *)
-  type com_atproto_server_refreshsession_main_output = {
+  type main_output = {
     accessJwt: string;
     refreshJwt: string;
     handle: string;
@@ -2480,16 +2480,16 @@ module Com_Atproto_Server_RefreshSession = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_refreshsession_main_error = [ `AccountTakedown [@name "AccountTakedown"]]
+  type main_error = [ `AccountTakedown [@name "AccountTakedown"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Refresh an authentication session. Requires auth using the 'refreshJwt' (not the 'accessJwt'). *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params ~input:No_io 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_refreshsession_main_output_to_yojson;
-    of_yojson=com_atproto_server_refreshsession_main_output_of_yojson;
-    pp=pp_com_atproto_server_refreshsession_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_server_refreshsession_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2498,21 +2498,21 @@ end
   *)
 module Com_Atproto_Server_ListAppPasswords = struct
   (** def main *)
-  type com_atproto_server_listapppasswords_main_output = {
+  type main_output = {
     passwords: com_atproto_server_listapppasswords_apppassword list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_listapppasswords_main_error = [ `AccountTakedown [@name "AccountTakedown"]]
+  type main_error = [ `AccountTakedown [@name "AccountTakedown"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** List all App Passwords. *)
   let main: _ Base.query = Base.make_query ~parameters:No_params 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_listapppasswords_main_output_to_yojson;
-    of_yojson=com_atproto_server_listapppasswords_main_output_of_yojson;
-    pp=pp_com_atproto_server_listapppasswords_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_server_listapppasswords_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
   (** def appPassword *)
   type nonrec apppassword = com_atproto_server_listapppasswords_apppassword = {
@@ -2532,7 +2532,7 @@ end
   *)
 module Com_Atproto_Server_GetSession = struct
   (** def main *)
-  type com_atproto_server_getsession_main_output = {
+  type main_output = {
     handle: string;
     did: string;
     email: string option;
@@ -2547,9 +2547,9 @@ module Com_Atproto_Server_GetSession = struct
   (** Get information about the current auth session. Requires auth. *)
   let main: _ Base.query = Base.make_query ~parameters:No_params 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_getsession_main_output_to_yojson;
-    of_yojson=com_atproto_server_getsession_main_output_of_yojson;
-    pp=pp_com_atproto_server_getsession_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -2558,32 +2558,32 @@ end
   *)
 module Com_Atproto_Server_GetServiceAuth = struct
   (** def main *)
-  type com_atproto_server_getserviceauth_main_params = {
+  type main_params = {
     aud: string;
     exp: int64 option;
     lxm: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_server_getserviceauth_main_output = {
+  type main_output = {
     token: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_getserviceauth_main_error = [ `BadExpiration [@name "BadExpiration"]]
+  type main_error = [ `BadExpiration [@name "BadExpiration"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a signed token on behalf of the requesting DID for the requested service. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_server_getserviceauth_main_params_to_yojson;
-    of_yojson=com_atproto_server_getserviceauth_main_params_of_yojson;
-    pp=pp_com_atproto_server_getserviceauth_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_getserviceauth_main_output_to_yojson;
-    of_yojson=com_atproto_server_getserviceauth_main_output_of_yojson;
-    pp=pp_com_atproto_server_getserviceauth_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_server_getserviceauth_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2592,31 +2592,31 @@ end
   *)
 module Com_Atproto_Server_GetAccountInviteCodes = struct
   (** def main *)
-  type com_atproto_server_getaccountinvitecodes_main_params = {
+  type main_params = {
     includeUsed: bool option;
     createAvailable: bool option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_server_getaccountinvitecodes_main_output = {
+  type main_output = {
     codes: com_atproto_server_defs_invitecode list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_getaccountinvitecodes_main_error = [ `DuplicateCreate [@name "DuplicateCreate"]]
+  type main_error = [ `DuplicateCreate [@name "DuplicateCreate"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get all invite codes for the current account. Requires auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_server_getaccountinvitecodes_main_params_to_yojson;
-    of_yojson=com_atproto_server_getaccountinvitecodes_main_params_of_yojson;
-    pp=pp_com_atproto_server_getaccountinvitecodes_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_getaccountinvitecodes_main_output_to_yojson;
-    of_yojson=com_atproto_server_getaccountinvitecodes_main_output_of_yojson;
-    pp=pp_com_atproto_server_getaccountinvitecodes_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_server_getaccountinvitecodes_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2625,7 +2625,7 @@ end
   *)
 module Com_Atproto_Server_DescribeServer = struct
   (** def main *)
-  type com_atproto_server_describeserver_main_output = {
+  type main_output = {
     inviteCodeRequired: bool option;
     phoneVerificationRequired: bool option;
     availableUserDomains: string list;
@@ -2638,9 +2638,9 @@ module Com_Atproto_Server_DescribeServer = struct
   (** Describes the server's account creation requirements and capabilities. Implemented by PDS. *)
   let main: _ Base.query = Base.make_query ~parameters:No_params 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_describeserver_main_output_to_yojson;
-    of_yojson=com_atproto_server_describeserver_main_output_of_yojson;
-    pp=pp_com_atproto_server_describeserver_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
   (** def links *)
   type nonrec links = com_atproto_server_describeserver_links = {
@@ -2678,23 +2678,23 @@ end
   *)
 module Com_Atproto_Server_DeleteAccount = struct
   (** def main *)
-  type com_atproto_server_deleteaccount_main_input = {
+  type main_input = {
     did: string;
     password: string;
     token: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_deleteaccount_main_error = [ `ExpiredToken [@name "ExpiredToken"] | `InvalidToken [@name "InvalidToken"]]
+  type main_error = [ `ExpiredToken [@name "ExpiredToken"] | `InvalidToken [@name "InvalidToken"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Delete an actor's account with a token and password. Can only be called after requesting a deletion token. Requires auth. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_deleteaccount_main_input_to_yojson;
-    of_yojson=com_atproto_server_deleteaccount_main_input_of_yojson;
-    pp=pp_com_atproto_server_deleteaccount_main_input}}) ~output:No_io 
-    ~errors:(Errors {pp=pp_com_atproto_server_deleteaccount_main_error})
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2703,7 +2703,7 @@ end
   *)
 module Com_Atproto_Server_DeactivateAccount = struct
   (** def main *)
-  type com_atproto_server_deactivateaccount_main_input = {
+  type main_input = {
     deleteAfter: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -2711,9 +2711,9 @@ module Com_Atproto_Server_DeactivateAccount = struct
   (** Deactivates a currently active account. Stops serving of repo, and future writes to repo until reactivated. Used to finalize account migration with the old host after the account has been activated on the new host. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_deactivateaccount_main_input_to_yojson;
-    of_yojson=com_atproto_server_deactivateaccount_main_input_of_yojson;
-    pp=pp_com_atproto_server_deactivateaccount_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -2722,7 +2722,7 @@ end
   *)
 module Com_Atproto_Server_CreateSession = struct
   (** def main *)
-  type com_atproto_server_createsession_main_input = {
+  type main_input = {
     identifier: string;
     password: string;
     authFactorToken: string option;
@@ -2730,7 +2730,7 @@ module Com_Atproto_Server_CreateSession = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_createsession_main_output = {
+  type main_output = {
     accessJwt: string;
     refreshJwt: string;
     handle: string;
@@ -2744,20 +2744,20 @@ module Com_Atproto_Server_CreateSession = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_createsession_main_error = [ `AccountTakedown [@name "AccountTakedown"] | `AuthFactorTokenRequired [@name "AuthFactorTokenRequired"]]
+  type main_error = [ `AccountTakedown [@name "AccountTakedown"] | `AuthFactorTokenRequired [@name "AuthFactorTokenRequired"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Create an authentication session. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_createsession_main_input_to_yojson;
-    of_yojson=com_atproto_server_createsession_main_input_of_yojson;
-    pp=pp_com_atproto_server_createsession_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_createsession_main_output_to_yojson;
-    of_yojson=com_atproto_server_createsession_main_output_of_yojson;
-    pp=pp_com_atproto_server_createsession_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_server_createsession_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2766,14 +2766,14 @@ end
   *)
 module Com_Atproto_Server_CreateInviteCodes = struct
   (** def main *)
-  type com_atproto_server_createinvitecodes_main_input = {
+  type main_input = {
     codeCount: int64;
     useCount: int64;
     forAccounts: string list option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_createinvitecodes_main_output = {
+  type main_output = {
     codes: com_atproto_server_createinvitecodes_accountcodes list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -2781,13 +2781,13 @@ module Com_Atproto_Server_CreateInviteCodes = struct
   (** Create invite codes. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_createinvitecodes_main_input_to_yojson;
-    of_yojson=com_atproto_server_createinvitecodes_main_input_of_yojson;
-    pp=pp_com_atproto_server_createinvitecodes_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_createinvitecodes_main_output_to_yojson;
-    of_yojson=com_atproto_server_createinvitecodes_main_output_of_yojson;
-    pp=pp_com_atproto_server_createinvitecodes_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
   (** def accountCodes *)
   type nonrec accountcodes = com_atproto_server_createinvitecodes_accountcodes = {
@@ -2806,13 +2806,13 @@ end
   *)
 module Com_Atproto_Server_CreateInviteCode = struct
   (** def main *)
-  type com_atproto_server_createinvitecode_main_input = {
+  type main_input = {
     useCount: int64;
     forAccount: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_createinvitecode_main_output = {
+  type main_output = {
     code: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -2820,13 +2820,13 @@ module Com_Atproto_Server_CreateInviteCode = struct
   (** Create an invite code. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_createinvitecode_main_input_to_yojson;
-    of_yojson=com_atproto_server_createinvitecode_main_input_of_yojson;
-    pp=pp_com_atproto_server_createinvitecode_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_createinvitecode_main_output_to_yojson;
-    of_yojson=com_atproto_server_createinvitecode_main_output_of_yojson;
-    pp=pp_com_atproto_server_createinvitecode_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -2835,29 +2835,29 @@ end
   *)
 module Com_Atproto_Server_CreateAppPassword = struct
   (** def main *)
-  type com_atproto_server_createapppassword_main_input = {
+  type main_input = {
     name: string;
     privileged: bool option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_createapppassword_main_output = com_atproto_server_createapppassword_apppassword
+  type main_output = com_atproto_server_createapppassword_apppassword
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_createapppassword_main_error = [ `AccountTakedown [@name "AccountTakedown"]]
+  type main_error = [ `AccountTakedown [@name "AccountTakedown"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Create an App Password. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_createapppassword_main_input_to_yojson;
-    of_yojson=com_atproto_server_createapppassword_main_input_of_yojson;
-    pp=pp_com_atproto_server_createapppassword_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_createapppassword_main_output_to_yojson;
-    of_yojson=com_atproto_server_createapppassword_main_output_of_yojson;
-    pp=pp_com_atproto_server_createapppassword_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_server_createapppassword_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
   (** def appPassword *)
   type nonrec apppassword = com_atproto_server_createapppassword_apppassword = {
@@ -2878,7 +2878,7 @@ end
   *)
 module Com_Atproto_Server_CreateAccount = struct
   (** def main *)
-  type com_atproto_server_createaccount_main_input = {
+  type main_input = {
     email: string option;
     handle: string;
     did: string option;
@@ -2891,7 +2891,7 @@ module Com_Atproto_Server_CreateAccount = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_createaccount_main_output = {
+  type main_output = {
     accessJwt: string;
     refreshJwt: string;
     handle: string;
@@ -2900,20 +2900,20 @@ module Com_Atproto_Server_CreateAccount = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_createaccount_main_error = [ `InvalidHandle [@name "InvalidHandle"] | `InvalidPassword [@name "InvalidPassword"] | `InvalidInviteCode [@name "InvalidInviteCode"] | `HandleNotAvailable [@name "HandleNotAvailable"] | `UnsupportedDomain [@name "UnsupportedDomain"] | `UnresolvableDid [@name "UnresolvableDid"] | `IncompatibleDidDoc [@name "IncompatibleDidDoc"]]
+  type main_error = [ `InvalidHandle [@name "InvalidHandle"] | `InvalidPassword [@name "InvalidPassword"] | `InvalidInviteCode [@name "InvalidInviteCode"] | `HandleNotAvailable [@name "HandleNotAvailable"] | `UnsupportedDomain [@name "UnsupportedDomain"] | `UnresolvableDid [@name "UnresolvableDid"] | `IncompatibleDidDoc [@name "IncompatibleDidDoc"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Create an account. Implemented by PDS. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_createaccount_main_input_to_yojson;
-    of_yojson=com_atproto_server_createaccount_main_input_of_yojson;
-    pp=pp_com_atproto_server_createaccount_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_createaccount_main_output_to_yojson;
-    of_yojson=com_atproto_server_createaccount_main_output_of_yojson;
-    pp=pp_com_atproto_server_createaccount_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_server_createaccount_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2922,22 +2922,22 @@ end
   *)
 module Com_Atproto_Server_ConfirmEmail = struct
   (** def main *)
-  type com_atproto_server_confirmemail_main_input = {
+  type main_input = {
     email: string;
     token: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_confirmemail_main_error = [ `AccountNotFound [@name "AccountNotFound"] | `ExpiredToken [@name "ExpiredToken"] | `InvalidToken [@name "InvalidToken"] | `InvalidEmail [@name "InvalidEmail"]]
+  type main_error = [ `AccountNotFound [@name "AccountNotFound"] | `ExpiredToken [@name "ExpiredToken"] | `InvalidToken [@name "InvalidToken"] | `InvalidEmail [@name "InvalidEmail"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Confirm an email using a token from com.atproto.server.requestEmailConfirmation. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_confirmemail_main_input_to_yojson;
-    of_yojson=com_atproto_server_confirmemail_main_input_of_yojson;
-    pp=pp_com_atproto_server_confirmemail_main_input}}) ~output:No_io 
-    ~errors:(Errors {pp=pp_com_atproto_server_confirmemail_main_error})
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -2946,7 +2946,7 @@ end
   *)
 module Com_Atproto_Server_CheckAccountStatus = struct
   (** def main *)
-  type com_atproto_server_checkaccountstatus_main_output = {
+  type main_output = {
     activated: bool;
     validDid: bool;
     repoCommit: string;
@@ -2962,9 +2962,9 @@ module Com_Atproto_Server_CheckAccountStatus = struct
   (** Returns the status of an account, especially as pertaining to import or recovery. Can be called many times over the course of an account migration. Requires auth and can only be called pertaining to oneself. *)
   let main: _ Base.query = Base.make_query ~parameters:No_params 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_server_checkaccountstatus_main_output_to_yojson;
-    of_yojson=com_atproto_server_checkaccountstatus_main_output_of_yojson;
-    pp=pp_com_atproto_server_checkaccountstatus_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -2983,7 +2983,7 @@ end
   *)
 module Com_Atproto_Repo_UploadBlob = struct
   (** def main *)
-  type com_atproto_repo_uploadblob_main_output = {
+  type main_output = {
     blob: Blob.t;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -2992,9 +2992,9 @@ module Com_Atproto_Repo_UploadBlob = struct
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_opaque {encoding=(Other "*/*")}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_repo_uploadblob_main_output_to_yojson;
-    of_yojson=com_atproto_repo_uploadblob_main_output_of_yojson;
-    pp=pp_com_atproto_repo_uploadblob_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -3003,7 +3003,7 @@ end
   *)
 module Com_Atproto_Repo_PutRecord = struct
   (** def main *)
-  type com_atproto_repo_putrecord_main_input = {
+  type main_input = {
     repo: string;
     collection: string;
     rkey: string;
@@ -3014,7 +3014,7 @@ module Com_Atproto_Repo_PutRecord = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_repo_putrecord_main_output = {
+  type main_output = {
     uri: string;
     cid: string;
     commit: com_atproto_repo_defs_commitmeta option;
@@ -3022,20 +3022,20 @@ module Com_Atproto_Repo_PutRecord = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_repo_putrecord_main_error = [ `InvalidSwap [@name "InvalidSwap"]]
+  type main_error = [ `InvalidSwap [@name "InvalidSwap"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Write a repository record, creating or updating it as needed. Requires auth, implemented by PDS. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_repo_putrecord_main_input_to_yojson;
-    of_yojson=com_atproto_repo_putrecord_main_input_of_yojson;
-    pp=pp_com_atproto_repo_putrecord_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_repo_putrecord_main_output_to_yojson;
-    of_yojson=com_atproto_repo_putrecord_main_output_of_yojson;
-    pp=pp_com_atproto_repo_putrecord_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_repo_putrecord_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -3044,7 +3044,7 @@ end
   *)
 module Com_Atproto_Repo_ListRecords = struct
   (** def main *)
-  type com_atproto_repo_listrecords_main_params = {
+  type main_params = {
     repo: string;
     collection: string;
     limit: int64 option;
@@ -3053,7 +3053,7 @@ module Com_Atproto_Repo_ListRecords = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_repo_listrecords_main_output = {
+  type main_output = {
     cursor: string option;
     records: com_atproto_repo_listrecords_record list;
   }
@@ -3062,13 +3062,13 @@ module Com_Atproto_Repo_ListRecords = struct
   (** List a range of records in a repository, matching a specific collection. Does not require auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_repo_listrecords_main_params_to_yojson;
-    of_yojson=com_atproto_repo_listrecords_main_params_of_yojson;
-    pp=pp_com_atproto_repo_listrecords_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_repo_listrecords_main_output_to_yojson;
-    of_yojson=com_atproto_repo_listrecords_main_output_of_yojson;
-    pp=pp_com_atproto_repo_listrecords_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
   (** def record *)
   type nonrec record = com_atproto_repo_listrecords_record = {
@@ -3088,13 +3088,13 @@ end
   *)
 module Com_Atproto_Repo_ListMissingBlobs = struct
   (** def main *)
-  type com_atproto_repo_listmissingblobs_main_params = {
+  type main_params = {
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_repo_listmissingblobs_main_output = {
+  type main_output = {
     cursor: string option;
     blobs: com_atproto_repo_listmissingblobs_recordblob list;
   }
@@ -3103,13 +3103,13 @@ module Com_Atproto_Repo_ListMissingBlobs = struct
   (** Returns a list of missing blobs for the requesting account. Intended to be used in the account migration flow. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_repo_listmissingblobs_main_params_to_yojson;
-    of_yojson=com_atproto_repo_listmissingblobs_main_params_of_yojson;
-    pp=pp_com_atproto_repo_listmissingblobs_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_repo_listmissingblobs_main_output_to_yojson;
-    of_yojson=com_atproto_repo_listmissingblobs_main_output_of_yojson;
-    pp=pp_com_atproto_repo_listmissingblobs_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
   (** def recordBlob *)
   type nonrec recordblob = com_atproto_repo_listmissingblobs_recordblob = {
@@ -3139,7 +3139,7 @@ end
   *)
 module Com_Atproto_Repo_GetRecord = struct
   (** def main *)
-  type com_atproto_repo_getrecord_main_params = {
+  type main_params = {
     repo: string;
     collection: string;
     rkey: string;
@@ -3147,27 +3147,27 @@ module Com_Atproto_Repo_GetRecord = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_repo_getrecord_main_output = {
+  type main_output = {
     uri: string;
     cid: string option;
     value: Value.t (* unknown *);
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_repo_getrecord_main_error = [ `RecordNotFound [@name "RecordNotFound"]]
+  type main_error = [ `RecordNotFound [@name "RecordNotFound"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a single record from a repository. Does not require auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_repo_getrecord_main_params_to_yojson;
-    of_yojson=com_atproto_repo_getrecord_main_params_of_yojson;
-    pp=pp_com_atproto_repo_getrecord_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_repo_getrecord_main_output_to_yojson;
-    of_yojson=com_atproto_repo_getrecord_main_output_of_yojson;
-    pp=pp_com_atproto_repo_getrecord_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_repo_getrecord_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -3176,12 +3176,12 @@ end
   *)
 module Com_Atproto_Repo_DescribeRepo = struct
   (** def main *)
-  type com_atproto_repo_describerepo_main_params = {
+  type main_params = {
     repo: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_repo_describerepo_main_output = {
+  type main_output = {
     handle: string;
     did: string;
     didDoc: Value.t (* unknown *);
@@ -3193,13 +3193,13 @@ module Com_Atproto_Repo_DescribeRepo = struct
   (** Get information about an account and repository, including the list of collections. Does not require auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_repo_describerepo_main_params_to_yojson;
-    of_yojson=com_atproto_repo_describerepo_main_params_of_yojson;
-    pp=pp_com_atproto_repo_describerepo_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_repo_describerepo_main_output_to_yojson;
-    of_yojson=com_atproto_repo_describerepo_main_output_of_yojson;
-    pp=pp_com_atproto_repo_describerepo_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -3208,7 +3208,7 @@ end
   *)
 module Com_Atproto_Repo_DeleteRecord = struct
   (** def main *)
-  type com_atproto_repo_deleterecord_main_input = {
+  type main_input = {
     repo: string;
     collection: string;
     rkey: string;
@@ -3217,25 +3217,25 @@ module Com_Atproto_Repo_DeleteRecord = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_repo_deleterecord_main_output = {
+  type main_output = {
     commit: com_atproto_repo_defs_commitmeta option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_repo_deleterecord_main_error = [ `InvalidSwap [@name "InvalidSwap"]]
+  type main_error = [ `InvalidSwap [@name "InvalidSwap"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Delete a repository record, or ensure it doesn't exist. Requires auth, implemented by PDS. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_repo_deleterecord_main_input_to_yojson;
-    of_yojson=com_atproto_repo_deleterecord_main_input_of_yojson;
-    pp=pp_com_atproto_repo_deleterecord_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_repo_deleterecord_main_output_to_yojson;
-    of_yojson=com_atproto_repo_deleterecord_main_output_of_yojson;
-    pp=pp_com_atproto_repo_deleterecord_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_repo_deleterecord_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -3244,7 +3244,7 @@ end
   *)
 module Com_Atproto_Repo_CreateRecord = struct
   (** def main *)
-  type com_atproto_repo_createrecord_main_input = {
+  type main_input = {
     repo: string;
     collection: string;
     rkey: string option;
@@ -3254,7 +3254,7 @@ module Com_Atproto_Repo_CreateRecord = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_repo_createrecord_main_output = {
+  type main_output = {
     uri: string;
     cid: string;
     commit: com_atproto_repo_defs_commitmeta option;
@@ -3262,20 +3262,20 @@ module Com_Atproto_Repo_CreateRecord = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_repo_createrecord_main_error = [ `InvalidSwap [@name "InvalidSwap"]]
+  type main_error = [ `InvalidSwap [@name "InvalidSwap"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Create a single new repository record. Requires auth, implemented by PDS. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_repo_createrecord_main_input_to_yojson;
-    of_yojson=com_atproto_repo_createrecord_main_input_of_yojson;
-    pp=pp_com_atproto_repo_createrecord_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_repo_createrecord_main_output_to_yojson;
-    of_yojson=com_atproto_repo_createrecord_main_output_of_yojson;
-    pp=pp_com_atproto_repo_createrecord_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_repo_createrecord_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -3284,7 +3284,7 @@ end
   *)
 module Com_Atproto_Repo_ApplyWrites = struct
   (** def main *)
-  type com_atproto_repo_applywrites_main_input = {
+  type main_input = {
     repo: string;
     validate: bool option;
     writes: [
@@ -3296,7 +3296,7 @@ module Com_Atproto_Repo_ApplyWrites = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_repo_applywrites_main_output = {
+  type main_output = {
     commit: com_atproto_repo_defs_commitmeta option;
     results: [
     `Com_atproto_repo_applywrites_createresult of com_atproto_repo_applywrites_createresult [@name "createResult"]
@@ -3306,20 +3306,20 @@ module Com_Atproto_Repo_ApplyWrites = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_repo_applywrites_main_error = [ `InvalidSwap [@name "InvalidSwap"]]
+  type main_error = [ `InvalidSwap [@name "InvalidSwap"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Apply a batch transaction of repository creates, updates, and deletes. Requires auth, implemented by PDS. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_repo_applywrites_main_input_to_yojson;
-    of_yojson=com_atproto_repo_applywrites_main_input_of_yojson;
-    pp=pp_com_atproto_repo_applywrites_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_repo_applywrites_main_output_to_yojson;
-    of_yojson=com_atproto_repo_applywrites_main_output_of_yojson;
-    pp=pp_com_atproto_repo_applywrites_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_repo_applywrites_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
   (** def create *)
   type nonrec create = com_atproto_repo_applywrites_create = {
@@ -3405,7 +3405,7 @@ end
   *)
 module Com_Atproto_Moderation_CreateReport = struct
   (** def main *)
-  type com_atproto_moderation_createreport_main_input = {
+  type main_input = {
     reasonType: com_atproto_moderation_defs_reasontype;
     reason: string option;
     subject: [
@@ -3416,7 +3416,7 @@ module Com_Atproto_Moderation_CreateReport = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_moderation_createreport_main_output = {
+  type main_output = {
     id: int64;
     reasonType: com_atproto_moderation_defs_reasontype;
     reason: string option;
@@ -3433,13 +3433,13 @@ module Com_Atproto_Moderation_CreateReport = struct
   (** Submit a moderation report regarding an atproto account or record. Implemented by moderation services (with PDS proxying), and requires auth. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_moderation_createreport_main_input_to_yojson;
-    of_yojson=com_atproto_moderation_createreport_main_input_of_yojson;
-    pp=pp_com_atproto_moderation_createreport_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_moderation_createreport_main_output_to_yojson;
-    of_yojson=com_atproto_moderation_createreport_main_output_of_yojson;
-    pp=pp_com_atproto_moderation_createreport_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -3462,31 +3462,31 @@ end
   *)
 module Com_Atproto_Label_SubscribeLabels = struct
   (** def main *)
-  type com_atproto_label_subscribelabels_main_msg = [
+  type main_msg = [
     `Com_atproto_label_subscribelabels_labels of com_atproto_label_subscribelabels_labels [@name "labels"]
     | `Com_atproto_label_subscribelabels_info of com_atproto_label_subscribelabels_info [@name "info"]
     | `Other of Value.t (** Non closed union *)
     ]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_label_subscribelabels_main_params = {
+  type main_params = {
     cursor: int64 option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_label_subscribelabels_main_error = [ `FutureCursor [@name "FutureCursor"]]
+  type main_error = [ `FutureCursor [@name "FutureCursor"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Subscribe to stream of labels (and negations). Public endpoint implemented by mod services. Uses same sequencing scheme as repo event stream. *)
   let main: _ Base.subscription = Base.make_subscription 
     ~parameters:(Params {
-    to_yojson=com_atproto_label_subscribelabels_main_params_to_yojson;
-    of_yojson=com_atproto_label_subscribelabels_main_params_of_yojson;
-    pp=pp_com_atproto_label_subscribelabels_main_params}) ~message:(Message {
-    to_yojson=com_atproto_label_subscribelabels_main_msg_to_yojson;
-    of_yojson=com_atproto_label_subscribelabels_main_msg_of_yojson;
-    pp=pp_com_atproto_label_subscribelabels_main_msg}) 
-    ~errors:(Errors {pp=pp_com_atproto_label_subscribelabels_main_error})
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) ~message:(Message {
+    to_yojson=main_msg_to_yojson;
+    of_yojson=main_msg_of_yojson;
+    pp=pp_main_msg}) 
+    ~errors:(Errors {pp=pp_main_error})
 
   (** def labels *)
   type nonrec labels = com_atproto_label_subscribelabels_labels = {
@@ -3515,7 +3515,7 @@ end
   *)
 module Com_Atproto_Label_QueryLabels = struct
   (** def main *)
-  type com_atproto_label_querylabels_main_params = {
+  type main_params = {
     uriPatterns: string list;
     sources: string list option;
     limit: int64 option;
@@ -3523,7 +3523,7 @@ module Com_Atproto_Label_QueryLabels = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_label_querylabels_main_output = {
+  type main_output = {
     cursor: string option;
     labels: com_atproto_label_defs_label list;
   }
@@ -3532,13 +3532,13 @@ module Com_Atproto_Label_QueryLabels = struct
   (** Find labels relevant to the provided AT-URI patterns. Public endpoint for moderation services, though may return different or additional results with auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_label_querylabels_main_params_to_yojson;
-    of_yojson=com_atproto_label_querylabels_main_params_of_yojson;
-    pp=pp_com_atproto_label_querylabels_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_label_querylabels_main_output_to_yojson;
-    of_yojson=com_atproto_label_querylabels_main_output_of_yojson;
-    pp=pp_com_atproto_label_querylabels_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -3547,7 +3547,7 @@ end
   *)
 module Com_Atproto_Identity_UpdateHandle = struct
   (** def main *)
-  type com_atproto_identity_updatehandle_main_input = {
+  type main_input = {
     handle: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -3555,9 +3555,9 @@ module Com_Atproto_Identity_UpdateHandle = struct
   (** Updates the current account's handle. Verifies handle validity, and updates did:plc document if necessary. Implemented by PDS, and requires auth. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_identity_updatehandle_main_input_to_yojson;
-    of_yojson=com_atproto_identity_updatehandle_main_input_of_yojson;
-    pp=pp_com_atproto_identity_updatehandle_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -3566,7 +3566,7 @@ end
   *)
 module Com_Atproto_Identity_SubmitPlcOperation = struct
   (** def main *)
-  type com_atproto_identity_submitplcoperation_main_input = {
+  type main_input = {
     operation: Value.t (* unknown *);
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -3574,9 +3574,9 @@ module Com_Atproto_Identity_SubmitPlcOperation = struct
   (** Validates a PLC operation to ensure that it doesn't violate a service's constraints or get the identity into a bad state, then submits it to the PLC registry *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_identity_submitplcoperation_main_input_to_yojson;
-    of_yojson=com_atproto_identity_submitplcoperation_main_input_of_yojson;
-    pp=pp_com_atproto_identity_submitplcoperation_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -3585,7 +3585,7 @@ end
   *)
 module Com_Atproto_Identity_SignPlcOperation = struct
   (** def main *)
-  type com_atproto_identity_signplcoperation_main_input = {
+  type main_input = {
     token: string option;
     rotationKeys: string list option;
     alsoKnownAs: string list option;
@@ -3594,7 +3594,7 @@ module Com_Atproto_Identity_SignPlcOperation = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_identity_signplcoperation_main_output = {
+  type main_output = {
     operation: Value.t (* unknown *);
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -3602,13 +3602,13 @@ module Com_Atproto_Identity_SignPlcOperation = struct
   (** Signs a PLC operation to update some value(s) in the requesting DID's document. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_identity_signplcoperation_main_input_to_yojson;
-    of_yojson=com_atproto_identity_signplcoperation_main_input_of_yojson;
-    pp=pp_com_atproto_identity_signplcoperation_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_identity_signplcoperation_main_output_to_yojson;
-    of_yojson=com_atproto_identity_signplcoperation_main_output_of_yojson;
-    pp=pp_com_atproto_identity_signplcoperation_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -3617,28 +3617,28 @@ end
   *)
 module Com_Atproto_Identity_ResolveIdentity = struct
   (** def main *)
-  type com_atproto_identity_resolveidentity_main_params = {
+  type main_params = {
     identifier: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_identity_resolveidentity_main_output = com_atproto_identity_defs_identityinfo
+  type main_output = com_atproto_identity_defs_identityinfo
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_identity_resolveidentity_main_error = [ `HandleNotFound [@name "HandleNotFound"] | `DidNotFound [@name "DidNotFound"] | `DidDeactivated [@name "DidDeactivated"]]
+  type main_error = [ `HandleNotFound [@name "HandleNotFound"] | `DidNotFound [@name "DidNotFound"] | `DidDeactivated [@name "DidDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Resolves an identity (DID or Handle) to a full identity (DID document and verified handle). *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_identity_resolveidentity_main_params_to_yojson;
-    of_yojson=com_atproto_identity_resolveidentity_main_params_of_yojson;
-    pp=pp_com_atproto_identity_resolveidentity_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_identity_resolveidentity_main_output_to_yojson;
-    of_yojson=com_atproto_identity_resolveidentity_main_output_of_yojson;
-    pp=pp_com_atproto_identity_resolveidentity_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_identity_resolveidentity_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -3647,30 +3647,30 @@ end
   *)
 module Com_Atproto_Identity_ResolveHandle = struct
   (** def main *)
-  type com_atproto_identity_resolvehandle_main_params = {
+  type main_params = {
     handle: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_identity_resolvehandle_main_output = {
+  type main_output = {
     did: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_identity_resolvehandle_main_error = [ `HandleNotFound [@name "HandleNotFound"]]
+  type main_error = [ `HandleNotFound [@name "HandleNotFound"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Resolves an atproto handle (hostname) to a DID. Does not necessarily bi-directionally verify against the the DID document. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_identity_resolvehandle_main_params_to_yojson;
-    of_yojson=com_atproto_identity_resolvehandle_main_params_of_yojson;
-    pp=pp_com_atproto_identity_resolvehandle_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_identity_resolvehandle_main_output_to_yojson;
-    of_yojson=com_atproto_identity_resolvehandle_main_output_of_yojson;
-    pp=pp_com_atproto_identity_resolvehandle_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_identity_resolvehandle_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -3679,30 +3679,30 @@ end
   *)
 module Com_Atproto_Identity_ResolveDid = struct
   (** def main *)
-  type com_atproto_identity_resolvedid_main_params = {
+  type main_params = {
     did: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_identity_resolvedid_main_output = {
+  type main_output = {
     didDoc: Value.t (* unknown *);
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_identity_resolvedid_main_error = [ `DidNotFound [@name "DidNotFound"] | `DidDeactivated [@name "DidDeactivated"]]
+  type main_error = [ `DidNotFound [@name "DidNotFound"] | `DidDeactivated [@name "DidDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Resolves DID to DID document. Does not bi-directionally verify handle. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_identity_resolvedid_main_params_to_yojson;
-    of_yojson=com_atproto_identity_resolvedid_main_params_of_yojson;
-    pp=pp_com_atproto_identity_resolvedid_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_identity_resolvedid_main_output_to_yojson;
-    of_yojson=com_atproto_identity_resolvedid_main_output_of_yojson;
-    pp=pp_com_atproto_identity_resolvedid_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_identity_resolvedid_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -3721,28 +3721,28 @@ end
   *)
 module Com_Atproto_Identity_RefreshIdentity = struct
   (** def main *)
-  type com_atproto_identity_refreshidentity_main_input = {
+  type main_input = {
     identifier: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_identity_refreshidentity_main_output = com_atproto_identity_defs_identityinfo
+  type main_output = com_atproto_identity_defs_identityinfo
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_identity_refreshidentity_main_error = [ `HandleNotFound [@name "HandleNotFound"] | `DidNotFound [@name "DidNotFound"] | `DidDeactivated [@name "DidDeactivated"]]
+  type main_error = [ `HandleNotFound [@name "HandleNotFound"] | `DidNotFound [@name "DidNotFound"] | `DidDeactivated [@name "DidDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Request that the server re-resolve an identity (DID and handle). The server may ignore this request, or require authentication, depending on the role, implementation, and policy of the server. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_identity_refreshidentity_main_input_to_yojson;
-    of_yojson=com_atproto_identity_refreshidentity_main_input_of_yojson;
-    pp=pp_com_atproto_identity_refreshidentity_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_identity_refreshidentity_main_output_to_yojson;
-    of_yojson=com_atproto_identity_refreshidentity_main_output_of_yojson;
-    pp=pp_com_atproto_identity_refreshidentity_main_output}}) 
-    ~errors:(Errors {pp=pp_com_atproto_identity_refreshidentity_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -3751,7 +3751,7 @@ end
   *)
 module Com_Atproto_Identity_GetRecommendedDidCredentials = struct
   (** def main *)
-  type com_atproto_identity_getrecommendeddidcredentials_main_output = {
+  type main_output = {
     rotationKeys: string list option;
     alsoKnownAs: string list option;
     verificationMethods: Value.t (* unknown *) option;
@@ -3762,9 +3762,9 @@ module Com_Atproto_Identity_GetRecommendedDidCredentials = struct
   (** Describe the credentials that should be included in the DID doc of an account that is migrating to this service. *)
   let main: _ Base.query = Base.make_query ~parameters:No_params 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_identity_getrecommendeddidcredentials_main_output_to_yojson;
-    of_yojson=com_atproto_identity_getrecommendeddidcredentials_main_output_of_yojson;
-    pp=pp_com_atproto_identity_getrecommendeddidcredentials_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -3790,7 +3790,7 @@ end
   *)
 module Com_Atproto_Admin_UpdateSubjectStatus = struct
   (** def main *)
-  type com_atproto_admin_updatesubjectstatus_main_input = {
+  type main_input = {
     subject: [
     `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef [@name "repoRef"]
     | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main [@name "main"]
@@ -3802,7 +3802,7 @@ module Com_Atproto_Admin_UpdateSubjectStatus = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_admin_updatesubjectstatus_main_output = {
+  type main_output = {
     subject: [
     `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef [@name "repoRef"]
     | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main [@name "main"]
@@ -3816,13 +3816,13 @@ module Com_Atproto_Admin_UpdateSubjectStatus = struct
   (** Update the service-specific admin status of a subject (account, record, or blob). *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_updatesubjectstatus_main_input_to_yojson;
-    of_yojson=com_atproto_admin_updatesubjectstatus_main_input_of_yojson;
-    pp=pp_com_atproto_admin_updatesubjectstatus_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_updatesubjectstatus_main_output_to_yojson;
-    of_yojson=com_atproto_admin_updatesubjectstatus_main_output_of_yojson;
-    pp=pp_com_atproto_admin_updatesubjectstatus_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -3831,7 +3831,7 @@ end
   *)
 module Com_Atproto_Admin_UpdateAccountSigningKey = struct
   (** def main *)
-  type com_atproto_admin_updateaccountsigningkey_main_input = {
+  type main_input = {
     did: string;
     signingKey: string;
   }
@@ -3840,9 +3840,9 @@ module Com_Atproto_Admin_UpdateAccountSigningKey = struct
   (** Administrative action to update an account's signing key in their Did document. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_updateaccountsigningkey_main_input_to_yojson;
-    of_yojson=com_atproto_admin_updateaccountsigningkey_main_input_of_yojson;
-    pp=pp_com_atproto_admin_updateaccountsigningkey_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -3851,7 +3851,7 @@ end
   *)
 module Com_Atproto_Admin_UpdateAccountPassword = struct
   (** def main *)
-  type com_atproto_admin_updateaccountpassword_main_input = {
+  type main_input = {
     did: string;
     password: string;
   }
@@ -3860,9 +3860,9 @@ module Com_Atproto_Admin_UpdateAccountPassword = struct
   (** Update the password for a user account as an administrator. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_updateaccountpassword_main_input_to_yojson;
-    of_yojson=com_atproto_admin_updateaccountpassword_main_input_of_yojson;
-    pp=pp_com_atproto_admin_updateaccountpassword_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -3871,7 +3871,7 @@ end
   *)
 module Com_Atproto_Admin_UpdateAccountHandle = struct
   (** def main *)
-  type com_atproto_admin_updateaccounthandle_main_input = {
+  type main_input = {
     did: string;
     handle: string;
   }
@@ -3880,9 +3880,9 @@ module Com_Atproto_Admin_UpdateAccountHandle = struct
   (** Administrative action to update an account's handle. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_updateaccounthandle_main_input_to_yojson;
-    of_yojson=com_atproto_admin_updateaccounthandle_main_input_of_yojson;
-    pp=pp_com_atproto_admin_updateaccounthandle_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -3891,7 +3891,7 @@ end
   *)
 module Com_Atproto_Admin_UpdateAccountEmail = struct
   (** def main *)
-  type com_atproto_admin_updateaccountemail_main_input = {
+  type main_input = {
     account: string;
     email: string;
   }
@@ -3900,9 +3900,9 @@ module Com_Atproto_Admin_UpdateAccountEmail = struct
   (** Administrative action to update an account's email. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_updateaccountemail_main_input_to_yojson;
-    of_yojson=com_atproto_admin_updateaccountemail_main_input_of_yojson;
-    pp=pp_com_atproto_admin_updateaccountemail_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -3911,7 +3911,7 @@ end
   *)
 module Com_Atproto_Admin_SendEmail = struct
   (** def main *)
-  type com_atproto_admin_sendemail_main_input = {
+  type main_input = {
     recipientDid: string;
     content: string;
     subject: string option;
@@ -3920,7 +3920,7 @@ module Com_Atproto_Admin_SendEmail = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_admin_sendemail_main_output = {
+  type main_output = {
     sent: bool;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -3928,13 +3928,13 @@ module Com_Atproto_Admin_SendEmail = struct
   (** Send email to a user's account email address. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_sendemail_main_input_to_yojson;
-    of_yojson=com_atproto_admin_sendemail_main_input_of_yojson;
-    pp=pp_com_atproto_admin_sendemail_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_sendemail_main_output_to_yojson;
-    of_yojson=com_atproto_admin_sendemail_main_output_of_yojson;
-    pp=pp_com_atproto_admin_sendemail_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -3943,14 +3943,14 @@ end
   *)
 module Com_Atproto_Admin_SearchAccounts = struct
   (** def main *)
-  type com_atproto_admin_searchaccounts_main_params = {
+  type main_params = {
     email: string option;
     cursor: string option;
     limit: int64 option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_admin_searchaccounts_main_output = {
+  type main_output = {
     cursor: string option;
     accounts: com_atproto_admin_defs_accountview list;
   }
@@ -3959,13 +3959,13 @@ module Com_Atproto_Admin_SearchAccounts = struct
   (** Get list of accounts that matches your search query. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_admin_searchaccounts_main_params_to_yojson;
-    of_yojson=com_atproto_admin_searchaccounts_main_params_of_yojson;
-    pp=pp_com_atproto_admin_searchaccounts_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_searchaccounts_main_output_to_yojson;
-    of_yojson=com_atproto_admin_searchaccounts_main_output_of_yojson;
-    pp=pp_com_atproto_admin_searchaccounts_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -3974,14 +3974,14 @@ end
   *)
 module Com_Atproto_Admin_GetSubjectStatus = struct
   (** def main *)
-  type com_atproto_admin_getsubjectstatus_main_params = {
+  type main_params = {
     did: string option;
     uri: string option;
     blob: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_admin_getsubjectstatus_main_output = {
+  type main_output = {
     subject: [
     `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef [@name "repoRef"]
     | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main [@name "main"]
@@ -3996,13 +3996,13 @@ module Com_Atproto_Admin_GetSubjectStatus = struct
   (** Get the service-specific admin status of a subject (account, record, or blob). *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_admin_getsubjectstatus_main_params_to_yojson;
-    of_yojson=com_atproto_admin_getsubjectstatus_main_params_of_yojson;
-    pp=pp_com_atproto_admin_getsubjectstatus_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_getsubjectstatus_main_output_to_yojson;
-    of_yojson=com_atproto_admin_getsubjectstatus_main_output_of_yojson;
-    pp=pp_com_atproto_admin_getsubjectstatus_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4011,14 +4011,14 @@ end
   *)
 module Com_Atproto_Admin_GetInviteCodes = struct
   (** def main *)
-  type com_atproto_admin_getinvitecodes_main_params = {
+  type main_params = {
     sort: string option;
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_admin_getinvitecodes_main_output = {
+  type main_output = {
     cursor: string option;
     codes: com_atproto_server_defs_invitecode list;
   }
@@ -4027,13 +4027,13 @@ module Com_Atproto_Admin_GetInviteCodes = struct
   (** Get an admin view of invite codes. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_admin_getinvitecodes_main_params_to_yojson;
-    of_yojson=com_atproto_admin_getinvitecodes_main_params_of_yojson;
-    pp=pp_com_atproto_admin_getinvitecodes_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_getinvitecodes_main_output_to_yojson;
-    of_yojson=com_atproto_admin_getinvitecodes_main_output_of_yojson;
-    pp=pp_com_atproto_admin_getinvitecodes_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4042,12 +4042,12 @@ end
   *)
 module Com_Atproto_Admin_GetAccountInfos = struct
   (** def main *)
-  type com_atproto_admin_getaccountinfos_main_params = {
+  type main_params = {
     dids: string list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_admin_getaccountinfos_main_output = {
+  type main_output = {
     infos: com_atproto_admin_defs_accountview list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -4055,13 +4055,13 @@ module Com_Atproto_Admin_GetAccountInfos = struct
   (** Get details about some accounts. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_admin_getaccountinfos_main_params_to_yojson;
-    of_yojson=com_atproto_admin_getaccountinfos_main_params_of_yojson;
-    pp=pp_com_atproto_admin_getaccountinfos_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_getaccountinfos_main_output_to_yojson;
-    of_yojson=com_atproto_admin_getaccountinfos_main_output_of_yojson;
-    pp=pp_com_atproto_admin_getaccountinfos_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4070,24 +4070,24 @@ end
   *)
 module Com_Atproto_Admin_GetAccountInfo = struct
   (** def main *)
-  type com_atproto_admin_getaccountinfo_main_params = {
+  type main_params = {
     did: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_admin_getaccountinfo_main_output = com_atproto_admin_defs_accountview
+  type main_output = com_atproto_admin_defs_accountview
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get details about an account. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=com_atproto_admin_getaccountinfo_main_params_to_yojson;
-    of_yojson=com_atproto_admin_getaccountinfo_main_params_of_yojson;
-    pp=pp_com_atproto_admin_getaccountinfo_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_getaccountinfo_main_output_to_yojson;
-    of_yojson=com_atproto_admin_getaccountinfo_main_output_of_yojson;
-    pp=pp_com_atproto_admin_getaccountinfo_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4096,7 +4096,7 @@ end
   *)
 module Com_Atproto_Admin_EnableAccountInvites = struct
   (** def main *)
-  type com_atproto_admin_enableaccountinvites_main_input = {
+  type main_input = {
     account: string;
     note: string option;
   }
@@ -4105,9 +4105,9 @@ module Com_Atproto_Admin_EnableAccountInvites = struct
   (** Re-enable an account's ability to receive invite codes. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_enableaccountinvites_main_input_to_yojson;
-    of_yojson=com_atproto_admin_enableaccountinvites_main_input_of_yojson;
-    pp=pp_com_atproto_admin_enableaccountinvites_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -4116,7 +4116,7 @@ end
   *)
 module Com_Atproto_Admin_DisableInviteCodes = struct
   (** def main *)
-  type com_atproto_admin_disableinvitecodes_main_input = {
+  type main_input = {
     codes: string list option;
     accounts: string list option;
   }
@@ -4125,9 +4125,9 @@ module Com_Atproto_Admin_DisableInviteCodes = struct
   (** Disable some set of codes and/or all codes associated with a set of users. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_disableinvitecodes_main_input_to_yojson;
-    of_yojson=com_atproto_admin_disableinvitecodes_main_input_of_yojson;
-    pp=pp_com_atproto_admin_disableinvitecodes_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -4136,7 +4136,7 @@ end
   *)
 module Com_Atproto_Admin_DisableAccountInvites = struct
   (** def main *)
-  type com_atproto_admin_disableaccountinvites_main_input = {
+  type main_input = {
     account: string;
     note: string option;
   }
@@ -4145,9 +4145,9 @@ module Com_Atproto_Admin_DisableAccountInvites = struct
   (** Disable an account from receiving new invite codes, but does not invalidate existing codes. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_disableaccountinvites_main_input_to_yojson;
-    of_yojson=com_atproto_admin_disableaccountinvites_main_input_of_yojson;
-    pp=pp_com_atproto_admin_disableaccountinvites_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -4156,7 +4156,7 @@ end
   *)
 module Com_Atproto_Admin_DeleteAccount = struct
   (** def main *)
-  type com_atproto_admin_deleteaccount_main_input = {
+  type main_input = {
     did: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -4164,9 +4164,9 @@ module Com_Atproto_Admin_DeleteAccount = struct
   (** Delete a user account as an administrator. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=com_atproto_admin_deleteaccount_main_input_to_yojson;
-    of_yojson=com_atproto_admin_deleteaccount_main_input_of_yojson;
-    pp=pp_com_atproto_admin_deleteaccount_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -4272,7 +4272,7 @@ end
   *)
 module App_Bsky_Video_UploadVideo = struct
   (** def main *)
-  type app_bsky_video_uploadvideo_main_output = {
+  type main_output = {
     jobStatus: app_bsky_video_defs_jobstatus;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -4281,9 +4281,9 @@ module App_Bsky_Video_UploadVideo = struct
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_opaque {encoding=(Other "video/mp4")}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_video_uploadvideo_main_output_to_yojson;
-    of_yojson=app_bsky_video_uploadvideo_main_output_of_yojson;
-    pp=pp_app_bsky_video_uploadvideo_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4292,7 +4292,7 @@ end
   *)
 module App_Bsky_Video_GetUploadLimits = struct
   (** def main *)
-  type app_bsky_video_getuploadlimits_main_output = {
+  type main_output = {
     canUpload: bool;
     remainingDailyVideos: int64 option;
     remainingDailyBytes: int64 option;
@@ -4304,9 +4304,9 @@ module App_Bsky_Video_GetUploadLimits = struct
   (** Get video upload limits for the authenticated user. *)
   let main: _ Base.query = Base.make_query ~parameters:No_params 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_video_getuploadlimits_main_output_to_yojson;
-    of_yojson=app_bsky_video_getuploadlimits_main_output_of_yojson;
-    pp=pp_app_bsky_video_getuploadlimits_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4315,12 +4315,12 @@ end
   *)
 module App_Bsky_Video_GetJobStatus = struct
   (** def main *)
-  type app_bsky_video_getjobstatus_main_params = {
+  type main_params = {
     jobId: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_video_getjobstatus_main_output = {
+  type main_output = {
     jobStatus: app_bsky_video_defs_jobstatus;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -4328,13 +4328,13 @@ module App_Bsky_Video_GetJobStatus = struct
   (** Get status details for a video processing job. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_video_getjobstatus_main_params_to_yojson;
-    of_yojson=app_bsky_video_getjobstatus_main_params_of_yojson;
-    pp=pp_app_bsky_video_getjobstatus_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_video_getjobstatus_main_output_to_yojson;
-    of_yojson=app_bsky_video_getjobstatus_main_output_of_yojson;
-    pp=pp_app_bsky_video_getjobstatus_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4364,7 +4364,7 @@ end
   *)
 module App_Bsky_Unspecced_SearchStarterPacksSkeleton = struct
   (** def main *)
-  type app_bsky_unspecced_searchstarterpacksskeleton_main_params = {
+  type main_params = {
     q: string;
     viewer: string option;
     limit: int64 option;
@@ -4372,27 +4372,27 @@ module App_Bsky_Unspecced_SearchStarterPacksSkeleton = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_unspecced_searchstarterpacksskeleton_main_output = {
+  type main_output = {
     cursor: string option;
     hitsTotal: int64 option;
     starterPacks: app_bsky_unspecced_defs_skeletonsearchstarterpack list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_unspecced_searchstarterpacksskeleton_main_error = [ `BadQueryString [@name "BadQueryString"]]
+  type main_error = [ `BadQueryString [@name "BadQueryString"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Backend Starter Pack search, returns only skeleton. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_unspecced_searchstarterpacksskeleton_main_params_to_yojson;
-    of_yojson=app_bsky_unspecced_searchstarterpacksskeleton_main_params_of_yojson;
-    pp=pp_app_bsky_unspecced_searchstarterpacksskeleton_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_unspecced_searchstarterpacksskeleton_main_output_to_yojson;
-    of_yojson=app_bsky_unspecced_searchstarterpacksskeleton_main_output_of_yojson;
-    pp=pp_app_bsky_unspecced_searchstarterpacksskeleton_main_output}}) 
-    ~errors:(Errors {pp=pp_app_bsky_unspecced_searchstarterpacksskeleton_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -4401,7 +4401,7 @@ end
   *)
 module App_Bsky_Unspecced_SearchPostsSkeleton = struct
   (** def main *)
-  type app_bsky_unspecced_searchpostsskeleton_main_params = {
+  type main_params = {
     q: string;
     sort: string option;
     since: string option;
@@ -4418,27 +4418,27 @@ module App_Bsky_Unspecced_SearchPostsSkeleton = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_unspecced_searchpostsskeleton_main_output = {
+  type main_output = {
     cursor: string option;
     hitsTotal: int64 option;
     posts: app_bsky_unspecced_defs_skeletonsearchpost list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_unspecced_searchpostsskeleton_main_error = [ `BadQueryString [@name "BadQueryString"]]
+  type main_error = [ `BadQueryString [@name "BadQueryString"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Backend Posts search, returns only skeleton *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_unspecced_searchpostsskeleton_main_params_to_yojson;
-    of_yojson=app_bsky_unspecced_searchpostsskeleton_main_params_of_yojson;
-    pp=pp_app_bsky_unspecced_searchpostsskeleton_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_unspecced_searchpostsskeleton_main_output_to_yojson;
-    of_yojson=app_bsky_unspecced_searchpostsskeleton_main_output_of_yojson;
-    pp=pp_app_bsky_unspecced_searchpostsskeleton_main_output}}) 
-    ~errors:(Errors {pp=pp_app_bsky_unspecced_searchpostsskeleton_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -4447,7 +4447,7 @@ end
   *)
 module App_Bsky_Unspecced_SearchActorsSkeleton = struct
   (** def main *)
-  type app_bsky_unspecced_searchactorsskeleton_main_params = {
+  type main_params = {
     q: string;
     viewer: string option;
     typeahead: bool option;
@@ -4456,27 +4456,27 @@ module App_Bsky_Unspecced_SearchActorsSkeleton = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_unspecced_searchactorsskeleton_main_output = {
+  type main_output = {
     cursor: string option;
     hitsTotal: int64 option;
     actors: app_bsky_unspecced_defs_skeletonsearchactor list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_unspecced_searchactorsskeleton_main_error = [ `BadQueryString [@name "BadQueryString"]]
+  type main_error = [ `BadQueryString [@name "BadQueryString"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Backend Actors (profile) search, returns only skeleton. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_unspecced_searchactorsskeleton_main_params_to_yojson;
-    of_yojson=app_bsky_unspecced_searchactorsskeleton_main_params_of_yojson;
-    pp=pp_app_bsky_unspecced_searchactorsskeleton_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_unspecced_searchactorsskeleton_main_output_to_yojson;
-    of_yojson=app_bsky_unspecced_searchactorsskeleton_main_output_of_yojson;
-    pp=pp_app_bsky_unspecced_searchactorsskeleton_main_output}}) 
-    ~errors:(Errors {pp=pp_app_bsky_unspecced_searchactorsskeleton_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -4485,13 +4485,13 @@ end
   *)
 module App_Bsky_Unspecced_GetTrendsSkeleton = struct
   (** def main *)
-  type app_bsky_unspecced_gettrendsskeleton_main_params = {
+  type main_params = {
     viewer: string option;
     limit: int64 option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_unspecced_gettrendsskeleton_main_output = {
+  type main_output = {
     trends: app_bsky_unspecced_defs_skeletontrend list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -4499,13 +4499,13 @@ module App_Bsky_Unspecced_GetTrendsSkeleton = struct
   (** Get the skeleton of trends on the network. Intended to be called and then hydrated through app.bsky.unspecced.getTrends *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_unspecced_gettrendsskeleton_main_params_to_yojson;
-    of_yojson=app_bsky_unspecced_gettrendsskeleton_main_params_of_yojson;
-    pp=pp_app_bsky_unspecced_gettrendsskeleton_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_unspecced_gettrendsskeleton_main_output_to_yojson;
-    of_yojson=app_bsky_unspecced_gettrendsskeleton_main_output_of_yojson;
-    pp=pp_app_bsky_unspecced_gettrendsskeleton_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4514,12 +4514,12 @@ end
   *)
 module App_Bsky_Unspecced_GetTrends = struct
   (** def main *)
-  type app_bsky_unspecced_gettrends_main_params = {
+  type main_params = {
     limit: int64 option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_unspecced_gettrends_main_output = {
+  type main_output = {
     trends: app_bsky_unspecced_defs_trendview list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -4527,13 +4527,13 @@ module App_Bsky_Unspecced_GetTrends = struct
   (** Get the current trends on the network *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_unspecced_gettrends_main_params_to_yojson;
-    of_yojson=app_bsky_unspecced_gettrends_main_params_of_yojson;
-    pp=pp_app_bsky_unspecced_gettrends_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_unspecced_gettrends_main_output_to_yojson;
-    of_yojson=app_bsky_unspecced_gettrends_main_output_of_yojson;
-    pp=pp_app_bsky_unspecced_gettrends_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4542,13 +4542,13 @@ end
   *)
 module App_Bsky_Unspecced_GetTrendingTopics = struct
   (** def main *)
-  type app_bsky_unspecced_gettrendingtopics_main_params = {
+  type main_params = {
     viewer: string option;
     limit: int64 option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_unspecced_gettrendingtopics_main_output = {
+  type main_output = {
     topics: app_bsky_unspecced_defs_trendingtopic list;
     suggested: app_bsky_unspecced_defs_trendingtopic list;
   }
@@ -4557,13 +4557,13 @@ module App_Bsky_Unspecced_GetTrendingTopics = struct
   (** Get a list of trending topics *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_unspecced_gettrendingtopics_main_params_to_yojson;
-    of_yojson=app_bsky_unspecced_gettrendingtopics_main_params_of_yojson;
-    pp=pp_app_bsky_unspecced_gettrendingtopics_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_unspecced_gettrendingtopics_main_output_to_yojson;
-    of_yojson=app_bsky_unspecced_gettrendingtopics_main_output_of_yojson;
-    pp=pp_app_bsky_unspecced_gettrendingtopics_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4572,7 +4572,7 @@ end
   *)
 module App_Bsky_Unspecced_GetTaggedSuggestions = struct
   (** def main *)
-  type app_bsky_unspecced_gettaggedsuggestions_main_output = {
+  type main_output = {
     suggestions: app_bsky_unspecced_gettaggedsuggestions_suggestion list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -4580,9 +4580,9 @@ module App_Bsky_Unspecced_GetTaggedSuggestions = struct
   (** Get a list of suggestions (feeds and users) tagged with categories *)
   let main: _ Base.query = Base.make_query ~parameters:No_params 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_unspecced_gettaggedsuggestions_main_output_to_yojson;
-    of_yojson=app_bsky_unspecced_gettaggedsuggestions_main_output_of_yojson;
-    pp=pp_app_bsky_unspecced_gettaggedsuggestions_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
   (** def suggestion *)
   type nonrec suggestion = app_bsky_unspecced_gettaggedsuggestions_suggestion = {
@@ -4602,7 +4602,7 @@ end
   *)
 module App_Bsky_Unspecced_GetSuggestionsSkeleton = struct
   (** def main *)
-  type app_bsky_unspecced_getsuggestionsskeleton_main_params = {
+  type main_params = {
     viewer: string option;
     limit: int64 option;
     cursor: string option;
@@ -4610,7 +4610,7 @@ module App_Bsky_Unspecced_GetSuggestionsSkeleton = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_unspecced_getsuggestionsskeleton_main_output = {
+  type main_output = {
     cursor: string option;
     actors: app_bsky_unspecced_defs_skeletonsearchactor list;
     relativeToDid: string option;
@@ -4621,13 +4621,13 @@ module App_Bsky_Unspecced_GetSuggestionsSkeleton = struct
   (** Get a skeleton of suggested actors. Intended to be called and then hydrated through app.bsky.actor.getSuggestions *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_unspecced_getsuggestionsskeleton_main_params_to_yojson;
-    of_yojson=app_bsky_unspecced_getsuggestionsskeleton_main_params_of_yojson;
-    pp=pp_app_bsky_unspecced_getsuggestionsskeleton_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_unspecced_getsuggestionsskeleton_main_output_to_yojson;
-    of_yojson=app_bsky_unspecced_getsuggestionsskeleton_main_output_of_yojson;
-    pp=pp_app_bsky_unspecced_getsuggestionsskeleton_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4636,14 +4636,14 @@ end
   *)
 module App_Bsky_Unspecced_GetSuggestedUsersSkeleton = struct
   (** def main *)
-  type app_bsky_unspecced_getsuggestedusersskeleton_main_params = {
+  type main_params = {
     viewer: string option;
     category: string option;
     limit: int64 option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_unspecced_getsuggestedusersskeleton_main_output = {
+  type main_output = {
     dids: string list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -4651,13 +4651,13 @@ module App_Bsky_Unspecced_GetSuggestedUsersSkeleton = struct
   (** Get a skeleton of suggested users. Intended to be called and hydrated by app.bsky.unspecced.getSuggestedUsers *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_unspecced_getsuggestedusersskeleton_main_params_to_yojson;
-    of_yojson=app_bsky_unspecced_getsuggestedusersskeleton_main_params_of_yojson;
-    pp=pp_app_bsky_unspecced_getsuggestedusersskeleton_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_unspecced_getsuggestedusersskeleton_main_output_to_yojson;
-    of_yojson=app_bsky_unspecced_getsuggestedusersskeleton_main_output_of_yojson;
-    pp=pp_app_bsky_unspecced_getsuggestedusersskeleton_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4666,13 +4666,13 @@ end
   *)
 module App_Bsky_Unspecced_GetSuggestedUsers = struct
   (** def main *)
-  type app_bsky_unspecced_getsuggestedusers_main_params = {
+  type main_params = {
     category: string option;
     limit: int64 option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_unspecced_getsuggestedusers_main_output = {
+  type main_output = {
     actors: app_bsky_actor_defs_profileview list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -4680,13 +4680,13 @@ module App_Bsky_Unspecced_GetSuggestedUsers = struct
   (** Get a list of suggested users *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_unspecced_getsuggestedusers_main_params_to_yojson;
-    of_yojson=app_bsky_unspecced_getsuggestedusers_main_params_of_yojson;
-    pp=pp_app_bsky_unspecced_getsuggestedusers_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_unspecced_getsuggestedusers_main_output_to_yojson;
-    of_yojson=app_bsky_unspecced_getsuggestedusers_main_output_of_yojson;
-    pp=pp_app_bsky_unspecced_getsuggestedusers_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4695,13 +4695,13 @@ end
   *)
 module App_Bsky_Unspecced_GetSuggestedStarterPacksSkeleton = struct
   (** def main *)
-  type app_bsky_unspecced_getsuggestedstarterpacksskeleton_main_params = {
+  type main_params = {
     viewer: string option;
     limit: int64 option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_unspecced_getsuggestedstarterpacksskeleton_main_output = {
+  type main_output = {
     starterPacks: string list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -4709,13 +4709,13 @@ module App_Bsky_Unspecced_GetSuggestedStarterPacksSkeleton = struct
   (** Get a skeleton of suggested starterpacks. Intended to be called and hydrated by app.bsky.unspecced.getSuggestedStarterpacks *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_unspecced_getsuggestedstarterpacksskeleton_main_params_to_yojson;
-    of_yojson=app_bsky_unspecced_getsuggestedstarterpacksskeleton_main_params_of_yojson;
-    pp=pp_app_bsky_unspecced_getsuggestedstarterpacksskeleton_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_unspecced_getsuggestedstarterpacksskeleton_main_output_to_yojson;
-    of_yojson=app_bsky_unspecced_getsuggestedstarterpacksskeleton_main_output_of_yojson;
-    pp=pp_app_bsky_unspecced_getsuggestedstarterpacksskeleton_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4724,12 +4724,12 @@ end
   *)
 module App_Bsky_Unspecced_GetSuggestedStarterPacks = struct
   (** def main *)
-  type app_bsky_unspecced_getsuggestedstarterpacks_main_params = {
+  type main_params = {
     limit: int64 option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_unspecced_getsuggestedstarterpacks_main_output = {
+  type main_output = {
     starterPacks: app_bsky_graph_defs_starterpackview list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -4737,13 +4737,13 @@ module App_Bsky_Unspecced_GetSuggestedStarterPacks = struct
   (** Get a list of suggested starterpacks *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_unspecced_getsuggestedstarterpacks_main_params_to_yojson;
-    of_yojson=app_bsky_unspecced_getsuggestedstarterpacks_main_params_of_yojson;
-    pp=pp_app_bsky_unspecced_getsuggestedstarterpacks_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_unspecced_getsuggestedstarterpacks_main_output_to_yojson;
-    of_yojson=app_bsky_unspecced_getsuggestedstarterpacks_main_output_of_yojson;
-    pp=pp_app_bsky_unspecced_getsuggestedstarterpacks_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4752,13 +4752,13 @@ end
   *)
 module App_Bsky_Unspecced_GetSuggestedFeedsSkeleton = struct
   (** def main *)
-  type app_bsky_unspecced_getsuggestedfeedsskeleton_main_params = {
+  type main_params = {
     viewer: string option;
     limit: int64 option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_unspecced_getsuggestedfeedsskeleton_main_output = {
+  type main_output = {
     feeds: string list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -4766,13 +4766,13 @@ module App_Bsky_Unspecced_GetSuggestedFeedsSkeleton = struct
   (** Get a skeleton of suggested feeds. Intended to be called and hydrated by app.bsky.unspecced.getSuggestedFeeds *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_unspecced_getsuggestedfeedsskeleton_main_params_to_yojson;
-    of_yojson=app_bsky_unspecced_getsuggestedfeedsskeleton_main_params_of_yojson;
-    pp=pp_app_bsky_unspecced_getsuggestedfeedsskeleton_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_unspecced_getsuggestedfeedsskeleton_main_output_to_yojson;
-    of_yojson=app_bsky_unspecced_getsuggestedfeedsskeleton_main_output_of_yojson;
-    pp=pp_app_bsky_unspecced_getsuggestedfeedsskeleton_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4781,12 +4781,12 @@ end
   *)
 module App_Bsky_Unspecced_GetSuggestedFeeds = struct
   (** def main *)
-  type app_bsky_unspecced_getsuggestedfeeds_main_params = {
+  type main_params = {
     limit: int64 option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_unspecced_getsuggestedfeeds_main_output = {
+  type main_output = {
     feeds: app_bsky_feed_defs_generatorview list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -4794,13 +4794,13 @@ module App_Bsky_Unspecced_GetSuggestedFeeds = struct
   (** Get a list of suggested feeds *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_unspecced_getsuggestedfeeds_main_params_to_yojson;
-    of_yojson=app_bsky_unspecced_getsuggestedfeeds_main_params_of_yojson;
-    pp=pp_app_bsky_unspecced_getsuggestedfeeds_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_unspecced_getsuggestedfeeds_main_output_to_yojson;
-    of_yojson=app_bsky_unspecced_getsuggestedfeeds_main_output_of_yojson;
-    pp=pp_app_bsky_unspecced_getsuggestedfeeds_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4809,14 +4809,14 @@ end
   *)
 module App_Bsky_Unspecced_GetPopularFeedGenerators = struct
   (** def main *)
-  type app_bsky_unspecced_getpopularfeedgenerators_main_params = {
+  type main_params = {
     limit: int64 option;
     cursor: string option;
     query: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_unspecced_getpopularfeedgenerators_main_output = {
+  type main_output = {
     cursor: string option;
     feeds: app_bsky_feed_defs_generatorview list;
   }
@@ -4825,13 +4825,13 @@ module App_Bsky_Unspecced_GetPopularFeedGenerators = struct
   (** An unspecced view of globally popular feed generators. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_unspecced_getpopularfeedgenerators_main_params_to_yojson;
-    of_yojson=app_bsky_unspecced_getpopularfeedgenerators_main_params_of_yojson;
-    pp=pp_app_bsky_unspecced_getpopularfeedgenerators_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_unspecced_getpopularfeedgenerators_main_output_to_yojson;
-    of_yojson=app_bsky_unspecced_getpopularfeedgenerators_main_output_of_yojson;
-    pp=pp_app_bsky_unspecced_getpopularfeedgenerators_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -4840,7 +4840,7 @@ end
   *)
 module App_Bsky_Unspecced_GetConfig = struct
   (** def main *)
-  type app_bsky_unspecced_getconfig_main_output = {
+  type main_output = {
     checkEmailConfirmed: bool option;
     liveNow: app_bsky_unspecced_getconfig_livenowconfig list option;
   }
@@ -4849,9 +4849,9 @@ module App_Bsky_Unspecced_GetConfig = struct
   (** Get miscellaneous runtime configuration. *)
   let main: _ Base.query = Base.make_query ~parameters:No_params 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_unspecced_getconfig_main_output_to_yojson;
-    of_yojson=app_bsky_unspecced_getconfig_main_output_of_yojson;
-    pp=pp_app_bsky_unspecced_getconfig_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
   (** def liveNowConfig *)
   type nonrec livenowconfig = app_bsky_unspecced_getconfig_livenowconfig = {
@@ -4947,7 +4947,7 @@ end
   *)
 module App_Bsky_Notification_UpdateSeen = struct
   (** def main *)
-  type app_bsky_notification_updateseen_main_input = {
+  type main_input = {
     seenAt: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -4955,9 +4955,9 @@ module App_Bsky_Notification_UpdateSeen = struct
   (** Notify server that the requesting account has seen notifications. Requires auth. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_notification_updateseen_main_input_to_yojson;
-    of_yojson=app_bsky_notification_updateseen_main_input_of_yojson;
-    pp=pp_app_bsky_notification_updateseen_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -4966,7 +4966,7 @@ end
   *)
 module App_Bsky_Notification_RegisterPush = struct
   (** def main *)
-  type app_bsky_notification_registerpush_main_input = {
+  type main_input = {
     serviceDid: string;
     token: string;
     platform: string;
@@ -4977,9 +4977,9 @@ module App_Bsky_Notification_RegisterPush = struct
   (** Register to receive push notifications, via a specified service, for the requesting account. Requires auth. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_notification_registerpush_main_input_to_yojson;
-    of_yojson=app_bsky_notification_registerpush_main_input_of_yojson;
-    pp=pp_app_bsky_notification_registerpush_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -4988,7 +4988,7 @@ end
   *)
 module App_Bsky_Notification_PutPreferences = struct
   (** def main *)
-  type app_bsky_notification_putpreferences_main_input = {
+  type main_input = {
     priority: bool;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -4996,9 +4996,9 @@ module App_Bsky_Notification_PutPreferences = struct
   (** Set notification-related preferences for an account. Requires auth. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_notification_putpreferences_main_input_to_yojson;
-    of_yojson=app_bsky_notification_putpreferences_main_input_of_yojson;
-    pp=pp_app_bsky_notification_putpreferences_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -5007,7 +5007,7 @@ end
   *)
 module App_Bsky_Notification_ListNotifications = struct
   (** def main *)
-  type app_bsky_notification_listnotifications_main_params = {
+  type main_params = {
     reasons: string list option;
     limit: int64 option;
     priority: bool option;
@@ -5016,7 +5016,7 @@ module App_Bsky_Notification_ListNotifications = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_notification_listnotifications_main_output = {
+  type main_output = {
     cursor: string option;
     notifications: app_bsky_notification_listnotifications_notification list;
     priority: bool option;
@@ -5027,13 +5027,13 @@ module App_Bsky_Notification_ListNotifications = struct
   (** Enumerate notifications for the requesting account. Requires auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_notification_listnotifications_main_params_to_yojson;
-    of_yojson=app_bsky_notification_listnotifications_main_params_of_yojson;
-    pp=pp_app_bsky_notification_listnotifications_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_notification_listnotifications_main_output_to_yojson;
-    of_yojson=app_bsky_notification_listnotifications_main_output_of_yojson;
-    pp=pp_app_bsky_notification_listnotifications_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
   (** def notification *)
   type nonrec notification = app_bsky_notification_listnotifications_notification = {
@@ -5059,13 +5059,13 @@ end
   *)
 module App_Bsky_Notification_GetUnreadCount = struct
   (** def main *)
-  type app_bsky_notification_getunreadcount_main_params = {
+  type main_params = {
     priority: bool option;
     seenAt: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_notification_getunreadcount_main_output = {
+  type main_output = {
     count: int64;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -5073,13 +5073,13 @@ module App_Bsky_Notification_GetUnreadCount = struct
   (** Count the number of unread notifications for the requesting account. Requires auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_notification_getunreadcount_main_params_to_yojson;
-    of_yojson=app_bsky_notification_getunreadcount_main_params_of_yojson;
-    pp=pp_app_bsky_notification_getunreadcount_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_notification_getunreadcount_main_output_to_yojson;
-    of_yojson=app_bsky_notification_getunreadcount_main_output_of_yojson;
-    pp=pp_app_bsky_notification_getunreadcount_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5123,13 +5123,13 @@ end
   *)
 module App_Bsky_Labeler_GetServices = struct
   (** def main *)
-  type app_bsky_labeler_getservices_main_params = {
+  type main_params = {
     dids: string list;
     detailed: bool option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_labeler_getservices_main_output = {
+  type main_output = {
     views: [
     `App_bsky_labeler_defs_labelerview of app_bsky_labeler_defs_labelerview [@name "labelerView"]
     | `App_bsky_labeler_defs_labelerviewdetailed of app_bsky_labeler_defs_labelerviewdetailed [@name "labelerViewDetailed"]
@@ -5141,13 +5141,13 @@ module App_Bsky_Labeler_GetServices = struct
   (** Get information about a list of labeler services. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_labeler_getservices_main_params_to_yojson;
-    of_yojson=app_bsky_labeler_getservices_main_params_of_yojson;
-    pp=pp_app_bsky_labeler_getservices_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_labeler_getservices_main_output_to_yojson;
-    of_yojson=app_bsky_labeler_getservices_main_output_of_yojson;
-    pp=pp_app_bsky_labeler_getservices_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5173,7 +5173,7 @@ end
   *)
 module App_Bsky_Graph_UnmuteThread = struct
   (** def main *)
-  type app_bsky_graph_unmutethread_main_input = {
+  type main_input = {
     root: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -5181,9 +5181,9 @@ module App_Bsky_Graph_UnmuteThread = struct
   (** Unmutes the specified thread. Requires auth. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_unmutethread_main_input_to_yojson;
-    of_yojson=app_bsky_graph_unmutethread_main_input_of_yojson;
-    pp=pp_app_bsky_graph_unmutethread_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -5192,7 +5192,7 @@ end
   *)
 module App_Bsky_Graph_UnmuteActorList = struct
   (** def main *)
-  type app_bsky_graph_unmuteactorlist_main_input = {
+  type main_input = {
     list: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -5200,9 +5200,9 @@ module App_Bsky_Graph_UnmuteActorList = struct
   (** Unmutes the specified list of accounts. Requires auth. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_unmuteactorlist_main_input_to_yojson;
-    of_yojson=app_bsky_graph_unmuteactorlist_main_input_of_yojson;
-    pp=pp_app_bsky_graph_unmuteactorlist_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -5211,7 +5211,7 @@ end
   *)
 module App_Bsky_Graph_UnmuteActor = struct
   (** def main *)
-  type app_bsky_graph_unmuteactor_main_input = {
+  type main_input = {
     actor: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -5219,9 +5219,9 @@ module App_Bsky_Graph_UnmuteActor = struct
   (** Unmutes the specified account. Requires auth. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_unmuteactor_main_input_to_yojson;
-    of_yojson=app_bsky_graph_unmuteactor_main_input_of_yojson;
-    pp=pp_app_bsky_graph_unmuteactor_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -5258,14 +5258,14 @@ end
   *)
 module App_Bsky_Graph_SearchStarterPacks = struct
   (** def main *)
-  type app_bsky_graph_searchstarterpacks_main_params = {
+  type main_params = {
     q: string;
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_graph_searchstarterpacks_main_output = {
+  type main_output = {
     cursor: string option;
     starterPacks: app_bsky_graph_defs_starterpackviewbasic list;
   }
@@ -5274,13 +5274,13 @@ module App_Bsky_Graph_SearchStarterPacks = struct
   (** Find starter packs matching search criteria. Does not require auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_graph_searchstarterpacks_main_params_to_yojson;
-    of_yojson=app_bsky_graph_searchstarterpacks_main_params_of_yojson;
-    pp=pp_app_bsky_graph_searchstarterpacks_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_searchstarterpacks_main_output_to_yojson;
-    of_yojson=app_bsky_graph_searchstarterpacks_main_output_of_yojson;
-    pp=pp_app_bsky_graph_searchstarterpacks_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5289,7 +5289,7 @@ end
   *)
 module App_Bsky_Graph_MuteThread = struct
   (** def main *)
-  type app_bsky_graph_mutethread_main_input = {
+  type main_input = {
     root: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -5297,9 +5297,9 @@ module App_Bsky_Graph_MuteThread = struct
   (** Mutes a thread preventing notifications from the thread and any of its children. Mutes are private in Bluesky. Requires auth. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_mutethread_main_input_to_yojson;
-    of_yojson=app_bsky_graph_mutethread_main_input_of_yojson;
-    pp=pp_app_bsky_graph_mutethread_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -5308,7 +5308,7 @@ end
   *)
 module App_Bsky_Graph_MuteActorList = struct
   (** def main *)
-  type app_bsky_graph_muteactorlist_main_input = {
+  type main_input = {
     list: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -5316,9 +5316,9 @@ module App_Bsky_Graph_MuteActorList = struct
   (** Creates a mute relationship for the specified list of accounts. Mutes are private in Bluesky. Requires auth. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_muteactorlist_main_input_to_yojson;
-    of_yojson=app_bsky_graph_muteactorlist_main_input_of_yojson;
-    pp=pp_app_bsky_graph_muteactorlist_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -5327,7 +5327,7 @@ end
   *)
 module App_Bsky_Graph_MuteActor = struct
   (** def main *)
-  type app_bsky_graph_muteactor_main_input = {
+  type main_input = {
     actor: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -5335,9 +5335,9 @@ module App_Bsky_Graph_MuteActor = struct
   (** Creates a mute relationship for the specified account. Mutes are private in Bluesky. Requires auth. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_muteactor_main_input_to_yojson;
-    of_yojson=app_bsky_graph_muteactor_main_input_of_yojson;
-    pp=pp_app_bsky_graph_muteactor_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -5400,12 +5400,12 @@ end
   *)
 module App_Bsky_Graph_GetSuggestedFollowsByActor = struct
   (** def main *)
-  type app_bsky_graph_getsuggestedfollowsbyactor_main_params = {
+  type main_params = {
     actor: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_graph_getsuggestedfollowsbyactor_main_output = {
+  type main_output = {
     suggestions: app_bsky_actor_defs_profileview list;
     isFallback: bool option;
     recId: int64 option;
@@ -5415,13 +5415,13 @@ module App_Bsky_Graph_GetSuggestedFollowsByActor = struct
   (** Enumerates follows similar to a given account (actor). Expected use is to recommend additional accounts immediately after following one account. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_graph_getsuggestedfollowsbyactor_main_params_to_yojson;
-    of_yojson=app_bsky_graph_getsuggestedfollowsbyactor_main_params_of_yojson;
-    pp=pp_app_bsky_graph_getsuggestedfollowsbyactor_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_getsuggestedfollowsbyactor_main_output_to_yojson;
-    of_yojson=app_bsky_graph_getsuggestedfollowsbyactor_main_output_of_yojson;
-    pp=pp_app_bsky_graph_getsuggestedfollowsbyactor_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5430,12 +5430,12 @@ end
   *)
 module App_Bsky_Graph_GetStarterPacks = struct
   (** def main *)
-  type app_bsky_graph_getstarterpacks_main_params = {
+  type main_params = {
     uris: string list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_graph_getstarterpacks_main_output = {
+  type main_output = {
     starterPacks: app_bsky_graph_defs_starterpackviewbasic list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -5443,13 +5443,13 @@ module App_Bsky_Graph_GetStarterPacks = struct
   (** Get views for a list of starter packs. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_graph_getstarterpacks_main_params_to_yojson;
-    of_yojson=app_bsky_graph_getstarterpacks_main_params_of_yojson;
-    pp=pp_app_bsky_graph_getstarterpacks_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_getstarterpacks_main_output_to_yojson;
-    of_yojson=app_bsky_graph_getstarterpacks_main_output_of_yojson;
-    pp=pp_app_bsky_graph_getstarterpacks_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5458,12 +5458,12 @@ end
   *)
 module App_Bsky_Graph_GetStarterPack = struct
   (** def main *)
-  type app_bsky_graph_getstarterpack_main_params = {
+  type main_params = {
     starterPack: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_graph_getstarterpack_main_output = {
+  type main_output = {
     starterPack: app_bsky_graph_defs_starterpackview;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -5471,13 +5471,13 @@ module App_Bsky_Graph_GetStarterPack = struct
   (** Gets a view of a starter pack. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_graph_getstarterpack_main_params_to_yojson;
-    of_yojson=app_bsky_graph_getstarterpack_main_params_of_yojson;
-    pp=pp_app_bsky_graph_getstarterpack_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_getstarterpack_main_output_to_yojson;
-    of_yojson=app_bsky_graph_getstarterpack_main_output_of_yojson;
-    pp=pp_app_bsky_graph_getstarterpack_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5486,13 +5486,13 @@ end
   *)
 module App_Bsky_Graph_GetRelationships = struct
   (** def main *)
-  type app_bsky_graph_getrelationships_main_params = {
+  type main_params = {
     actor: string;
     others: string list option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_graph_getrelationships_main_output = {
+  type main_output = {
     actor: string option;
     relationships: [
     `App_bsky_graph_defs_relationship of app_bsky_graph_defs_relationship [@name "relationship"]
@@ -5502,20 +5502,20 @@ module App_Bsky_Graph_GetRelationships = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_graph_getrelationships_main_error = [ `ActorNotFound [@name "ActorNotFound"]]
+  type main_error = [ `ActorNotFound [@name "ActorNotFound"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Enumerates public relationships between one account, and a list of other accounts. Does not require auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_graph_getrelationships_main_params_to_yojson;
-    of_yojson=app_bsky_graph_getrelationships_main_params_of_yojson;
-    pp=pp_app_bsky_graph_getrelationships_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_getrelationships_main_output_to_yojson;
-    of_yojson=app_bsky_graph_getrelationships_main_output_of_yojson;
-    pp=pp_app_bsky_graph_getrelationships_main_output}}) 
-    ~errors:(Errors {pp=pp_app_bsky_graph_getrelationships_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -5524,13 +5524,13 @@ end
   *)
 module App_Bsky_Graph_GetMutes = struct
   (** def main *)
-  type app_bsky_graph_getmutes_main_params = {
+  type main_params = {
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_graph_getmutes_main_output = {
+  type main_output = {
     cursor: string option;
     mutes: app_bsky_actor_defs_profileview list;
   }
@@ -5539,13 +5539,13 @@ module App_Bsky_Graph_GetMutes = struct
   (** Enumerates accounts that the requesting account (actor) currently has muted. Requires auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_graph_getmutes_main_params_to_yojson;
-    of_yojson=app_bsky_graph_getmutes_main_params_of_yojson;
-    pp=pp_app_bsky_graph_getmutes_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_getmutes_main_output_to_yojson;
-    of_yojson=app_bsky_graph_getmutes_main_output_of_yojson;
-    pp=pp_app_bsky_graph_getmutes_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5554,14 +5554,14 @@ end
   *)
 module App_Bsky_Graph_GetLists = struct
   (** def main *)
-  type app_bsky_graph_getlists_main_params = {
+  type main_params = {
     actor: string;
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_graph_getlists_main_output = {
+  type main_output = {
     cursor: string option;
     lists: app_bsky_graph_defs_listview list;
   }
@@ -5570,13 +5570,13 @@ module App_Bsky_Graph_GetLists = struct
   (** Enumerates the lists created by a specified account (actor). *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_graph_getlists_main_params_to_yojson;
-    of_yojson=app_bsky_graph_getlists_main_params_of_yojson;
-    pp=pp_app_bsky_graph_getlists_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_getlists_main_output_to_yojson;
-    of_yojson=app_bsky_graph_getlists_main_output_of_yojson;
-    pp=pp_app_bsky_graph_getlists_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5585,13 +5585,13 @@ end
   *)
 module App_Bsky_Graph_GetListMutes = struct
   (** def main *)
-  type app_bsky_graph_getlistmutes_main_params = {
+  type main_params = {
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_graph_getlistmutes_main_output = {
+  type main_output = {
     cursor: string option;
     lists: app_bsky_graph_defs_listview list;
   }
@@ -5600,13 +5600,13 @@ module App_Bsky_Graph_GetListMutes = struct
   (** Enumerates mod lists that the requesting account (actor) currently has muted. Requires auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_graph_getlistmutes_main_params_to_yojson;
-    of_yojson=app_bsky_graph_getlistmutes_main_params_of_yojson;
-    pp=pp_app_bsky_graph_getlistmutes_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_getlistmutes_main_output_to_yojson;
-    of_yojson=app_bsky_graph_getlistmutes_main_output_of_yojson;
-    pp=pp_app_bsky_graph_getlistmutes_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5615,13 +5615,13 @@ end
   *)
 module App_Bsky_Graph_GetListBlocks = struct
   (** def main *)
-  type app_bsky_graph_getlistblocks_main_params = {
+  type main_params = {
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_graph_getlistblocks_main_output = {
+  type main_output = {
     cursor: string option;
     lists: app_bsky_graph_defs_listview list;
   }
@@ -5630,13 +5630,13 @@ module App_Bsky_Graph_GetListBlocks = struct
   (** Get mod lists that the requesting account (actor) is blocking. Requires auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_graph_getlistblocks_main_params_to_yojson;
-    of_yojson=app_bsky_graph_getlistblocks_main_params_of_yojson;
-    pp=pp_app_bsky_graph_getlistblocks_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_getlistblocks_main_output_to_yojson;
-    of_yojson=app_bsky_graph_getlistblocks_main_output_of_yojson;
-    pp=pp_app_bsky_graph_getlistblocks_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5645,14 +5645,14 @@ end
   *)
 module App_Bsky_Graph_GetList = struct
   (** def main *)
-  type app_bsky_graph_getlist_main_params = {
+  type main_params = {
     list: string;
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_graph_getlist_main_output = {
+  type main_output = {
     cursor: string option;
     list: app_bsky_graph_defs_listview;
     items: app_bsky_graph_defs_listitemview list;
@@ -5662,13 +5662,13 @@ module App_Bsky_Graph_GetList = struct
   (** Gets a 'view' (with additional context) of a specified list. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_graph_getlist_main_params_to_yojson;
-    of_yojson=app_bsky_graph_getlist_main_params_of_yojson;
-    pp=pp_app_bsky_graph_getlist_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_getlist_main_output_to_yojson;
-    of_yojson=app_bsky_graph_getlist_main_output_of_yojson;
-    pp=pp_app_bsky_graph_getlist_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5677,14 +5677,14 @@ end
   *)
 module App_Bsky_Graph_GetKnownFollowers = struct
   (** def main *)
-  type app_bsky_graph_getknownfollowers_main_params = {
+  type main_params = {
     actor: string;
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_graph_getknownfollowers_main_output = {
+  type main_output = {
     subject: app_bsky_actor_defs_profileview;
     cursor: string option;
     followers: app_bsky_actor_defs_profileview list;
@@ -5694,13 +5694,13 @@ module App_Bsky_Graph_GetKnownFollowers = struct
   (** Enumerates accounts which follow a specified account (actor) and are followed by the viewer. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_graph_getknownfollowers_main_params_to_yojson;
-    of_yojson=app_bsky_graph_getknownfollowers_main_params_of_yojson;
-    pp=pp_app_bsky_graph_getknownfollowers_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_getknownfollowers_main_output_to_yojson;
-    of_yojson=app_bsky_graph_getknownfollowers_main_output_of_yojson;
-    pp=pp_app_bsky_graph_getknownfollowers_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5709,14 +5709,14 @@ end
   *)
 module App_Bsky_Graph_GetFollows = struct
   (** def main *)
-  type app_bsky_graph_getfollows_main_params = {
+  type main_params = {
     actor: string;
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_graph_getfollows_main_output = {
+  type main_output = {
     subject: app_bsky_actor_defs_profileview;
     cursor: string option;
     follows: app_bsky_actor_defs_profileview list;
@@ -5726,13 +5726,13 @@ module App_Bsky_Graph_GetFollows = struct
   (** Enumerates accounts which a specified account (actor) follows. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_graph_getfollows_main_params_to_yojson;
-    of_yojson=app_bsky_graph_getfollows_main_params_of_yojson;
-    pp=pp_app_bsky_graph_getfollows_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_getfollows_main_output_to_yojson;
-    of_yojson=app_bsky_graph_getfollows_main_output_of_yojson;
-    pp=pp_app_bsky_graph_getfollows_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5741,14 +5741,14 @@ end
   *)
 module App_Bsky_Graph_GetFollowers = struct
   (** def main *)
-  type app_bsky_graph_getfollowers_main_params = {
+  type main_params = {
     actor: string;
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_graph_getfollowers_main_output = {
+  type main_output = {
     subject: app_bsky_actor_defs_profileview;
     cursor: string option;
     followers: app_bsky_actor_defs_profileview list;
@@ -5758,13 +5758,13 @@ module App_Bsky_Graph_GetFollowers = struct
   (** Enumerates accounts which follow a specified account (actor). *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_graph_getfollowers_main_params_to_yojson;
-    of_yojson=app_bsky_graph_getfollowers_main_params_of_yojson;
-    pp=pp_app_bsky_graph_getfollowers_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_getfollowers_main_output_to_yojson;
-    of_yojson=app_bsky_graph_getfollowers_main_output_of_yojson;
-    pp=pp_app_bsky_graph_getfollowers_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5773,13 +5773,13 @@ end
   *)
 module App_Bsky_Graph_GetBlocks = struct
   (** def main *)
-  type app_bsky_graph_getblocks_main_params = {
+  type main_params = {
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_graph_getblocks_main_output = {
+  type main_output = {
     cursor: string option;
     blocks: app_bsky_actor_defs_profileview list;
   }
@@ -5788,13 +5788,13 @@ module App_Bsky_Graph_GetBlocks = struct
   (** Enumerates which accounts the requesting account is currently blocking. Requires auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_graph_getblocks_main_params_to_yojson;
-    of_yojson=app_bsky_graph_getblocks_main_params_of_yojson;
-    pp=pp_app_bsky_graph_getblocks_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_getblocks_main_output_to_yojson;
-    of_yojson=app_bsky_graph_getblocks_main_output_of_yojson;
-    pp=pp_app_bsky_graph_getblocks_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5803,14 +5803,14 @@ end
   *)
 module App_Bsky_Graph_GetActorStarterPacks = struct
   (** def main *)
-  type app_bsky_graph_getactorstarterpacks_main_params = {
+  type main_params = {
     actor: string;
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_graph_getactorstarterpacks_main_output = {
+  type main_output = {
     cursor: string option;
     starterPacks: app_bsky_graph_defs_starterpackviewbasic list;
   }
@@ -5819,13 +5819,13 @@ module App_Bsky_Graph_GetActorStarterPacks = struct
   (** Get a list of starter packs created by the actor. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_graph_getactorstarterpacks_main_params_to_yojson;
-    of_yojson=app_bsky_graph_getactorstarterpacks_main_params_of_yojson;
-    pp=pp_app_bsky_graph_getactorstarterpacks_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_graph_getactorstarterpacks_main_output_to_yojson;
-    of_yojson=app_bsky_graph_getactorstarterpacks_main_output_of_yojson;
-    pp=pp_app_bsky_graph_getactorstarterpacks_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5864,24 +5864,24 @@ end
   *)
 module App_Bsky_Feed_SendInteractions = struct
   (** def main *)
-  type app_bsky_feed_sendinteractions_main_input = {
+  type main_input = {
     interactions: app_bsky_feed_defs_interaction list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_feed_sendinteractions_main_output = [`_app_bsky_feed_sendinteractions_main_output]
+  type main_output = [`_main_output]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Send information about interactions with feed items back to the feed generator that served them. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_sendinteractions_main_input_to_yojson;
-    of_yojson=app_bsky_feed_sendinteractions_main_input_of_yojson;
-    pp=pp_app_bsky_feed_sendinteractions_main_input}}) 
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_sendinteractions_main_output_to_yojson;
-    of_yojson=app_bsky_feed_sendinteractions_main_output_of_yojson;
-    pp=pp_app_bsky_feed_sendinteractions_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -5890,7 +5890,7 @@ end
   *)
 module App_Bsky_Feed_SearchPosts = struct
   (** def main *)
-  type app_bsky_feed_searchposts_main_params = {
+  type main_params = {
     q: string;
     sort: string option;
     since: string option;
@@ -5906,27 +5906,27 @@ module App_Bsky_Feed_SearchPosts = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_feed_searchposts_main_output = {
+  type main_output = {
     cursor: string option;
     hitsTotal: int64 option;
     posts: app_bsky_feed_defs_postview list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_feed_searchposts_main_error = [ `BadQueryString [@name "BadQueryString"]]
+  type main_error = [ `BadQueryString [@name "BadQueryString"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Find posts matching search criteria, returning views of those posts. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_feed_searchposts_main_params_to_yojson;
-    of_yojson=app_bsky_feed_searchposts_main_params_of_yojson;
-    pp=pp_app_bsky_feed_searchposts_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_searchposts_main_output_to_yojson;
-    of_yojson=app_bsky_feed_searchposts_main_output_of_yojson;
-    pp=pp_app_bsky_feed_searchposts_main_output}}) 
-    ~errors:(Errors {pp=pp_app_bsky_feed_searchposts_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -6028,14 +6028,14 @@ end
   *)
 module App_Bsky_Feed_GetTimeline = struct
   (** def main *)
-  type app_bsky_feed_gettimeline_main_params = {
+  type main_params = {
     algorithm: string option;
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_feed_gettimeline_main_output = {
+  type main_output = {
     cursor: string option;
     feed: app_bsky_feed_defs_feedviewpost list;
   }
@@ -6044,13 +6044,13 @@ module App_Bsky_Feed_GetTimeline = struct
   (** Get a view of the requesting account's home timeline. This is expected to be some form of reverse-chronological feed. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_feed_gettimeline_main_params_to_yojson;
-    of_yojson=app_bsky_feed_gettimeline_main_params_of_yojson;
-    pp=pp_app_bsky_feed_gettimeline_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_gettimeline_main_output_to_yojson;
-    of_yojson=app_bsky_feed_gettimeline_main_output_of_yojson;
-    pp=pp_app_bsky_feed_gettimeline_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -6059,13 +6059,13 @@ end
   *)
 module App_Bsky_Feed_GetSuggestedFeeds = struct
   (** def main *)
-  type app_bsky_feed_getsuggestedfeeds_main_params = {
+  type main_params = {
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_feed_getsuggestedfeeds_main_output = {
+  type main_output = {
     cursor: string option;
     feeds: app_bsky_feed_defs_generatorview list;
   }
@@ -6074,13 +6074,13 @@ module App_Bsky_Feed_GetSuggestedFeeds = struct
   (** Get a list of suggested feeds (feed generators) for the requesting account. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_feed_getsuggestedfeeds_main_params_to_yojson;
-    of_yojson=app_bsky_feed_getsuggestedfeeds_main_params_of_yojson;
-    pp=pp_app_bsky_feed_getsuggestedfeeds_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_getsuggestedfeeds_main_output_to_yojson;
-    of_yojson=app_bsky_feed_getsuggestedfeeds_main_output_of_yojson;
-    pp=pp_app_bsky_feed_getsuggestedfeeds_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -6089,7 +6089,7 @@ end
   *)
 module App_Bsky_Feed_GetRepostedBy = struct
   (** def main *)
-  type app_bsky_feed_getrepostedby_main_params = {
+  type main_params = {
     uri: string;
     cid: string option;
     limit: int64 option;
@@ -6097,7 +6097,7 @@ module App_Bsky_Feed_GetRepostedBy = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_feed_getrepostedby_main_output = {
+  type main_output = {
     uri: string;
     cid: string option;
     cursor: string option;
@@ -6108,13 +6108,13 @@ module App_Bsky_Feed_GetRepostedBy = struct
   (** Get a list of reposts for a given post. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_feed_getrepostedby_main_params_to_yojson;
-    of_yojson=app_bsky_feed_getrepostedby_main_params_of_yojson;
-    pp=pp_app_bsky_feed_getrepostedby_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_getrepostedby_main_output_to_yojson;
-    of_yojson=app_bsky_feed_getrepostedby_main_output_of_yojson;
-    pp=pp_app_bsky_feed_getrepostedby_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -6123,7 +6123,7 @@ end
   *)
 module App_Bsky_Feed_GetQuotes = struct
   (** def main *)
-  type app_bsky_feed_getquotes_main_params = {
+  type main_params = {
     uri: string;
     cid: string option;
     limit: int64 option;
@@ -6131,7 +6131,7 @@ module App_Bsky_Feed_GetQuotes = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_feed_getquotes_main_output = {
+  type main_output = {
     uri: string;
     cid: string option;
     cursor: string option;
@@ -6142,13 +6142,13 @@ module App_Bsky_Feed_GetQuotes = struct
   (** Get a list of quotes for a given post. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_feed_getquotes_main_params_to_yojson;
-    of_yojson=app_bsky_feed_getquotes_main_params_of_yojson;
-    pp=pp_app_bsky_feed_getquotes_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_getquotes_main_output_to_yojson;
-    of_yojson=app_bsky_feed_getquotes_main_output_of_yojson;
-    pp=pp_app_bsky_feed_getquotes_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -6157,12 +6157,12 @@ end
   *)
 module App_Bsky_Feed_GetPosts = struct
   (** def main *)
-  type app_bsky_feed_getposts_main_params = {
+  type main_params = {
     uris: string list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_feed_getposts_main_output = {
+  type main_output = {
     posts: app_bsky_feed_defs_postview list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -6170,13 +6170,13 @@ module App_Bsky_Feed_GetPosts = struct
   (** Gets post views for a specified list of posts (by AT-URI). This is sometimes referred to as 'hydrating' a 'feed skeleton'. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_feed_getposts_main_params_to_yojson;
-    of_yojson=app_bsky_feed_getposts_main_params_of_yojson;
-    pp=pp_app_bsky_feed_getposts_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_getposts_main_output_to_yojson;
-    of_yojson=app_bsky_feed_getposts_main_output_of_yojson;
-    pp=pp_app_bsky_feed_getposts_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -6185,14 +6185,14 @@ end
   *)
 module App_Bsky_Feed_GetPostThread = struct
   (** def main *)
-  type app_bsky_feed_getpostthread_main_params = {
+  type main_params = {
     uri: string;
     depth: int64 option;
     parentHeight: int64 option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_feed_getpostthread_main_output = {
+  type main_output = {
     thread: [
     `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost [@name "threadViewPost"]
     | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost [@name "notFoundPost"]
@@ -6203,20 +6203,20 @@ module App_Bsky_Feed_GetPostThread = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_feed_getpostthread_main_error = [ `NotFound [@name "NotFound"]]
+  type main_error = [ `NotFound [@name "NotFound"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get posts in a thread. Does not require auth, but additional metadata and filtering will be applied for authed requests. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_feed_getpostthread_main_params_to_yojson;
-    of_yojson=app_bsky_feed_getpostthread_main_params_of_yojson;
-    pp=pp_app_bsky_feed_getpostthread_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_getpostthread_main_output_to_yojson;
-    of_yojson=app_bsky_feed_getpostthread_main_output_of_yojson;
-    pp=pp_app_bsky_feed_getpostthread_main_output}}) 
-    ~errors:(Errors {pp=pp_app_bsky_feed_getpostthread_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -6225,33 +6225,33 @@ end
   *)
 module App_Bsky_Feed_GetListFeed = struct
   (** def main *)
-  type app_bsky_feed_getlistfeed_main_params = {
+  type main_params = {
     list: string;
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_feed_getlistfeed_main_output = {
+  type main_output = {
     cursor: string option;
     feed: app_bsky_feed_defs_feedviewpost list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_feed_getlistfeed_main_error = [ `UnknownList [@name "UnknownList"]]
+  type main_error = [ `UnknownList [@name "UnknownList"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a feed of recent posts from a list (posts and reposts from any actors on the list). Does not require auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_feed_getlistfeed_main_params_to_yojson;
-    of_yojson=app_bsky_feed_getlistfeed_main_params_of_yojson;
-    pp=pp_app_bsky_feed_getlistfeed_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_getlistfeed_main_output_to_yojson;
-    of_yojson=app_bsky_feed_getlistfeed_main_output_of_yojson;
-    pp=pp_app_bsky_feed_getlistfeed_main_output}}) 
-    ~errors:(Errors {pp=pp_app_bsky_feed_getlistfeed_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -6260,7 +6260,7 @@ end
   *)
 module App_Bsky_Feed_GetLikes = struct
   (** def main *)
-  type app_bsky_feed_getlikes_main_params = {
+  type main_params = {
     uri: string;
     cid: string option;
     limit: int64 option;
@@ -6268,7 +6268,7 @@ module App_Bsky_Feed_GetLikes = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_feed_getlikes_main_output = {
+  type main_output = {
     uri: string;
     cid: string option;
     cursor: string option;
@@ -6279,13 +6279,13 @@ module App_Bsky_Feed_GetLikes = struct
   (** Get like records which reference a subject (by AT-URI and CID). *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_feed_getlikes_main_params_to_yojson;
-    of_yojson=app_bsky_feed_getlikes_main_params_of_yojson;
-    pp=pp_app_bsky_feed_getlikes_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_getlikes_main_output_to_yojson;
-    of_yojson=app_bsky_feed_getlikes_main_output_of_yojson;
-    pp=pp_app_bsky_feed_getlikes_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
   (** def like *)
   type nonrec like = app_bsky_feed_getlikes_like = {
@@ -6305,33 +6305,33 @@ end
   *)
 module App_Bsky_Feed_GetFeedSkeleton = struct
   (** def main *)
-  type app_bsky_feed_getfeedskeleton_main_params = {
+  type main_params = {
     feed: string;
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_feed_getfeedskeleton_main_output = {
+  type main_output = {
     cursor: string option;
     feed: app_bsky_feed_defs_skeletonfeedpost list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_feed_getfeedskeleton_main_error = [ `UnknownFeed [@name "UnknownFeed"]]
+  type main_error = [ `UnknownFeed [@name "UnknownFeed"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a skeleton of a feed provided by a feed generator. Auth is optional, depending on provider requirements, and provides the DID of the requester. Implemented by Feed Generator Service. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_feed_getfeedskeleton_main_params_to_yojson;
-    of_yojson=app_bsky_feed_getfeedskeleton_main_params_of_yojson;
-    pp=pp_app_bsky_feed_getfeedskeleton_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_getfeedskeleton_main_output_to_yojson;
-    of_yojson=app_bsky_feed_getfeedskeleton_main_output_of_yojson;
-    pp=pp_app_bsky_feed_getfeedskeleton_main_output}}) 
-    ~errors:(Errors {pp=pp_app_bsky_feed_getfeedskeleton_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -6340,12 +6340,12 @@ end
   *)
 module App_Bsky_Feed_GetFeedGenerators = struct
   (** def main *)
-  type app_bsky_feed_getfeedgenerators_main_params = {
+  type main_params = {
     feeds: string list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_feed_getfeedgenerators_main_output = {
+  type main_output = {
     feeds: app_bsky_feed_defs_generatorview list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -6353,13 +6353,13 @@ module App_Bsky_Feed_GetFeedGenerators = struct
   (** Get information about a list of feed generators. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_feed_getfeedgenerators_main_params_to_yojson;
-    of_yojson=app_bsky_feed_getfeedgenerators_main_params_of_yojson;
-    pp=pp_app_bsky_feed_getfeedgenerators_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_getfeedgenerators_main_output_to_yojson;
-    of_yojson=app_bsky_feed_getfeedgenerators_main_output_of_yojson;
-    pp=pp_app_bsky_feed_getfeedgenerators_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -6368,12 +6368,12 @@ end
   *)
 module App_Bsky_Feed_GetFeedGenerator = struct
   (** def main *)
-  type app_bsky_feed_getfeedgenerator_main_params = {
+  type main_params = {
     feed: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_feed_getfeedgenerator_main_output = {
+  type main_output = {
     view: app_bsky_feed_defs_generatorview;
     isOnline: bool;
     isValid: bool;
@@ -6383,13 +6383,13 @@ module App_Bsky_Feed_GetFeedGenerator = struct
   (** Get information about a feed generator. Implemented by AppView. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_feed_getfeedgenerator_main_params_to_yojson;
-    of_yojson=app_bsky_feed_getfeedgenerator_main_params_of_yojson;
-    pp=pp_app_bsky_feed_getfeedgenerator_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_getfeedgenerator_main_output_to_yojson;
-    of_yojson=app_bsky_feed_getfeedgenerator_main_output_of_yojson;
-    pp=pp_app_bsky_feed_getfeedgenerator_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -6398,33 +6398,33 @@ end
   *)
 module App_Bsky_Feed_GetFeed = struct
   (** def main *)
-  type app_bsky_feed_getfeed_main_params = {
+  type main_params = {
     feed: string;
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_feed_getfeed_main_output = {
+  type main_output = {
     cursor: string option;
     feed: app_bsky_feed_defs_feedviewpost list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_feed_getfeed_main_error = [ `UnknownFeed [@name "UnknownFeed"]]
+  type main_error = [ `UnknownFeed [@name "UnknownFeed"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a hydrated feed from an actor's selected feed generator. Implemented by App View. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_feed_getfeed_main_params_to_yojson;
-    of_yojson=app_bsky_feed_getfeed_main_params_of_yojson;
-    pp=pp_app_bsky_feed_getfeed_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_getfeed_main_output_to_yojson;
-    of_yojson=app_bsky_feed_getfeed_main_output_of_yojson;
-    pp=pp_app_bsky_feed_getfeed_main_output}}) 
-    ~errors:(Errors {pp=pp_app_bsky_feed_getfeed_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -6433,7 +6433,7 @@ end
   *)
 module App_Bsky_Feed_GetAuthorFeed = struct
   (** def main *)
-  type app_bsky_feed_getauthorfeed_main_params = {
+  type main_params = {
     actor: string;
     limit: int64 option;
     cursor: string option;
@@ -6442,26 +6442,26 @@ module App_Bsky_Feed_GetAuthorFeed = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_feed_getauthorfeed_main_output = {
+  type main_output = {
     cursor: string option;
     feed: app_bsky_feed_defs_feedviewpost list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_feed_getauthorfeed_main_error = [ `BlockedActor [@name "BlockedActor"] | `BlockedByActor [@name "BlockedByActor"]]
+  type main_error = [ `BlockedActor [@name "BlockedActor"] | `BlockedByActor [@name "BlockedByActor"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a view of an actor's 'author feed' (post and reposts by the author). Does not require auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_feed_getauthorfeed_main_params_to_yojson;
-    of_yojson=app_bsky_feed_getauthorfeed_main_params_of_yojson;
-    pp=pp_app_bsky_feed_getauthorfeed_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_getauthorfeed_main_output_to_yojson;
-    of_yojson=app_bsky_feed_getauthorfeed_main_output_of_yojson;
-    pp=pp_app_bsky_feed_getauthorfeed_main_output}}) 
-    ~errors:(Errors {pp=pp_app_bsky_feed_getauthorfeed_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -6470,33 +6470,33 @@ end
   *)
 module App_Bsky_Feed_GetActorLikes = struct
   (** def main *)
-  type app_bsky_feed_getactorlikes_main_params = {
+  type main_params = {
     actor: string;
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_feed_getactorlikes_main_output = {
+  type main_output = {
     cursor: string option;
     feed: app_bsky_feed_defs_feedviewpost list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_feed_getactorlikes_main_error = [ `BlockedActor [@name "BlockedActor"] | `BlockedByActor [@name "BlockedByActor"]]
+  type main_error = [ `BlockedActor [@name "BlockedActor"] | `BlockedByActor [@name "BlockedByActor"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a list of posts liked by an actor. Requires auth, actor must be the requesting account. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_feed_getactorlikes_main_params_to_yojson;
-    of_yojson=app_bsky_feed_getactorlikes_main_params_of_yojson;
-    pp=pp_app_bsky_feed_getactorlikes_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_getactorlikes_main_output_to_yojson;
-    of_yojson=app_bsky_feed_getactorlikes_main_output_of_yojson;
-    pp=pp_app_bsky_feed_getactorlikes_main_output}}) 
-    ~errors:(Errors {pp=pp_app_bsky_feed_getactorlikes_main_error})
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) 
+    ~errors:(Errors {pp=pp_main_error})
 
 end
 
@@ -6505,14 +6505,14 @@ end
   *)
 module App_Bsky_Feed_GetActorFeeds = struct
   (** def main *)
-  type app_bsky_feed_getactorfeeds_main_params = {
+  type main_params = {
     actor: string;
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_feed_getactorfeeds_main_output = {
+  type main_output = {
     cursor: string option;
     feeds: app_bsky_feed_defs_generatorview list;
   }
@@ -6521,13 +6521,13 @@ module App_Bsky_Feed_GetActorFeeds = struct
   (** Get a list of feeds (feed generator records) created by the actor (in the actor's repo). *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_feed_getactorfeeds_main_params_to_yojson;
-    of_yojson=app_bsky_feed_getactorfeeds_main_params_of_yojson;
-    pp=pp_app_bsky_feed_getactorfeeds_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_getactorfeeds_main_output_to_yojson;
-    of_yojson=app_bsky_feed_getactorfeeds_main_output_of_yojson;
-    pp=pp_app_bsky_feed_getactorfeeds_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -6561,7 +6561,7 @@ end
   *)
 module App_Bsky_Feed_DescribeFeedGenerator = struct
   (** def main *)
-  type app_bsky_feed_describefeedgenerator_main_output = {
+  type main_output = {
     did: string;
     feeds: app_bsky_feed_describefeedgenerator_feed list;
     links: app_bsky_feed_describefeedgenerator_links option;
@@ -6571,9 +6571,9 @@ module App_Bsky_Feed_DescribeFeedGenerator = struct
   (** Get information about a feed generator, including policies and offered feed URIs. Does not require auth; implemented by Feed Generator services (not App View). *)
   let main: _ Base.query = Base.make_query ~parameters:No_params 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_feed_describefeedgenerator_main_output_to_yojson;
-    of_yojson=app_bsky_feed_describefeedgenerator_main_output_of_yojson;
-    pp=pp_app_bsky_feed_describefeedgenerator_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
   (** def feed *)
   type nonrec feed = app_bsky_feed_describefeedgenerator_feed = {
@@ -6628,14 +6628,14 @@ end
   *)
 module App_Bsky_Actor_SearchActorsTypeahead = struct
   (** def main *)
-  type app_bsky_actor_searchactorstypeahead_main_params = {
+  type main_params = {
     term: string option;
     q: string option;
     limit: int64 option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_actor_searchactorstypeahead_main_output = {
+  type main_output = {
     actors: app_bsky_actor_defs_profileviewbasic list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -6643,13 +6643,13 @@ module App_Bsky_Actor_SearchActorsTypeahead = struct
   (** Find actor suggestions for a prefix search term. Expected use is for auto-completion during text field entry. Does not require auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_actor_searchactorstypeahead_main_params_to_yojson;
-    of_yojson=app_bsky_actor_searchactorstypeahead_main_params_of_yojson;
-    pp=pp_app_bsky_actor_searchactorstypeahead_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_actor_searchactorstypeahead_main_output_to_yojson;
-    of_yojson=app_bsky_actor_searchactorstypeahead_main_output_of_yojson;
-    pp=pp_app_bsky_actor_searchactorstypeahead_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -6658,7 +6658,7 @@ end
   *)
 module App_Bsky_Actor_SearchActors = struct
   (** def main *)
-  type app_bsky_actor_searchactors_main_params = {
+  type main_params = {
     term: string option;
     q: string option;
     limit: int64 option;
@@ -6666,7 +6666,7 @@ module App_Bsky_Actor_SearchActors = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_actor_searchactors_main_output = {
+  type main_output = {
     cursor: string option;
     actors: app_bsky_actor_defs_profileview list;
   }
@@ -6675,13 +6675,13 @@ module App_Bsky_Actor_SearchActors = struct
   (** Find actors (profiles) matching search criteria. Does not require auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_actor_searchactors_main_params_to_yojson;
-    of_yojson=app_bsky_actor_searchactors_main_params_of_yojson;
-    pp=pp_app_bsky_actor_searchactors_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_actor_searchactors_main_output_to_yojson;
-    of_yojson=app_bsky_actor_searchactors_main_output_of_yojson;
-    pp=pp_app_bsky_actor_searchactors_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -6690,7 +6690,7 @@ end
   *)
 module App_Bsky_Actor_PutPreferences = struct
   (** def main *)
-  type app_bsky_actor_putpreferences_main_input = {
+  type main_input = {
     preferences: app_bsky_actor_defs_preferences;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -6698,9 +6698,9 @@ module App_Bsky_Actor_PutPreferences = struct
   (** Set the private preferences attached to the account. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_actor_putpreferences_main_input_to_yojson;
-    of_yojson=app_bsky_actor_putpreferences_main_input_of_yojson;
-    pp=pp_app_bsky_actor_putpreferences_main_input}}) ~output:No_io ~errors:No_errors
+    to_yojson=main_input_to_yojson;
+    of_yojson=main_input_of_yojson;
+    pp=pp_main_input}}) ~output:No_io ~errors:No_errors
 
 end
 
@@ -6733,13 +6733,13 @@ end
   *)
 module App_Bsky_Actor_GetSuggestions = struct
   (** def main *)
-  type app_bsky_actor_getsuggestions_main_params = {
+  type main_params = {
     limit: int64 option;
     cursor: string option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_actor_getsuggestions_main_output = {
+  type main_output = {
     cursor: string option;
     actors: app_bsky_actor_defs_profileview list;
     recId: int64 option;
@@ -6749,13 +6749,13 @@ module App_Bsky_Actor_GetSuggestions = struct
   (** Get a list of suggested actors. Expected use is discovery of accounts to follow during new account onboarding. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_actor_getsuggestions_main_params_to_yojson;
-    of_yojson=app_bsky_actor_getsuggestions_main_params_of_yojson;
-    pp=pp_app_bsky_actor_getsuggestions_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_actor_getsuggestions_main_output_to_yojson;
-    of_yojson=app_bsky_actor_getsuggestions_main_output_of_yojson;
-    pp=pp_app_bsky_actor_getsuggestions_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -6764,12 +6764,12 @@ end
   *)
 module App_Bsky_Actor_GetProfiles = struct
   (** def main *)
-  type app_bsky_actor_getprofiles_main_params = {
+  type main_params = {
     actors: string list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_actor_getprofiles_main_output = {
+  type main_output = {
     profiles: app_bsky_actor_defs_profileviewdetailed list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -6777,13 +6777,13 @@ module App_Bsky_Actor_GetProfiles = struct
   (** Get detailed profile views of multiple actors. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_actor_getprofiles_main_params_to_yojson;
-    of_yojson=app_bsky_actor_getprofiles_main_params_of_yojson;
-    pp=pp_app_bsky_actor_getprofiles_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_actor_getprofiles_main_output_to_yojson;
-    of_yojson=app_bsky_actor_getprofiles_main_output_of_yojson;
-    pp=pp_app_bsky_actor_getprofiles_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -6792,24 +6792,24 @@ end
   *)
 module App_Bsky_Actor_GetProfile = struct
   (** def main *)
-  type app_bsky_actor_getprofile_main_params = {
+  type main_params = {
     actor: string;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type app_bsky_actor_getprofile_main_output = app_bsky_actor_defs_profileviewdetailed
+  type main_output = app_bsky_actor_defs_profileviewdetailed
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get detailed profile view of an actor. Does not require auth, but contains relevant metadata with auth. *)
   let main: _ Base.query = Base.make_query 
     ~parameters:(Params {
-    to_yojson=app_bsky_actor_getprofile_main_params_to_yojson;
-    of_yojson=app_bsky_actor_getprofile_main_params_of_yojson;
-    pp=pp_app_bsky_actor_getprofile_main_params}) 
+    to_yojson=main_params_to_yojson;
+    of_yojson=main_params_of_yojson;
+    pp=pp_main_params}) 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_actor_getprofile_main_output_to_yojson;
-    of_yojson=app_bsky_actor_getprofile_main_output_of_yojson;
-    pp=pp_app_bsky_actor_getprofile_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 
@@ -6818,7 +6818,7 @@ end
   *)
 module App_Bsky_Actor_GetPreferences = struct
   (** def main *)
-  type app_bsky_actor_getpreferences_main_output = {
+  type main_output = {
     preferences: app_bsky_actor_defs_preferences;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -6826,9 +6826,9 @@ module App_Bsky_Actor_GetPreferences = struct
   (** Get private preferences attached to the current account. Expected use is synchronization between multiple devices, and import/export during account migration. Requires auth. *)
   let main: _ Base.query = Base.make_query ~parameters:No_params 
     ~output:(IO_jsonable {encoding=Json; json={
-    to_yojson=app_bsky_actor_getpreferences_main_output_to_yojson;
-    of_yojson=app_bsky_actor_getpreferences_main_output_of_yojson;
-    pp=pp_app_bsky_actor_getpreferences_main_output}}) ~errors:No_errors
+    to_yojson=main_output_to_yojson;
+    of_yojson=main_output_of_yojson;
+    pp=pp_main_output}}) ~errors:No_errors
 
 end
 

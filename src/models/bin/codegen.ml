@@ -131,6 +131,9 @@ module Codegen = struct
       (split_id ref.name |> List.map String.lowercase_ascii |> String.concat "_")
       (String.lowercase_ascii ref.fragment)
 
+  let val_name_unqualified_of_ref (ref : A.ref) : string =
+    String.lowercase_ascii ref.fragment
+
   let cstor_name_of_ref (ref : A.ref) : string =
     String.capitalize_ascii @@ val_name_of_ref ref
 
@@ -229,20 +232,21 @@ module Codegen = struct
     Buffer.output_buffer oc out
 
   let name_of_params ~ref (_p : A.params) : string =
-    spf "%s_params" (val_name_of_ref ref)
+    spf "%s_params" (val_name_unqualified_of_ref ref)
 
   let name_of_io ~ref ~(which : [ `In | `Out ]) (_p : A.input_or_output) :
       string =
-    spf "%s_%s" (val_name_of_ref ref)
+    spf "%s_%s"
+      (val_name_unqualified_of_ref ref)
       (match which with
       | `In -> "input"
       | `Out -> "output")
 
   let name_of_errors ~ref (_errs : A.error list) : string =
-    spf "%s_error" (val_name_of_ref ref)
+    spf "%s_error" (val_name_unqualified_of_ref ref)
 
   let name_of_message ~ref (_m : A.message) : string =
-    spf "%s_msg" (val_name_of_ref ref)
+    spf "%s_msg" (val_name_unqualified_of_ref ref)
 
   let define_params ~ref out (p : A.params) : unit =
     bpf out "  type %s = " (name_of_params ~ref p);
@@ -293,6 +297,7 @@ module Codegen = struct
       \    pp=pp_%s}"
       name name name
 
+  (** Generate code for a single definition, in a module of its own *)
   let gen_def_in_mod (out : out) ((ref, def) : A.ref * A.def) : unit =
     let name = String.lowercase_ascii ref.fragment |> remove_keyword in
 
@@ -405,17 +410,17 @@ module Codegen = struct
       bpf out
         "  [@@deriving show {with_path=false}, yojson {strict=false}, make]\n\n"
 
-  let gen_lex (oc : out_channel) (lex : A.lexicon) : unit =
+  let gen_lexicon (oc : out_channel) (lex : A.lexicon) : unit =
     let out = Buffer.create 32 in
 
-    let gen_def_in_lex out (def_name, def) =
+    let gen_def_in_lexicon out (def_name, def) =
       let ref = A.{ name = lex.id; fragment = def_name } in
       bpf out "  (** def %s *)\n" def_name;
       gen_def_in_mod out (ref, def);
       bpf out "\n\n"
     in
 
-    List.iter (gen_def_in_lex out) lex.defs;
+    List.iter (gen_def_in_lexicon out) lex.defs;
 
     fpf oc "\n(** lexicon %S\n" lex.id;
     Option.iter (fpf oc "  %s\n") lex.description;
@@ -455,7 +460,7 @@ open Cephalopod_dasl
 
     (* lexicons in {e mostly} dependency order (flatten the cliques) *)
     let lex_l = Sort_lexicons.sort lex_l |> List.flatten in
-    List.iter (gen_lex oc) lex_l
+    List.iter (gen_lexicon oc) lex_l
 end
 
 let parse file : Lex.Ast.lexicon =
