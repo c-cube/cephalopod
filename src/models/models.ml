@@ -115,7 +115,7 @@ module Types = struct
     status: string;
     record: Value.t (* unknown *);
     embed: [
-    | `App_bsky_embed_external_view of app_bsky_embed_external_view
+    `App_bsky_embed_external_view of app_bsky_embed_external_view [@name "view"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     expiresAt: string option;
@@ -256,9 +256,9 @@ module Types = struct
   type app_bsky_richtext_facet_main = {
     index: app_bsky_richtext_facet_byteslice;
     features: [
-    | `App_bsky_richtext_facet_mention of app_bsky_richtext_facet_mention
-    | `App_bsky_richtext_facet_link of app_bsky_richtext_facet_link
-    | `App_bsky_richtext_facet_tag of app_bsky_richtext_facet_tag
+    `App_bsky_richtext_facet_mention of app_bsky_richtext_facet_mention [@name "mention"]
+    | `App_bsky_richtext_facet_link of app_bsky_richtext_facet_link [@name "link"]
+    | `App_bsky_richtext_facet_tag of app_bsky_richtext_facet_tag [@name "tag"]
     | `Other of Value.t (** Non closed union *)
     ] list;
   }
@@ -527,14 +527,14 @@ module Types = struct
   (** def "app.bsky.actor.defs#postInteractionSettingsPref" *)
   type app_bsky_actor_defs_postinteractionsettingspref = {
     threadgateAllowRules: [
-    | `App_bsky_feed_threadgate_mentionrule of app_bsky_feed_threadgate_mentionrule
-    | `App_bsky_feed_threadgate_followerrule of app_bsky_feed_threadgate_followerrule
-    | `App_bsky_feed_threadgate_followingrule of app_bsky_feed_threadgate_followingrule
-    | `App_bsky_feed_threadgate_listrule of app_bsky_feed_threadgate_listrule
+    `App_bsky_feed_threadgate_mentionrule of app_bsky_feed_threadgate_mentionrule [@name "mentionRule"]
+    | `App_bsky_feed_threadgate_followerrule of app_bsky_feed_threadgate_followerrule [@name "followerRule"]
+    | `App_bsky_feed_threadgate_followingrule of app_bsky_feed_threadgate_followingrule [@name "followingRule"]
+    | `App_bsky_feed_threadgate_listrule of app_bsky_feed_threadgate_listrule [@name "listRule"]
     | `Other of Value.t (** Non closed union *)
     ] list option;
     postgateEmbeddingRules: [
-    | `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule
+    `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule [@name "disableRule"]
     | `Other of Value.t (** Non closed union *)
     ] list option;
   }
@@ -550,20 +550,20 @@ module Types = struct
 
   (** def "app.bsky.actor.defs#preferences" *)
   type app_bsky_actor_defs_preferences = [
-    | `App_bsky_actor_defs_adultcontentpref of app_bsky_actor_defs_adultcontentpref
-    | `App_bsky_actor_defs_contentlabelpref of app_bsky_actor_defs_contentlabelpref
-    | `App_bsky_actor_defs_savedfeedspref of app_bsky_actor_defs_savedfeedspref
-    | `App_bsky_actor_defs_savedfeedsprefv2 of app_bsky_actor_defs_savedfeedsprefv2
-    | `App_bsky_actor_defs_personaldetailspref of app_bsky_actor_defs_personaldetailspref
-    | `App_bsky_actor_defs_feedviewpref of app_bsky_actor_defs_feedviewpref
-    | `App_bsky_actor_defs_threadviewpref of app_bsky_actor_defs_threadviewpref
-    | `App_bsky_actor_defs_interestspref of app_bsky_actor_defs_interestspref
-    | `App_bsky_actor_defs_mutedwordspref of app_bsky_actor_defs_mutedwordspref
-    | `App_bsky_actor_defs_hiddenpostspref of app_bsky_actor_defs_hiddenpostspref
-    | `App_bsky_actor_defs_bskyappstatepref of app_bsky_actor_defs_bskyappstatepref
-    | `App_bsky_actor_defs_labelerspref of app_bsky_actor_defs_labelerspref
-    | `App_bsky_actor_defs_postinteractionsettingspref of app_bsky_actor_defs_postinteractionsettingspref
-    | `App_bsky_actor_defs_verificationprefs of app_bsky_actor_defs_verificationprefs
+    `App_bsky_actor_defs_adultcontentpref of app_bsky_actor_defs_adultcontentpref [@name "adultContentPref"]
+    | `App_bsky_actor_defs_contentlabelpref of app_bsky_actor_defs_contentlabelpref [@name "contentLabelPref"]
+    | `App_bsky_actor_defs_savedfeedspref of app_bsky_actor_defs_savedfeedspref [@name "savedFeedsPref"]
+    | `App_bsky_actor_defs_savedfeedsprefv2 of app_bsky_actor_defs_savedfeedsprefv2 [@name "savedFeedsPrefV2"]
+    | `App_bsky_actor_defs_personaldetailspref of app_bsky_actor_defs_personaldetailspref [@name "personalDetailsPref"]
+    | `App_bsky_actor_defs_feedviewpref of app_bsky_actor_defs_feedviewpref [@name "feedViewPref"]
+    | `App_bsky_actor_defs_threadviewpref of app_bsky_actor_defs_threadviewpref [@name "threadViewPref"]
+    | `App_bsky_actor_defs_interestspref of app_bsky_actor_defs_interestspref [@name "interestsPref"]
+    | `App_bsky_actor_defs_mutedwordspref of app_bsky_actor_defs_mutedwordspref [@name "mutedWordsPref"]
+    | `App_bsky_actor_defs_hiddenpostspref of app_bsky_actor_defs_hiddenpostspref [@name "hiddenPostsPref"]
+    | `App_bsky_actor_defs_bskyappstatepref of app_bsky_actor_defs_bskyappstatepref [@name "bskyAppStatePref"]
+    | `App_bsky_actor_defs_labelerspref of app_bsky_actor_defs_labelerspref [@name "labelersPref"]
+    | `App_bsky_actor_defs_postinteractionsettingspref of app_bsky_actor_defs_postinteractionsettingspref [@name "postInteractionSettingsPref"]
+    | `App_bsky_actor_defs_verificationprefs of app_bsky_actor_defs_verificationprefs [@name "verificationPrefs"]
     | `Other of Value.t (** Non closed union *)
     ] list
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -675,11 +675,11 @@ module Types = struct
     likeCount: int64 option;
     quoteCount: int64 option;
     embeds: [
-    | `App_bsky_embed_images_view of app_bsky_embed_images_view
-    | `App_bsky_embed_video_view of app_bsky_embed_video_view
-    | `App_bsky_embed_external_view of app_bsky_embed_external_view
-    | `App_bsky_embed_record_view of app_bsky_embed_record_view
-    | `App_bsky_embed_recordwithmedia_view of app_bsky_embed_recordwithmedia_view
+    `App_bsky_embed_images_view of app_bsky_embed_images_view [@name "view"]
+    | `App_bsky_embed_video_view of app_bsky_embed_video_view [@name "view"]
+    | `App_bsky_embed_external_view of app_bsky_embed_external_view [@name "view"]
+    | `App_bsky_embed_record_view of app_bsky_embed_record_view [@name "view"]
+    | `App_bsky_embed_recordwithmedia_view of app_bsky_embed_recordwithmedia_view [@name "view"]
     | `Other of Value.t (** Non closed union *)
     ] list option;
     indexedAt: string;
@@ -688,14 +688,14 @@ module Types = struct
   (** def "app.bsky.embed.record#view" *)
   and app_bsky_embed_record_view = {
     record: [
-    | `App_bsky_embed_record_viewrecord of app_bsky_embed_record_viewrecord
-    | `App_bsky_embed_record_viewnotfound of app_bsky_embed_record_viewnotfound
-    | `App_bsky_embed_record_viewblocked of app_bsky_embed_record_viewblocked
-    | `App_bsky_embed_record_viewdetached of app_bsky_embed_record_viewdetached
-    | `App_bsky_feed_defs_generatorview of app_bsky_feed_defs_generatorview
-    | `App_bsky_graph_defs_listview of app_bsky_graph_defs_listview
-    | `App_bsky_labeler_defs_labelerview of app_bsky_labeler_defs_labelerview
-    | `App_bsky_graph_defs_starterpackviewbasic of app_bsky_graph_defs_starterpackviewbasic
+    `App_bsky_embed_record_viewrecord of app_bsky_embed_record_viewrecord [@name "viewRecord"]
+    | `App_bsky_embed_record_viewnotfound of app_bsky_embed_record_viewnotfound [@name "viewNotFound"]
+    | `App_bsky_embed_record_viewblocked of app_bsky_embed_record_viewblocked [@name "viewBlocked"]
+    | `App_bsky_embed_record_viewdetached of app_bsky_embed_record_viewdetached [@name "viewDetached"]
+    | `App_bsky_feed_defs_generatorview of app_bsky_feed_defs_generatorview [@name "generatorView"]
+    | `App_bsky_graph_defs_listview of app_bsky_graph_defs_listview [@name "listView"]
+    | `App_bsky_labeler_defs_labelerview of app_bsky_labeler_defs_labelerview [@name "labelerView"]
+    | `App_bsky_graph_defs_starterpackviewbasic of app_bsky_graph_defs_starterpackviewbasic [@name "starterPackViewBasic"]
     | `Other of Value.t (** Non closed union *)
     ];
   }
@@ -704,9 +704,9 @@ module Types = struct
   and app_bsky_embed_recordwithmedia_view = {
     record: app_bsky_embed_record_view;
     media: [
-    | `App_bsky_embed_images_view of app_bsky_embed_images_view
-    | `App_bsky_embed_video_view of app_bsky_embed_video_view
-    | `App_bsky_embed_external_view of app_bsky_embed_external_view
+    `App_bsky_embed_images_view of app_bsky_embed_images_view [@name "view"]
+    | `App_bsky_embed_video_view of app_bsky_embed_video_view [@name "view"]
+    | `App_bsky_embed_external_view of app_bsky_embed_external_view [@name "view"]
     | `Other of Value.t (** Non closed union *)
     ];
   }
@@ -999,11 +999,11 @@ module Types = struct
     author: app_bsky_actor_defs_profileviewbasic;
     record: Value.t (* unknown *);
     embed: [
-    | `App_bsky_embed_images_view of app_bsky_embed_images_view
-    | `App_bsky_embed_video_view of app_bsky_embed_video_view
-    | `App_bsky_embed_external_view of app_bsky_embed_external_view
-    | `App_bsky_embed_record_view of app_bsky_embed_record_view
-    | `App_bsky_embed_recordwithmedia_view of app_bsky_embed_recordwithmedia_view
+    `App_bsky_embed_images_view of app_bsky_embed_images_view [@name "view"]
+    | `App_bsky_embed_video_view of app_bsky_embed_video_view [@name "view"]
+    | `App_bsky_embed_external_view of app_bsky_embed_external_view [@name "view"]
+    | `App_bsky_embed_record_view of app_bsky_embed_record_view [@name "view"]
+    | `App_bsky_embed_recordwithmedia_view of app_bsky_embed_recordwithmedia_view [@name "view"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     replyCount: int64 option;
@@ -1038,15 +1038,15 @@ module Types = struct
   (** def "app.bsky.feed.defs#replyRef" *)
   type app_bsky_feed_defs_replyref = {
     root: [
-    | `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview
-    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
-    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
+    `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview [@name "postView"]
+    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost [@name "notFoundPost"]
+    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost [@name "blockedPost"]
     | `Other of Value.t (** Non closed union *)
     ];
     parent: [
-    | `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview
-    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
-    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
+    `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview [@name "postView"]
+    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost [@name "notFoundPost"]
+    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost [@name "blockedPost"]
     | `Other of Value.t (** Non closed union *)
     ];
     grandparentAuthor: app_bsky_actor_defs_profileviewbasic option;
@@ -1067,8 +1067,8 @@ module Types = struct
     post: app_bsky_feed_defs_postview;
     reply: app_bsky_feed_defs_replyref option;
     reason: [
-    | `App_bsky_feed_defs_reasonrepost of app_bsky_feed_defs_reasonrepost
-    | `App_bsky_feed_defs_reasonpin of app_bsky_feed_defs_reasonpin
+    `App_bsky_feed_defs_reasonrepost of app_bsky_feed_defs_reasonrepost [@name "reasonRepost"]
+    | `App_bsky_feed_defs_reasonpin of app_bsky_feed_defs_reasonpin [@name "reasonPin"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     feedContext: string option;
@@ -1508,8 +1508,8 @@ module Types = struct
   type app_bsky_feed_defs_skeletonfeedpost = {
     post: string;
     reason: [
-    | `App_bsky_feed_defs_skeletonreasonrepost of app_bsky_feed_defs_skeletonreasonrepost
-    | `App_bsky_feed_defs_skeletonreasonpin of app_bsky_feed_defs_skeletonreasonpin
+    `App_bsky_feed_defs_skeletonreasonrepost of app_bsky_feed_defs_skeletonreasonrepost [@name "skeletonReasonRepost"]
+    | `App_bsky_feed_defs_skeletonreasonpin of app_bsky_feed_defs_skeletonreasonpin [@name "skeletonReasonPin"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     feedContext: string option;
@@ -1521,15 +1521,15 @@ module Types = struct
   type app_bsky_feed_defs_threadviewpost = {
     post: app_bsky_feed_defs_postview;
     parent: [
-    | `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost
-    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
-    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
+    `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost [@name "threadViewPost"]
+    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost [@name "notFoundPost"]
+    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost [@name "blockedPost"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     replies: [
-    | `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost
-    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
-    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
+    `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost [@name "threadViewPost"]
+    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost [@name "notFoundPost"]
+    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost [@name "blockedPost"]
     | `Other of Value.t (** Non closed union *)
     ] list option;
     threadContext: app_bsky_feed_defs_threadcontext option;
@@ -1595,9 +1595,9 @@ module Types = struct
   type app_bsky_embed_recordwithmedia_main = {
     record: app_bsky_embed_record_main;
     media: [
-    | `App_bsky_embed_images_main of app_bsky_embed_images_main
-    | `App_bsky_embed_video_main of app_bsky_embed_video_main
-    | `App_bsky_embed_external_main of app_bsky_embed_external_main
+    `App_bsky_embed_images_main of app_bsky_embed_images_main [@name "main"]
+    | `App_bsky_embed_video_main of app_bsky_embed_video_main [@name "main"]
+    | `App_bsky_embed_external_main of app_bsky_embed_external_main [@name "main"]
     | `Other of Value.t (** Non closed union *)
     ];
   }
@@ -1728,11 +1728,11 @@ end
 module Com_Atproto_Sync_SubscribeRepos = struct
   (** def main *)
   type com_atproto_sync_subscriberepos_main_msg = [
-    | `Com_atproto_sync_subscriberepos_commit of com_atproto_sync_subscriberepos_commit
-    | `Com_atproto_sync_subscriberepos_sync of com_atproto_sync_subscriberepos_sync
-    | `Com_atproto_sync_subscriberepos_identity of com_atproto_sync_subscriberepos_identity
-    | `Com_atproto_sync_subscriberepos_account of com_atproto_sync_subscriberepos_account
-    | `Com_atproto_sync_subscriberepos_info of com_atproto_sync_subscriberepos_info
+    `Com_atproto_sync_subscriberepos_commit of com_atproto_sync_subscriberepos_commit [@name "commit"]
+    | `Com_atproto_sync_subscriberepos_sync of com_atproto_sync_subscriberepos_sync [@name "sync"]
+    | `Com_atproto_sync_subscriberepos_identity of com_atproto_sync_subscriberepos_identity [@name "identity"]
+    | `Com_atproto_sync_subscriberepos_account of com_atproto_sync_subscriberepos_account [@name "account"]
+    | `Com_atproto_sync_subscriberepos_info of com_atproto_sync_subscriberepos_info [@name "info"]
     | `Other of Value.t (** Non closed union *)
     ]
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -1742,7 +1742,7 @@ module Com_Atproto_Sync_SubscribeRepos = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_subscriberepos_main_error = [ | `FutureCursor  | `ConsumerTooSlow ]
+  type com_atproto_sync_subscriberepos_main_error = [ `FutureCursor [@name "FutureCursor"] | `ConsumerTooSlow [@name "ConsumerTooSlow"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Repository event stream, aka Firehose endpoint. Outputs repo commits with diff data, and identity update events, for all repositories on the current server. See the atproto specifications for details around stream sequencing, repo versioning, CAR diff format, and more. Public and does not require auth; implemented by PDS and Relay. *)
@@ -1848,7 +1848,7 @@ module Com_Atproto_Sync_RequestCrawl = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_sync_requestcrawl_main_error = [ | `HostBanned ]
+  type com_atproto_sync_requestcrawl_main_error = [ `HostBanned [@name "HostBanned"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Request a service to persistently crawl hosted repos. Expected use is new PDS instances declaring their existence to Relays. Does not require auth. *)
@@ -2024,7 +2024,7 @@ module Com_Atproto_Sync_ListBlobs = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_sync_listblobs_main_error = [ | `RepoNotFound  | `RepoTakendown  | `RepoSuspended  | `RepoDeactivated ]
+  type com_atproto_sync_listblobs_main_error = [ `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** List blob CIDs for an account, since some repo revision. Does not require auth; implemented by PDS. *)
@@ -2059,7 +2059,7 @@ module Com_Atproto_Sync_GetRepoStatus = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_sync_getrepostatus_main_error = [ | `RepoNotFound ]
+  type com_atproto_sync_getrepostatus_main_error = [ `RepoNotFound [@name "RepoNotFound"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get the hosting status for a repository, on this server. Expected to be implemented by PDS and Relay. *)
@@ -2087,7 +2087,7 @@ module Com_Atproto_Sync_GetRepo = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_getrepo_main_error = [ | `RepoNotFound  | `RepoTakendown  | `RepoSuspended  | `RepoDeactivated ]
+  type com_atproto_sync_getrepo_main_error = [ `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Download a repository export as CAR file. Optionally only a 'diff' since a previous revision. Does not require auth; implemented by PDS. *)
@@ -2113,7 +2113,7 @@ module Com_Atproto_Sync_GetRecord = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_getrecord_main_error = [ | `RecordNotFound  | `RepoNotFound  | `RepoTakendown  | `RepoSuspended  | `RepoDeactivated ]
+  type com_atproto_sync_getrecord_main_error = [ `RecordNotFound [@name "RecordNotFound"] | `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get data blocks needed to prove the existence or non-existence of record in the current version of repo. Does not require auth. *)
@@ -2143,7 +2143,7 @@ module Com_Atproto_Sync_GetLatestCommit = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_sync_getlatestcommit_main_error = [ | `RepoNotFound  | `RepoTakendown  | `RepoSuspended  | `RepoDeactivated ]
+  type com_atproto_sync_getlatestcommit_main_error = [ `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get the current commit CID & revision of the specified repo. Does not require auth. *)
@@ -2178,7 +2178,7 @@ module Com_Atproto_Sync_GetHostStatus = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_sync_gethoststatus_main_error = [ | `HostNotFound ]
+  type com_atproto_sync_gethoststatus_main_error = [ `HostNotFound [@name "HostNotFound"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Returns information about a specified upstream host, as consumed by the server. Implemented by relays. *)
@@ -2210,7 +2210,7 @@ module Com_Atproto_Sync_GetHead = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_sync_gethead_main_error = [ | `HeadNotFound ]
+  type com_atproto_sync_gethead_main_error = [ `HeadNotFound [@name "HeadNotFound"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** DEPRECATED - please use com.atproto.sync.getLatestCommit instead *)
@@ -2258,7 +2258,7 @@ module Com_Atproto_Sync_GetBlocks = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_getblocks_main_error = [ | `BlockNotFound  | `RepoNotFound  | `RepoTakendown  | `RepoSuspended  | `RepoDeactivated ]
+  type com_atproto_sync_getblocks_main_error = [ `BlockNotFound [@name "BlockNotFound"] | `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get data blocks from a given repo, by CID. For example, intermediate MST nodes, or records. Does not require auth; implemented by PDS. *)
@@ -2283,7 +2283,7 @@ module Com_Atproto_Sync_GetBlob = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_sync_getblob_main_error = [ | `BlobNotFound  | `RepoNotFound  | `RepoTakendown  | `RepoSuspended  | `RepoDeactivated ]
+  type com_atproto_sync_getblob_main_error = [ `BlobNotFound [@name "BlobNotFound"] | `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a blob associated with a given account. Returns the full blob as originally uploaded. Does not require auth; implemented by PDS. *)
@@ -2322,7 +2322,7 @@ module Com_Atproto_Server_UpdateEmail = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_updateemail_main_error = [ | `ExpiredToken  | `InvalidToken  | `TokenRequired ]
+  type com_atproto_server_updateemail_main_error = [ `ExpiredToken [@name "ExpiredToken"] | `InvalidToken [@name "InvalidToken"] | `TokenRequired [@name "TokenRequired"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Update an account's email. *)
@@ -2365,7 +2365,7 @@ module Com_Atproto_Server_ResetPassword = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_resetpassword_main_error = [ | `ExpiredToken  | `InvalidToken ]
+  type com_atproto_server_resetpassword_main_error = [ `ExpiredToken [@name "ExpiredToken"] | `InvalidToken [@name "InvalidToken"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Reset a user account password using a token. *)
@@ -2480,7 +2480,7 @@ module Com_Atproto_Server_RefreshSession = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_refreshsession_main_error = [ | `AccountTakedown ]
+  type com_atproto_server_refreshsession_main_error = [ `AccountTakedown [@name "AccountTakedown"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Refresh an authentication session. Requires auth using the 'refreshJwt' (not the 'accessJwt'). *)
@@ -2503,7 +2503,7 @@ module Com_Atproto_Server_ListAppPasswords = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_listapppasswords_main_error = [ | `AccountTakedown ]
+  type com_atproto_server_listapppasswords_main_error = [ `AccountTakedown [@name "AccountTakedown"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** List all App Passwords. *)
@@ -2570,7 +2570,7 @@ module Com_Atproto_Server_GetServiceAuth = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_getserviceauth_main_error = [ | `BadExpiration ]
+  type com_atproto_server_getserviceauth_main_error = [ `BadExpiration [@name "BadExpiration"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a signed token on behalf of the requesting DID for the requested service. *)
@@ -2603,7 +2603,7 @@ module Com_Atproto_Server_GetAccountInviteCodes = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_getaccountinvitecodes_main_error = [ | `DuplicateCreate ]
+  type com_atproto_server_getaccountinvitecodes_main_error = [ `DuplicateCreate [@name "DuplicateCreate"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get all invite codes for the current account. Requires auth. *)
@@ -2685,7 +2685,7 @@ module Com_Atproto_Server_DeleteAccount = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_deleteaccount_main_error = [ | `ExpiredToken  | `InvalidToken ]
+  type com_atproto_server_deleteaccount_main_error = [ `ExpiredToken [@name "ExpiredToken"] | `InvalidToken [@name "InvalidToken"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Delete an actor's account with a token and password. Can only be called after requesting a deletion token. Requires auth. *)
@@ -2744,7 +2744,7 @@ module Com_Atproto_Server_CreateSession = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_createsession_main_error = [ | `AccountTakedown  | `AuthFactorTokenRequired ]
+  type com_atproto_server_createsession_main_error = [ `AccountTakedown [@name "AccountTakedown"] | `AuthFactorTokenRequired [@name "AuthFactorTokenRequired"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Create an authentication session. *)
@@ -2844,7 +2844,7 @@ module Com_Atproto_Server_CreateAppPassword = struct
   type com_atproto_server_createapppassword_main_output = com_atproto_server_createapppassword_apppassword
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_createapppassword_main_error = [ | `AccountTakedown ]
+  type com_atproto_server_createapppassword_main_error = [ `AccountTakedown [@name "AccountTakedown"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Create an App Password. *)
@@ -2900,7 +2900,7 @@ module Com_Atproto_Server_CreateAccount = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_createaccount_main_error = [ | `InvalidHandle  | `InvalidPassword  | `InvalidInviteCode  | `HandleNotAvailable  | `UnsupportedDomain  | `UnresolvableDid  | `IncompatibleDidDoc ]
+  type com_atproto_server_createaccount_main_error = [ `InvalidHandle [@name "InvalidHandle"] | `InvalidPassword [@name "InvalidPassword"] | `InvalidInviteCode [@name "InvalidInviteCode"] | `HandleNotAvailable [@name "HandleNotAvailable"] | `UnsupportedDomain [@name "UnsupportedDomain"] | `UnresolvableDid [@name "UnresolvableDid"] | `IncompatibleDidDoc [@name "IncompatibleDidDoc"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Create an account. Implemented by PDS. *)
@@ -2928,7 +2928,7 @@ module Com_Atproto_Server_ConfirmEmail = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_server_confirmemail_main_error = [ | `AccountNotFound  | `ExpiredToken  | `InvalidToken  | `InvalidEmail ]
+  type com_atproto_server_confirmemail_main_error = [ `AccountNotFound [@name "AccountNotFound"] | `ExpiredToken [@name "ExpiredToken"] | `InvalidToken [@name "InvalidToken"] | `InvalidEmail [@name "InvalidEmail"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Confirm an email using a token from com.atproto.server.requestEmailConfirmation. *)
@@ -3022,7 +3022,7 @@ module Com_Atproto_Repo_PutRecord = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_repo_putrecord_main_error = [ | `InvalidSwap ]
+  type com_atproto_repo_putrecord_main_error = [ `InvalidSwap [@name "InvalidSwap"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Write a repository record, creating or updating it as needed. Requires auth, implemented by PDS. *)
@@ -3154,7 +3154,7 @@ module Com_Atproto_Repo_GetRecord = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_repo_getrecord_main_error = [ | `RecordNotFound ]
+  type com_atproto_repo_getrecord_main_error = [ `RecordNotFound [@name "RecordNotFound"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a single record from a repository. Does not require auth. *)
@@ -3222,7 +3222,7 @@ module Com_Atproto_Repo_DeleteRecord = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_repo_deleterecord_main_error = [ | `InvalidSwap ]
+  type com_atproto_repo_deleterecord_main_error = [ `InvalidSwap [@name "InvalidSwap"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Delete a repository record, or ensure it doesn't exist. Requires auth, implemented by PDS. *)
@@ -3262,7 +3262,7 @@ module Com_Atproto_Repo_CreateRecord = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_repo_createrecord_main_error = [ | `InvalidSwap ]
+  type com_atproto_repo_createrecord_main_error = [ `InvalidSwap [@name "InvalidSwap"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Create a single new repository record. Requires auth, implemented by PDS. *)
@@ -3288,9 +3288,9 @@ module Com_Atproto_Repo_ApplyWrites = struct
     repo: string;
     validate: bool option;
     writes: [
-    | `Com_atproto_repo_applywrites_create of com_atproto_repo_applywrites_create
-    | `Com_atproto_repo_applywrites_update of com_atproto_repo_applywrites_update
-    | `Com_atproto_repo_applywrites_delete of com_atproto_repo_applywrites_delete
+    `Com_atproto_repo_applywrites_create of com_atproto_repo_applywrites_create [@name "create"]
+    | `Com_atproto_repo_applywrites_update of com_atproto_repo_applywrites_update [@name "update"]
+    | `Com_atproto_repo_applywrites_delete of com_atproto_repo_applywrites_delete [@name "delete"]
     ] list;
     swapCommit: string option;
   }
@@ -3299,14 +3299,14 @@ module Com_Atproto_Repo_ApplyWrites = struct
   type com_atproto_repo_applywrites_main_output = {
     commit: com_atproto_repo_defs_commitmeta option;
     results: [
-    | `Com_atproto_repo_applywrites_createresult of com_atproto_repo_applywrites_createresult
-    | `Com_atproto_repo_applywrites_updateresult of com_atproto_repo_applywrites_updateresult
-    | `Com_atproto_repo_applywrites_deleteresult of com_atproto_repo_applywrites_deleteresult
+    `Com_atproto_repo_applywrites_createresult of com_atproto_repo_applywrites_createresult [@name "createResult"]
+    | `Com_atproto_repo_applywrites_updateresult of com_atproto_repo_applywrites_updateresult [@name "updateResult"]
+    | `Com_atproto_repo_applywrites_deleteresult of com_atproto_repo_applywrites_deleteresult [@name "deleteResult"]
     ] list option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_repo_applywrites_main_error = [ | `InvalidSwap ]
+  type com_atproto_repo_applywrites_main_error = [ `InvalidSwap [@name "InvalidSwap"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Apply a batch transaction of repository creates, updates, and deletes. Requires auth, implemented by PDS. *)
@@ -3409,8 +3409,8 @@ module Com_Atproto_Moderation_CreateReport = struct
     reasonType: com_atproto_moderation_defs_reasontype;
     reason: string option;
     subject: [
-    | `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
-    | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main
+    `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef [@name "repoRef"]
+    | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main [@name "main"]
     | `Other of Value.t (** Non closed union *)
     ];
   }
@@ -3421,8 +3421,8 @@ module Com_Atproto_Moderation_CreateReport = struct
     reasonType: com_atproto_moderation_defs_reasontype;
     reason: string option;
     subject: [
-    | `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
-    | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main
+    `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef [@name "repoRef"]
+    | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main [@name "main"]
     | `Other of Value.t (** Non closed union *)
     ];
     reportedBy: string;
@@ -3463,8 +3463,8 @@ end
 module Com_Atproto_Label_SubscribeLabels = struct
   (** def main *)
   type com_atproto_label_subscribelabels_main_msg = [
-    | `Com_atproto_label_subscribelabels_labels of com_atproto_label_subscribelabels_labels
-    | `Com_atproto_label_subscribelabels_info of com_atproto_label_subscribelabels_info
+    `Com_atproto_label_subscribelabels_labels of com_atproto_label_subscribelabels_labels [@name "labels"]
+    | `Com_atproto_label_subscribelabels_info of com_atproto_label_subscribelabels_info [@name "info"]
     | `Other of Value.t (** Non closed union *)
     ]
   [@@deriving show {with_path=false}, yojson {strict=false}]
@@ -3474,7 +3474,7 @@ module Com_Atproto_Label_SubscribeLabels = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}, make]
 
-  type com_atproto_label_subscribelabels_main_error = [ | `FutureCursor ]
+  type com_atproto_label_subscribelabels_main_error = [ `FutureCursor [@name "FutureCursor"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Subscribe to stream of labels (and negations). Public endpoint implemented by mod services. Uses same sequencing scheme as repo event stream. *)
@@ -3625,7 +3625,7 @@ module Com_Atproto_Identity_ResolveIdentity = struct
   type com_atproto_identity_resolveidentity_main_output = com_atproto_identity_defs_identityinfo
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_identity_resolveidentity_main_error = [ | `HandleNotFound  | `DidNotFound  | `DidDeactivated ]
+  type com_atproto_identity_resolveidentity_main_error = [ `HandleNotFound [@name "HandleNotFound"] | `DidNotFound [@name "DidNotFound"] | `DidDeactivated [@name "DidDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Resolves an identity (DID or Handle) to a full identity (DID document and verified handle). *)
@@ -3657,7 +3657,7 @@ module Com_Atproto_Identity_ResolveHandle = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_identity_resolvehandle_main_error = [ | `HandleNotFound ]
+  type com_atproto_identity_resolvehandle_main_error = [ `HandleNotFound [@name "HandleNotFound"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Resolves an atproto handle (hostname) to a DID. Does not necessarily bi-directionally verify against the the DID document. *)
@@ -3689,7 +3689,7 @@ module Com_Atproto_Identity_ResolveDid = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_identity_resolvedid_main_error = [ | `DidNotFound  | `DidDeactivated ]
+  type com_atproto_identity_resolvedid_main_error = [ `DidNotFound [@name "DidNotFound"] | `DidDeactivated [@name "DidDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Resolves DID to DID document. Does not bi-directionally verify handle. *)
@@ -3729,7 +3729,7 @@ module Com_Atproto_Identity_RefreshIdentity = struct
   type com_atproto_identity_refreshidentity_main_output = com_atproto_identity_defs_identityinfo
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type com_atproto_identity_refreshidentity_main_error = [ | `HandleNotFound  | `DidNotFound  | `DidDeactivated ]
+  type com_atproto_identity_refreshidentity_main_error = [ `HandleNotFound [@name "HandleNotFound"] | `DidNotFound [@name "DidNotFound"] | `DidDeactivated [@name "DidDeactivated"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Request that the server re-resolve an identity (DID and handle). The server may ignore this request, or require authentication, depending on the role, implementation, and policy of the server. *)
@@ -3792,9 +3792,9 @@ module Com_Atproto_Admin_UpdateSubjectStatus = struct
   (** def main *)
   type com_atproto_admin_updatesubjectstatus_main_input = {
     subject: [
-    | `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
-    | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main
-    | `Com_atproto_admin_defs_repoblobref of com_atproto_admin_defs_repoblobref
+    `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef [@name "repoRef"]
+    | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main [@name "main"]
+    | `Com_atproto_admin_defs_repoblobref of com_atproto_admin_defs_repoblobref [@name "repoBlobRef"]
     | `Other of Value.t (** Non closed union *)
     ];
     takedown: com_atproto_admin_defs_statusattr option;
@@ -3804,9 +3804,9 @@ module Com_Atproto_Admin_UpdateSubjectStatus = struct
 
   type com_atproto_admin_updatesubjectstatus_main_output = {
     subject: [
-    | `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
-    | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main
-    | `Com_atproto_admin_defs_repoblobref of com_atproto_admin_defs_repoblobref
+    `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef [@name "repoRef"]
+    | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main [@name "main"]
+    | `Com_atproto_admin_defs_repoblobref of com_atproto_admin_defs_repoblobref [@name "repoBlobRef"]
     | `Other of Value.t (** Non closed union *)
     ];
     takedown: com_atproto_admin_defs_statusattr option;
@@ -3983,9 +3983,9 @@ module Com_Atproto_Admin_GetSubjectStatus = struct
 
   type com_atproto_admin_getsubjectstatus_main_output = {
     subject: [
-    | `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
-    | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main
-    | `Com_atproto_admin_defs_repoblobref of com_atproto_admin_defs_repoblobref
+    `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef [@name "repoRef"]
+    | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main [@name "main"]
+    | `Com_atproto_admin_defs_repoblobref of com_atproto_admin_defs_repoblobref [@name "repoBlobRef"]
     | `Other of Value.t (** Non closed union *)
     ];
     takedown: com_atproto_admin_defs_statusattr option;
@@ -4379,7 +4379,7 @@ module App_Bsky_Unspecced_SearchStarterPacksSkeleton = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_unspecced_searchstarterpacksskeleton_main_error = [ | `BadQueryString ]
+  type app_bsky_unspecced_searchstarterpacksskeleton_main_error = [ `BadQueryString [@name "BadQueryString"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Backend Starter Pack search, returns only skeleton. *)
@@ -4425,7 +4425,7 @@ module App_Bsky_Unspecced_SearchPostsSkeleton = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_unspecced_searchpostsskeleton_main_error = [ | `BadQueryString ]
+  type app_bsky_unspecced_searchpostsskeleton_main_error = [ `BadQueryString [@name "BadQueryString"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Backend Posts search, returns only skeleton *)
@@ -4463,7 +4463,7 @@ module App_Bsky_Unspecced_SearchActorsSkeleton = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_unspecced_searchactorsskeleton_main_error = [ | `BadQueryString ]
+  type app_bsky_unspecced_searchactorsskeleton_main_error = [ `BadQueryString [@name "BadQueryString"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Backend Actors (profile) search, returns only skeleton. *)
@@ -5105,7 +5105,7 @@ module App_Bsky_Labeler_Service = struct
   type main = {
     policies: app_bsky_labeler_defs_labelerpolicies;
     labels: [
-    | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
+    `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels [@name "selfLabels"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     createdAt: string;
@@ -5131,8 +5131,8 @@ module App_Bsky_Labeler_GetServices = struct
 
   type app_bsky_labeler_getservices_main_output = {
     views: [
-    | `App_bsky_labeler_defs_labelerview of app_bsky_labeler_defs_labelerview
-    | `App_bsky_labeler_defs_labelerviewdetailed of app_bsky_labeler_defs_labelerviewdetailed
+    `App_bsky_labeler_defs_labelerview of app_bsky_labeler_defs_labelerview [@name "labelerView"]
+    | `App_bsky_labeler_defs_labelerviewdetailed of app_bsky_labeler_defs_labelerviewdetailed [@name "labelerViewDetailed"]
     | `Other of Value.t (** Non closed union *)
     ] list;
   }
@@ -5385,7 +5385,7 @@ module App_Bsky_Graph_List = struct
     descriptionFacets: app_bsky_richtext_facet_main list option;
     avatar: Blob.t option;
     labels: [
-    | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
+    `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels [@name "selfLabels"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     createdAt: string;
@@ -5495,14 +5495,14 @@ module App_Bsky_Graph_GetRelationships = struct
   type app_bsky_graph_getrelationships_main_output = {
     actor: string option;
     relationships: [
-    | `App_bsky_graph_defs_relationship of app_bsky_graph_defs_relationship
-    | `App_bsky_graph_defs_notfoundactor of app_bsky_graph_defs_notfoundactor
+    `App_bsky_graph_defs_relationship of app_bsky_graph_defs_relationship [@name "relationship"]
+    | `App_bsky_graph_defs_notfoundactor of app_bsky_graph_defs_notfoundactor [@name "notFoundActor"]
     | `Other of Value.t (** Non closed union *)
     ] list;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_graph_getrelationships_main_error = [ | `ActorNotFound ]
+  type app_bsky_graph_getrelationships_main_error = [ `ActorNotFound [@name "ActorNotFound"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Enumerates public relationships between one account, and a list of other accounts. Does not require auth. *)
@@ -5913,7 +5913,7 @@ module App_Bsky_Feed_SearchPosts = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_feed_searchposts_main_error = [ | `BadQueryString ]
+  type app_bsky_feed_searchposts_main_error = [ `BadQueryString [@name "BadQueryString"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Find posts matching search criteria, returning views of those posts. *)
@@ -5957,16 +5957,16 @@ module App_Bsky_Feed_Post = struct
     facets: app_bsky_richtext_facet_main list option;
     reply: app_bsky_feed_post_replyref option;
     embed: [
-    | `App_bsky_embed_images_main of app_bsky_embed_images_main
-    | `App_bsky_embed_video_main of app_bsky_embed_video_main
-    | `App_bsky_embed_external_main of app_bsky_embed_external_main
-    | `App_bsky_embed_record_main of app_bsky_embed_record_main
-    | `App_bsky_embed_recordwithmedia_main of app_bsky_embed_recordwithmedia_main
+    `App_bsky_embed_images_main of app_bsky_embed_images_main [@name "main"]
+    | `App_bsky_embed_video_main of app_bsky_embed_video_main [@name "main"]
+    | `App_bsky_embed_external_main of app_bsky_embed_external_main [@name "main"]
+    | `App_bsky_embed_record_main of app_bsky_embed_record_main [@name "main"]
+    | `App_bsky_embed_recordwithmedia_main of app_bsky_embed_recordwithmedia_main [@name "main"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     langs: string list option;
     labels: [
-    | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
+    `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels [@name "selfLabels"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     tags: string list option;
@@ -6194,16 +6194,16 @@ module App_Bsky_Feed_GetPostThread = struct
 
   type app_bsky_feed_getpostthread_main_output = {
     thread: [
-    | `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost
-    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
-    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
+    `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost [@name "threadViewPost"]
+    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost [@name "notFoundPost"]
+    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost [@name "blockedPost"]
     | `Other of Value.t (** Non closed union *)
     ];
     threadgate: app_bsky_feed_defs_threadgateview option;
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_feed_getpostthread_main_error = [ | `NotFound ]
+  type app_bsky_feed_getpostthread_main_error = [ `NotFound [@name "NotFound"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get posts in a thread. Does not require auth, but additional metadata and filtering will be applied for authed requests. *)
@@ -6238,7 +6238,7 @@ module App_Bsky_Feed_GetListFeed = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_feed_getlistfeed_main_error = [ | `UnknownList ]
+  type app_bsky_feed_getlistfeed_main_error = [ `UnknownList [@name "UnknownList"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a feed of recent posts from a list (posts and reposts from any actors on the list). Does not require auth. *)
@@ -6318,7 +6318,7 @@ module App_Bsky_Feed_GetFeedSkeleton = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_feed_getfeedskeleton_main_error = [ | `UnknownFeed ]
+  type app_bsky_feed_getfeedskeleton_main_error = [ `UnknownFeed [@name "UnknownFeed"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a skeleton of a feed provided by a feed generator. Auth is optional, depending on provider requirements, and provides the DID of the requester. Implemented by Feed Generator Service. *)
@@ -6411,7 +6411,7 @@ module App_Bsky_Feed_GetFeed = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_feed_getfeed_main_error = [ | `UnknownFeed ]
+  type app_bsky_feed_getfeed_main_error = [ `UnknownFeed [@name "UnknownFeed"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a hydrated feed from an actor's selected feed generator. Implemented by App View. *)
@@ -6448,7 +6448,7 @@ module App_Bsky_Feed_GetAuthorFeed = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_feed_getauthorfeed_main_error = [ | `BlockedActor  | `BlockedByActor ]
+  type app_bsky_feed_getauthorfeed_main_error = [ `BlockedActor [@name "BlockedActor"] | `BlockedByActor [@name "BlockedByActor"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a view of an actor's 'author feed' (post and reposts by the author). Does not require auth. *)
@@ -6483,7 +6483,7 @@ module App_Bsky_Feed_GetActorLikes = struct
   }
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
-  type app_bsky_feed_getactorlikes_main_error = [ | `BlockedActor  | `BlockedByActor ]
+  type app_bsky_feed_getactorlikes_main_error = [ `BlockedActor [@name "BlockedActor"] | `BlockedByActor [@name "BlockedByActor"]]
   [@@deriving show {with_path=false}, yojson {strict=false}]
 
   (** Get a list of posts liked by an actor. Requires auth, actor must be the requesting account. *)
@@ -6545,7 +6545,7 @@ module App_Bsky_Feed_Generator = struct
     avatar: Blob.t option;
     acceptsInteractions: bool option;
     labels: [
-    | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
+    `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels [@name "selfLabels"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     contentMode: string option;
@@ -6605,7 +6605,7 @@ module App_Bsky_Actor_Status = struct
   type main = {
     status: string;
     embed: [
-    | `App_bsky_embed_external_main of app_bsky_embed_external_main
+    `App_bsky_embed_external_main of app_bsky_embed_external_main [@name "main"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     durationMinutes: int64 option;
@@ -6716,7 +6716,7 @@ module App_Bsky_Actor_Profile = struct
     avatar: Blob.t option;
     banner: Blob.t option;
     labels: [
-    | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
+    `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels [@name "selfLabels"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     joinedViaStarterPack: com_atproto_repo_strongref_main option;
@@ -7172,14 +7172,14 @@ module App_Bsky_Actor_Defs = struct
   (** def postInteractionSettingsPref *)
   type nonrec postinteractionsettingspref = app_bsky_actor_defs_postinteractionsettingspref = {
     threadgateAllowRules: [
-    | `App_bsky_feed_threadgate_mentionrule of app_bsky_feed_threadgate_mentionrule
-    | `App_bsky_feed_threadgate_followerrule of app_bsky_feed_threadgate_followerrule
-    | `App_bsky_feed_threadgate_followingrule of app_bsky_feed_threadgate_followingrule
-    | `App_bsky_feed_threadgate_listrule of app_bsky_feed_threadgate_listrule
+    `App_bsky_feed_threadgate_mentionrule of app_bsky_feed_threadgate_mentionrule [@name "mentionRule"]
+    | `App_bsky_feed_threadgate_followerrule of app_bsky_feed_threadgate_followerrule [@name "followerRule"]
+    | `App_bsky_feed_threadgate_followingrule of app_bsky_feed_threadgate_followingrule [@name "followingRule"]
+    | `App_bsky_feed_threadgate_listrule of app_bsky_feed_threadgate_listrule [@name "listRule"]
     | `Other of Value.t (** Non closed union *)
     ] list option;
     postgateEmbeddingRules: [
-    | `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule
+    `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule [@name "disableRule"]
     | `Other of Value.t (** Non closed union *)
     ] list option;
   }
@@ -7193,7 +7193,7 @@ module App_Bsky_Actor_Defs = struct
     status: string;
     record: Value.t (* unknown *);
     embed: [
-    | `App_bsky_embed_external_view of app_bsky_embed_external_view
+    `App_bsky_embed_external_view of app_bsky_embed_external_view [@name "view"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     expiresAt: string option;
@@ -7365,11 +7365,11 @@ module App_Bsky_Feed_Defs = struct
     author: app_bsky_actor_defs_profileviewbasic;
     record: Value.t (* unknown *);
     embed: [
-    | `App_bsky_embed_images_view of app_bsky_embed_images_view
-    | `App_bsky_embed_video_view of app_bsky_embed_video_view
-    | `App_bsky_embed_external_view of app_bsky_embed_external_view
-    | `App_bsky_embed_record_view of app_bsky_embed_record_view
-    | `App_bsky_embed_recordwithmedia_view of app_bsky_embed_recordwithmedia_view
+    `App_bsky_embed_images_view of app_bsky_embed_images_view [@name "view"]
+    | `App_bsky_embed_video_view of app_bsky_embed_video_view [@name "view"]
+    | `App_bsky_embed_external_view of app_bsky_embed_external_view [@name "view"]
+    | `App_bsky_embed_record_view of app_bsky_embed_record_view [@name "view"]
+    | `App_bsky_embed_recordwithmedia_view of app_bsky_embed_recordwithmedia_view [@name "view"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     replyCount: int64 option;
@@ -7414,8 +7414,8 @@ module App_Bsky_Feed_Defs = struct
     post: app_bsky_feed_defs_postview;
     reply: app_bsky_feed_defs_replyref option;
     reason: [
-    | `App_bsky_feed_defs_reasonrepost of app_bsky_feed_defs_reasonrepost
-    | `App_bsky_feed_defs_reasonpin of app_bsky_feed_defs_reasonpin
+    `App_bsky_feed_defs_reasonrepost of app_bsky_feed_defs_reasonrepost [@name "reasonRepost"]
+    | `App_bsky_feed_defs_reasonpin of app_bsky_feed_defs_reasonpin [@name "reasonPin"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     feedContext: string option;
@@ -7428,15 +7428,15 @@ module App_Bsky_Feed_Defs = struct
   (** def replyRef *)
   type nonrec replyref = app_bsky_feed_defs_replyref = {
     root: [
-    | `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview
-    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
-    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
+    `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview [@name "postView"]
+    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost [@name "notFoundPost"]
+    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost [@name "blockedPost"]
     | `Other of Value.t (** Non closed union *)
     ];
     parent: [
-    | `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview
-    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
-    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
+    `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview [@name "postView"]
+    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost [@name "notFoundPost"]
+    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost [@name "blockedPost"]
     | `Other of Value.t (** Non closed union *)
     ];
     grandparentAuthor: app_bsky_actor_defs_profileviewbasic option;
@@ -7467,15 +7467,15 @@ module App_Bsky_Feed_Defs = struct
   type nonrec threadviewpost = app_bsky_feed_defs_threadviewpost = {
     post: app_bsky_feed_defs_postview;
     parent: [
-    | `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost
-    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
-    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
+    `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost [@name "threadViewPost"]
+    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost [@name "notFoundPost"]
+    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost [@name "blockedPost"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     replies: [
-    | `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost
-    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
-    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
+    `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost [@name "threadViewPost"]
+    | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost [@name "notFoundPost"]
+    | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost [@name "blockedPost"]
     | `Other of Value.t (** Non closed union *)
     ] list option;
     threadContext: app_bsky_feed_defs_threadcontext option;
@@ -7551,8 +7551,8 @@ module App_Bsky_Feed_Defs = struct
   type nonrec skeletonfeedpost = app_bsky_feed_defs_skeletonfeedpost = {
     post: string;
     reason: [
-    | `App_bsky_feed_defs_skeletonreasonrepost of app_bsky_feed_defs_skeletonreasonrepost
-    | `App_bsky_feed_defs_skeletonreasonpin of app_bsky_feed_defs_skeletonreasonpin
+    `App_bsky_feed_defs_skeletonreasonrepost of app_bsky_feed_defs_skeletonreasonrepost [@name "skeletonReasonRepost"]
+    | `App_bsky_feed_defs_skeletonreasonpin of app_bsky_feed_defs_skeletonreasonpin [@name "skeletonReasonPin"]
     | `Other of Value.t (** Non closed union *)
     ] option;
     feedContext: string option;
@@ -7710,9 +7710,9 @@ module App_Bsky_Embed_RecordWithMedia = struct
   type nonrec main = app_bsky_embed_recordwithmedia_main = {
     record: app_bsky_embed_record_main;
     media: [
-    | `App_bsky_embed_images_main of app_bsky_embed_images_main
-    | `App_bsky_embed_video_main of app_bsky_embed_video_main
-    | `App_bsky_embed_external_main of app_bsky_embed_external_main
+    `App_bsky_embed_images_main of app_bsky_embed_images_main [@name "main"]
+    | `App_bsky_embed_video_main of app_bsky_embed_video_main [@name "main"]
+    | `App_bsky_embed_external_main of app_bsky_embed_external_main [@name "main"]
     | `Other of Value.t (** Non closed union *)
     ];
   }
@@ -7725,9 +7725,9 @@ module App_Bsky_Embed_RecordWithMedia = struct
   type nonrec view = app_bsky_embed_recordwithmedia_view = {
     record: app_bsky_embed_record_view;
     media: [
-    | `App_bsky_embed_images_view of app_bsky_embed_images_view
-    | `App_bsky_embed_video_view of app_bsky_embed_video_view
-    | `App_bsky_embed_external_view of app_bsky_embed_external_view
+    `App_bsky_embed_images_view of app_bsky_embed_images_view [@name "view"]
+    | `App_bsky_embed_video_view of app_bsky_embed_video_view [@name "view"]
+    | `App_bsky_embed_external_view of app_bsky_embed_external_view [@name "view"]
     | `Other of Value.t (** Non closed union *)
     ];
   }
@@ -7755,14 +7755,14 @@ module App_Bsky_Embed_Record = struct
   (** def view *)
   type nonrec view = app_bsky_embed_record_view = {
     record: [
-    | `App_bsky_embed_record_viewrecord of app_bsky_embed_record_viewrecord
-    | `App_bsky_embed_record_viewnotfound of app_bsky_embed_record_viewnotfound
-    | `App_bsky_embed_record_viewblocked of app_bsky_embed_record_viewblocked
-    | `App_bsky_embed_record_viewdetached of app_bsky_embed_record_viewdetached
-    | `App_bsky_feed_defs_generatorview of app_bsky_feed_defs_generatorview
-    | `App_bsky_graph_defs_listview of app_bsky_graph_defs_listview
-    | `App_bsky_labeler_defs_labelerview of app_bsky_labeler_defs_labelerview
-    | `App_bsky_graph_defs_starterpackviewbasic of app_bsky_graph_defs_starterpackviewbasic
+    `App_bsky_embed_record_viewrecord of app_bsky_embed_record_viewrecord [@name "viewRecord"]
+    | `App_bsky_embed_record_viewnotfound of app_bsky_embed_record_viewnotfound [@name "viewNotFound"]
+    | `App_bsky_embed_record_viewblocked of app_bsky_embed_record_viewblocked [@name "viewBlocked"]
+    | `App_bsky_embed_record_viewdetached of app_bsky_embed_record_viewdetached [@name "viewDetached"]
+    | `App_bsky_feed_defs_generatorview of app_bsky_feed_defs_generatorview [@name "generatorView"]
+    | `App_bsky_graph_defs_listview of app_bsky_graph_defs_listview [@name "listView"]
+    | `App_bsky_labeler_defs_labelerview of app_bsky_labeler_defs_labelerview [@name "labelerView"]
+    | `App_bsky_graph_defs_starterpackviewbasic of app_bsky_graph_defs_starterpackviewbasic [@name "starterPackViewBasic"]
     | `Other of Value.t (** Non closed union *)
     ];
   }
@@ -7783,11 +7783,11 @@ module App_Bsky_Embed_Record = struct
     likeCount: int64 option;
     quoteCount: int64 option;
     embeds: [
-    | `App_bsky_embed_images_view of app_bsky_embed_images_view
-    | `App_bsky_embed_video_view of app_bsky_embed_video_view
-    | `App_bsky_embed_external_view of app_bsky_embed_external_view
-    | `App_bsky_embed_record_view of app_bsky_embed_record_view
-    | `App_bsky_embed_recordwithmedia_view of app_bsky_embed_recordwithmedia_view
+    `App_bsky_embed_images_view of app_bsky_embed_images_view [@name "view"]
+    | `App_bsky_embed_video_view of app_bsky_embed_video_view [@name "view"]
+    | `App_bsky_embed_external_view of app_bsky_embed_external_view [@name "view"]
+    | `App_bsky_embed_record_view of app_bsky_embed_record_view [@name "view"]
+    | `App_bsky_embed_recordwithmedia_view of app_bsky_embed_recordwithmedia_view [@name "view"]
     | `Other of Value.t (** Non closed union *)
     ] list option;
     indexedAt: string;
@@ -8089,9 +8089,9 @@ module App_Bsky_Richtext_Facet = struct
   type nonrec main = app_bsky_richtext_facet_main = {
     index: app_bsky_richtext_facet_byteslice;
     features: [
-    | `App_bsky_richtext_facet_mention of app_bsky_richtext_facet_mention
-    | `App_bsky_richtext_facet_link of app_bsky_richtext_facet_link
-    | `App_bsky_richtext_facet_tag of app_bsky_richtext_facet_tag
+    `App_bsky_richtext_facet_mention of app_bsky_richtext_facet_mention [@name "mention"]
+    | `App_bsky_richtext_facet_link of app_bsky_richtext_facet_link [@name "link"]
+    | `App_bsky_richtext_facet_tag of app_bsky_richtext_facet_tag [@name "tag"]
     | `Other of Value.t (** Non closed union *)
     ] list;
   }
@@ -8221,10 +8221,10 @@ module App_Bsky_Feed_Threadgate = struct
   type main = {
     post: string;
     allow: [
-    | `App_bsky_feed_threadgate_mentionrule of app_bsky_feed_threadgate_mentionrule
-    | `App_bsky_feed_threadgate_followerrule of app_bsky_feed_threadgate_followerrule
-    | `App_bsky_feed_threadgate_followingrule of app_bsky_feed_threadgate_followingrule
-    | `App_bsky_feed_threadgate_listrule of app_bsky_feed_threadgate_listrule
+    `App_bsky_feed_threadgate_mentionrule of app_bsky_feed_threadgate_mentionrule [@name "mentionRule"]
+    | `App_bsky_feed_threadgate_followerrule of app_bsky_feed_threadgate_followerrule [@name "followerRule"]
+    | `App_bsky_feed_threadgate_followingrule of app_bsky_feed_threadgate_followingrule [@name "followingRule"]
+    | `App_bsky_feed_threadgate_listrule of app_bsky_feed_threadgate_listrule [@name "listRule"]
     | `Other of Value.t (** Non closed union *)
     ] list option;
     createdAt: string;
@@ -8276,7 +8276,7 @@ module App_Bsky_Feed_Postgate = struct
     post: string;
     detachedEmbeddingUris: string list option;
     embeddingRules: [
-    | `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule
+    `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule [@name "disableRule"]
     | `Other of Value.t (** Non closed union *)
     ] list option;
   }  [@@deriving show {with_path=false}, yojson {strict=false}, make]

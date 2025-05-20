@@ -185,10 +185,15 @@ module Codegen = struct
 
   and gen_union ~inside:_ ~refs ~closed out () =
     bpf out "[\n";
-    List.iter
-      (fun (r : A.ref) ->
+    List.iteri
+      (fun i (r : A.ref) ->
         let cstor = cstor_name_of_ref r in
-        bpf out "    | `%s of %s\n" cstor (val_name_of_ref r))
+        bpf out "   %s `%s of %s [@name %S]\n"
+          (if i = 0 then
+             ""
+           else
+             " |")
+          cstor (val_name_of_ref r) r.fragment)
       refs;
     if not closed then
       bpf out "    | `Other of Value.t (** Non closed union *)\n";
@@ -256,12 +261,19 @@ module Codegen = struct
       ty;
     bpf out "\n  [@@deriving show {with_path=false}, yojson {strict=false}]\n\n"
 
+  (* FIXME: generate of/to yojson directly from strings, no list involved *)
   let define_errors ~ref out (errs : A.error list) : unit =
     assert (errs <> []);
     bpf out "  type %s = [" (name_of_errors ~ref errs);
-    List.iter
-      (fun (e : A.error) ->
-        bpf out " | `%s " (String.capitalize_ascii e.name |> remove_keyword))
+    List.iteri
+      (fun i (e : A.error) ->
+        bpf out "%s `%s [@name %S]"
+          (if i = 0 then
+             ""
+           else
+             " |")
+          (String.capitalize_ascii e.name |> remove_keyword)
+          e.name)
       errs;
     bpf out "]";
     bpf out "\n  [@@deriving show {with_path=false}, yojson {strict=false}]\n\n"
