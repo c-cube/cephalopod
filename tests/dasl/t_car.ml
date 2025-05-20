@@ -1,7 +1,7 @@
 module Q = QCheck2
 open Cephalopod_dasl
 
-let t_encode_decode =
+let t_encode_decode_str =
   Q.Test.make ~name:__FUNCTION__ ~print:Car.show Util.U_car.gen (fun car ->
       let str = Car.encode_to_string car in
       match Car.decode_string str with
@@ -12,4 +12,4 @@ let t_encode_decode =
       | Error err ->
         Q.Test.fail_reportf "cannot parse CAR back: %a" Car.pp_error_decode err)
 
-let () = QCheck_base_runner.run_tests_main [ t_encode_decode ]
+let () = QCheck_base_runner.run_tests_main [ t_encode_decode_str ]
