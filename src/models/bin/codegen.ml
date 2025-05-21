@@ -415,7 +415,7 @@ module Codegen = struct
 
     let gen_def_in_lexicon out (def_name, def) =
       let ref = A.{ name = lex.id; fragment = def_name } in
-      bpf out "  (** def %s *)\n" def_name;
+      bpf out "  (** {2 def %s} *)\n\n" def_name;
       gen_def_in_mod out (ref, def);
       bpf out "\n\n"
     in

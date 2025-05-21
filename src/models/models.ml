@@ -1631,7 +1631,8 @@ open Types
 (** lexicon "com.atproto.temp.requestPhoneVerification"
   *)
 module Com_Atproto_Temp_RequestPhoneVerification = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     phoneNumber: string;
   }
@@ -1650,7 +1651,8 @@ end
 (** lexicon "com.atproto.temp.fetchLabels"
   *)
 module Com_Atproto_Temp_FetchLabels = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     since: int64 option;
     limit: int64 option;
@@ -1679,7 +1681,8 @@ end
 (** lexicon "com.atproto.temp.checkSignupQueue"
   *)
 module Com_Atproto_Temp_CheckSignupQueue = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_output = {
     activated: bool;
     placeInQueue: int64 option;
@@ -1700,7 +1703,8 @@ end
 (** lexicon "com.atproto.temp.addReservedHandle"
   *)
 module Com_Atproto_Temp_AddReservedHandle = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     handle: string;
   }
@@ -1726,7 +1730,8 @@ end
 (** lexicon "com.atproto.sync.subscribeRepos"
   *)
 module Com_Atproto_Sync_SubscribeRepos = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_msg = [
     `Com_atproto_sync_subscriberepos_commit of com_atproto_sync_subscriberepos_commit [@name "commit"]
     | `Com_atproto_sync_subscriberepos_sync of com_atproto_sync_subscriberepos_sync [@name "sync"]
@@ -1756,7 +1761,8 @@ module Com_Atproto_Sync_SubscribeRepos = struct
     pp=pp_main_msg}) 
     ~errors:(Errors {pp=pp_main_error})
 
-  (** def commit *)
+  (** {2 def commit} *)
+
   type nonrec commit = com_atproto_sync_subscriberepos_commit = {
     seq: int64;
     rebase: bool;
@@ -1776,7 +1782,8 @@ module Com_Atproto_Sync_SubscribeRepos = struct
   let commit_to_yojson = com_atproto_sync_subscriberepos_commit_to_yojson
 
 
-  (** def sync *)
+  (** {2 def sync} *)
+
   type nonrec sync = com_atproto_sync_subscriberepos_sync = {
     seq: int64;
     did: string;
@@ -1789,7 +1796,8 @@ module Com_Atproto_Sync_SubscribeRepos = struct
   let sync_to_yojson = com_atproto_sync_subscriberepos_sync_to_yojson
 
 
-  (** def identity *)
+  (** {2 def identity} *)
+
   type nonrec identity = com_atproto_sync_subscriberepos_identity = {
     seq: int64;
     did: string;
@@ -1801,7 +1809,8 @@ module Com_Atproto_Sync_SubscribeRepos = struct
   let identity_to_yojson = com_atproto_sync_subscriberepos_identity_to_yojson
 
 
-  (** def account *)
+  (** {2 def account} *)
+
   type nonrec account = com_atproto_sync_subscriberepos_account = {
     seq: int64;
     did: string;
@@ -1814,7 +1823,8 @@ module Com_Atproto_Sync_SubscribeRepos = struct
   let account_to_yojson = com_atproto_sync_subscriberepos_account_to_yojson
 
 
-  (** def info *)
+  (** {2 def info} *)
+
   type nonrec info = com_atproto_sync_subscriberepos_info = {
     name: string;
     message: string option;
@@ -1824,7 +1834,8 @@ module Com_Atproto_Sync_SubscribeRepos = struct
   let info_to_yojson = com_atproto_sync_subscriberepos_info_to_yojson
 
 
-  (** def repoOp *)
+  (** {2 def repoOp} *)
+
   type nonrec repoop = com_atproto_sync_subscriberepos_repoop = {
     action: string;
     path: string;
@@ -1842,7 +1853,8 @@ end
 (** lexicon "com.atproto.sync.requestCrawl"
   *)
 module Com_Atproto_Sync_RequestCrawl = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     hostname: string;
   }
@@ -1865,7 +1877,8 @@ end
 (** lexicon "com.atproto.sync.notifyOfUpdate"
   *)
 module Com_Atproto_Sync_NotifyOfUpdate = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     hostname: string;
   }
@@ -1884,7 +1897,8 @@ end
 (** lexicon "com.atproto.sync.listReposByCollection"
   *)
 module Com_Atproto_Sync_ListReposByCollection = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     collection: string;
     limit: int64 option;
@@ -1909,7 +1923,8 @@ module Com_Atproto_Sync_ListReposByCollection = struct
     of_yojson=main_output_of_yojson;
     pp=pp_main_output}}) ~errors:No_errors
 
-  (** def repo *)
+  (** {2 def repo} *)
+
   type nonrec repo = com_atproto_sync_listreposbycollection_repo = {
     did: string;
   }
@@ -1924,7 +1939,8 @@ end
 (** lexicon "com.atproto.sync.listRepos"
   *)
 module Com_Atproto_Sync_ListRepos = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     limit: int64 option;
     cursor: string option;
@@ -1948,7 +1964,8 @@ module Com_Atproto_Sync_ListRepos = struct
     of_yojson=main_output_of_yojson;
     pp=pp_main_output}}) ~errors:No_errors
 
-  (** def repo *)
+  (** {2 def repo} *)
+
   type nonrec repo = com_atproto_sync_listrepos_repo = {
     did: string;
     head: string;
@@ -1967,7 +1984,8 @@ end
 (** lexicon "com.atproto.sync.listHosts"
   *)
 module Com_Atproto_Sync_ListHosts = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     limit: int64 option;
     cursor: string option;
@@ -1991,7 +2009,8 @@ module Com_Atproto_Sync_ListHosts = struct
     of_yojson=main_output_of_yojson;
     pp=pp_main_output}}) ~errors:No_errors
 
-  (** def host *)
+  (** {2 def host} *)
+
   type nonrec host = com_atproto_sync_listhosts_host = {
     hostname: string;
     seq: int64 option;
@@ -2009,7 +2028,8 @@ end
 (** lexicon "com.atproto.sync.listBlobs"
   *)
 module Com_Atproto_Sync_ListBlobs = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     did: string;
     since: string option;
@@ -2045,7 +2065,8 @@ end
 (** lexicon "com.atproto.sync.getRepoStatus"
   *)
 module Com_Atproto_Sync_GetRepoStatus = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     did: string;
   }
@@ -2080,7 +2101,8 @@ end
 (** lexicon "com.atproto.sync.getRepo"
   *)
 module Com_Atproto_Sync_GetRepo = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     did: string;
     since: string option;
@@ -2105,7 +2127,8 @@ end
 (** lexicon "com.atproto.sync.getRecord"
   *)
 module Com_Atproto_Sync_GetRecord = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     did: string;
     collection: string;
@@ -2131,7 +2154,8 @@ end
 (** lexicon "com.atproto.sync.getLatestCommit"
   *)
 module Com_Atproto_Sync_GetLatestCommit = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     did: string;
   }
@@ -2164,7 +2188,8 @@ end
 (** lexicon "com.atproto.sync.getHostStatus"
   *)
 module Com_Atproto_Sync_GetHostStatus = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     hostname: string;
   }
@@ -2199,7 +2224,8 @@ end
 (** lexicon "com.atproto.sync.getHead"
   *)
 module Com_Atproto_Sync_GetHead = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     did: string;
   }
@@ -2231,7 +2257,8 @@ end
 (** lexicon "com.atproto.sync.getCheckout"
   *)
 module Com_Atproto_Sync_GetCheckout = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     did: string;
   }
@@ -2251,7 +2278,8 @@ end
 (** lexicon "com.atproto.sync.getBlocks"
   *)
 module Com_Atproto_Sync_GetBlocks = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     did: string;
     cids: string list;
@@ -2276,7 +2304,8 @@ end
 (** lexicon "com.atproto.sync.getBlob"
   *)
 module Com_Atproto_Sync_GetBlob = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     did: string;
     cid: string;
@@ -2301,7 +2330,8 @@ end
 (** lexicon "com.atproto.sync.defs"
   *)
 module Com_Atproto_Sync_Defs = struct
-  (** def hostStatus *)
+  (** {2 def hostStatus} *)
+
   type nonrec hoststatus = com_atproto_sync_defs_hoststatus
   let pp_hoststatus = pp_com_atproto_sync_defs_hoststatus
   let hoststatus_of_yojson = com_atproto_sync_defs_hoststatus_of_yojson
@@ -2314,7 +2344,8 @@ end
 (** lexicon "com.atproto.server.updateEmail"
   *)
 module Com_Atproto_Server_UpdateEmail = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     email: string;
     emailAuthFactor: bool option;
@@ -2339,7 +2370,8 @@ end
 (** lexicon "com.atproto.server.revokeAppPassword"
   *)
 module Com_Atproto_Server_RevokeAppPassword = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     name: string;
   }
@@ -2358,7 +2390,8 @@ end
 (** lexicon "com.atproto.server.resetPassword"
   *)
 module Com_Atproto_Server_ResetPassword = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     token: string;
     password: string;
@@ -2382,7 +2415,8 @@ end
 (** lexicon "com.atproto.server.reserveSigningKey"
   *)
 module Com_Atproto_Server_ReserveSigningKey = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     did: string option;
   }
@@ -2410,7 +2444,8 @@ end
 (** lexicon "com.atproto.server.requestPasswordReset"
   *)
 module Com_Atproto_Server_RequestPasswordReset = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     email: string;
   }
@@ -2429,7 +2464,8 @@ end
 (** lexicon "com.atproto.server.requestEmailUpdate"
   *)
 module Com_Atproto_Server_RequestEmailUpdate = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_output = {
     tokenRequired: bool;
   }
@@ -2448,7 +2484,8 @@ end
 (** lexicon "com.atproto.server.requestEmailConfirmation"
   *)
 module Com_Atproto_Server_RequestEmailConfirmation = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Request an email with a code to confirm ownership of email. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params ~input:No_io ~output:No_io ~errors:No_errors
 
@@ -2458,7 +2495,8 @@ end
 (** lexicon "com.atproto.server.requestAccountDelete"
   *)
 module Com_Atproto_Server_RequestAccountDelete = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Initiate a user account deletion via email. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params ~input:No_io ~output:No_io ~errors:No_errors
 
@@ -2468,7 +2506,8 @@ end
 (** lexicon "com.atproto.server.refreshSession"
   *)
 module Com_Atproto_Server_RefreshSession = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_output = {
     accessJwt: string;
     refreshJwt: string;
@@ -2497,7 +2536,8 @@ end
 (** lexicon "com.atproto.server.listAppPasswords"
   *)
 module Com_Atproto_Server_ListAppPasswords = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_output = {
     passwords: com_atproto_server_listapppasswords_apppassword list;
   }
@@ -2514,7 +2554,8 @@ module Com_Atproto_Server_ListAppPasswords = struct
     pp=pp_main_output}}) 
     ~errors:(Errors {pp=pp_main_error})
 
-  (** def appPassword *)
+  (** {2 def appPassword} *)
+
   type nonrec apppassword = com_atproto_server_listapppasswords_apppassword = {
     name: string;
     createdAt: string;
@@ -2531,7 +2572,8 @@ end
 (** lexicon "com.atproto.server.getSession"
   *)
 module Com_Atproto_Server_GetSession = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_output = {
     handle: string;
     did: string;
@@ -2557,7 +2599,8 @@ end
 (** lexicon "com.atproto.server.getServiceAuth"
   *)
 module Com_Atproto_Server_GetServiceAuth = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     aud: string;
     exp: int64 option;
@@ -2591,7 +2634,8 @@ end
 (** lexicon "com.atproto.server.getAccountInviteCodes"
   *)
 module Com_Atproto_Server_GetAccountInviteCodes = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     includeUsed: bool option;
     createAvailable: bool option;
@@ -2624,7 +2668,8 @@ end
 (** lexicon "com.atproto.server.describeServer"
   *)
 module Com_Atproto_Server_DescribeServer = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_output = {
     inviteCodeRequired: bool option;
     phoneVerificationRequired: bool option;
@@ -2642,7 +2687,8 @@ module Com_Atproto_Server_DescribeServer = struct
     of_yojson=main_output_of_yojson;
     pp=pp_main_output}}) ~errors:No_errors
 
-  (** def links *)
+  (** {2 def links} *)
+
   type nonrec links = com_atproto_server_describeserver_links = {
     privacyPolicy: string option;
     termsOfService: string option;
@@ -2652,7 +2698,8 @@ module Com_Atproto_Server_DescribeServer = struct
   let links_to_yojson = com_atproto_server_describeserver_links_to_yojson
 
 
-  (** def contact *)
+  (** {2 def contact} *)
+
   type nonrec contact = com_atproto_server_describeserver_contact = {
     email: string option;
   }
@@ -2667,7 +2714,8 @@ end
 (** lexicon "com.atproto.server.deleteSession"
   *)
 module Com_Atproto_Server_DeleteSession = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Delete the current session. Requires auth. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params ~input:No_io ~output:No_io ~errors:No_errors
 
@@ -2677,7 +2725,8 @@ end
 (** lexicon "com.atproto.server.deleteAccount"
   *)
 module Com_Atproto_Server_DeleteAccount = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     did: string;
     password: string;
@@ -2702,7 +2751,8 @@ end
 (** lexicon "com.atproto.server.deactivateAccount"
   *)
 module Com_Atproto_Server_DeactivateAccount = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     deleteAfter: string option;
   }
@@ -2721,7 +2771,8 @@ end
 (** lexicon "com.atproto.server.createSession"
   *)
 module Com_Atproto_Server_CreateSession = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     identifier: string;
     password: string;
@@ -2765,7 +2816,8 @@ end
 (** lexicon "com.atproto.server.createInviteCodes"
   *)
 module Com_Atproto_Server_CreateInviteCodes = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     codeCount: int64;
     useCount: int64;
@@ -2789,7 +2841,8 @@ module Com_Atproto_Server_CreateInviteCodes = struct
     of_yojson=main_output_of_yojson;
     pp=pp_main_output}}) ~errors:No_errors
 
-  (** def accountCodes *)
+  (** {2 def accountCodes} *)
+
   type nonrec accountcodes = com_atproto_server_createinvitecodes_accountcodes = {
     account: string;
     codes: string list;
@@ -2805,7 +2858,8 @@ end
 (** lexicon "com.atproto.server.createInviteCode"
   *)
 module Com_Atproto_Server_CreateInviteCode = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     useCount: int64;
     forAccount: string option;
@@ -2834,7 +2888,8 @@ end
 (** lexicon "com.atproto.server.createAppPassword"
   *)
 module Com_Atproto_Server_CreateAppPassword = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     name: string;
     privileged: bool option;
@@ -2859,7 +2914,8 @@ module Com_Atproto_Server_CreateAppPassword = struct
     pp=pp_main_output}}) 
     ~errors:(Errors {pp=pp_main_error})
 
-  (** def appPassword *)
+  (** {2 def appPassword} *)
+
   type nonrec apppassword = com_atproto_server_createapppassword_apppassword = {
     name: string;
     password: string;
@@ -2877,7 +2933,8 @@ end
 (** lexicon "com.atproto.server.createAccount"
   *)
 module Com_Atproto_Server_CreateAccount = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     email: string option;
     handle: string;
@@ -2921,7 +2978,8 @@ end
 (** lexicon "com.atproto.server.confirmEmail"
   *)
 module Com_Atproto_Server_ConfirmEmail = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     email: string;
     token: string;
@@ -2945,7 +3003,8 @@ end
 (** lexicon "com.atproto.server.checkAccountStatus"
   *)
 module Com_Atproto_Server_CheckAccountStatus = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_output = {
     activated: bool;
     validDid: bool;
@@ -2972,7 +3031,8 @@ end
 (** lexicon "com.atproto.server.activateAccount"
   *)
 module Com_Atproto_Server_ActivateAccount = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Activates a currently deactivated account. Used to finalize account migration after the account's repo is imported and identity is setup. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params ~input:No_io ~output:No_io ~errors:No_errors
 
@@ -2982,7 +3042,8 @@ end
 (** lexicon "com.atproto.repo.uploadBlob"
   *)
 module Com_Atproto_Repo_UploadBlob = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_output = {
     blob: Blob.t;
   }
@@ -3002,7 +3063,8 @@ end
 (** lexicon "com.atproto.repo.putRecord"
   *)
 module Com_Atproto_Repo_PutRecord = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     repo: string;
     collection: string;
@@ -3043,7 +3105,8 @@ end
 (** lexicon "com.atproto.repo.listRecords"
   *)
 module Com_Atproto_Repo_ListRecords = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     repo: string;
     collection: string;
@@ -3070,7 +3133,8 @@ module Com_Atproto_Repo_ListRecords = struct
     of_yojson=main_output_of_yojson;
     pp=pp_main_output}}) ~errors:No_errors
 
-  (** def record *)
+  (** {2 def record} *)
+
   type nonrec record = com_atproto_repo_listrecords_record = {
     uri: string;
     cid: string;
@@ -3087,7 +3151,8 @@ end
 (** lexicon "com.atproto.repo.listMissingBlobs"
   *)
 module Com_Atproto_Repo_ListMissingBlobs = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     limit: int64 option;
     cursor: string option;
@@ -3111,7 +3176,8 @@ module Com_Atproto_Repo_ListMissingBlobs = struct
     of_yojson=main_output_of_yojson;
     pp=pp_main_output}}) ~errors:No_errors
 
-  (** def recordBlob *)
+  (** {2 def recordBlob} *)
+
   type nonrec recordblob = com_atproto_repo_listmissingblobs_recordblob = {
     cid: string;
     recordUri: string;
@@ -3127,7 +3193,8 @@ end
 (** lexicon "com.atproto.repo.importRepo"
   *)
 module Com_Atproto_Repo_ImportRepo = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Import a repo in the form of a CAR file. Requires Content-Length HTTP header to be set. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
     ~input:(IO_opaque {encoding=CAR}) ~output:No_io ~errors:No_errors
@@ -3138,7 +3205,8 @@ end
 (** lexicon "com.atproto.repo.getRecord"
   *)
 module Com_Atproto_Repo_GetRecord = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     repo: string;
     collection: string;
@@ -3175,7 +3243,8 @@ end
 (** lexicon "com.atproto.repo.describeRepo"
   *)
 module Com_Atproto_Repo_DescribeRepo = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     repo: string;
   }
@@ -3207,7 +3276,8 @@ end
 (** lexicon "com.atproto.repo.deleteRecord"
   *)
 module Com_Atproto_Repo_DeleteRecord = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     repo: string;
     collection: string;
@@ -3243,7 +3313,8 @@ end
 (** lexicon "com.atproto.repo.createRecord"
   *)
 module Com_Atproto_Repo_CreateRecord = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     repo: string;
     collection: string;
@@ -3283,7 +3354,8 @@ end
 (** lexicon "com.atproto.repo.applyWrites"
   *)
 module Com_Atproto_Repo_ApplyWrites = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     repo: string;
     validate: bool option;
@@ -3321,7 +3393,8 @@ module Com_Atproto_Repo_ApplyWrites = struct
     pp=pp_main_output}}) 
     ~errors:(Errors {pp=pp_main_error})
 
-  (** def create *)
+  (** {2 def create} *)
+
   type nonrec create = com_atproto_repo_applywrites_create = {
     collection: string;
     rkey: string option;
@@ -3332,7 +3405,8 @@ module Com_Atproto_Repo_ApplyWrites = struct
   let create_to_yojson = com_atproto_repo_applywrites_create_to_yojson
 
 
-  (** def update *)
+  (** {2 def update} *)
+
   type nonrec update = com_atproto_repo_applywrites_update = {
     collection: string;
     rkey: string;
@@ -3343,7 +3417,8 @@ module Com_Atproto_Repo_ApplyWrites = struct
   let update_to_yojson = com_atproto_repo_applywrites_update_to_yojson
 
 
-  (** def delete *)
+  (** {2 def delete} *)
+
   type nonrec delete = com_atproto_repo_applywrites_delete = {
     collection: string;
     rkey: string;
@@ -3353,7 +3428,8 @@ module Com_Atproto_Repo_ApplyWrites = struct
   let delete_to_yojson = com_atproto_repo_applywrites_delete_to_yojson
 
 
-  (** def createResult *)
+  (** {2 def createResult} *)
+
   type nonrec createresult = com_atproto_repo_applywrites_createresult = {
     uri: string;
     cid: string;
@@ -3364,7 +3440,8 @@ module Com_Atproto_Repo_ApplyWrites = struct
   let createresult_to_yojson = com_atproto_repo_applywrites_createresult_to_yojson
 
 
-  (** def updateResult *)
+  (** {2 def updateResult} *)
+
   type nonrec updateresult = com_atproto_repo_applywrites_updateresult = {
     uri: string;
     cid: string;
@@ -3375,7 +3452,8 @@ module Com_Atproto_Repo_ApplyWrites = struct
   let updateresult_to_yojson = com_atproto_repo_applywrites_updateresult_to_yojson
 
 
-  (** def deleteResult *)
+  (** {2 def deleteResult} *)
+
   type nonrec deleteresult = com_atproto_repo_applywrites_deleteresult
   let pp_deleteresult = pp_com_atproto_repo_applywrites_deleteresult
   let deleteresult_of_yojson = com_atproto_repo_applywrites_deleteresult_of_yojson
@@ -3388,7 +3466,8 @@ end
 (** lexicon "com.atproto.repo.defs"
   *)
 module Com_Atproto_Repo_Defs = struct
-  (** def commitMeta *)
+  (** {2 def commitMeta} *)
+
   type nonrec commitmeta = com_atproto_repo_defs_commitmeta = {
     cid: string;
     rev: string;
@@ -3404,7 +3483,8 @@ end
 (** lexicon "com.atproto.moderation.createReport"
   *)
 module Com_Atproto_Moderation_CreateReport = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     reasonType: com_atproto_moderation_defs_reasontype;
     reason: string option;
@@ -3447,7 +3527,8 @@ end
 (** lexicon "com.atproto.lexicon.schema"
   *)
 module Com_Atproto_Lexicon_Schema = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Representation of Lexicon schemas themselves, when published as atproto records. Note that the schema language is not defined in Lexicon; this meta schema currently only includes a single version field ('lexicon'). See the atproto specifications for description of the other expected top-level fields ('id', 'defs', etc). *)
   type main = {
     lexicon: int64;
@@ -3461,7 +3542,8 @@ end
 (** lexicon "com.atproto.label.subscribeLabels"
   *)
 module Com_Atproto_Label_SubscribeLabels = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_msg = [
     `Com_atproto_label_subscribelabels_labels of com_atproto_label_subscribelabels_labels [@name "labels"]
     | `Com_atproto_label_subscribelabels_info of com_atproto_label_subscribelabels_info [@name "info"]
@@ -3488,7 +3570,8 @@ module Com_Atproto_Label_SubscribeLabels = struct
     pp=pp_main_msg}) 
     ~errors:(Errors {pp=pp_main_error})
 
-  (** def labels *)
+  (** {2 def labels} *)
+
   type nonrec labels = com_atproto_label_subscribelabels_labels = {
     seq: int64;
     labels: com_atproto_label_defs_label list;
@@ -3498,7 +3581,8 @@ module Com_Atproto_Label_SubscribeLabels = struct
   let labels_to_yojson = com_atproto_label_subscribelabels_labels_to_yojson
 
 
-  (** def info *)
+  (** {2 def info} *)
+
   type nonrec info = com_atproto_label_subscribelabels_info = {
     name: string;
     message: string option;
@@ -3514,7 +3598,8 @@ end
 (** lexicon "com.atproto.label.queryLabels"
   *)
 module Com_Atproto_Label_QueryLabels = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     uriPatterns: string list;
     sources: string list option;
@@ -3546,7 +3631,8 @@ end
 (** lexicon "com.atproto.identity.updateHandle"
   *)
 module Com_Atproto_Identity_UpdateHandle = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     handle: string;
   }
@@ -3565,7 +3651,8 @@ end
 (** lexicon "com.atproto.identity.submitPlcOperation"
   *)
 module Com_Atproto_Identity_SubmitPlcOperation = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     operation: Value.t (* unknown *);
   }
@@ -3584,7 +3671,8 @@ end
 (** lexicon "com.atproto.identity.signPlcOperation"
   *)
 module Com_Atproto_Identity_SignPlcOperation = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     token: string option;
     rotationKeys: string list option;
@@ -3616,7 +3704,8 @@ end
 (** lexicon "com.atproto.identity.resolveIdentity"
   *)
 module Com_Atproto_Identity_ResolveIdentity = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     identifier: string;
   }
@@ -3646,7 +3735,8 @@ end
 (** lexicon "com.atproto.identity.resolveHandle"
   *)
 module Com_Atproto_Identity_ResolveHandle = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     handle: string;
   }
@@ -3678,7 +3768,8 @@ end
 (** lexicon "com.atproto.identity.resolveDid"
   *)
 module Com_Atproto_Identity_ResolveDid = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     did: string;
   }
@@ -3710,7 +3801,8 @@ end
 (** lexicon "com.atproto.identity.requestPlcOperationSignature"
   *)
 module Com_Atproto_Identity_RequestPlcOperationSignature = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Request an email with a code to in order to request a signed PLC operation. Requires Auth. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params ~input:No_io ~output:No_io ~errors:No_errors
 
@@ -3720,7 +3812,8 @@ end
 (** lexicon "com.atproto.identity.refreshIdentity"
   *)
 module Com_Atproto_Identity_RefreshIdentity = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     identifier: string;
   }
@@ -3750,7 +3843,8 @@ end
 (** lexicon "com.atproto.identity.getRecommendedDidCredentials"
   *)
 module Com_Atproto_Identity_GetRecommendedDidCredentials = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_output = {
     rotationKeys: string list option;
     alsoKnownAs: string list option;
@@ -3772,7 +3866,8 @@ end
 (** lexicon "com.atproto.identity.defs"
   *)
 module Com_Atproto_Identity_Defs = struct
-  (** def identityInfo *)
+  (** {2 def identityInfo} *)
+
   type nonrec identityinfo = com_atproto_identity_defs_identityinfo = {
     did: string;
     handle: string;
@@ -3789,7 +3884,8 @@ end
 (** lexicon "com.atproto.admin.updateSubjectStatus"
   *)
 module Com_Atproto_Admin_UpdateSubjectStatus = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     subject: [
     `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef [@name "repoRef"]
@@ -3830,7 +3926,8 @@ end
 (** lexicon "com.atproto.admin.updateAccountSigningKey"
   *)
 module Com_Atproto_Admin_UpdateAccountSigningKey = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     did: string;
     signingKey: string;
@@ -3850,7 +3947,8 @@ end
 (** lexicon "com.atproto.admin.updateAccountPassword"
   *)
 module Com_Atproto_Admin_UpdateAccountPassword = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     did: string;
     password: string;
@@ -3870,7 +3968,8 @@ end
 (** lexicon "com.atproto.admin.updateAccountHandle"
   *)
 module Com_Atproto_Admin_UpdateAccountHandle = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     did: string;
     handle: string;
@@ -3890,7 +3989,8 @@ end
 (** lexicon "com.atproto.admin.updateAccountEmail"
   *)
 module Com_Atproto_Admin_UpdateAccountEmail = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     account: string;
     email: string;
@@ -3910,7 +4010,8 @@ end
 (** lexicon "com.atproto.admin.sendEmail"
   *)
 module Com_Atproto_Admin_SendEmail = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     recipientDid: string;
     content: string;
@@ -3942,7 +4043,8 @@ end
 (** lexicon "com.atproto.admin.searchAccounts"
   *)
 module Com_Atproto_Admin_SearchAccounts = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     email: string option;
     cursor: string option;
@@ -3973,7 +4075,8 @@ end
 (** lexicon "com.atproto.admin.getSubjectStatus"
   *)
 module Com_Atproto_Admin_GetSubjectStatus = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     did: string option;
     uri: string option;
@@ -4010,7 +4113,8 @@ end
 (** lexicon "com.atproto.admin.getInviteCodes"
   *)
 module Com_Atproto_Admin_GetInviteCodes = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     sort: string option;
     limit: int64 option;
@@ -4041,7 +4145,8 @@ end
 (** lexicon "com.atproto.admin.getAccountInfos"
   *)
 module Com_Atproto_Admin_GetAccountInfos = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     dids: string list;
   }
@@ -4069,7 +4174,8 @@ end
 (** lexicon "com.atproto.admin.getAccountInfo"
   *)
 module Com_Atproto_Admin_GetAccountInfo = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     did: string;
   }
@@ -4095,7 +4201,8 @@ end
 (** lexicon "com.atproto.admin.enableAccountInvites"
   *)
 module Com_Atproto_Admin_EnableAccountInvites = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     account: string;
     note: string option;
@@ -4115,7 +4222,8 @@ end
 (** lexicon "com.atproto.admin.disableInviteCodes"
   *)
 module Com_Atproto_Admin_DisableInviteCodes = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     codes: string list option;
     accounts: string list option;
@@ -4135,7 +4243,8 @@ end
 (** lexicon "com.atproto.admin.disableAccountInvites"
   *)
 module Com_Atproto_Admin_DisableAccountInvites = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     account: string;
     note: string option;
@@ -4155,7 +4264,8 @@ end
 (** lexicon "com.atproto.admin.deleteAccount"
   *)
 module Com_Atproto_Admin_DeleteAccount = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     did: string;
   }
@@ -4174,7 +4284,8 @@ end
 (** lexicon "com.atproto.admin.defs"
   *)
 module Com_Atproto_Admin_Defs = struct
-  (** def statusAttr *)
+  (** {2 def statusAttr} *)
+
   type nonrec statusattr = com_atproto_admin_defs_statusattr = {
     applied: bool;
     ref: string option;
@@ -4184,7 +4295,8 @@ module Com_Atproto_Admin_Defs = struct
   let statusattr_to_yojson = com_atproto_admin_defs_statusattr_to_yojson
 
 
-  (** def accountView *)
+  (** {2 def accountView} *)
+
   type nonrec accountview = com_atproto_admin_defs_accountview = {
     did: string;
     handle: string;
@@ -4204,7 +4316,8 @@ module Com_Atproto_Admin_Defs = struct
   let accountview_to_yojson = com_atproto_admin_defs_accountview_to_yojson
 
 
-  (** def repoRef *)
+  (** {2 def repoRef} *)
+
   type nonrec reporef = com_atproto_admin_defs_reporef = {
     did: string;
   }
@@ -4213,7 +4326,8 @@ module Com_Atproto_Admin_Defs = struct
   let reporef_to_yojson = com_atproto_admin_defs_reporef_to_yojson
 
 
-  (** def repoBlobRef *)
+  (** {2 def repoBlobRef} *)
+
   type nonrec repoblobref = com_atproto_admin_defs_repoblobref = {
     did: string;
     cid: string;
@@ -4224,7 +4338,8 @@ module Com_Atproto_Admin_Defs = struct
   let repoblobref_to_yojson = com_atproto_admin_defs_repoblobref_to_yojson
 
 
-  (** def threatSignature *)
+  (** {2 def threatSignature} *)
+
   type nonrec threatsignature = com_atproto_admin_defs_threatsignature = {
     property: string;
     value: string;
@@ -4240,7 +4355,8 @@ end
 (** lexicon "com.atproto.server.defs"
   *)
 module Com_Atproto_Server_Defs = struct
-  (** def inviteCode *)
+  (** {2 def inviteCode} *)
+
   type nonrec invitecode = com_atproto_server_defs_invitecode = {
     code: string;
     available: int64;
@@ -4255,7 +4371,8 @@ module Com_Atproto_Server_Defs = struct
   let invitecode_to_yojson = com_atproto_server_defs_invitecode_to_yojson
 
 
-  (** def inviteCodeUse *)
+  (** {2 def inviteCodeUse} *)
+
   type nonrec invitecodeuse = com_atproto_server_defs_invitecodeuse = {
     usedBy: string;
     usedAt: string;
@@ -4271,7 +4388,8 @@ end
 (** lexicon "app.bsky.video.uploadVideo"
   *)
 module App_Bsky_Video_UploadVideo = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_output = {
     jobStatus: app_bsky_video_defs_jobstatus;
   }
@@ -4291,7 +4409,8 @@ end
 (** lexicon "app.bsky.video.getUploadLimits"
   *)
 module App_Bsky_Video_GetUploadLimits = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_output = {
     canUpload: bool;
     remainingDailyVideos: int64 option;
@@ -4314,7 +4433,8 @@ end
 (** lexicon "app.bsky.video.getJobStatus"
   *)
 module App_Bsky_Video_GetJobStatus = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     jobId: string;
   }
@@ -4342,7 +4462,8 @@ end
 (** lexicon "app.bsky.video.defs"
   *)
 module App_Bsky_Video_Defs = struct
-  (** def jobStatus *)
+  (** {2 def jobStatus} *)
+
   type nonrec jobstatus = app_bsky_video_defs_jobstatus = {
     jobId: string;
     did: string;
@@ -4363,7 +4484,8 @@ end
 (** lexicon "app.bsky.unspecced.searchStarterPacksSkeleton"
   *)
 module App_Bsky_Unspecced_SearchStarterPacksSkeleton = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     q: string;
     viewer: string option;
@@ -4400,7 +4522,8 @@ end
 (** lexicon "app.bsky.unspecced.searchPostsSkeleton"
   *)
 module App_Bsky_Unspecced_SearchPostsSkeleton = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     q: string;
     sort: string option;
@@ -4446,7 +4569,8 @@ end
 (** lexicon "app.bsky.unspecced.searchActorsSkeleton"
   *)
 module App_Bsky_Unspecced_SearchActorsSkeleton = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     q: string;
     viewer: string option;
@@ -4484,7 +4608,8 @@ end
 (** lexicon "app.bsky.unspecced.getTrendsSkeleton"
   *)
 module App_Bsky_Unspecced_GetTrendsSkeleton = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     viewer: string option;
     limit: int64 option;
@@ -4513,7 +4638,8 @@ end
 (** lexicon "app.bsky.unspecced.getTrends"
   *)
 module App_Bsky_Unspecced_GetTrends = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     limit: int64 option;
   }
@@ -4541,7 +4667,8 @@ end
 (** lexicon "app.bsky.unspecced.getTrendingTopics"
   *)
 module App_Bsky_Unspecced_GetTrendingTopics = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     viewer: string option;
     limit: int64 option;
@@ -4571,7 +4698,8 @@ end
 (** lexicon "app.bsky.unspecced.getTaggedSuggestions"
   *)
 module App_Bsky_Unspecced_GetTaggedSuggestions = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_output = {
     suggestions: app_bsky_unspecced_gettaggedsuggestions_suggestion list;
   }
@@ -4584,7 +4712,8 @@ module App_Bsky_Unspecced_GetTaggedSuggestions = struct
     of_yojson=main_output_of_yojson;
     pp=pp_main_output}}) ~errors:No_errors
 
-  (** def suggestion *)
+  (** {2 def suggestion} *)
+
   type nonrec suggestion = app_bsky_unspecced_gettaggedsuggestions_suggestion = {
     tag: string;
     subjectType: string;
@@ -4601,7 +4730,8 @@ end
 (** lexicon "app.bsky.unspecced.getSuggestionsSkeleton"
   *)
 module App_Bsky_Unspecced_GetSuggestionsSkeleton = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     viewer: string option;
     limit: int64 option;
@@ -4635,7 +4765,8 @@ end
 (** lexicon "app.bsky.unspecced.getSuggestedUsersSkeleton"
   *)
 module App_Bsky_Unspecced_GetSuggestedUsersSkeleton = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     viewer: string option;
     category: string option;
@@ -4665,7 +4796,8 @@ end
 (** lexicon "app.bsky.unspecced.getSuggestedUsers"
   *)
 module App_Bsky_Unspecced_GetSuggestedUsers = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     category: string option;
     limit: int64 option;
@@ -4694,7 +4826,8 @@ end
 (** lexicon "app.bsky.unspecced.getSuggestedStarterPacksSkeleton"
   *)
 module App_Bsky_Unspecced_GetSuggestedStarterPacksSkeleton = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     viewer: string option;
     limit: int64 option;
@@ -4723,7 +4856,8 @@ end
 (** lexicon "app.bsky.unspecced.getSuggestedStarterPacks"
   *)
 module App_Bsky_Unspecced_GetSuggestedStarterPacks = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     limit: int64 option;
   }
@@ -4751,7 +4885,8 @@ end
 (** lexicon "app.bsky.unspecced.getSuggestedFeedsSkeleton"
   *)
 module App_Bsky_Unspecced_GetSuggestedFeedsSkeleton = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     viewer: string option;
     limit: int64 option;
@@ -4780,7 +4915,8 @@ end
 (** lexicon "app.bsky.unspecced.getSuggestedFeeds"
   *)
 module App_Bsky_Unspecced_GetSuggestedFeeds = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     limit: int64 option;
   }
@@ -4808,7 +4944,8 @@ end
 (** lexicon "app.bsky.unspecced.getPopularFeedGenerators"
   *)
 module App_Bsky_Unspecced_GetPopularFeedGenerators = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     limit: int64 option;
     cursor: string option;
@@ -4839,7 +4976,8 @@ end
 (** lexicon "app.bsky.unspecced.getConfig"
   *)
 module App_Bsky_Unspecced_GetConfig = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_output = {
     checkEmailConfirmed: bool option;
     liveNow: app_bsky_unspecced_getconfig_livenowconfig list option;
@@ -4853,7 +4991,8 @@ module App_Bsky_Unspecced_GetConfig = struct
     of_yojson=main_output_of_yojson;
     pp=pp_main_output}}) ~errors:No_errors
 
-  (** def liveNowConfig *)
+  (** {2 def liveNowConfig} *)
+
   type nonrec livenowconfig = app_bsky_unspecced_getconfig_livenowconfig = {
     did: string;
     domains: string list;
@@ -4869,7 +5008,8 @@ end
 (** lexicon "app.bsky.unspecced.defs"
   *)
 module App_Bsky_Unspecced_Defs = struct
-  (** def skeletonSearchPost *)
+  (** {2 def skeletonSearchPost} *)
+
   type nonrec skeletonsearchpost = app_bsky_unspecced_defs_skeletonsearchpost = {
     uri: string;
   }
@@ -4878,7 +5018,8 @@ module App_Bsky_Unspecced_Defs = struct
   let skeletonsearchpost_to_yojson = app_bsky_unspecced_defs_skeletonsearchpost_to_yojson
 
 
-  (** def skeletonSearchActor *)
+  (** {2 def skeletonSearchActor} *)
+
   type nonrec skeletonsearchactor = app_bsky_unspecced_defs_skeletonsearchactor = {
     did: string;
   }
@@ -4887,7 +5028,8 @@ module App_Bsky_Unspecced_Defs = struct
   let skeletonsearchactor_to_yojson = app_bsky_unspecced_defs_skeletonsearchactor_to_yojson
 
 
-  (** def skeletonSearchStarterPack *)
+  (** {2 def skeletonSearchStarterPack} *)
+
   type nonrec skeletonsearchstarterpack = app_bsky_unspecced_defs_skeletonsearchstarterpack = {
     uri: string;
   }
@@ -4896,7 +5038,8 @@ module App_Bsky_Unspecced_Defs = struct
   let skeletonsearchstarterpack_to_yojson = app_bsky_unspecced_defs_skeletonsearchstarterpack_to_yojson
 
 
-  (** def trendingTopic *)
+  (** {2 def trendingTopic} *)
+
   type nonrec trendingtopic = app_bsky_unspecced_defs_trendingtopic = {
     topic: string;
     displayName: string option;
@@ -4908,7 +5051,8 @@ module App_Bsky_Unspecced_Defs = struct
   let trendingtopic_to_yojson = app_bsky_unspecced_defs_trendingtopic_to_yojson
 
 
-  (** def skeletonTrend *)
+  (** {2 def skeletonTrend} *)
+
   type nonrec skeletontrend = app_bsky_unspecced_defs_skeletontrend = {
     topic: string;
     displayName: string;
@@ -4924,7 +5068,8 @@ module App_Bsky_Unspecced_Defs = struct
   let skeletontrend_to_yojson = app_bsky_unspecced_defs_skeletontrend_to_yojson
 
 
-  (** def trendView *)
+  (** {2 def trendView} *)
+
   type nonrec trendview = app_bsky_unspecced_defs_trendview = {
     topic: string;
     displayName: string;
@@ -4946,7 +5091,8 @@ end
 (** lexicon "app.bsky.notification.updateSeen"
   *)
 module App_Bsky_Notification_UpdateSeen = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     seenAt: string;
   }
@@ -4965,7 +5111,8 @@ end
 (** lexicon "app.bsky.notification.registerPush"
   *)
 module App_Bsky_Notification_RegisterPush = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     serviceDid: string;
     token: string;
@@ -4987,7 +5134,8 @@ end
 (** lexicon "app.bsky.notification.putPreferences"
   *)
 module App_Bsky_Notification_PutPreferences = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     priority: bool;
   }
@@ -5006,7 +5154,8 @@ end
 (** lexicon "app.bsky.notification.listNotifications"
   *)
 module App_Bsky_Notification_ListNotifications = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     reasons: string list option;
     limit: int64 option;
@@ -5035,7 +5184,8 @@ module App_Bsky_Notification_ListNotifications = struct
     of_yojson=main_output_of_yojson;
     pp=pp_main_output}}) ~errors:No_errors
 
-  (** def notification *)
+  (** {2 def notification} *)
+
   type nonrec notification = app_bsky_notification_listnotifications_notification = {
     uri: string;
     cid: string;
@@ -5058,7 +5208,8 @@ end
 (** lexicon "app.bsky.notification.getUnreadCount"
   *)
 module App_Bsky_Notification_GetUnreadCount = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     priority: bool option;
     seenAt: string option;
@@ -5087,7 +5238,8 @@ end
 (** lexicon "app.bsky.notification.defs"
   *)
 module App_Bsky_Notification_Defs = struct
-  (** def recordDeleted *)
+  (** {2 def recordDeleted} *)
+
   type nonrec recorddeleted = app_bsky_notification_defs_recorddeleted
   let pp_recorddeleted = pp_app_bsky_notification_defs_recorddeleted
   let recorddeleted_of_yojson = app_bsky_notification_defs_recorddeleted_of_yojson
@@ -5100,7 +5252,8 @@ end
 (** lexicon "app.bsky.labeler.service"
   *)
 module App_Bsky_Labeler_Service = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** A declaration of the existence of labeler service. *)
   type main = {
     policies: app_bsky_labeler_defs_labelerpolicies;
@@ -5122,7 +5275,8 @@ end
 (** lexicon "app.bsky.labeler.getServices"
   *)
 module App_Bsky_Labeler_GetServices = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     dids: string list;
     detailed: bool option;
@@ -5155,7 +5309,8 @@ end
 (** lexicon "app.bsky.graph.verification"
   *)
 module App_Bsky_Graph_Verification = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Record declaring a verification relationship between two accounts. Verifications are only considered valid by an app if issued by an account the app considers trusted. *)
   type main = {
     subject: string;
@@ -5172,7 +5327,8 @@ end
 (** lexicon "app.bsky.graph.unmuteThread"
   *)
 module App_Bsky_Graph_UnmuteThread = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     root: string;
   }
@@ -5191,7 +5347,8 @@ end
 (** lexicon "app.bsky.graph.unmuteActorList"
   *)
 module App_Bsky_Graph_UnmuteActorList = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     list: string;
   }
@@ -5210,7 +5367,8 @@ end
 (** lexicon "app.bsky.graph.unmuteActor"
   *)
 module App_Bsky_Graph_UnmuteActor = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     actor: string;
   }
@@ -5229,7 +5387,8 @@ end
 (** lexicon "app.bsky.graph.starterpack"
   *)
 module App_Bsky_Graph_Starterpack = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Record defining a starter pack of actors and feeds for new users. *)
   type main = {
     name: string;
@@ -5242,7 +5401,8 @@ module App_Bsky_Graph_Starterpack = struct
 
 
 
-  (** def feedItem *)
+  (** {2 def feedItem} *)
+
   type nonrec feeditem = app_bsky_graph_starterpack_feeditem = {
     uri: string;
   }
@@ -5257,7 +5417,8 @@ end
 (** lexicon "app.bsky.graph.searchStarterPacks"
   *)
 module App_Bsky_Graph_SearchStarterPacks = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     q: string;
     limit: int64 option;
@@ -5288,7 +5449,8 @@ end
 (** lexicon "app.bsky.graph.muteThread"
   *)
 module App_Bsky_Graph_MuteThread = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     root: string;
   }
@@ -5307,7 +5469,8 @@ end
 (** lexicon "app.bsky.graph.muteActorList"
   *)
 module App_Bsky_Graph_MuteActorList = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     list: string;
   }
@@ -5326,7 +5489,8 @@ end
 (** lexicon "app.bsky.graph.muteActor"
   *)
 module App_Bsky_Graph_MuteActor = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     actor: string;
   }
@@ -5345,7 +5509,8 @@ end
 (** lexicon "app.bsky.graph.listitem"
   *)
 module App_Bsky_Graph_Listitem = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Record representing an account's inclusion on a specific list. The AppView will ignore duplicate listitem records. *)
   type main = {
     subject: string;
@@ -5361,7 +5526,8 @@ end
 (** lexicon "app.bsky.graph.listblock"
   *)
 module App_Bsky_Graph_Listblock = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Record representing a block relationship against an entire an entire list of accounts (actors). *)
   type main = {
     subject: string;
@@ -5376,7 +5542,8 @@ end
 (** lexicon "app.bsky.graph.list"
   *)
 module App_Bsky_Graph_List = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Record representing a list of accounts (actors). Scope includes both moderation-oriented lists and curration-oriented lists. *)
   type main = {
     purpose: app_bsky_graph_defs_listpurpose;
@@ -5399,7 +5566,8 @@ end
 (** lexicon "app.bsky.graph.getSuggestedFollowsByActor"
   *)
 module App_Bsky_Graph_GetSuggestedFollowsByActor = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     actor: string;
   }
@@ -5429,7 +5597,8 @@ end
 (** lexicon "app.bsky.graph.getStarterPacks"
   *)
 module App_Bsky_Graph_GetStarterPacks = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     uris: string list;
   }
@@ -5457,7 +5626,8 @@ end
 (** lexicon "app.bsky.graph.getStarterPack"
   *)
 module App_Bsky_Graph_GetStarterPack = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     starterPack: string;
   }
@@ -5485,7 +5655,8 @@ end
 (** lexicon "app.bsky.graph.getRelationships"
   *)
 module App_Bsky_Graph_GetRelationships = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     actor: string;
     others: string list option;
@@ -5523,7 +5694,8 @@ end
 (** lexicon "app.bsky.graph.getMutes"
   *)
 module App_Bsky_Graph_GetMutes = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     limit: int64 option;
     cursor: string option;
@@ -5553,7 +5725,8 @@ end
 (** lexicon "app.bsky.graph.getLists"
   *)
 module App_Bsky_Graph_GetLists = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     actor: string;
     limit: int64 option;
@@ -5584,7 +5757,8 @@ end
 (** lexicon "app.bsky.graph.getListMutes"
   *)
 module App_Bsky_Graph_GetListMutes = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     limit: int64 option;
     cursor: string option;
@@ -5614,7 +5788,8 @@ end
 (** lexicon "app.bsky.graph.getListBlocks"
   *)
 module App_Bsky_Graph_GetListBlocks = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     limit: int64 option;
     cursor: string option;
@@ -5644,7 +5819,8 @@ end
 (** lexicon "app.bsky.graph.getList"
   *)
 module App_Bsky_Graph_GetList = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     list: string;
     limit: int64 option;
@@ -5676,7 +5852,8 @@ end
 (** lexicon "app.bsky.graph.getKnownFollowers"
   *)
 module App_Bsky_Graph_GetKnownFollowers = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     actor: string;
     limit: int64 option;
@@ -5708,7 +5885,8 @@ end
 (** lexicon "app.bsky.graph.getFollows"
   *)
 module App_Bsky_Graph_GetFollows = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     actor: string;
     limit: int64 option;
@@ -5740,7 +5918,8 @@ end
 (** lexicon "app.bsky.graph.getFollowers"
   *)
 module App_Bsky_Graph_GetFollowers = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     actor: string;
     limit: int64 option;
@@ -5772,7 +5951,8 @@ end
 (** lexicon "app.bsky.graph.getBlocks"
   *)
 module App_Bsky_Graph_GetBlocks = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     limit: int64 option;
     cursor: string option;
@@ -5802,7 +5982,8 @@ end
 (** lexicon "app.bsky.graph.getActorStarterPacks"
   *)
 module App_Bsky_Graph_GetActorStarterPacks = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     actor: string;
     limit: int64 option;
@@ -5833,7 +6014,8 @@ end
 (** lexicon "app.bsky.graph.follow"
   *)
 module App_Bsky_Graph_Follow = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Record declaring a social 'follow' relationship of another account. Duplicate follows will be ignored by the AppView. *)
   type main = {
     subject: string;
@@ -5848,7 +6030,8 @@ end
 (** lexicon "app.bsky.graph.block"
   *)
 module App_Bsky_Graph_Block = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Record declaring a 'block' relationship against another account. NOTE: blocks are public in Bluesky; see blog posts for details. *)
   type main = {
     subject: string;
@@ -5863,7 +6046,8 @@ end
 (** lexicon "app.bsky.feed.sendInteractions"
   *)
 module App_Bsky_Feed_SendInteractions = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     interactions: app_bsky_feed_defs_interaction list;
   }
@@ -5889,7 +6073,8 @@ end
 (** lexicon "app.bsky.feed.searchPosts"
   *)
 module App_Bsky_Feed_SearchPosts = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     q: string;
     sort: string option;
@@ -5934,7 +6119,8 @@ end
 (** lexicon "app.bsky.feed.repost"
   *)
 module App_Bsky_Feed_Repost = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Record representing a 'repost' of an existing Bluesky post. *)
   type main = {
     subject: com_atproto_repo_strongref_main;
@@ -5949,7 +6135,8 @@ end
 (** lexicon "app.bsky.feed.post"
   *)
 module App_Bsky_Feed_Post = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Record containing a Bluesky post. *)
   type main = {
     text: string;
@@ -5975,7 +6162,8 @@ module App_Bsky_Feed_Post = struct
 
 
 
-  (** def replyRef *)
+  (** {2 def replyRef} *)
+
   type nonrec replyref = app_bsky_feed_post_replyref = {
     root: com_atproto_repo_strongref_main;
     parent: com_atproto_repo_strongref_main;
@@ -5985,7 +6173,8 @@ module App_Bsky_Feed_Post = struct
   let replyref_to_yojson = app_bsky_feed_post_replyref_to_yojson
 
 
-  (** def entity *)
+  (** {2 def entity} *)
+
   type nonrec entity = app_bsky_feed_post_entity = {
     index: app_bsky_feed_post_textslice;
     type_: string; [@key "type"]
@@ -5996,7 +6185,8 @@ module App_Bsky_Feed_Post = struct
   let entity_to_yojson = app_bsky_feed_post_entity_to_yojson
 
 
-  (** def textSlice *)
+  (** {2 def textSlice} *)
+
   type nonrec textslice = app_bsky_feed_post_textslice = {
     start: int64;
     end_: int64; [@key "end"]
@@ -6012,7 +6202,8 @@ end
 (** lexicon "app.bsky.feed.like"
   *)
 module App_Bsky_Feed_Like = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Record declaring a 'like' of a piece of subject content. *)
   type main = {
     subject: com_atproto_repo_strongref_main;
@@ -6027,7 +6218,8 @@ end
 (** lexicon "app.bsky.feed.getTimeline"
   *)
 module App_Bsky_Feed_GetTimeline = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     algorithm: string option;
     limit: int64 option;
@@ -6058,7 +6250,8 @@ end
 (** lexicon "app.bsky.feed.getSuggestedFeeds"
   *)
 module App_Bsky_Feed_GetSuggestedFeeds = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     limit: int64 option;
     cursor: string option;
@@ -6088,7 +6281,8 @@ end
 (** lexicon "app.bsky.feed.getRepostedBy"
   *)
 module App_Bsky_Feed_GetRepostedBy = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     uri: string;
     cid: string option;
@@ -6122,7 +6316,8 @@ end
 (** lexicon "app.bsky.feed.getQuotes"
   *)
 module App_Bsky_Feed_GetQuotes = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     uri: string;
     cid: string option;
@@ -6156,7 +6351,8 @@ end
 (** lexicon "app.bsky.feed.getPosts"
   *)
 module App_Bsky_Feed_GetPosts = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     uris: string list;
   }
@@ -6184,7 +6380,8 @@ end
 (** lexicon "app.bsky.feed.getPostThread"
   *)
 module App_Bsky_Feed_GetPostThread = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     uri: string;
     depth: int64 option;
@@ -6224,7 +6421,8 @@ end
 (** lexicon "app.bsky.feed.getListFeed"
   *)
 module App_Bsky_Feed_GetListFeed = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     list: string;
     limit: int64 option;
@@ -6259,7 +6457,8 @@ end
 (** lexicon "app.bsky.feed.getLikes"
   *)
 module App_Bsky_Feed_GetLikes = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     uri: string;
     cid: string option;
@@ -6287,7 +6486,8 @@ module App_Bsky_Feed_GetLikes = struct
     of_yojson=main_output_of_yojson;
     pp=pp_main_output}}) ~errors:No_errors
 
-  (** def like *)
+  (** {2 def like} *)
+
   type nonrec like = app_bsky_feed_getlikes_like = {
     indexedAt: string;
     createdAt: string;
@@ -6304,7 +6504,8 @@ end
 (** lexicon "app.bsky.feed.getFeedSkeleton"
   *)
 module App_Bsky_Feed_GetFeedSkeleton = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     feed: string;
     limit: int64 option;
@@ -6339,7 +6540,8 @@ end
 (** lexicon "app.bsky.feed.getFeedGenerators"
   *)
 module App_Bsky_Feed_GetFeedGenerators = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     feeds: string list;
   }
@@ -6367,7 +6569,8 @@ end
 (** lexicon "app.bsky.feed.getFeedGenerator"
   *)
 module App_Bsky_Feed_GetFeedGenerator = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     feed: string;
   }
@@ -6397,7 +6600,8 @@ end
 (** lexicon "app.bsky.feed.getFeed"
   *)
 module App_Bsky_Feed_GetFeed = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     feed: string;
     limit: int64 option;
@@ -6432,7 +6636,8 @@ end
 (** lexicon "app.bsky.feed.getAuthorFeed"
   *)
 module App_Bsky_Feed_GetAuthorFeed = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     actor: string;
     limit: int64 option;
@@ -6469,7 +6674,8 @@ end
 (** lexicon "app.bsky.feed.getActorLikes"
   *)
 module App_Bsky_Feed_GetActorLikes = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     actor: string;
     limit: int64 option;
@@ -6504,7 +6710,8 @@ end
 (** lexicon "app.bsky.feed.getActorFeeds"
   *)
 module App_Bsky_Feed_GetActorFeeds = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     actor: string;
     limit: int64 option;
@@ -6535,7 +6742,8 @@ end
 (** lexicon "app.bsky.feed.generator"
   *)
 module App_Bsky_Feed_Generator = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Record declaring of the existence of a feed generator, and containing metadata about it. The record can exist in any repository. *)
   type main = {
     did: string;
@@ -6560,7 +6768,8 @@ end
 (** lexicon "app.bsky.feed.describeFeedGenerator"
   *)
 module App_Bsky_Feed_DescribeFeedGenerator = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_output = {
     did: string;
     feeds: app_bsky_feed_describefeedgenerator_feed list;
@@ -6575,7 +6784,8 @@ module App_Bsky_Feed_DescribeFeedGenerator = struct
     of_yojson=main_output_of_yojson;
     pp=pp_main_output}}) ~errors:No_errors
 
-  (** def feed *)
+  (** {2 def feed} *)
+
   type nonrec feed = app_bsky_feed_describefeedgenerator_feed = {
     uri: string;
   }
@@ -6584,7 +6794,8 @@ module App_Bsky_Feed_DescribeFeedGenerator = struct
   let feed_to_yojson = app_bsky_feed_describefeedgenerator_feed_to_yojson
 
 
-  (** def links *)
+  (** {2 def links} *)
+
   type nonrec links = app_bsky_feed_describefeedgenerator_links = {
     privacyPolicy: string option;
     termsOfService: string option;
@@ -6600,7 +6811,8 @@ end
 (** lexicon "app.bsky.actor.status"
   *)
 module App_Bsky_Actor_Status = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** A declaration of a Bluesky account status. *)
   type main = {
     status: string;
@@ -6614,7 +6826,8 @@ module App_Bsky_Actor_Status = struct
 
 
 
-  (** def live *)
+  (** {2 def live} *)
+
   type nonrec live = app_bsky_actor_status_live
   let pp_live = pp_app_bsky_actor_status_live
   let live_of_yojson = app_bsky_actor_status_live_of_yojson
@@ -6627,7 +6840,8 @@ end
 (** lexicon "app.bsky.actor.searchActorsTypeahead"
   *)
 module App_Bsky_Actor_SearchActorsTypeahead = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     term: string option;
     q: string option;
@@ -6657,7 +6871,8 @@ end
 (** lexicon "app.bsky.actor.searchActors"
   *)
 module App_Bsky_Actor_SearchActors = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     term: string option;
     q: string option;
@@ -6689,7 +6904,8 @@ end
 (** lexicon "app.bsky.actor.putPreferences"
   *)
 module App_Bsky_Actor_PutPreferences = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_input = {
     preferences: app_bsky_actor_defs_preferences;
   }
@@ -6708,7 +6924,8 @@ end
 (** lexicon "app.bsky.actor.profile"
   *)
 module App_Bsky_Actor_Profile = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** A declaration of a Bluesky account profile. *)
   type main = {
     displayName: string option;
@@ -6732,7 +6949,8 @@ end
 (** lexicon "app.bsky.actor.getSuggestions"
   *)
 module App_Bsky_Actor_GetSuggestions = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     limit: int64 option;
     cursor: string option;
@@ -6763,7 +6981,8 @@ end
 (** lexicon "app.bsky.actor.getProfiles"
   *)
 module App_Bsky_Actor_GetProfiles = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     actors: string list;
   }
@@ -6791,7 +7010,8 @@ end
 (** lexicon "app.bsky.actor.getProfile"
   *)
 module App_Bsky_Actor_GetProfile = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_params = {
     actor: string;
   }
@@ -6817,7 +7037,8 @@ end
 (** lexicon "app.bsky.actor.getPreferences"
   *)
 module App_Bsky_Actor_GetPreferences = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type main_output = {
     preferences: app_bsky_actor_defs_preferences;
   }
@@ -6836,7 +7057,8 @@ end
 (** lexicon "app.bsky.actor.defs"
   *)
 module App_Bsky_Actor_Defs = struct
-  (** def profileViewBasic *)
+  (** {2 def profileViewBasic} *)
+
   type nonrec profileviewbasic = app_bsky_actor_defs_profileviewbasic = {
     did: string;
     handle: string;
@@ -6854,7 +7076,8 @@ module App_Bsky_Actor_Defs = struct
   let profileviewbasic_to_yojson = app_bsky_actor_defs_profileviewbasic_to_yojson
 
 
-  (** def profileView *)
+  (** {2 def profileView} *)
+
   type nonrec profileview = app_bsky_actor_defs_profileview = {
     did: string;
     handle: string;
@@ -6874,7 +7097,8 @@ module App_Bsky_Actor_Defs = struct
   let profileview_to_yojson = app_bsky_actor_defs_profileview_to_yojson
 
 
-  (** def profileViewDetailed *)
+  (** {2 def profileViewDetailed} *)
+
   type nonrec profileviewdetailed = app_bsky_actor_defs_profileviewdetailed = {
     did: string;
     handle: string;
@@ -6900,7 +7124,8 @@ module App_Bsky_Actor_Defs = struct
   let profileviewdetailed_to_yojson = app_bsky_actor_defs_profileviewdetailed_to_yojson
 
 
-  (** def profileAssociated *)
+  (** {2 def profileAssociated} *)
+
   type nonrec profileassociated = app_bsky_actor_defs_profileassociated = {
     lists: int64 option;
     feedgens: int64 option;
@@ -6913,7 +7138,8 @@ module App_Bsky_Actor_Defs = struct
   let profileassociated_to_yojson = app_bsky_actor_defs_profileassociated_to_yojson
 
 
-  (** def profileAssociatedChat *)
+  (** {2 def profileAssociatedChat} *)
+
   type nonrec profileassociatedchat = app_bsky_actor_defs_profileassociatedchat = {
     allowIncoming: string;
   }
@@ -6922,7 +7148,8 @@ module App_Bsky_Actor_Defs = struct
   let profileassociatedchat_to_yojson = app_bsky_actor_defs_profileassociatedchat_to_yojson
 
 
-  (** def viewerState *)
+  (** {2 def viewerState} *)
+
   type nonrec viewerstate = app_bsky_actor_defs_viewerstate = {
     muted: bool option;
     mutedByList: app_bsky_graph_defs_listviewbasic option;
@@ -6938,7 +7165,8 @@ module App_Bsky_Actor_Defs = struct
   let viewerstate_to_yojson = app_bsky_actor_defs_viewerstate_to_yojson
 
 
-  (** def knownFollowers *)
+  (** {2 def knownFollowers} *)
+
   type nonrec knownfollowers = app_bsky_actor_defs_knownfollowers = {
     count: int64;
     followers: app_bsky_actor_defs_profileviewbasic list;
@@ -6948,7 +7176,8 @@ module App_Bsky_Actor_Defs = struct
   let knownfollowers_to_yojson = app_bsky_actor_defs_knownfollowers_to_yojson
 
 
-  (** def verificationState *)
+  (** {2 def verificationState} *)
+
   type nonrec verificationstate = app_bsky_actor_defs_verificationstate = {
     verifications: app_bsky_actor_defs_verificationview list;
     verifiedStatus: string;
@@ -6959,7 +7188,8 @@ module App_Bsky_Actor_Defs = struct
   let verificationstate_to_yojson = app_bsky_actor_defs_verificationstate_to_yojson
 
 
-  (** def verificationView *)
+  (** {2 def verificationView} *)
+
   type nonrec verificationview = app_bsky_actor_defs_verificationview = {
     issuer: string;
     uri: string;
@@ -6971,14 +7201,16 @@ module App_Bsky_Actor_Defs = struct
   let verificationview_to_yojson = app_bsky_actor_defs_verificationview_to_yojson
 
 
-  (** def preferences *)
+  (** {2 def preferences} *)
+
   type nonrec preferences = app_bsky_actor_defs_preferences
   let pp_preferences = pp_app_bsky_actor_defs_preferences
   let preferences_of_yojson = app_bsky_actor_defs_preferences_of_yojson
   let preferences_to_yojson = app_bsky_actor_defs_preferences_to_yojson
 
 
-  (** def adultContentPref *)
+  (** {2 def adultContentPref} *)
+
   type nonrec adultcontentpref = app_bsky_actor_defs_adultcontentpref = {
     enabled: bool;
   }
@@ -6987,7 +7219,8 @@ module App_Bsky_Actor_Defs = struct
   let adultcontentpref_to_yojson = app_bsky_actor_defs_adultcontentpref_to_yojson
 
 
-  (** def contentLabelPref *)
+  (** {2 def contentLabelPref} *)
+
   type nonrec contentlabelpref = app_bsky_actor_defs_contentlabelpref = {
     labelerDid: string option;
     label: string;
@@ -6998,7 +7231,8 @@ module App_Bsky_Actor_Defs = struct
   let contentlabelpref_to_yojson = app_bsky_actor_defs_contentlabelpref_to_yojson
 
 
-  (** def savedFeed *)
+  (** {2 def savedFeed} *)
+
   type nonrec savedfeed = app_bsky_actor_defs_savedfeed = {
     id: string;
     type_: string; [@key "type"]
@@ -7010,7 +7244,8 @@ module App_Bsky_Actor_Defs = struct
   let savedfeed_to_yojson = app_bsky_actor_defs_savedfeed_to_yojson
 
 
-  (** def savedFeedsPrefV2 *)
+  (** {2 def savedFeedsPrefV2} *)
+
   type nonrec savedfeedsprefv2 = app_bsky_actor_defs_savedfeedsprefv2 = {
     items: app_bsky_actor_defs_savedfeed list;
   }
@@ -7019,7 +7254,8 @@ module App_Bsky_Actor_Defs = struct
   let savedfeedsprefv2_to_yojson = app_bsky_actor_defs_savedfeedsprefv2_to_yojson
 
 
-  (** def savedFeedsPref *)
+  (** {2 def savedFeedsPref} *)
+
   type nonrec savedfeedspref = app_bsky_actor_defs_savedfeedspref = {
     pinned: string list;
     saved: string list;
@@ -7030,7 +7266,8 @@ module App_Bsky_Actor_Defs = struct
   let savedfeedspref_to_yojson = app_bsky_actor_defs_savedfeedspref_to_yojson
 
 
-  (** def personalDetailsPref *)
+  (** {2 def personalDetailsPref} *)
+
   type nonrec personaldetailspref = app_bsky_actor_defs_personaldetailspref = {
     birthDate: string option;
   }
@@ -7039,7 +7276,8 @@ module App_Bsky_Actor_Defs = struct
   let personaldetailspref_to_yojson = app_bsky_actor_defs_personaldetailspref_to_yojson
 
 
-  (** def feedViewPref *)
+  (** {2 def feedViewPref} *)
+
   type nonrec feedviewpref = app_bsky_actor_defs_feedviewpref = {
     feed: string;
     hideReplies: bool option;
@@ -7053,7 +7291,8 @@ module App_Bsky_Actor_Defs = struct
   let feedviewpref_to_yojson = app_bsky_actor_defs_feedviewpref_to_yojson
 
 
-  (** def threadViewPref *)
+  (** {2 def threadViewPref} *)
+
   type nonrec threadviewpref = app_bsky_actor_defs_threadviewpref = {
     sort: string option;
     prioritizeFollowedUsers: bool option;
@@ -7063,7 +7302,8 @@ module App_Bsky_Actor_Defs = struct
   let threadviewpref_to_yojson = app_bsky_actor_defs_threadviewpref_to_yojson
 
 
-  (** def interestsPref *)
+  (** {2 def interestsPref} *)
+
   type nonrec interestspref = app_bsky_actor_defs_interestspref = {
     tags: string list;
   }
@@ -7072,14 +7312,16 @@ module App_Bsky_Actor_Defs = struct
   let interestspref_to_yojson = app_bsky_actor_defs_interestspref_to_yojson
 
 
-  (** def mutedWordTarget *)
+  (** {2 def mutedWordTarget} *)
+
   type nonrec mutedwordtarget = app_bsky_actor_defs_mutedwordtarget
   let pp_mutedwordtarget = pp_app_bsky_actor_defs_mutedwordtarget
   let mutedwordtarget_of_yojson = app_bsky_actor_defs_mutedwordtarget_of_yojson
   let mutedwordtarget_to_yojson = app_bsky_actor_defs_mutedwordtarget_to_yojson
 
 
-  (** def mutedWord *)
+  (** {2 def mutedWord} *)
+
   type nonrec mutedword = app_bsky_actor_defs_mutedword = {
     id: string option;
     value: string;
@@ -7092,7 +7334,8 @@ module App_Bsky_Actor_Defs = struct
   let mutedword_to_yojson = app_bsky_actor_defs_mutedword_to_yojson
 
 
-  (** def mutedWordsPref *)
+  (** {2 def mutedWordsPref} *)
+
   type nonrec mutedwordspref = app_bsky_actor_defs_mutedwordspref = {
     items: app_bsky_actor_defs_mutedword list;
   }
@@ -7101,7 +7344,8 @@ module App_Bsky_Actor_Defs = struct
   let mutedwordspref_to_yojson = app_bsky_actor_defs_mutedwordspref_to_yojson
 
 
-  (** def hiddenPostsPref *)
+  (** {2 def hiddenPostsPref} *)
+
   type nonrec hiddenpostspref = app_bsky_actor_defs_hiddenpostspref = {
     items: string list;
   }
@@ -7110,7 +7354,8 @@ module App_Bsky_Actor_Defs = struct
   let hiddenpostspref_to_yojson = app_bsky_actor_defs_hiddenpostspref_to_yojson
 
 
-  (** def labelersPref *)
+  (** {2 def labelersPref} *)
+
   type nonrec labelerspref = app_bsky_actor_defs_labelerspref = {
     labelers: app_bsky_actor_defs_labelerprefitem list;
   }
@@ -7119,7 +7364,8 @@ module App_Bsky_Actor_Defs = struct
   let labelerspref_to_yojson = app_bsky_actor_defs_labelerspref_to_yojson
 
 
-  (** def labelerPrefItem *)
+  (** {2 def labelerPrefItem} *)
+
   type nonrec labelerprefitem = app_bsky_actor_defs_labelerprefitem = {
     did: string;
   }
@@ -7128,7 +7374,8 @@ module App_Bsky_Actor_Defs = struct
   let labelerprefitem_to_yojson = app_bsky_actor_defs_labelerprefitem_to_yojson
 
 
-  (** def bskyAppStatePref *)
+  (** {2 def bskyAppStatePref} *)
+
   type nonrec bskyappstatepref = app_bsky_actor_defs_bskyappstatepref = {
     activeProgressGuide: app_bsky_actor_defs_bskyappprogressguide option;
     queuedNudges: string list option;
@@ -7139,7 +7386,8 @@ module App_Bsky_Actor_Defs = struct
   let bskyappstatepref_to_yojson = app_bsky_actor_defs_bskyappstatepref_to_yojson
 
 
-  (** def bskyAppProgressGuide *)
+  (** {2 def bskyAppProgressGuide} *)
+
   type nonrec bskyappprogressguide = app_bsky_actor_defs_bskyappprogressguide = {
     guide: string;
   }
@@ -7148,7 +7396,8 @@ module App_Bsky_Actor_Defs = struct
   let bskyappprogressguide_to_yojson = app_bsky_actor_defs_bskyappprogressguide_to_yojson
 
 
-  (** def nux *)
+  (** {2 def nux} *)
+
   type nonrec nux = app_bsky_actor_defs_nux = {
     id: string;
     completed: bool;
@@ -7160,7 +7409,8 @@ module App_Bsky_Actor_Defs = struct
   let nux_to_yojson = app_bsky_actor_defs_nux_to_yojson
 
 
-  (** def verificationPrefs *)
+  (** {2 def verificationPrefs} *)
+
   type nonrec verificationprefs = app_bsky_actor_defs_verificationprefs = {
     hideBadges: bool option;
   }
@@ -7169,7 +7419,8 @@ module App_Bsky_Actor_Defs = struct
   let verificationprefs_to_yojson = app_bsky_actor_defs_verificationprefs_to_yojson
 
 
-  (** def postInteractionSettingsPref *)
+  (** {2 def postInteractionSettingsPref} *)
+
   type nonrec postinteractionsettingspref = app_bsky_actor_defs_postinteractionsettingspref = {
     threadgateAllowRules: [
     `App_bsky_feed_threadgate_mentionrule of app_bsky_feed_threadgate_mentionrule [@name "mentionRule"]
@@ -7188,7 +7439,8 @@ module App_Bsky_Actor_Defs = struct
   let postinteractionsettingspref_to_yojson = app_bsky_actor_defs_postinteractionsettingspref_to_yojson
 
 
-  (** def statusView *)
+  (** {2 def statusView} *)
+
   type nonrec statusview = app_bsky_actor_defs_statusview = {
     status: string;
     record: Value.t (* unknown *);
@@ -7210,7 +7462,8 @@ end
 (** lexicon "app.bsky.graph.defs"
   *)
 module App_Bsky_Graph_Defs = struct
-  (** def listViewBasic *)
+  (** {2 def listViewBasic} *)
+
   type nonrec listviewbasic = app_bsky_graph_defs_listviewbasic = {
     uri: string;
     cid: string;
@@ -7227,7 +7480,8 @@ module App_Bsky_Graph_Defs = struct
   let listviewbasic_to_yojson = app_bsky_graph_defs_listviewbasic_to_yojson
 
 
-  (** def listView *)
+  (** {2 def listView} *)
+
   type nonrec listview = app_bsky_graph_defs_listview = {
     uri: string;
     cid: string;
@@ -7247,7 +7501,8 @@ module App_Bsky_Graph_Defs = struct
   let listview_to_yojson = app_bsky_graph_defs_listview_to_yojson
 
 
-  (** def listItemView *)
+  (** {2 def listItemView} *)
+
   type nonrec listitemview = app_bsky_graph_defs_listitemview = {
     uri: string;
     subject: app_bsky_actor_defs_profileview;
@@ -7257,7 +7512,8 @@ module App_Bsky_Graph_Defs = struct
   let listitemview_to_yojson = app_bsky_graph_defs_listitemview_to_yojson
 
 
-  (** def starterPackView *)
+  (** {2 def starterPackView} *)
+
   type nonrec starterpackview = app_bsky_graph_defs_starterpackview = {
     uri: string;
     cid: string;
@@ -7276,7 +7532,8 @@ module App_Bsky_Graph_Defs = struct
   let starterpackview_to_yojson = app_bsky_graph_defs_starterpackview_to_yojson
 
 
-  (** def starterPackViewBasic *)
+  (** {2 def starterPackViewBasic} *)
+
   type nonrec starterpackviewbasic = app_bsky_graph_defs_starterpackviewbasic = {
     uri: string;
     cid: string;
@@ -7293,35 +7550,40 @@ module App_Bsky_Graph_Defs = struct
   let starterpackviewbasic_to_yojson = app_bsky_graph_defs_starterpackviewbasic_to_yojson
 
 
-  (** def listPurpose *)
+  (** {2 def listPurpose} *)
+
   type nonrec listpurpose = app_bsky_graph_defs_listpurpose
   let pp_listpurpose = pp_app_bsky_graph_defs_listpurpose
   let listpurpose_of_yojson = app_bsky_graph_defs_listpurpose_of_yojson
   let listpurpose_to_yojson = app_bsky_graph_defs_listpurpose_to_yojson
 
 
-  (** def modlist *)
+  (** {2 def modlist} *)
+
   type nonrec modlist = app_bsky_graph_defs_modlist
   let pp_modlist = pp_app_bsky_graph_defs_modlist
   let modlist_of_yojson = app_bsky_graph_defs_modlist_of_yojson
   let modlist_to_yojson = app_bsky_graph_defs_modlist_to_yojson
 
 
-  (** def curatelist *)
+  (** {2 def curatelist} *)
+
   type nonrec curatelist = app_bsky_graph_defs_curatelist
   let pp_curatelist = pp_app_bsky_graph_defs_curatelist
   let curatelist_of_yojson = app_bsky_graph_defs_curatelist_of_yojson
   let curatelist_to_yojson = app_bsky_graph_defs_curatelist_to_yojson
 
 
-  (** def referencelist *)
+  (** {2 def referencelist} *)
+
   type nonrec referencelist = app_bsky_graph_defs_referencelist
   let pp_referencelist = pp_app_bsky_graph_defs_referencelist
   let referencelist_of_yojson = app_bsky_graph_defs_referencelist_of_yojson
   let referencelist_to_yojson = app_bsky_graph_defs_referencelist_to_yojson
 
 
-  (** def listViewerState *)
+  (** {2 def listViewerState} *)
+
   type nonrec listviewerstate = app_bsky_graph_defs_listviewerstate = {
     muted: bool option;
     blocked: string option;
@@ -7331,7 +7593,8 @@ module App_Bsky_Graph_Defs = struct
   let listviewerstate_to_yojson = app_bsky_graph_defs_listviewerstate_to_yojson
 
 
-  (** def notFoundActor *)
+  (** {2 def notFoundActor} *)
+
   type nonrec notfoundactor = app_bsky_graph_defs_notfoundactor = {
     actor: string;
     notFound: bool;
@@ -7341,7 +7604,8 @@ module App_Bsky_Graph_Defs = struct
   let notfoundactor_to_yojson = app_bsky_graph_defs_notfoundactor_to_yojson
 
 
-  (** def relationship *)
+  (** {2 def relationship} *)
+
   type nonrec relationship = app_bsky_graph_defs_relationship = {
     did: string;
     following: string option;
@@ -7358,7 +7622,8 @@ end
 (** lexicon "app.bsky.feed.defs"
   *)
 module App_Bsky_Feed_Defs = struct
-  (** def postView *)
+  (** {2 def postView} *)
+
   type nonrec postview = app_bsky_feed_defs_postview = {
     uri: string;
     cid: string;
@@ -7386,7 +7651,8 @@ module App_Bsky_Feed_Defs = struct
   let postview_to_yojson = app_bsky_feed_defs_postview_to_yojson
 
 
-  (** def viewerState *)
+  (** {2 def viewerState} *)
+
   type nonrec viewerstate = app_bsky_feed_defs_viewerstate = {
     repost: string option;
     like: string option;
@@ -7400,7 +7666,8 @@ module App_Bsky_Feed_Defs = struct
   let viewerstate_to_yojson = app_bsky_feed_defs_viewerstate_to_yojson
 
 
-  (** def threadContext *)
+  (** {2 def threadContext} *)
+
   type nonrec threadcontext = app_bsky_feed_defs_threadcontext = {
     rootAuthorLike: string option;
   }
@@ -7409,7 +7676,8 @@ module App_Bsky_Feed_Defs = struct
   let threadcontext_to_yojson = app_bsky_feed_defs_threadcontext_to_yojson
 
 
-  (** def feedViewPost *)
+  (** {2 def feedViewPost} *)
+
   type nonrec feedviewpost = app_bsky_feed_defs_feedviewpost = {
     post: app_bsky_feed_defs_postview;
     reply: app_bsky_feed_defs_replyref option;
@@ -7425,7 +7693,8 @@ module App_Bsky_Feed_Defs = struct
   let feedviewpost_to_yojson = app_bsky_feed_defs_feedviewpost_to_yojson
 
 
-  (** def replyRef *)
+  (** {2 def replyRef} *)
+
   type nonrec replyref = app_bsky_feed_defs_replyref = {
     root: [
     `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview [@name "postView"]
@@ -7446,7 +7715,8 @@ module App_Bsky_Feed_Defs = struct
   let replyref_to_yojson = app_bsky_feed_defs_replyref_to_yojson
 
 
-  (** def reasonRepost *)
+  (** {2 def reasonRepost} *)
+
   type nonrec reasonrepost = app_bsky_feed_defs_reasonrepost = {
     by: app_bsky_actor_defs_profileviewbasic;
     indexedAt: string;
@@ -7456,14 +7726,16 @@ module App_Bsky_Feed_Defs = struct
   let reasonrepost_to_yojson = app_bsky_feed_defs_reasonrepost_to_yojson
 
 
-  (** def reasonPin *)
+  (** {2 def reasonPin} *)
+
   type nonrec reasonpin = app_bsky_feed_defs_reasonpin
   let pp_reasonpin = pp_app_bsky_feed_defs_reasonpin
   let reasonpin_of_yojson = app_bsky_feed_defs_reasonpin_of_yojson
   let reasonpin_to_yojson = app_bsky_feed_defs_reasonpin_to_yojson
 
 
-  (** def threadViewPost *)
+  (** {2 def threadViewPost} *)
+
   type nonrec threadviewpost = app_bsky_feed_defs_threadviewpost = {
     post: app_bsky_feed_defs_postview;
     parent: [
@@ -7485,7 +7757,8 @@ module App_Bsky_Feed_Defs = struct
   let threadviewpost_to_yojson = app_bsky_feed_defs_threadviewpost_to_yojson
 
 
-  (** def notFoundPost *)
+  (** {2 def notFoundPost} *)
+
   type nonrec notfoundpost = app_bsky_feed_defs_notfoundpost = {
     uri: string;
     notFound: bool;
@@ -7495,7 +7768,8 @@ module App_Bsky_Feed_Defs = struct
   let notfoundpost_to_yojson = app_bsky_feed_defs_notfoundpost_to_yojson
 
 
-  (** def blockedPost *)
+  (** {2 def blockedPost} *)
+
   type nonrec blockedpost = app_bsky_feed_defs_blockedpost = {
     uri: string;
     blocked: bool;
@@ -7506,7 +7780,8 @@ module App_Bsky_Feed_Defs = struct
   let blockedpost_to_yojson = app_bsky_feed_defs_blockedpost_to_yojson
 
 
-  (** def blockedAuthor *)
+  (** {2 def blockedAuthor} *)
+
   type nonrec blockedauthor = app_bsky_feed_defs_blockedauthor = {
     did: string;
     viewer: app_bsky_actor_defs_viewerstate option;
@@ -7516,7 +7791,8 @@ module App_Bsky_Feed_Defs = struct
   let blockedauthor_to_yojson = app_bsky_feed_defs_blockedauthor_to_yojson
 
 
-  (** def generatorView *)
+  (** {2 def generatorView} *)
+
   type nonrec generatorview = app_bsky_feed_defs_generatorview = {
     uri: string;
     cid: string;
@@ -7538,7 +7814,8 @@ module App_Bsky_Feed_Defs = struct
   let generatorview_to_yojson = app_bsky_feed_defs_generatorview_to_yojson
 
 
-  (** def generatorViewerState *)
+  (** {2 def generatorViewerState} *)
+
   type nonrec generatorviewerstate = app_bsky_feed_defs_generatorviewerstate = {
     like: string option;
   }
@@ -7547,7 +7824,8 @@ module App_Bsky_Feed_Defs = struct
   let generatorviewerstate_to_yojson = app_bsky_feed_defs_generatorviewerstate_to_yojson
 
 
-  (** def skeletonFeedPost *)
+  (** {2 def skeletonFeedPost} *)
+
   type nonrec skeletonfeedpost = app_bsky_feed_defs_skeletonfeedpost = {
     post: string;
     reason: [
@@ -7562,7 +7840,8 @@ module App_Bsky_Feed_Defs = struct
   let skeletonfeedpost_to_yojson = app_bsky_feed_defs_skeletonfeedpost_to_yojson
 
 
-  (** def skeletonReasonRepost *)
+  (** {2 def skeletonReasonRepost} *)
+
   type nonrec skeletonreasonrepost = app_bsky_feed_defs_skeletonreasonrepost = {
     repost: string;
   }
@@ -7571,14 +7850,16 @@ module App_Bsky_Feed_Defs = struct
   let skeletonreasonrepost_to_yojson = app_bsky_feed_defs_skeletonreasonrepost_to_yojson
 
 
-  (** def skeletonReasonPin *)
+  (** {2 def skeletonReasonPin} *)
+
   type nonrec skeletonreasonpin = app_bsky_feed_defs_skeletonreasonpin
   let pp_skeletonreasonpin = pp_app_bsky_feed_defs_skeletonreasonpin
   let skeletonreasonpin_of_yojson = app_bsky_feed_defs_skeletonreasonpin_of_yojson
   let skeletonreasonpin_to_yojson = app_bsky_feed_defs_skeletonreasonpin_to_yojson
 
 
-  (** def threadgateView *)
+  (** {2 def threadgateView} *)
+
   type nonrec threadgateview = app_bsky_feed_defs_threadgateview = {
     uri: string option;
     cid: string option;
@@ -7590,7 +7871,8 @@ module App_Bsky_Feed_Defs = struct
   let threadgateview_to_yojson = app_bsky_feed_defs_threadgateview_to_yojson
 
 
-  (** def interaction *)
+  (** {2 def interaction} *)
+
   type nonrec interaction = app_bsky_feed_defs_interaction = {
     item: string option;
     event: string option;
@@ -7601,98 +7883,112 @@ module App_Bsky_Feed_Defs = struct
   let interaction_to_yojson = app_bsky_feed_defs_interaction_to_yojson
 
 
-  (** def requestLess *)
+  (** {2 def requestLess} *)
+
   type nonrec requestless = app_bsky_feed_defs_requestless
   let pp_requestless = pp_app_bsky_feed_defs_requestless
   let requestless_of_yojson = app_bsky_feed_defs_requestless_of_yojson
   let requestless_to_yojson = app_bsky_feed_defs_requestless_to_yojson
 
 
-  (** def requestMore *)
+  (** {2 def requestMore} *)
+
   type nonrec requestmore = app_bsky_feed_defs_requestmore
   let pp_requestmore = pp_app_bsky_feed_defs_requestmore
   let requestmore_of_yojson = app_bsky_feed_defs_requestmore_of_yojson
   let requestmore_to_yojson = app_bsky_feed_defs_requestmore_to_yojson
 
 
-  (** def clickthroughItem *)
+  (** {2 def clickthroughItem} *)
+
   type nonrec clickthroughitem = app_bsky_feed_defs_clickthroughitem
   let pp_clickthroughitem = pp_app_bsky_feed_defs_clickthroughitem
   let clickthroughitem_of_yojson = app_bsky_feed_defs_clickthroughitem_of_yojson
   let clickthroughitem_to_yojson = app_bsky_feed_defs_clickthroughitem_to_yojson
 
 
-  (** def clickthroughAuthor *)
+  (** {2 def clickthroughAuthor} *)
+
   type nonrec clickthroughauthor = app_bsky_feed_defs_clickthroughauthor
   let pp_clickthroughauthor = pp_app_bsky_feed_defs_clickthroughauthor
   let clickthroughauthor_of_yojson = app_bsky_feed_defs_clickthroughauthor_of_yojson
   let clickthroughauthor_to_yojson = app_bsky_feed_defs_clickthroughauthor_to_yojson
 
 
-  (** def clickthroughReposter *)
+  (** {2 def clickthroughReposter} *)
+
   type nonrec clickthroughreposter = app_bsky_feed_defs_clickthroughreposter
   let pp_clickthroughreposter = pp_app_bsky_feed_defs_clickthroughreposter
   let clickthroughreposter_of_yojson = app_bsky_feed_defs_clickthroughreposter_of_yojson
   let clickthroughreposter_to_yojson = app_bsky_feed_defs_clickthroughreposter_to_yojson
 
 
-  (** def clickthroughEmbed *)
+  (** {2 def clickthroughEmbed} *)
+
   type nonrec clickthroughembed = app_bsky_feed_defs_clickthroughembed
   let pp_clickthroughembed = pp_app_bsky_feed_defs_clickthroughembed
   let clickthroughembed_of_yojson = app_bsky_feed_defs_clickthroughembed_of_yojson
   let clickthroughembed_to_yojson = app_bsky_feed_defs_clickthroughembed_to_yojson
 
 
-  (** def contentModeUnspecified *)
+  (** {2 def contentModeUnspecified} *)
+
   type nonrec contentmodeunspecified = app_bsky_feed_defs_contentmodeunspecified
   let pp_contentmodeunspecified = pp_app_bsky_feed_defs_contentmodeunspecified
   let contentmodeunspecified_of_yojson = app_bsky_feed_defs_contentmodeunspecified_of_yojson
   let contentmodeunspecified_to_yojson = app_bsky_feed_defs_contentmodeunspecified_to_yojson
 
 
-  (** def contentModeVideo *)
+  (** {2 def contentModeVideo} *)
+
   type nonrec contentmodevideo = app_bsky_feed_defs_contentmodevideo
   let pp_contentmodevideo = pp_app_bsky_feed_defs_contentmodevideo
   let contentmodevideo_of_yojson = app_bsky_feed_defs_contentmodevideo_of_yojson
   let contentmodevideo_to_yojson = app_bsky_feed_defs_contentmodevideo_to_yojson
 
 
-  (** def interactionSeen *)
+  (** {2 def interactionSeen} *)
+
   type nonrec interactionseen = app_bsky_feed_defs_interactionseen
   let pp_interactionseen = pp_app_bsky_feed_defs_interactionseen
   let interactionseen_of_yojson = app_bsky_feed_defs_interactionseen_of_yojson
   let interactionseen_to_yojson = app_bsky_feed_defs_interactionseen_to_yojson
 
 
-  (** def interactionLike *)
+  (** {2 def interactionLike} *)
+
   type nonrec interactionlike = app_bsky_feed_defs_interactionlike
   let pp_interactionlike = pp_app_bsky_feed_defs_interactionlike
   let interactionlike_of_yojson = app_bsky_feed_defs_interactionlike_of_yojson
   let interactionlike_to_yojson = app_bsky_feed_defs_interactionlike_to_yojson
 
 
-  (** def interactionRepost *)
+  (** {2 def interactionRepost} *)
+
   type nonrec interactionrepost = app_bsky_feed_defs_interactionrepost
   let pp_interactionrepost = pp_app_bsky_feed_defs_interactionrepost
   let interactionrepost_of_yojson = app_bsky_feed_defs_interactionrepost_of_yojson
   let interactionrepost_to_yojson = app_bsky_feed_defs_interactionrepost_to_yojson
 
 
-  (** def interactionReply *)
+  (** {2 def interactionReply} *)
+
   type nonrec interactionreply = app_bsky_feed_defs_interactionreply
   let pp_interactionreply = pp_app_bsky_feed_defs_interactionreply
   let interactionreply_of_yojson = app_bsky_feed_defs_interactionreply_of_yojson
   let interactionreply_to_yojson = app_bsky_feed_defs_interactionreply_to_yojson
 
 
-  (** def interactionQuote *)
+  (** {2 def interactionQuote} *)
+
   type nonrec interactionquote = app_bsky_feed_defs_interactionquote
   let pp_interactionquote = pp_app_bsky_feed_defs_interactionquote
   let interactionquote_of_yojson = app_bsky_feed_defs_interactionquote_of_yojson
   let interactionquote_to_yojson = app_bsky_feed_defs_interactionquote_to_yojson
 
 
-  (** def interactionShare *)
+  (** {2 def interactionShare} *)
+
   type nonrec interactionshare = app_bsky_feed_defs_interactionshare
   let pp_interactionshare = pp_app_bsky_feed_defs_interactionshare
   let interactionshare_of_yojson = app_bsky_feed_defs_interactionshare_of_yojson
@@ -7706,7 +8002,8 @@ end
   A representation of a record embedded in a Bluesky record (eg, a post), alongside other compatible embeds. For example, a quote post and image, or a quote post and external URL card.
   *)
 module App_Bsky_Embed_RecordWithMedia = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type nonrec main = app_bsky_embed_recordwithmedia_main = {
     record: app_bsky_embed_record_main;
     media: [
@@ -7721,7 +8018,8 @@ module App_Bsky_Embed_RecordWithMedia = struct
   let main_to_yojson = app_bsky_embed_recordwithmedia_main_to_yojson
 
 
-  (** def view *)
+  (** {2 def view} *)
+
   type nonrec view = app_bsky_embed_recordwithmedia_view = {
     record: app_bsky_embed_record_view;
     media: [
@@ -7743,7 +8041,8 @@ end
   A representation of a record embedded in a Bluesky record (eg, a post). For example, a quote-post, or sharing a feed generator record.
   *)
 module App_Bsky_Embed_Record = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type nonrec main = app_bsky_embed_record_main = {
     record: com_atproto_repo_strongref_main;
   }
@@ -7752,7 +8051,8 @@ module App_Bsky_Embed_Record = struct
   let main_to_yojson = app_bsky_embed_record_main_to_yojson
 
 
-  (** def view *)
+  (** {2 def view} *)
+
   type nonrec view = app_bsky_embed_record_view = {
     record: [
     `App_bsky_embed_record_viewrecord of app_bsky_embed_record_viewrecord [@name "viewRecord"]
@@ -7771,7 +8071,8 @@ module App_Bsky_Embed_Record = struct
   let view_to_yojson = app_bsky_embed_record_view_to_yojson
 
 
-  (** def viewRecord *)
+  (** {2 def viewRecord} *)
+
   type nonrec viewrecord = app_bsky_embed_record_viewrecord = {
     uri: string;
     cid: string;
@@ -7797,7 +8098,8 @@ module App_Bsky_Embed_Record = struct
   let viewrecord_to_yojson = app_bsky_embed_record_viewrecord_to_yojson
 
 
-  (** def viewNotFound *)
+  (** {2 def viewNotFound} *)
+
   type nonrec viewnotfound = app_bsky_embed_record_viewnotfound = {
     uri: string;
     notFound: bool;
@@ -7807,7 +8109,8 @@ module App_Bsky_Embed_Record = struct
   let viewnotfound_to_yojson = app_bsky_embed_record_viewnotfound_to_yojson
 
 
-  (** def viewBlocked *)
+  (** {2 def viewBlocked} *)
+
   type nonrec viewblocked = app_bsky_embed_record_viewblocked = {
     uri: string;
     blocked: bool;
@@ -7818,7 +8121,8 @@ module App_Bsky_Embed_Record = struct
   let viewblocked_to_yojson = app_bsky_embed_record_viewblocked_to_yojson
 
 
-  (** def viewDetached *)
+  (** {2 def viewDetached} *)
+
   type nonrec viewdetached = app_bsky_embed_record_viewdetached = {
     uri: string;
     detached: bool;
@@ -7834,7 +8138,8 @@ end
 (** lexicon "app.bsky.labeler.defs"
   *)
 module App_Bsky_Labeler_Defs = struct
-  (** def labelerView *)
+  (** {2 def labelerView} *)
+
   type nonrec labelerview = app_bsky_labeler_defs_labelerview = {
     uri: string;
     cid: string;
@@ -7849,7 +8154,8 @@ module App_Bsky_Labeler_Defs = struct
   let labelerview_to_yojson = app_bsky_labeler_defs_labelerview_to_yojson
 
 
-  (** def labelerViewDetailed *)
+  (** {2 def labelerViewDetailed} *)
+
   type nonrec labelerviewdetailed = app_bsky_labeler_defs_labelerviewdetailed = {
     uri: string;
     cid: string;
@@ -7868,7 +8174,8 @@ module App_Bsky_Labeler_Defs = struct
   let labelerviewdetailed_to_yojson = app_bsky_labeler_defs_labelerviewdetailed_to_yojson
 
 
-  (** def labelerViewerState *)
+  (** {2 def labelerViewerState} *)
+
   type nonrec labelerviewerstate = app_bsky_labeler_defs_labelerviewerstate = {
     like: string option;
   }
@@ -7877,7 +8184,8 @@ module App_Bsky_Labeler_Defs = struct
   let labelerviewerstate_to_yojson = app_bsky_labeler_defs_labelerviewerstate_to_yojson
 
 
-  (** def labelerPolicies *)
+  (** {2 def labelerPolicies} *)
+
   type nonrec labelerpolicies = app_bsky_labeler_defs_labelerpolicies = {
     labelValues: com_atproto_label_defs_labelvalue list;
     labelValueDefinitions: com_atproto_label_defs_labelvaluedefinition list option;
@@ -7894,7 +8202,8 @@ end
   A URI with a content-hash fingerprint.
   *)
 module Com_Atproto_Repo_StrongRef = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type nonrec main = com_atproto_repo_strongref_main = {
     uri: string;
     cid: string;
@@ -7910,63 +8219,72 @@ end
 (** lexicon "com.atproto.moderation.defs"
   *)
 module Com_Atproto_Moderation_Defs = struct
-  (** def reasonType *)
+  (** {2 def reasonType} *)
+
   type nonrec reasontype = com_atproto_moderation_defs_reasontype
   let pp_reasontype = pp_com_atproto_moderation_defs_reasontype
   let reasontype_of_yojson = com_atproto_moderation_defs_reasontype_of_yojson
   let reasontype_to_yojson = com_atproto_moderation_defs_reasontype_to_yojson
 
 
-  (** def reasonSpam *)
+  (** {2 def reasonSpam} *)
+
   type nonrec reasonspam = com_atproto_moderation_defs_reasonspam
   let pp_reasonspam = pp_com_atproto_moderation_defs_reasonspam
   let reasonspam_of_yojson = com_atproto_moderation_defs_reasonspam_of_yojson
   let reasonspam_to_yojson = com_atproto_moderation_defs_reasonspam_to_yojson
 
 
-  (** def reasonViolation *)
+  (** {2 def reasonViolation} *)
+
   type nonrec reasonviolation = com_atproto_moderation_defs_reasonviolation
   let pp_reasonviolation = pp_com_atproto_moderation_defs_reasonviolation
   let reasonviolation_of_yojson = com_atproto_moderation_defs_reasonviolation_of_yojson
   let reasonviolation_to_yojson = com_atproto_moderation_defs_reasonviolation_to_yojson
 
 
-  (** def reasonMisleading *)
+  (** {2 def reasonMisleading} *)
+
   type nonrec reasonmisleading = com_atproto_moderation_defs_reasonmisleading
   let pp_reasonmisleading = pp_com_atproto_moderation_defs_reasonmisleading
   let reasonmisleading_of_yojson = com_atproto_moderation_defs_reasonmisleading_of_yojson
   let reasonmisleading_to_yojson = com_atproto_moderation_defs_reasonmisleading_to_yojson
 
 
-  (** def reasonSexual *)
+  (** {2 def reasonSexual} *)
+
   type nonrec reasonsexual = com_atproto_moderation_defs_reasonsexual
   let pp_reasonsexual = pp_com_atproto_moderation_defs_reasonsexual
   let reasonsexual_of_yojson = com_atproto_moderation_defs_reasonsexual_of_yojson
   let reasonsexual_to_yojson = com_atproto_moderation_defs_reasonsexual_to_yojson
 
 
-  (** def reasonRude *)
+  (** {2 def reasonRude} *)
+
   type nonrec reasonrude = com_atproto_moderation_defs_reasonrude
   let pp_reasonrude = pp_com_atproto_moderation_defs_reasonrude
   let reasonrude_of_yojson = com_atproto_moderation_defs_reasonrude_of_yojson
   let reasonrude_to_yojson = com_atproto_moderation_defs_reasonrude_to_yojson
 
 
-  (** def reasonOther *)
+  (** {2 def reasonOther} *)
+
   type nonrec reasonother = com_atproto_moderation_defs_reasonother
   let pp_reasonother = pp_com_atproto_moderation_defs_reasonother
   let reasonother_of_yojson = com_atproto_moderation_defs_reasonother_of_yojson
   let reasonother_to_yojson = com_atproto_moderation_defs_reasonother_to_yojson
 
 
-  (** def reasonAppeal *)
+  (** {2 def reasonAppeal} *)
+
   type nonrec reasonappeal = com_atproto_moderation_defs_reasonappeal
   let pp_reasonappeal = pp_com_atproto_moderation_defs_reasonappeal
   let reasonappeal_of_yojson = com_atproto_moderation_defs_reasonappeal_of_yojson
   let reasonappeal_to_yojson = com_atproto_moderation_defs_reasonappeal_to_yojson
 
 
-  (** def subjectType *)
+  (** {2 def subjectType} *)
+
   type nonrec subjecttype = com_atproto_moderation_defs_subjecttype
   let pp_subjecttype = pp_com_atproto_moderation_defs_subjecttype
   let subjecttype_of_yojson = com_atproto_moderation_defs_subjecttype_of_yojson
@@ -7980,7 +8298,8 @@ end
   A set of images embedded in a Bluesky record (eg, a post).
   *)
 module App_Bsky_Embed_Images = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type nonrec main = app_bsky_embed_images_main = {
     images: app_bsky_embed_images_image list;
   }
@@ -7989,7 +8308,8 @@ module App_Bsky_Embed_Images = struct
   let main_to_yojson = app_bsky_embed_images_main_to_yojson
 
 
-  (** def image *)
+  (** {2 def image} *)
+
   type nonrec image = app_bsky_embed_images_image = {
     image: Blob.t;
     alt: string;
@@ -8000,7 +8320,8 @@ module App_Bsky_Embed_Images = struct
   let image_to_yojson = app_bsky_embed_images_image_to_yojson
 
 
-  (** def view *)
+  (** {2 def view} *)
+
   type nonrec view = app_bsky_embed_images_view = {
     images: app_bsky_embed_images_viewimage list;
   }
@@ -8009,7 +8330,8 @@ module App_Bsky_Embed_Images = struct
   let view_to_yojson = app_bsky_embed_images_view_to_yojson
 
 
-  (** def viewImage *)
+  (** {2 def viewImage} *)
+
   type nonrec viewimage = app_bsky_embed_images_viewimage = {
     thumb: string;
     fullsize: string;
@@ -8028,7 +8350,8 @@ end
   A video embedded in a Bluesky record (eg, a post).
   *)
 module App_Bsky_Embed_Video = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type nonrec main = app_bsky_embed_video_main = {
     video: Blob.t;
     captions: app_bsky_embed_video_caption list option;
@@ -8040,7 +8363,8 @@ module App_Bsky_Embed_Video = struct
   let main_to_yojson = app_bsky_embed_video_main_to_yojson
 
 
-  (** def caption *)
+  (** {2 def caption} *)
+
   type nonrec caption = app_bsky_embed_video_caption = {
     lang: string;
     file: Blob.t;
@@ -8050,7 +8374,8 @@ module App_Bsky_Embed_Video = struct
   let caption_to_yojson = app_bsky_embed_video_caption_to_yojson
 
 
-  (** def view *)
+  (** {2 def view} *)
+
   type nonrec view = app_bsky_embed_video_view = {
     cid: string;
     playlist: string;
@@ -8069,7 +8394,8 @@ end
 (** lexicon "app.bsky.embed.defs"
   *)
 module App_Bsky_Embed_Defs = struct
-  (** def aspectRatio *)
+  (** {2 def aspectRatio} *)
+
   type nonrec aspectratio = app_bsky_embed_defs_aspectratio = {
     width: int64;
     height: int64;
@@ -8085,7 +8411,8 @@ end
 (** lexicon "app.bsky.richtext.facet"
   *)
 module App_Bsky_Richtext_Facet = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type nonrec main = app_bsky_richtext_facet_main = {
     index: app_bsky_richtext_facet_byteslice;
     features: [
@@ -8100,7 +8427,8 @@ module App_Bsky_Richtext_Facet = struct
   let main_to_yojson = app_bsky_richtext_facet_main_to_yojson
 
 
-  (** def mention *)
+  (** {2 def mention} *)
+
   type nonrec mention = app_bsky_richtext_facet_mention = {
     did: string;
   }
@@ -8109,7 +8437,8 @@ module App_Bsky_Richtext_Facet = struct
   let mention_to_yojson = app_bsky_richtext_facet_mention_to_yojson
 
 
-  (** def link *)
+  (** {2 def link} *)
+
   type nonrec link = app_bsky_richtext_facet_link = {
     uri: string;
   }
@@ -8118,7 +8447,8 @@ module App_Bsky_Richtext_Facet = struct
   let link_to_yojson = app_bsky_richtext_facet_link_to_yojson
 
 
-  (** def tag *)
+  (** {2 def tag} *)
+
   type nonrec tag = app_bsky_richtext_facet_tag = {
     tag: string;
   }
@@ -8127,7 +8457,8 @@ module App_Bsky_Richtext_Facet = struct
   let tag_to_yojson = app_bsky_richtext_facet_tag_to_yojson
 
 
-  (** def byteSlice *)
+  (** {2 def byteSlice} *)
+
   type nonrec byteslice = app_bsky_richtext_facet_byteslice = {
     byteStart: int64;
     byteEnd: int64;
@@ -8143,7 +8474,8 @@ end
 (** lexicon "com.atproto.label.defs"
   *)
 module Com_Atproto_Label_Defs = struct
-  (** def label *)
+  (** {2 def label} *)
+
   type nonrec label = com_atproto_label_defs_label = {
     ver: int64 option;
     src: string;
@@ -8160,7 +8492,8 @@ module Com_Atproto_Label_Defs = struct
   let label_to_yojson = com_atproto_label_defs_label_to_yojson
 
 
-  (** def selfLabels *)
+  (** {2 def selfLabels} *)
+
   type nonrec selflabels = com_atproto_label_defs_selflabels = {
     values: com_atproto_label_defs_selflabel list;
   }
@@ -8169,7 +8502,8 @@ module Com_Atproto_Label_Defs = struct
   let selflabels_to_yojson = com_atproto_label_defs_selflabels_to_yojson
 
 
-  (** def selfLabel *)
+  (** {2 def selfLabel} *)
+
   type nonrec selflabel = com_atproto_label_defs_selflabel = {
     val_: string; [@key "val"]
   }
@@ -8178,7 +8512,8 @@ module Com_Atproto_Label_Defs = struct
   let selflabel_to_yojson = com_atproto_label_defs_selflabel_to_yojson
 
 
-  (** def labelValueDefinition *)
+  (** {2 def labelValueDefinition} *)
+
   type nonrec labelvaluedefinition = com_atproto_label_defs_labelvaluedefinition = {
     identifier: string;
     severity: string;
@@ -8192,7 +8527,8 @@ module Com_Atproto_Label_Defs = struct
   let labelvaluedefinition_to_yojson = com_atproto_label_defs_labelvaluedefinition_to_yojson
 
 
-  (** def labelValueDefinitionStrings *)
+  (** {2 def labelValueDefinitionStrings} *)
+
   type nonrec labelvaluedefinitionstrings = com_atproto_label_defs_labelvaluedefinitionstrings = {
     lang: string;
     name: string;
@@ -8203,7 +8539,8 @@ module Com_Atproto_Label_Defs = struct
   let labelvaluedefinitionstrings_to_yojson = com_atproto_label_defs_labelvaluedefinitionstrings_to_yojson
 
 
-  (** def labelValue *)
+  (** {2 def labelValue} *)
+
   type nonrec labelvalue = com_atproto_label_defs_labelvalue
   let pp_labelvalue = pp_com_atproto_label_defs_labelvalue
   let labelvalue_of_yojson = com_atproto_label_defs_labelvalue_of_yojson
@@ -8216,7 +8553,8 @@ end
 (** lexicon "app.bsky.feed.threadgate"
   *)
 module App_Bsky_Feed_Threadgate = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Record defining interaction gating rules for a thread (aka, reply controls). The record key (rkey) of the threadgate record must match the record key of the thread's root post, and that record must be in the same repository. *)
   type main = {
     post: string;
@@ -8233,28 +8571,32 @@ module App_Bsky_Feed_Threadgate = struct
 
 
 
-  (** def mentionRule *)
+  (** {2 def mentionRule} *)
+
   type nonrec mentionrule = app_bsky_feed_threadgate_mentionrule
   let pp_mentionrule = pp_app_bsky_feed_threadgate_mentionrule
   let mentionrule_of_yojson = app_bsky_feed_threadgate_mentionrule_of_yojson
   let mentionrule_to_yojson = app_bsky_feed_threadgate_mentionrule_to_yojson
 
 
-  (** def followerRule *)
+  (** {2 def followerRule} *)
+
   type nonrec followerrule = app_bsky_feed_threadgate_followerrule
   let pp_followerrule = pp_app_bsky_feed_threadgate_followerrule
   let followerrule_of_yojson = app_bsky_feed_threadgate_followerrule_of_yojson
   let followerrule_to_yojson = app_bsky_feed_threadgate_followerrule_to_yojson
 
 
-  (** def followingRule *)
+  (** {2 def followingRule} *)
+
   type nonrec followingrule = app_bsky_feed_threadgate_followingrule
   let pp_followingrule = pp_app_bsky_feed_threadgate_followingrule
   let followingrule_of_yojson = app_bsky_feed_threadgate_followingrule_of_yojson
   let followingrule_to_yojson = app_bsky_feed_threadgate_followingrule_to_yojson
 
 
-  (** def listRule *)
+  (** {2 def listRule} *)
+
   type nonrec listrule = app_bsky_feed_threadgate_listrule = {
     list: string;
   }
@@ -8269,7 +8611,8 @@ end
 (** lexicon "app.bsky.feed.postgate"
   *)
 module App_Bsky_Feed_Postgate = struct
-  (** def main *)
+  (** {2 def main} *)
+
   (** Record defining interaction rules for a post. The record key (rkey) of the postgate record must match the record key of the post, and that record must be in the same repository. *)
   type main = {
     createdAt: string;
@@ -8283,7 +8626,8 @@ module App_Bsky_Feed_Postgate = struct
 
 
 
-  (** def disableRule *)
+  (** {2 def disableRule} *)
+
   type nonrec disablerule = app_bsky_feed_postgate_disablerule
   let pp_disablerule = pp_app_bsky_feed_postgate_disablerule
   let disablerule_of_yojson = app_bsky_feed_postgate_disablerule_of_yojson
@@ -8296,7 +8640,8 @@ end
 (** lexicon "app.bsky.embed.external"
   *)
 module App_Bsky_Embed_External = struct
-  (** def main *)
+  (** {2 def main} *)
+
   type nonrec main = app_bsky_embed_external_main = {
     external_: app_bsky_embed_external_external; [@key "external"]
   }
@@ -8305,7 +8650,8 @@ module App_Bsky_Embed_External = struct
   let main_to_yojson = app_bsky_embed_external_main_to_yojson
 
 
-  (** def external *)
+  (** {2 def external} *)
+
   type nonrec external_ = app_bsky_embed_external_external = {
     uri: string;
     title: string;
@@ -8317,7 +8663,8 @@ module App_Bsky_Embed_External = struct
   let external__to_yojson = app_bsky_embed_external_external_to_yojson
 
 
-  (** def view *)
+  (** {2 def view} *)
+
   type nonrec view = app_bsky_embed_external_view = {
     external_: app_bsky_embed_external_viewexternal; [@key "external"]
   }
@@ -8326,7 +8673,8 @@ module App_Bsky_Embed_External = struct
   let view_to_yojson = app_bsky_embed_external_view_to_yojson
 
 
-  (** def viewExternal *)
+  (** {2 def viewExternal} *)
+
   type nonrec viewexternal = app_bsky_embed_external_viewexternal = {
     uri: string;
     title: string;
