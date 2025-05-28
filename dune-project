@@ -56,6 +56,19 @@
   ppx_deriving
   ppx_deriving_yojson))
 
+(package
+ (name cephalopod-firehose-client)
+ (synopsis "Client to the firehose")
+ (depends
+  (cephalopod
+   (= :version))
+  (cephalopod-models
+   (= :version))
+  eio
+  piaf
+  logs
+  ppx_deriving))
+
 ; moonpool
 ; (picos (and (>= 0.5) (< 0.7)))
 ; (picos_std (and (>= 0.5) (< 0.7)))
