@@ -6,11 +6,13 @@ let uri =
 let () =
   let debug = ref false in
   let dump = ref "" in
+  let show_events = ref false in
   let opts =
     [
       "-d", Arg.Set debug, " enable debug";
       "--uri", Arg.String (fun s -> uri := Uri.of_string s), " set firehose URI";
-      "--dump", Arg.Set_string dump, " dump into given file";
+      "--show-events", Arg.Set show_events, " show decoded events";
+      "--dump-into", Arg.Set_string dump, " dump into given file";
     ]
     |> Arg.align
   in
@@ -44,6 +46,22 @@ let () =
       ~on_event:(fun ev ->
         Log.info (fun k ->
             k "got ev %a" Cephalopod_firehose_client.Client.pp_event ev);
+
+        (match ev with
+        | E_received buf when !show_events ->
+          (match
+             Cephalopod_firehose_client.Bin_event.decode
+               (Byte_buffer.to_slice buf)
+           with
+          | Ok ev ->
+            Log.app (fun k ->
+                k "received event@ %a" Cephalopod_firehose_client.Bin_event.pp
+                  ev)
+          | Error err ->
+            Log.err (fun k ->
+                k "error when decoding event:@ %a"
+                  Cephalopod_firehose_client.Bin_event.pp_decode_error err))
+        | _ -> ());
 
         match ev, oc with
         | E_received buf, Some oc -> U32le.write_prefixed_len oc buf
