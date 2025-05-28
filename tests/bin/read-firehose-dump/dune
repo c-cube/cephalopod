@@ -1,0 +1,10 @@
+(executable
+ (name read_firehose_dump)
+ (flags :standard -open Cephalopod_common)
+ (preprocess (pps ppx_deriving.std))
+ (libraries
+  containers
+  cephalopod.common
+  cephalopod.dasl
+  cephalopod-firehose-client
+  logs))

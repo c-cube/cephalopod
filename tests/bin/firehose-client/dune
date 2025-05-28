@@ -1,0 +1,11 @@
+(executable
+ (name firehose_client)
+ (flags :standard -open Cephalopod_common)
+ (libraries
+  containers
+  cephalopod.common
+  cephalopod-firehose-client
+  logs
+  uri
+  eio
+  eio_posix))
