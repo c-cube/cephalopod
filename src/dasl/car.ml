@@ -124,10 +124,10 @@ module Decode = struct
     { cid; data }
 end
 
-let decode_string (str : string) : (t, [> error_decode ]) result =
+let decode_byte_slice (data : Byte_slice.t) : (t, [> error_decode ]) result =
   try
     let@ ectx = Error.try_with in
-    let dec : Decode.st = Decode.create @@ Byte_slice.unsafe_of_string str in
+    let dec : Decode.st = Decode.create data in
     let header =
       match Decode.next_slice_exn dec with
       | None -> Error.fail ectx (`InvalidHeader "missing header")
@@ -137,7 +137,6 @@ let decode_string (str : string) : (t, [> error_decode ]) result =
             (Bytes.unsafe_to_string data.bs)
           |> Error.unwrap ectx
         in
-        (* Format.printf "header: %a (off=%d, len=%d)@." Value.pp v data.off data.len; *)
         Decode.decode_header_exn data.off v
     in
 
@@ -152,6 +151,12 @@ let decode_string (str : string) : (t, [> error_decode ]) result =
     let blocks = read_blocks [] in
     { header; blocks }
   with Decode.E err -> Error err
+
+let decode_string (str : string) : (t, [> error_decode ]) result =
+  decode_byte_slice @@ Byte_slice.unsafe_of_string str
+
+let decode_buf (buf : Byte_buffer.t) : (t, [> error_decode ]) result =
+  decode_byte_slice @@ Byte_buffer.to_slice buf
 
 module Encode = struct
   class type out = object

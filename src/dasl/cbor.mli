@@ -15,13 +15,13 @@ type token =
 [@@deriving show]
 
 module Decoder : sig
+  exception Error of string * int
+  exception EOF
+
   type t
 
   val of_string : ?off:int -> ?len:int -> string -> t
   val create : Byte_slice.t -> t
-
-  exception EOF
-
   val offset : t -> int
   val next : t -> token
 end

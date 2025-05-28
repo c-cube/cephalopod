@@ -26,8 +26,13 @@ let of_cbor (c : Cbor.Decoder.t) : (t, [> error_of_cbor ]) result =
   let module D = Cbor.Decoder in
   let rec loop (c : D.t) : t =
     let off = D.offset c in
-    let t = D.next c in
-    match t with
+    match D.next c with
+    | exception Cbor.Decoder.EOF ->
+      Error.fail ectx (`InvalidDCBOR42 (`Offset off, "unexpected EOF"))
+    | exception Cbor.Decoder.Error (msg, off) ->
+      Error.fail ectx (`InvalidDCBOR42 (`Offset off, msg))
+    | exception exn ->
+      Error.fail ectx (`InvalidDCBOR42 (`Offset off, Printexc.to_string exn))
     | Bool b -> Bool b
     | Null -> Null
     | Text bs -> Text (Byte_slice.contents bs)
@@ -92,6 +97,9 @@ let rec to_cbor (buf : Byte_buffer.t) (self : t) : unit =
 let parse_cbor_str ?off ?len (str : string) : (t, [> error_of_cbor ]) result =
   let@ ectx = Error.try_with in
   of_cbor (Cbor.Decoder.of_string ?off ?len str) |> Error.unwrap ectx
+
+let parse_cbor_buf (buf : Byte_buffer.t) : (t, [> error_of_cbor ]) result =
+  parse_cbor_str ~off:0 ~len:buf.len (Bytes.unsafe_to_string buf.bs)
 
 let to_cbor_str (self : t) : string =
   let buf = Byte_buffer.create ~cap:32 () in
