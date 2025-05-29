@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-static inline int ix_leb128_varint_size(uint64_t i) {
+static inline int ceph_leb128_varint_size(uint64_t i) {
 /* generated with:
 for i in range(1,10):
   ceiling = (1 << (i*7))-1
@@ -28,7 +28,7 @@ for i in range(1,10):
 
 // number of bytes for i
 CAMLprim value caml_ceph_leb128_varint_size(int64_t i) {
-  int res = ix_leb128_varint_size(i);
+  int res = ceph_leb128_varint_size(i);
   return Val_int(res);
 }
 
@@ -37,12 +37,12 @@ CAMLprim value caml_ceph_leb128_varint_size_byte(value v_i) {
   CAMLparam1(v_i);
 
   int64_t i = Int64_val(v_i);
-  int res = ix_leb128_varint_size(i);
+  int res = ceph_leb128_varint_size(i);
   CAMLreturn(Val_int(res));
 }
 
 // write i at str[idx…] in varint
-static inline void ix_leb128_varint(unsigned char *str, uint64_t i) {
+static inline void ceph_leb128_varint(unsigned char *str, uint64_t i) {
   while (true) {
     uint64_t cur = i & 0x7f;
     if (cur == i) {
@@ -58,16 +58,16 @@ static inline void ix_leb128_varint(unsigned char *str, uint64_t i) {
 
 // write `i` starting at `idx`
 CAMLprim value caml_ceph_leb128_varint(value _str, intnat idx, int64_t i) {
-  char *str = Bytes_val(_str);
-  ix_leb128_varint(str + idx, i);
+  unsigned char *str = Bytes_val(_str);
+  ceph_leb128_varint(str + idx, i);
   return Val_unit;
 }
 
 CAMLprim value caml_ceph_leb128_varint_byte(value _str, value _idx, value _i) {
   CAMLparam3(_str, _idx, _i);
-  char *str = Bytes_val(_str);
+  unsigned char *str = Bytes_val(_str);
   int idx = Int_val(_idx);
   int64_t i = Int64_val(_i);
-  ix_leb128_varint(str + idx, i);
+  ceph_leb128_varint(str + idx, i);
   CAMLreturn(Val_unit);
 }
