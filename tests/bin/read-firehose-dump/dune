@@ -6,5 +6,4 @@
   containers
   cephalopod.common
   cephalopod.dasl
-  cephalopod-firehose-client
   logs))

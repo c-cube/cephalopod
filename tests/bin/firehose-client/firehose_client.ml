@@ -50,17 +50,15 @@ let () =
         (match ev with
         | E_received buf when !show_events ->
           (match
-             Cephalopod_firehose_client.Bin_event.decode
-               (Byte_buffer.to_slice buf)
+             Cephalopod_dasl.Stream_event.decode (Byte_buffer.to_slice buf)
            with
           | Ok ev ->
             Log.app (fun k ->
-                k "received event@ %a" Cephalopod_firehose_client.Bin_event.pp
-                  ev)
+                k "received event@ %a" Cephalopod_dasl.Stream_event.pp ev)
           | Error err ->
             Log.err (fun k ->
                 k "error when decoding event:@ %a"
-                  Cephalopod_firehose_client.Bin_event.pp_decode_error err))
+                  Cephalopod_dasl.Stream_event.pp_decode_error err))
         | _ -> ());
 
         match ev, oc with
@@ -70,5 +68,11 @@ let () =
     |> Error.get_or_failwith
          Cephalopod_firehose_client.Client.show_connect_error
   in
+
+  Sys.set_signal Sys.sigterm
+    (Sys.Signal_handle
+       (fun _ ->
+         Log.info (fun k -> k "got ctrl-c, shutting down");
+         Cephalopod_firehose_client.Client.shutdown client));
 
   Cephalopod_firehose_client.Client.await client

@@ -20,19 +20,17 @@ let dump_file (st : st) file : unit =
   while U32le.read_prefixed_len ic buf do
     Log.debug (fun k -> k "got buf with %dB" buf.len);
 
-    match
-      Cephalopod_firehose_client.Bin_event.decode (Byte_buffer.to_slice buf)
-    with
+    match Cephalopod_dasl.Stream_event.decode (Byte_buffer.to_slice buf) with
     | Ok v ->
       incr st.stats.n_values;
       if st.dump then
         Log.app (fun k ->
-            k "@[<2>got event:@ %a@]" Cephalopod_firehose_client.Bin_event.pp v)
+            k "@[<2>got event:@ %a@]" Cephalopod_dasl.Stream_event.pp v)
     | Error err ->
       incr st.stats.n_errors;
       Log.err (fun k ->
           k "@[decoding error:@ %a@]"
-            Cephalopod_firehose_client.Bin_event.pp_decode_error err)
+            Cephalopod_dasl.Stream_event.pp_decode_error err)
   done
 
 let () =
