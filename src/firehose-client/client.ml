@@ -27,7 +27,8 @@ type t = {
 }
 [@@deriving show { with_path = false }]
 
-let read_iovec (buf : Byte_buffer.t) (iovec : _ Httpun_types.IOVec.t) : unit =
+let add_iovec_to_buf (buf : Byte_buffer.t) (iovec : _ Httpun_types.IOVec.t) :
+    unit =
   Byte_buffer.ensure_free buf iovec.len;
   Bigstringaf.blit_to_bytes iovec.buffer ~src_off:iovec.off buf.bs
     ~dst_off:buf.len ~len:iovec.len;
@@ -38,18 +39,27 @@ let read_loop (self : inner) () : unit =
   let msg_stream = Piaf.Ws.Descriptor.messages self.ws_conn in
 
   let buf = Byte_buffer.create ~cap:256 () in
+
+  let emit_current_frame_if_any () =
+    if Byte_buffer.length buf > 0 then (
+      Log.debug (fun k -> k "got buffer of len=%d" (Byte_buffer.length buf));
+      self.on_event (E_received buf);
+      Byte_buffer.clear buf
+    )
+  in
+
   while Atomic.get self.connected do
     Eio.Switch.check self.sw;
 
     match Piaf_stream.take msg_stream with
     | None ->
+      emit_current_frame_if_any ();
       Atomic.set self.connected false;
       self.on_event E_closed
     | Some (`Binary, iovec) ->
-      Byte_buffer.clear buf;
-      read_iovec buf iovec;
-      Log.debug (fun k -> k "got buffer of len=%d" (Byte_buffer.length buf));
-      self.on_event (E_received buf)
+      emit_current_frame_if_any ();
+      add_iovec_to_buf buf iovec
+    | Some (`Continuation, iovec) -> add_iovec_to_buf buf iovec
     | Some (op, _iovecs) ->
       Log.debug (fun k ->
           k "got WS opcode %a" Httpun_ws.Websocket.Opcode.pp_hum op)
@@ -89,3 +99,4 @@ let create ~sw ~stdenv ~ws_uri ~on_event () : (t, connect_error) result =
   st
 
 let await (self : t) = Eio.Promise.await_exn self.fiber
+let shutdown (self : t) : unit = Piaf.Client.shutdown self.inner.client

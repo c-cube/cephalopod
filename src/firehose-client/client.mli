@@ -17,3 +17,4 @@ val create :
   (t, connect_error) result
 
 val await : t -> unit
+val shutdown : t -> unit
