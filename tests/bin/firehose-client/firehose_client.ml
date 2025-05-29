@@ -69,10 +69,18 @@ let () =
          Cephalopod_firehose_client.Client.show_connect_error
   in
 
-  Sys.set_signal Sys.sigterm
-    (Sys.Signal_handle
-       (fun _ ->
-         Log.info (fun k -> k "got ctrl-c, shutting down");
-         Cephalopod_firehose_client.Client.shutdown client));
+  let cond_sigint = Eio.Condition.create () in
+  Sys.set_signal Sys.sigint
+    (Sys.Signal_handle (fun _ -> Eio.Condition.broadcast cond_sigint));
 
-  Cephalopod_firehose_client.Client.await client
+  Eio.Fiber.first
+    (fun () ->
+      Eio.Condition.await_no_mutex cond_sigint;
+      Log.info (fun k -> k "got ctrl-c, shutting down");
+      Cephalopod_firehose_client.Client.shutdown client;
+      Eio.Switch.fail sw Exit)
+    (fun () ->
+      Cephalopod_firehose_client.Client.await client;
+      Log.info (fun k -> k "client done, shutting down"));
+
+  Log.info (fun k -> k "exiting")
