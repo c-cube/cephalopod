@@ -30,7 +30,7 @@ jobs:
           dune-cache: true
           allow-prerelease-opam: true
 
-      - run: opam install cephalopod cephalopod-models --deps-only -t
+      - run: opam install cephalopod cephalopod-models cephalopod-firehose-client --deps-only -t
       - run: opam exec -- dune build @install
       - run: opam exec -- dune build --force @install @runtest
 
@@ -51,6 +51,6 @@ jobs:
           allow-prerelease-opam: true
 
       - run: opam install ocamlformat.0.27.0
-      - run: opam install cephalopod cephalopod-models --deps-only
+      - run: opam install cephalopod cephalopod-models cephalopod-firehose-client --deps-only
       - run: opam exec -- make format-check
 
