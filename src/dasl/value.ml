@@ -166,3 +166,95 @@ let of_yojson' (j : Json.t) : (t, [> error_of_yojson ]) result =
 
 let[@inline] of_yojson j : (t, string) result =
   of_yojson' j |> Result.map_error show_error_of_yojson
+
+module Util = struct
+  let null = Null
+  let[@inline] array x : t = Array x
+  let[@inline] bool x : t = Bool x
+  let[@inline] bytes x : t = Bytes x
+  let[@inline] int x : t = Int x
+  let[@inline] map x : t = Map x
+  let[@inline] cid x : t = Cid x
+  let[@inline] text x : t = Text x
+
+  type conv_error = {
+    msg: string;
+    value: t;
+    path: string list;
+  }
+  [@@deriving show { with_path = false }]
+
+  exception Conv_error of conv_error
+
+  open struct
+    let add_path name (err : conv_error) : conv_error =
+      { err with path = err.path @ [ name ] }
+
+    let conv_error e = raise (Conv_error e)
+  end
+
+  type 'a conv = t -> 'a
+
+  let to_array : _ list conv = function
+    | Array x -> x
+    | value -> conv_error { value; msg = spf "expected array"; path = [] }
+
+  let to_array_of (f : 'a conv) : 'a list conv =
+   fun v ->
+    to_array v
+    |> List.mapi (fun i x ->
+           try f x
+           with Conv_error err -> conv_error (add_path (spf "[%d]" i) err))
+
+  let to_option_of (f : 'a conv) : 'a option conv = function
+    | Null -> None
+    | v -> Some (f v)
+
+  let to_bool : bool conv = function
+    | Bool x -> x
+    | value -> conv_error { value; msg = spf "expected bool"; path = [] }
+
+  let to_bytes : bytes conv = function
+    | Bytes x -> Bytes.unsafe_of_string x
+    | value -> conv_error { value; msg = spf "expected bytes"; path = [] }
+
+  let to_int : int64 conv = function
+    | Int x -> x
+    | value -> conv_error { value; msg = spf "expected int"; path = [] }
+
+  let to_map : _ list conv = function
+    | Map x -> x
+    | value -> conv_error { value; msg = spf "expected map"; path = [] }
+
+  let to_null : unit conv = function
+    | Null -> ()
+    | value -> conv_error { value; msg = spf "expected null"; path = [] }
+
+  let to_cid : Cid.t conv = function
+    | Cid x -> x
+    | value -> conv_error { value; msg = spf "expected cid"; path = [] }
+
+  let to_text : string conv = function
+    | Text x -> x
+    | value -> conv_error { value; msg = spf "expected text"; path = [] }
+
+  let get_key (name : string) (conv : t -> 'a) (value : t) : 'a =
+    match value with
+    | Map l ->
+      (match List.assoc_opt name l with
+      | None ->
+        conv_error { value; msg = spf "missing key %S in map" name; path = [] }
+      | Some v ->
+        (try conv v with Conv_error err -> conv_error @@ add_path name err))
+    | value -> conv_error { value; msg = spf "expected map"; path = [] }
+
+  let get_key_opt (name : string) (conv : t -> 'a) (value : t) : 'a option =
+    match value with
+    | Map l ->
+      (match List.assoc_opt name l with
+      | None -> None
+      | Some v ->
+        (try Some (conv v)
+         with Conv_error err -> conv_error @@ add_path name err))
+    | value -> conv_error { value; msg = spf "expected map"; path = [] }
+end

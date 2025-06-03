@@ -5,9 +5,9 @@ type error = {
   name: string;
 }
 
-type 'a jsonable = {
-  to_yojson: 'a -> Yojson.Safe.t;
-  of_yojson: Yojson.Safe.t -> ('a, string) result;
+type 'a encodable = {
+  to_value: 'a -> Cephalopod_dasl.Value.t;
+  of_value: Cephalopod_dasl.Value.t -> 'a;
   pp: Format.formatter -> 'a -> unit;
 }
 
@@ -32,7 +32,7 @@ let encoding_to_mime = function
   | Other s -> s
 
 type 'a params =
-  | Params : 'a jsonable -> 'a params
+  | Params : 'a encodable -> 'a params
   | No_params : unit params
 
 type 'a errors =
@@ -40,13 +40,13 @@ type 'a errors =
   | No_errors : unit errors
 
 type 'a message =
-  | Message : 'e jsonable -> 'e message
+  | Message : 'e encodable -> 'e message
   | No_message : unit message
 
 type 'a input_or_output =
-  | IO_jsonable : {
+  | IO_encodable : {
       encoding: encoding;
-      json: 'a jsonable;
+      encode: 'a encodable;
     }
       -> 'a input_or_output
   | IO_opaque : { encoding: encoding } -> unit input_or_output
@@ -77,6 +77,6 @@ type ('params, 'msg, 'errors) subscription = {
 
 type 'ty record = {
   key: string;
-  record: 'ty jsonable;
+  record: 'ty encodable;
 }
 [@@deriving make]

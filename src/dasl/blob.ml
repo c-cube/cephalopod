@@ -31,6 +31,13 @@ let of_value (v : Value.t) : t option =
     Some { ref_; mime_type; size }
   with _ -> None
 
+let of_value_exn v : t =
+  match of_value v with
+  | Some blob -> blob
+  | None ->
+    raise
+      (Value.Util.Conv_error { msg = "expected blob"; value = v; path = [] })
+
 let to_value (self : t) : Value.t =
   Map
     [

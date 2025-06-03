@@ -176,13 +176,7 @@ module Codegen = struct
             " option"
         in
         let fname = field_name k in
-        let key_attr =
-          if fname <> k then
-            spf " [@key %S]" k
-          else
-            ""
-        in
-        bpf out "    %s: %a%s;%s\n" fname recurse ty option_suffix key_attr)
+        bpf out "    %s: %a%s;\n" fname recurse ty option_suffix)
       properties;
     bpf out "  }"
 
@@ -191,28 +185,111 @@ module Codegen = struct
     List.iteri
       (fun i (r : A.ref) ->
         let cstor = cstor_name_of_ref r in
-        bpf out "   %s `%s of %s [@name %S]\n"
+        bpf out "   %s `%s of %s\n"
           (if i = 0 then
              ""
            else
              " |")
-          cstor (val_name_of_ref r) r.fragment)
+          cstor (val_name_of_ref r))
       refs;
     if not closed then
       bpf out "    | `Other of Value.t (** Non closed union *)\n";
     bpf out "    ]"
 
+  let rec gen_decode_ty ~(inside : A.ref) (out : out) (ty : A.ty) : unit =
+    let recurse out e = gen_decode_ty ~inside out e in
+    match ty.view with
+    | A.Null -> bpf out "Value.Util.to_unit"
+    | A.Unknown -> bpf out "(fun v -> v (* immediate *))"
+    | A.Boolean _ -> bpf out "Value.Util.to_bool"
+    | A.Int _ -> bpf out "Value.Util.to_int"
+    | A.Token | A.Object { properties = []; _ } ->
+      bpf out "(fun _ -> `%s)" (cstor_name_of_ref inside)
+    | A.String _ -> bpf out "Value.Util.to_text"
+    | A.Bytes _ -> bpf out "Value.Util.to_bytes"
+    | A.CidLink -> bpf out "Value.Util.to_cid"
+    | A.Ref { ref; raw = _ } -> bpf out "%s_of_value" (val_name_of_ref ref)
+    | A.Blob _ -> bpf out "Blob.of_value_exn"
+    | A.Array { items; _ } ->
+      bpf out "(Value.Util.to_array_of %a)" recurse items
+    | A.Object { required; nullable; properties } ->
+      bpf out "(fun v ->\n%a)"
+        (gen_decode_fields ~inside ~required ~nullable ~properties)
+        "v"
+    | A.Union { refs; closed } ->
+      bpf out "(fun v ->\n%a)" (gen_decode_union ~inside ~refs ~closed) "v"
+
+  and gen_decode_fields ~inside ~required ~nullable ~properties out
+      (expr : string) =
+    let recurse out e = gen_decode_ty ~inside out e in
+    List.iter
+      (fun (k, ty) ->
+        let required =
+          match required, nullable with
+          | Some r, _ when List.mem k r -> true
+          | _, Some n when List.mem k n -> false
+          | _ -> false
+        in
+        let decode_fun =
+          if required then
+            "get_key"
+          else
+            "get_key_opt"
+        in
+        let fname = field_name k in
+        bpf out "    let %s = Value.Util.%s %S %a %s in\n" fname decode_fun k
+          recurse ty expr)
+      properties;
+    bpf out "    {";
+    List.iter
+      (fun (k, _) ->
+        let fname = field_name k in
+        bpf out "%s;" fname)
+      properties;
+    bpf out "}"
+
+  and gen_decode_union ~inside:_ ~refs ~closed out (expr : string) =
+    bpf out "    (match Value.Util.get_key %S Value.Util.to_text %s with"
+      "$type" expr;
+    List.iter
+      (fun (r : A.ref) ->
+        let cstor = cstor_name_of_ref r in
+        bpf out "\n    | %S -> `%s (%s_of_value v)" r.fragment
+          (* (val_name_of_ref r) *) cstor (val_name_of_ref r))
+      refs;
+    if not closed then bpf out "\n    | _ -> `Other v (* Non closed union *)\n";
+    bpf out "    )"
+
   let gen_object (out : out) ((ref, o) : A.ref * A.object_) : unit =
     bpf out "%s = %a" (val_name_of_ref ref) (gen_ty ~inside:ref)
       { description = None; view = Object o }
 
+  let gen_decode_object (out : out) ((ref, o) : A.ref * A.object_) : unit =
+    let ty : A.ty = { description = None; view = Object o } in
+    bpf out "%s_of_value : %s Value.Util.conv = %a" (val_name_of_ref ref)
+      (val_name_of_ref ref)
+      (gen_decode_ty ~inside:ref)
+      ty
+
   let gen_ty_def (out : out) ((ref, ty) : A.ref * A.ty) : unit =
     bpf out "%s = %a" (val_name_of_ref ref) (gen_ty ~inside:ref) ty
+
+  let gen_decode_ty_def (out : out) ((ref, ty) : A.ref * A.ty) : unit =
+    bpf out "%s_of_value : %a Value.Util.conv = %a" (val_name_of_ref ref)
+      (gen_ty ~inside:ref) ty
+      (gen_decode_ty ~inside:ref)
+      ty
 
   let gen_def_type (out : out) ((ref, def) : A.ref * A.def) : unit =
     match def with
     | A.Object o -> gen_object out (ref, o)
     | A.Type ty -> gen_ty_def out (ref, ty)
+    | A.Query _ | A.Procedure _ | A.Record _ | A.Subscription _ -> assert false
+
+  let gen_decode_def_type (out : out) ((ref, def) : A.ref * A.def) : unit =
+    match def with
+    | A.Object o -> gen_decode_object out (ref, o)
+    | A.Type ty -> gen_decode_ty_def out (ref, ty)
     | A.Query _ | A.Procedure _ | A.Record _ | A.Subscription _ -> assert false
 
   let gen_type_clique (oc : out_channel) (clique : (A.ref * A.def) list) : unit
@@ -228,7 +305,18 @@ module Codegen = struct
         gen_def_type out (ref, def);
         bpf out "\n")
       clique;
-    bpf out "  [@@deriving show {with_path=false}, yojson {strict=false}]\n\n";
+    bpf out "  [@@deriving show {with_path=false}]\n\n";
+
+    List.iteri
+      (fun i (ref, def) ->
+        if i = 0 then
+          bpf out "  let rec "
+        else
+          bpf out "  and ";
+        gen_decode_def_type out (ref, def);
+        bpf out "\n")
+      clique;
+    bpf out "\n";
     Buffer.output_buffer oc out
 
   let name_of_params ~ref (_p : A.params) : string =
@@ -252,20 +340,27 @@ module Codegen = struct
     bpf out "  type %s = " (name_of_params ~ref p);
     gen_fields ~inside:ref ~required:p.required ~nullable:None
       ~properties:p.properties out ();
-    bpf out
-      "\n  [@@deriving show {with_path=false}, yojson {strict=false}, make]\n\n"
+    bpf out "\n  [@@deriving show {with_path=false}, make]\n\n";
+    bpf out "  let %s_of_value : %s Value.Util.conv = fun v ->\n%a\n"
+      (name_of_params ~ref p) (name_of_params ~ref p)
+      (gen_decode_fields ~inside:ref ~required:p.required ~nullable:None
+         ~properties:p.properties)
+      "v";
+    bpf out "\n"
 
   let define_io ~ref ~(which : [ `In | `Out ]) out (io : A.input_or_output) :
       unit =
     let name = name_of_io ~ref ~which io in
     assert (io.schema <> None);
     let ty = Option.get io.schema in
-    bpf out "  type %s = %a" name
-      (gen_ty ~inside:{ A.name = ""; fragment = name })
+    let as_ref = { A.name = ""; fragment = name } in
+    bpf out "  type %s = %a" name (gen_ty ~inside:as_ref) ty;
+    bpf out "\n  [@@deriving show {with_path=false}]\n\n";
+    bpf out "  let %s_of_value : %s Value.Util.conv = %a\n" name name
+      (gen_decode_ty ~inside:as_ref)
       ty;
-    bpf out "\n  [@@deriving show {with_path=false}, yojson {strict=false}]\n\n"
+    bpf out "\n"
 
-  (* FIXME: generate of/to yojson directly from strings, no list involved *)
   let define_errors ~ref out (errs : A.error list) : unit =
     assert (errs <> []);
     bpf out "  type %s = [" (name_of_errors ~ref errs);
@@ -280,31 +375,31 @@ module Codegen = struct
           e.name)
       errs;
     bpf out "]";
-    bpf out "\n  [@@deriving show {with_path=false}, yojson {strict=false}]\n\n"
+    (* TODO: of value *)
+    bpf out "\n  [@@deriving show {with_path=false}]\n\n"
 
   let define_message ~ref out (m : A.message) : unit =
     let name = name_of_message ~ref m in
-    bpf out "  type %s = %a" name
-      (gen_ty ~inside:{ A.name = ""; fragment = name })
+    let as_ref = { A.name = ""; fragment = name } in
+    bpf out "  type %s = %a" name (gen_ty ~inside:as_ref) m.schema;
+    bpf out "\n  [@@deriving show {with_path=false}]\n\n";
+    bpf out "  let %s_of_value : %s Value.Util.conv = %a\n" name name
+      (gen_decode_ty ~inside:as_ref)
       m.schema;
-    bpf out "\n  [@@deriving show {with_path=false}, yojson {strict=false}]\n\n"
+    bpf out "\n"
 
   let base_typ_of_name name : string =
-    spf
-      "{\n\
-      \    to_yojson=%s_to_yojson;\n\
-      \    of_yojson=%s_of_yojson;\n\
-      \    pp=pp_%s}"
+    spf "{\n    to_value=%s_to_value;\n    of_value=%s_of_value;\n    pp=pp_%s}"
       name name name
 
   (** Generate code for a single definition, in a module of its own *)
   let gen_def_in_mod (out : out) ((ref, def) : A.ref * A.def) : unit =
     let name = String.lowercase_ascii ref.fragment |> remove_keyword in
 
-    let alias_pp_json name ref =
+    let alias_pp_encode name ref =
       bpf out "  let pp_%s = pp_%s\n" name (val_name_of_ref ref);
-      bpf out "  let %s_of_yojson = %s_of_yojson\n" name (val_name_of_ref ref);
-      bpf out "  let %s_to_yojson = %s_to_yojson\n" name (val_name_of_ref ref)
+      bpf out "  let %s_of_value = %s_of_value\n" name (val_name_of_ref ref);
+      bpf out "  let %s_to_value = %s_to_value\n" name (val_name_of_ref ref)
     in
 
     let params_as_argument (p : A.params option) : string =
@@ -322,7 +417,7 @@ module Codegen = struct
         let name = name_of_io ~ref ~which:`In io in
         if Option.is_some io.schema then (
           define_io ~ref ~which:`In out io;
-          spf "\n    ~input:(IO_jsonable {encoding=%s; json=%s})"
+          spf "\n    ~input:(IO_encodable {encoding=%s; encode=%s})"
             (A.show_encoding io.encoding)
             (base_typ_of_name name)
         ) else
@@ -337,7 +432,7 @@ module Codegen = struct
         let name = name_of_io ~ref ~which:`Out io in
         if Option.is_some io.schema then (
           define_io ~ref ~which:`Out out io;
-          spf "\n    ~output:(IO_jsonable {encoding=%s; json=%s})"
+          spf "\n    ~output:(IO_encodable {encoding=%s; encode=%s})"
             (A.show_encoding io.encoding)
             (base_typ_of_name name)
         ) else
@@ -365,21 +460,23 @@ module Codegen = struct
     in
 
     match def with
-    | A.Type ({ view = Object { properties = _ :: _; _ }; _ } as ty) ->
+    | A.Type
+        ({ view = Object { properties = _ :: _; _ }; description; _ } as ty) ->
       (* alias and redefine *)
+      Option.iter (bpf out "  (** %s *)\n") description;
       bpf out "  type nonrec %s = %s = %a\n" name (val_name_of_ref ref)
         (gen_ty ~inside:ref) ty;
-      alias_pp_json name ref
+      alias_pp_encode name ref
     | A.Object ({ properties = _ :: _; _ } as o) ->
       (* alias and redefine *)
       bpf out "  type nonrec %s = %s = %a\n" name (val_name_of_ref ref)
         (gen_ty ~inside:ref)
         { A.description = None; view = Object o };
-      alias_pp_json name ref
+      alias_pp_encode name ref
     | A.Type _ | A.Object _ ->
       (* alias to the real definition *)
       bpf out "  type nonrec %s = %s\n" name (val_name_of_ref ref);
-      alias_pp_json name ref
+      alias_pp_encode name ref
     | A.Query q ->
       let params = params_as_argument q.parameters in
       let output = output_as_argument q.output in
@@ -407,8 +504,7 @@ module Codegen = struct
       bpf out "  type %s = " name;
       gen_fields ~inside:ref ~required:r.record.required
         ~nullable:r.record.nullable ~properties:r.record.properties out ();
-      bpf out
-        "  [@@deriving show {with_path=false}, yojson {strict=false}, make]\n\n"
+      bpf out "  [@@deriving show {with_path=false}, make]\n\n"
 
   let gen_lexicon (oc : out_channel) (lex : A.lexicon) : unit =
     let out = Buffer.create 32 in
@@ -433,7 +529,7 @@ module Codegen = struct
   let prelude =
     {|(* geherated by Cephalopod_lexicon's codegen tool, do not modify *)
 open Cephalopod_dasl
-
+[@@@ocaml.warning "-39-41"]
 |}
 
   let run (oc : out_channel) (lex_l : Lex.Ast.lexicon list) : unit =
