@@ -187,7 +187,7 @@ module Types = struct
     status: string;
     record: Value.t (* unknown *);
     embed: [
-    `App_bsky_embed_external_view of app_bsky_embed_external_view
+    | `App_bsky_embed_external_view of app_bsky_embed_external_view
     | `Other of Value.t (** Non closed union *)
     ] option;
     expiresAt: string option;
@@ -200,7 +200,7 @@ module Types = struct
     let record = Value.Util.get_key "record" (fun v -> v (* immediate *)) v in
     let embed = Value.Util.get_key_opt "embed" (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "view" -> `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
+    | "app.bsky.embed.external#view" -> `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let expiresAt = Value.Util.get_key_opt "expiresAt" Value.Util.to_text v in
@@ -437,7 +437,7 @@ module Types = struct
   type app_bsky_richtext_facet_main = {
     index: app_bsky_richtext_facet_byteslice;
     features: [
-    `App_bsky_richtext_facet_mention of app_bsky_richtext_facet_mention
+    | `App_bsky_richtext_facet_mention of app_bsky_richtext_facet_mention
     | `App_bsky_richtext_facet_link of app_bsky_richtext_facet_link
     | `App_bsky_richtext_facet_tag of app_bsky_richtext_facet_tag
     | `Other of Value.t (** Non closed union *)
@@ -449,9 +449,9 @@ module Types = struct
     let index = Value.Util.get_key "index" app_bsky_richtext_facet_byteslice_of_value v in
     let features = Value.Util.get_key "features" (Value.Util.to_array_of (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "mention" -> `App_bsky_richtext_facet_mention (app_bsky_richtext_facet_mention_of_value v)
-    | "link" -> `App_bsky_richtext_facet_link (app_bsky_richtext_facet_link_of_value v)
-    | "tag" -> `App_bsky_richtext_facet_tag (app_bsky_richtext_facet_tag_of_value v)
+    | "app.bsky.richtext.facet#mention" -> `App_bsky_richtext_facet_mention (app_bsky_richtext_facet_mention_of_value v)
+    | "app.bsky.richtext.facet#link" -> `App_bsky_richtext_facet_link (app_bsky_richtext_facet_link_of_value v)
+    | "app.bsky.richtext.facet#tag" -> `App_bsky_richtext_facet_tag (app_bsky_richtext_facet_tag_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
     {index;features;})
@@ -882,14 +882,14 @@ module Types = struct
   (** def "app.bsky.actor.defs#postInteractionSettingsPref" *)
   type app_bsky_actor_defs_postinteractionsettingspref = {
     threadgateAllowRules: [
-    `App_bsky_feed_threadgate_mentionrule of app_bsky_feed_threadgate_mentionrule
+    | `App_bsky_feed_threadgate_mentionrule of app_bsky_feed_threadgate_mentionrule
     | `App_bsky_feed_threadgate_followerrule of app_bsky_feed_threadgate_followerrule
     | `App_bsky_feed_threadgate_followingrule of app_bsky_feed_threadgate_followingrule
     | `App_bsky_feed_threadgate_listrule of app_bsky_feed_threadgate_listrule
     | `Other of Value.t (** Non closed union *)
     ] list option;
     postgateEmbeddingRules: [
-    `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule
+    | `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule
     | `Other of Value.t (** Non closed union *)
     ] list option;
   }
@@ -898,15 +898,15 @@ module Types = struct
   let rec app_bsky_actor_defs_postinteractionsettingspref_of_value : app_bsky_actor_defs_postinteractionsettingspref Value.Util.conv = (fun v ->
     let threadgateAllowRules = Value.Util.get_key_opt "threadgateAllowRules" (Value.Util.to_array_of (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "mentionRule" -> `App_bsky_feed_threadgate_mentionrule (app_bsky_feed_threadgate_mentionrule_of_value v)
-    | "followerRule" -> `App_bsky_feed_threadgate_followerrule (app_bsky_feed_threadgate_followerrule_of_value v)
-    | "followingRule" -> `App_bsky_feed_threadgate_followingrule (app_bsky_feed_threadgate_followingrule_of_value v)
-    | "listRule" -> `App_bsky_feed_threadgate_listrule (app_bsky_feed_threadgate_listrule_of_value v)
+    | "app.bsky.feed.threadgate#mentionRule" -> `App_bsky_feed_threadgate_mentionrule (app_bsky_feed_threadgate_mentionrule_of_value v)
+    | "app.bsky.feed.threadgate#followerRule" -> `App_bsky_feed_threadgate_followerrule (app_bsky_feed_threadgate_followerrule_of_value v)
+    | "app.bsky.feed.threadgate#followingRule" -> `App_bsky_feed_threadgate_followingrule (app_bsky_feed_threadgate_followingrule_of_value v)
+    | "app.bsky.feed.threadgate#listRule" -> `App_bsky_feed_threadgate_listrule (app_bsky_feed_threadgate_listrule_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
     let postgateEmbeddingRules = Value.Util.get_key_opt "postgateEmbeddingRules" (Value.Util.to_array_of (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "disableRule" -> `App_bsky_feed_postgate_disablerule (app_bsky_feed_postgate_disablerule_of_value v)
+    | "app.bsky.feed.postgate#disableRule" -> `App_bsky_feed_postgate_disablerule (app_bsky_feed_postgate_disablerule_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
     {threadgateAllowRules;postgateEmbeddingRules;})
@@ -925,7 +925,7 @@ module Types = struct
 
   (** def "app.bsky.actor.defs#preferences" *)
   type app_bsky_actor_defs_preferences = [
-    `App_bsky_actor_defs_adultcontentpref of app_bsky_actor_defs_adultcontentpref
+    | `App_bsky_actor_defs_adultcontentpref of app_bsky_actor_defs_adultcontentpref
     | `App_bsky_actor_defs_contentlabelpref of app_bsky_actor_defs_contentlabelpref
     | `App_bsky_actor_defs_savedfeedspref of app_bsky_actor_defs_savedfeedspref
     | `App_bsky_actor_defs_savedfeedsprefv2 of app_bsky_actor_defs_savedfeedsprefv2
@@ -944,7 +944,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_preferences_of_value : [
-    `App_bsky_actor_defs_adultcontentpref of app_bsky_actor_defs_adultcontentpref
+    | `App_bsky_actor_defs_adultcontentpref of app_bsky_actor_defs_adultcontentpref
     | `App_bsky_actor_defs_contentlabelpref of app_bsky_actor_defs_contentlabelpref
     | `App_bsky_actor_defs_savedfeedspref of app_bsky_actor_defs_savedfeedspref
     | `App_bsky_actor_defs_savedfeedsprefv2 of app_bsky_actor_defs_savedfeedsprefv2
@@ -961,20 +961,20 @@ module Types = struct
     | `Other of Value.t (** Non closed union *)
     ] list Value.Util.conv = (Value.Util.to_array_of (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "adultContentPref" -> `App_bsky_actor_defs_adultcontentpref (app_bsky_actor_defs_adultcontentpref_of_value v)
-    | "contentLabelPref" -> `App_bsky_actor_defs_contentlabelpref (app_bsky_actor_defs_contentlabelpref_of_value v)
-    | "savedFeedsPref" -> `App_bsky_actor_defs_savedfeedspref (app_bsky_actor_defs_savedfeedspref_of_value v)
-    | "savedFeedsPrefV2" -> `App_bsky_actor_defs_savedfeedsprefv2 (app_bsky_actor_defs_savedfeedsprefv2_of_value v)
-    | "personalDetailsPref" -> `App_bsky_actor_defs_personaldetailspref (app_bsky_actor_defs_personaldetailspref_of_value v)
-    | "feedViewPref" -> `App_bsky_actor_defs_feedviewpref (app_bsky_actor_defs_feedviewpref_of_value v)
-    | "threadViewPref" -> `App_bsky_actor_defs_threadviewpref (app_bsky_actor_defs_threadviewpref_of_value v)
-    | "interestsPref" -> `App_bsky_actor_defs_interestspref (app_bsky_actor_defs_interestspref_of_value v)
-    | "mutedWordsPref" -> `App_bsky_actor_defs_mutedwordspref (app_bsky_actor_defs_mutedwordspref_of_value v)
-    | "hiddenPostsPref" -> `App_bsky_actor_defs_hiddenpostspref (app_bsky_actor_defs_hiddenpostspref_of_value v)
-    | "bskyAppStatePref" -> `App_bsky_actor_defs_bskyappstatepref (app_bsky_actor_defs_bskyappstatepref_of_value v)
-    | "labelersPref" -> `App_bsky_actor_defs_labelerspref (app_bsky_actor_defs_labelerspref_of_value v)
-    | "postInteractionSettingsPref" -> `App_bsky_actor_defs_postinteractionsettingspref (app_bsky_actor_defs_postinteractionsettingspref_of_value v)
-    | "verificationPrefs" -> `App_bsky_actor_defs_verificationprefs (app_bsky_actor_defs_verificationprefs_of_value v)
+    | "app.bsky.actor.defs#adultContentPref" -> `App_bsky_actor_defs_adultcontentpref (app_bsky_actor_defs_adultcontentpref_of_value v)
+    | "app.bsky.actor.defs#contentLabelPref" -> `App_bsky_actor_defs_contentlabelpref (app_bsky_actor_defs_contentlabelpref_of_value v)
+    | "app.bsky.actor.defs#savedFeedsPref" -> `App_bsky_actor_defs_savedfeedspref (app_bsky_actor_defs_savedfeedspref_of_value v)
+    | "app.bsky.actor.defs#savedFeedsPrefV2" -> `App_bsky_actor_defs_savedfeedsprefv2 (app_bsky_actor_defs_savedfeedsprefv2_of_value v)
+    | "app.bsky.actor.defs#personalDetailsPref" -> `App_bsky_actor_defs_personaldetailspref (app_bsky_actor_defs_personaldetailspref_of_value v)
+    | "app.bsky.actor.defs#feedViewPref" -> `App_bsky_actor_defs_feedviewpref (app_bsky_actor_defs_feedviewpref_of_value v)
+    | "app.bsky.actor.defs#threadViewPref" -> `App_bsky_actor_defs_threadviewpref (app_bsky_actor_defs_threadviewpref_of_value v)
+    | "app.bsky.actor.defs#interestsPref" -> `App_bsky_actor_defs_interestspref (app_bsky_actor_defs_interestspref_of_value v)
+    | "app.bsky.actor.defs#mutedWordsPref" -> `App_bsky_actor_defs_mutedwordspref (app_bsky_actor_defs_mutedwordspref_of_value v)
+    | "app.bsky.actor.defs#hiddenPostsPref" -> `App_bsky_actor_defs_hiddenpostspref (app_bsky_actor_defs_hiddenpostspref_of_value v)
+    | "app.bsky.actor.defs#bskyAppStatePref" -> `App_bsky_actor_defs_bskyappstatepref (app_bsky_actor_defs_bskyappstatepref_of_value v)
+    | "app.bsky.actor.defs#labelersPref" -> `App_bsky_actor_defs_labelerspref (app_bsky_actor_defs_labelerspref_of_value v)
+    | "app.bsky.actor.defs#postInteractionSettingsPref" -> `App_bsky_actor_defs_postinteractionsettingspref (app_bsky_actor_defs_postinteractionsettingspref_of_value v)
+    | "app.bsky.actor.defs#verificationPrefs" -> `App_bsky_actor_defs_verificationprefs (app_bsky_actor_defs_verificationprefs_of_value v)
     | _ -> `Other v (* Non closed union *)
     )))
 
@@ -1149,7 +1149,7 @@ module Types = struct
     likeCount: int64 option;
     quoteCount: int64 option;
     embeds: [
-    `App_bsky_embed_images_view of app_bsky_embed_images_view
+    | `App_bsky_embed_images_view of app_bsky_embed_images_view
     | `App_bsky_embed_video_view of app_bsky_embed_video_view
     | `App_bsky_embed_external_view of app_bsky_embed_external_view
     | `App_bsky_embed_record_view of app_bsky_embed_record_view
@@ -1162,7 +1162,7 @@ module Types = struct
   (** def "app.bsky.embed.record#view" *)
   and app_bsky_embed_record_view = {
     record: [
-    `App_bsky_embed_record_viewrecord of app_bsky_embed_record_viewrecord
+    | `App_bsky_embed_record_viewrecord of app_bsky_embed_record_viewrecord
     | `App_bsky_embed_record_viewnotfound of app_bsky_embed_record_viewnotfound
     | `App_bsky_embed_record_viewblocked of app_bsky_embed_record_viewblocked
     | `App_bsky_embed_record_viewdetached of app_bsky_embed_record_viewdetached
@@ -1178,7 +1178,7 @@ module Types = struct
   and app_bsky_embed_recordwithmedia_view = {
     record: app_bsky_embed_record_view;
     media: [
-    `App_bsky_embed_images_view of app_bsky_embed_images_view
+    | `App_bsky_embed_images_view of app_bsky_embed_images_view
     | `App_bsky_embed_video_view of app_bsky_embed_video_view
     | `App_bsky_embed_external_view of app_bsky_embed_external_view
     | `Other of Value.t (** Non closed union *)
@@ -1198,11 +1198,11 @@ module Types = struct
     let quoteCount = Value.Util.get_key_opt "quoteCount" Value.Util.to_int v in
     let embeds = Value.Util.get_key_opt "embeds" (Value.Util.to_array_of (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "view" -> `App_bsky_embed_images_view (app_bsky_embed_images_view_of_value v)
-    | "view" -> `App_bsky_embed_video_view (app_bsky_embed_video_view_of_value v)
-    | "view" -> `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
-    | "view" -> `App_bsky_embed_record_view (app_bsky_embed_record_view_of_value v)
-    | "view" -> `App_bsky_embed_recordwithmedia_view (app_bsky_embed_recordwithmedia_view_of_value v)
+    | "app.bsky.embed.images#view" -> `App_bsky_embed_images_view (app_bsky_embed_images_view_of_value v)
+    | "app.bsky.embed.video#view" -> `App_bsky_embed_video_view (app_bsky_embed_video_view_of_value v)
+    | "app.bsky.embed.external#view" -> `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
+    | "app.bsky.embed.record#view" -> `App_bsky_embed_record_view (app_bsky_embed_record_view_of_value v)
+    | "app.bsky.embed.recordWithMedia#view" -> `App_bsky_embed_recordwithmedia_view (app_bsky_embed_recordwithmedia_view_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
     let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
@@ -1210,14 +1210,14 @@ module Types = struct
   and app_bsky_embed_record_view_of_value : app_bsky_embed_record_view Value.Util.conv = (fun v ->
     let record = Value.Util.get_key "record" (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "viewRecord" -> `App_bsky_embed_record_viewrecord (app_bsky_embed_record_viewrecord_of_value v)
-    | "viewNotFound" -> `App_bsky_embed_record_viewnotfound (app_bsky_embed_record_viewnotfound_of_value v)
-    | "viewBlocked" -> `App_bsky_embed_record_viewblocked (app_bsky_embed_record_viewblocked_of_value v)
-    | "viewDetached" -> `App_bsky_embed_record_viewdetached (app_bsky_embed_record_viewdetached_of_value v)
-    | "generatorView" -> `App_bsky_feed_defs_generatorview (app_bsky_feed_defs_generatorview_of_value v)
-    | "listView" -> `App_bsky_graph_defs_listview (app_bsky_graph_defs_listview_of_value v)
-    | "labelerView" -> `App_bsky_labeler_defs_labelerview (app_bsky_labeler_defs_labelerview_of_value v)
-    | "starterPackViewBasic" -> `App_bsky_graph_defs_starterpackviewbasic (app_bsky_graph_defs_starterpackviewbasic_of_value v)
+    | "app.bsky.embed.record#viewRecord" -> `App_bsky_embed_record_viewrecord (app_bsky_embed_record_viewrecord_of_value v)
+    | "app.bsky.embed.record#viewNotFound" -> `App_bsky_embed_record_viewnotfound (app_bsky_embed_record_viewnotfound_of_value v)
+    | "app.bsky.embed.record#viewBlocked" -> `App_bsky_embed_record_viewblocked (app_bsky_embed_record_viewblocked_of_value v)
+    | "app.bsky.embed.record#viewDetached" -> `App_bsky_embed_record_viewdetached (app_bsky_embed_record_viewdetached_of_value v)
+    | "app.bsky.feed.defs#generatorView" -> `App_bsky_feed_defs_generatorview (app_bsky_feed_defs_generatorview_of_value v)
+    | "app.bsky.graph.defs#listView" -> `App_bsky_graph_defs_listview (app_bsky_graph_defs_listview_of_value v)
+    | "app.bsky.labeler.defs#labelerView" -> `App_bsky_labeler_defs_labelerview (app_bsky_labeler_defs_labelerview_of_value v)
+    | "app.bsky.graph.defs#starterPackViewBasic" -> `App_bsky_graph_defs_starterpackviewbasic (app_bsky_graph_defs_starterpackviewbasic_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     {record;})
@@ -1225,9 +1225,9 @@ module Types = struct
     let record = Value.Util.get_key "record" app_bsky_embed_record_view_of_value v in
     let media = Value.Util.get_key "media" (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "view" -> `App_bsky_embed_images_view (app_bsky_embed_images_view_of_value v)
-    | "view" -> `App_bsky_embed_video_view (app_bsky_embed_video_view_of_value v)
-    | "view" -> `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
+    | "app.bsky.embed.images#view" -> `App_bsky_embed_images_view (app_bsky_embed_images_view_of_value v)
+    | "app.bsky.embed.video#view" -> `App_bsky_embed_video_view (app_bsky_embed_video_view_of_value v)
+    | "app.bsky.embed.external#view" -> `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     {record;media;})
@@ -1693,7 +1693,7 @@ module Types = struct
     author: app_bsky_actor_defs_profileviewbasic;
     record: Value.t (* unknown *);
     embed: [
-    `App_bsky_embed_images_view of app_bsky_embed_images_view
+    | `App_bsky_embed_images_view of app_bsky_embed_images_view
     | `App_bsky_embed_video_view of app_bsky_embed_video_view
     | `App_bsky_embed_external_view of app_bsky_embed_external_view
     | `App_bsky_embed_record_view of app_bsky_embed_record_view
@@ -1718,11 +1718,11 @@ module Types = struct
     let record = Value.Util.get_key "record" (fun v -> v (* immediate *)) v in
     let embed = Value.Util.get_key_opt "embed" (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "view" -> `App_bsky_embed_images_view (app_bsky_embed_images_view_of_value v)
-    | "view" -> `App_bsky_embed_video_view (app_bsky_embed_video_view_of_value v)
-    | "view" -> `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
-    | "view" -> `App_bsky_embed_record_view (app_bsky_embed_record_view_of_value v)
-    | "view" -> `App_bsky_embed_recordwithmedia_view (app_bsky_embed_recordwithmedia_view_of_value v)
+    | "app.bsky.embed.images#view" -> `App_bsky_embed_images_view (app_bsky_embed_images_view_of_value v)
+    | "app.bsky.embed.video#view" -> `App_bsky_embed_video_view (app_bsky_embed_video_view_of_value v)
+    | "app.bsky.embed.external#view" -> `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
+    | "app.bsky.embed.record#view" -> `App_bsky_embed_record_view (app_bsky_embed_record_view_of_value v)
+    | "app.bsky.embed.recordWithMedia#view" -> `App_bsky_embed_recordwithmedia_view (app_bsky_embed_recordwithmedia_view_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let replyCount = Value.Util.get_key_opt "replyCount" Value.Util.to_int v in
@@ -1767,13 +1767,13 @@ module Types = struct
   (** def "app.bsky.feed.defs#replyRef" *)
   type app_bsky_feed_defs_replyref = {
     root: [
-    `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview
+    | `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview
     | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
     | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
     | `Other of Value.t (** Non closed union *)
     ];
     parent: [
-    `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview
+    | `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview
     | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
     | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
     | `Other of Value.t (** Non closed union *)
@@ -1785,16 +1785,16 @@ module Types = struct
   let rec app_bsky_feed_defs_replyref_of_value : app_bsky_feed_defs_replyref Value.Util.conv = (fun v ->
     let root = Value.Util.get_key "root" (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "postView" -> `App_bsky_feed_defs_postview (app_bsky_feed_defs_postview_of_value v)
-    | "notFoundPost" -> `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
-    | "blockedPost" -> `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
+    | "app.bsky.feed.defs#postView" -> `App_bsky_feed_defs_postview (app_bsky_feed_defs_postview_of_value v)
+    | "app.bsky.feed.defs#notFoundPost" -> `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
+    | "app.bsky.feed.defs#blockedPost" -> `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let parent = Value.Util.get_key "parent" (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "postView" -> `App_bsky_feed_defs_postview (app_bsky_feed_defs_postview_of_value v)
-    | "notFoundPost" -> `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
-    | "blockedPost" -> `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
+    | "app.bsky.feed.defs#postView" -> `App_bsky_feed_defs_postview (app_bsky_feed_defs_postview_of_value v)
+    | "app.bsky.feed.defs#notFoundPost" -> `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
+    | "app.bsky.feed.defs#blockedPost" -> `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let grandparentAuthor = Value.Util.get_key_opt "grandparentAuthor" app_bsky_actor_defs_profileviewbasic_of_value v in
@@ -1819,7 +1819,7 @@ module Types = struct
     post: app_bsky_feed_defs_postview;
     reply: app_bsky_feed_defs_replyref option;
     reason: [
-    `App_bsky_feed_defs_reasonrepost of app_bsky_feed_defs_reasonrepost
+    | `App_bsky_feed_defs_reasonrepost of app_bsky_feed_defs_reasonrepost
     | `App_bsky_feed_defs_reasonpin of app_bsky_feed_defs_reasonpin
     | `Other of Value.t (** Non closed union *)
     ] option;
@@ -1832,8 +1832,8 @@ module Types = struct
     let reply = Value.Util.get_key_opt "reply" app_bsky_feed_defs_replyref_of_value v in
     let reason = Value.Util.get_key_opt "reason" (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "reasonRepost" -> `App_bsky_feed_defs_reasonrepost (app_bsky_feed_defs_reasonrepost_of_value v)
-    | "reasonPin" -> `App_bsky_feed_defs_reasonpin (app_bsky_feed_defs_reasonpin_of_value v)
+    | "app.bsky.feed.defs#reasonRepost" -> `App_bsky_feed_defs_reasonrepost (app_bsky_feed_defs_reasonrepost_of_value v)
+    | "app.bsky.feed.defs#reasonPin" -> `App_bsky_feed_defs_reasonpin (app_bsky_feed_defs_reasonpin_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let feedContext = Value.Util.get_key_opt "feedContext" Value.Util.to_text v in
@@ -2544,7 +2544,7 @@ module Types = struct
   type app_bsky_feed_defs_skeletonfeedpost = {
     post: string;
     reason: [
-    `App_bsky_feed_defs_skeletonreasonrepost of app_bsky_feed_defs_skeletonreasonrepost
+    | `App_bsky_feed_defs_skeletonreasonrepost of app_bsky_feed_defs_skeletonreasonrepost
     | `App_bsky_feed_defs_skeletonreasonpin of app_bsky_feed_defs_skeletonreasonpin
     | `Other of Value.t (** Non closed union *)
     ] option;
@@ -2556,8 +2556,8 @@ module Types = struct
     let post = Value.Util.get_key "post" Value.Util.to_text v in
     let reason = Value.Util.get_key_opt "reason" (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "skeletonReasonRepost" -> `App_bsky_feed_defs_skeletonreasonrepost (app_bsky_feed_defs_skeletonreasonrepost_of_value v)
-    | "skeletonReasonPin" -> `App_bsky_feed_defs_skeletonreasonpin (app_bsky_feed_defs_skeletonreasonpin_of_value v)
+    | "app.bsky.feed.defs#skeletonReasonRepost" -> `App_bsky_feed_defs_skeletonreasonrepost (app_bsky_feed_defs_skeletonreasonrepost_of_value v)
+    | "app.bsky.feed.defs#skeletonReasonPin" -> `App_bsky_feed_defs_skeletonreasonpin (app_bsky_feed_defs_skeletonreasonpin_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let feedContext = Value.Util.get_key_opt "feedContext" Value.Util.to_text v in
@@ -2568,13 +2568,13 @@ module Types = struct
   type app_bsky_feed_defs_threadviewpost = {
     post: app_bsky_feed_defs_postview;
     parent: [
-    `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost
+    | `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost
     | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
     | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
     | `Other of Value.t (** Non closed union *)
     ] option;
     replies: [
-    `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost
+    | `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost
     | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
     | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
     | `Other of Value.t (** Non closed union *)
@@ -2587,16 +2587,16 @@ module Types = struct
     let post = Value.Util.get_key "post" app_bsky_feed_defs_postview_of_value v in
     let parent = Value.Util.get_key_opt "parent" (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "threadViewPost" -> `App_bsky_feed_defs_threadviewpost (app_bsky_feed_defs_threadviewpost_of_value v)
-    | "notFoundPost" -> `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
-    | "blockedPost" -> `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
+    | "app.bsky.feed.defs#threadViewPost" -> `App_bsky_feed_defs_threadviewpost (app_bsky_feed_defs_threadviewpost_of_value v)
+    | "app.bsky.feed.defs#notFoundPost" -> `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
+    | "app.bsky.feed.defs#blockedPost" -> `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let replies = Value.Util.get_key_opt "replies" (Value.Util.to_array_of (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "threadViewPost" -> `App_bsky_feed_defs_threadviewpost (app_bsky_feed_defs_threadviewpost_of_value v)
-    | "notFoundPost" -> `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
-    | "blockedPost" -> `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
+    | "app.bsky.feed.defs#threadViewPost" -> `App_bsky_feed_defs_threadviewpost (app_bsky_feed_defs_threadviewpost_of_value v)
+    | "app.bsky.feed.defs#notFoundPost" -> `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
+    | "app.bsky.feed.defs#blockedPost" -> `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
     let threadContext = Value.Util.get_key_opt "threadContext" app_bsky_feed_defs_threadcontext_of_value v in
@@ -2694,7 +2694,7 @@ module Types = struct
   type app_bsky_embed_recordwithmedia_main = {
     record: app_bsky_embed_record_main;
     media: [
-    `App_bsky_embed_images_main of app_bsky_embed_images_main
+    | `App_bsky_embed_images_main of app_bsky_embed_images_main
     | `App_bsky_embed_video_main of app_bsky_embed_video_main
     | `App_bsky_embed_external_main of app_bsky_embed_external_main
     | `Other of Value.t (** Non closed union *)
@@ -2706,9 +2706,9 @@ module Types = struct
     let record = Value.Util.get_key "record" app_bsky_embed_record_main_of_value v in
     let media = Value.Util.get_key "media" (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "main" -> `App_bsky_embed_images_main (app_bsky_embed_images_main_of_value v)
-    | "main" -> `App_bsky_embed_video_main (app_bsky_embed_video_main_of_value v)
-    | "main" -> `App_bsky_embed_external_main (app_bsky_embed_external_main_of_value v)
+    | "app.bsky.embed.images" -> `App_bsky_embed_images_main (app_bsky_embed_images_main_of_value v)
+    | "app.bsky.embed.video" -> `App_bsky_embed_video_main (app_bsky_embed_video_main_of_value v)
+    | "app.bsky.embed.external" -> `App_bsky_embed_external_main (app_bsky_embed_external_main_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     {record;media;})
@@ -2877,7 +2877,7 @@ module Com_Atproto_Sync_SubscribeRepos = struct
   (** {2 def main} *)
 
   type main_msg = [
-    `Com_atproto_sync_subscriberepos_commit of com_atproto_sync_subscriberepos_commit
+    | `Com_atproto_sync_subscriberepos_commit of com_atproto_sync_subscriberepos_commit
     | `Com_atproto_sync_subscriberepos_sync of com_atproto_sync_subscriberepos_sync
     | `Com_atproto_sync_subscriberepos_identity of com_atproto_sync_subscriberepos_identity
     | `Com_atproto_sync_subscriberepos_account of com_atproto_sync_subscriberepos_account
@@ -2888,11 +2888,11 @@ module Com_Atproto_Sync_SubscribeRepos = struct
 
   let main_msg_of_value : main_msg Value.Util.conv = (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "commit" -> `Com_atproto_sync_subscriberepos_commit (com_atproto_sync_subscriberepos_commit_of_value v)
-    | "sync" -> `Com_atproto_sync_subscriberepos_sync (com_atproto_sync_subscriberepos_sync_of_value v)
-    | "identity" -> `Com_atproto_sync_subscriberepos_identity (com_atproto_sync_subscriberepos_identity_of_value v)
-    | "account" -> `Com_atproto_sync_subscriberepos_account (com_atproto_sync_subscriberepos_account_of_value v)
-    | "info" -> `Com_atproto_sync_subscriberepos_info (com_atproto_sync_subscriberepos_info_of_value v)
+    | "com.atproto.sync.subscribeRepos#commit" -> `Com_atproto_sync_subscriberepos_commit (com_atproto_sync_subscriberepos_commit_of_value v)
+    | "com.atproto.sync.subscribeRepos#sync" -> `Com_atproto_sync_subscriberepos_sync (com_atproto_sync_subscriberepos_sync_of_value v)
+    | "com.atproto.sync.subscribeRepos#identity" -> `Com_atproto_sync_subscriberepos_identity (com_atproto_sync_subscriberepos_identity_of_value v)
+    | "com.atproto.sync.subscribeRepos#account" -> `Com_atproto_sync_subscriberepos_account (com_atproto_sync_subscriberepos_account_of_value v)
+    | "com.atproto.sync.subscribeRepos#info" -> `Com_atproto_sync_subscriberepos_info (com_atproto_sync_subscriberepos_info_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))
 
@@ -2905,7 +2905,7 @@ module Com_Atproto_Sync_SubscribeRepos = struct
     let cursor = Value.Util.get_key_opt "cursor" Value.Util.to_int v in
     {cursor;}
 
-  type main_error = [ `FutureCursor [@name "FutureCursor"] | `ConsumerTooSlow [@name "ConsumerTooSlow"]]
+  type main_error = [  | `FutureCursor [@name "FutureCursor"]  | `ConsumerTooSlow [@name "ConsumerTooSlow"]]
   [@@deriving show {with_path=false}]
 
   (** Repository event stream, aka Firehose endpoint. Outputs repo commits with diff data, and identity update events, for all repositories on the current server. See the atproto specifications for details around stream sequencing, repo versioning, CAR diff format, and more. Public and does not require auth; implemented by PDS and Relay. *)
@@ -3022,7 +3022,7 @@ module Com_Atproto_Sync_RequestCrawl = struct
     let hostname = Value.Util.get_key "hostname" Value.Util.to_text v in
     {hostname;})
 
-  type main_error = [ `HostBanned [@name "HostBanned"]]
+  type main_error = [  | `HostBanned [@name "HostBanned"]]
   [@@deriving show {with_path=false}]
 
   (** Request a service to persistently crawl hosted repos. Expected use is new PDS instances declaring their existence to Relays. Does not require auth. *)
@@ -3253,7 +3253,7 @@ module Com_Atproto_Sync_ListBlobs = struct
     let cids = Value.Util.get_key "cids" (Value.Util.to_array_of Value.Util.to_text) v in
     {cursor;cids;})
 
-  type main_error = [ `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
+  type main_error = [  | `RepoNotFound [@name "RepoNotFound"]  | `RepoTakendown [@name "RepoTakendown"]  | `RepoSuspended [@name "RepoSuspended"]  | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}]
 
   (** List blob CIDs for an account, since some repo revision. Does not require auth; implemented by PDS. *)
@@ -3300,7 +3300,7 @@ module Com_Atproto_Sync_GetRepoStatus = struct
     let rev = Value.Util.get_key_opt "rev" Value.Util.to_text v in
     {did;active;status;rev;})
 
-  type main_error = [ `RepoNotFound [@name "RepoNotFound"]]
+  type main_error = [  | `RepoNotFound [@name "RepoNotFound"]]
   [@@deriving show {with_path=false}]
 
   (** Get the hosting status for a repository, on this server. Expected to be implemented by PDS and Relay. *)
@@ -3334,7 +3334,7 @@ module Com_Atproto_Sync_GetRepo = struct
     let since = Value.Util.get_key_opt "since" Value.Util.to_text v in
     {did;since;}
 
-  type main_error = [ `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
+  type main_error = [  | `RepoNotFound [@name "RepoNotFound"]  | `RepoTakendown [@name "RepoTakendown"]  | `RepoSuspended [@name "RepoSuspended"]  | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}]
 
   (** Download a repository export as CAR file. Optionally only a 'diff' since a previous revision. Does not require auth; implemented by PDS. *)
@@ -3367,7 +3367,7 @@ module Com_Atproto_Sync_GetRecord = struct
     let rkey = Value.Util.get_key "rkey" Value.Util.to_text v in
     {did;collection;rkey;}
 
-  type main_error = [ `RecordNotFound [@name "RecordNotFound"] | `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
+  type main_error = [  | `RecordNotFound [@name "RecordNotFound"]  | `RepoNotFound [@name "RepoNotFound"]  | `RepoTakendown [@name "RepoTakendown"]  | `RepoSuspended [@name "RepoSuspended"]  | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}]
 
   (** Get data blocks needed to prove the existence or non-existence of record in the current version of repo. Does not require auth. *)
@@ -3407,7 +3407,7 @@ module Com_Atproto_Sync_GetLatestCommit = struct
     let rev = Value.Util.get_key "rev" Value.Util.to_text v in
     {cid;rev;})
 
-  type main_error = [ `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
+  type main_error = [  | `RepoNotFound [@name "RepoNotFound"]  | `RepoTakendown [@name "RepoTakendown"]  | `RepoSuspended [@name "RepoSuspended"]  | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}]
 
   (** Get the current commit CID & revision of the specified repo. Does not require auth. *)
@@ -3454,7 +3454,7 @@ module Com_Atproto_Sync_GetHostStatus = struct
     let status = Value.Util.get_key_opt "status" com_atproto_sync_defs_hoststatus_of_value v in
     {hostname;seq;accountCount;status;})
 
-  type main_error = [ `HostNotFound [@name "HostNotFound"]]
+  type main_error = [  | `HostNotFound [@name "HostNotFound"]]
   [@@deriving show {with_path=false}]
 
   (** Returns information about a specified upstream host, as consumed by the server. Implemented by relays. *)
@@ -3495,7 +3495,7 @@ module Com_Atproto_Sync_GetHead = struct
     let root = Value.Util.get_key "root" Value.Util.to_text v in
     {root;})
 
-  type main_error = [ `HeadNotFound [@name "HeadNotFound"]]
+  type main_error = [  | `HeadNotFound [@name "HeadNotFound"]]
   [@@deriving show {with_path=false}]
 
   (** DEPRECATED - please use com.atproto.sync.getLatestCommit instead *)
@@ -3554,7 +3554,7 @@ module Com_Atproto_Sync_GetBlocks = struct
     let cids = Value.Util.get_key "cids" (Value.Util.to_array_of Value.Util.to_text) v in
     {did;cids;}
 
-  type main_error = [ `BlockNotFound [@name "BlockNotFound"] | `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
+  type main_error = [  | `BlockNotFound [@name "BlockNotFound"]  | `RepoNotFound [@name "RepoNotFound"]  | `RepoTakendown [@name "RepoTakendown"]  | `RepoSuspended [@name "RepoSuspended"]  | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}]
 
   (** Get data blocks from a given repo, by CID. For example, intermediate MST nodes, or records. Does not require auth; implemented by PDS. *)
@@ -3585,7 +3585,7 @@ module Com_Atproto_Sync_GetBlob = struct
     let cid = Value.Util.get_key "cid" Value.Util.to_text v in
     {did;cid;}
 
-  type main_error = [ `BlobNotFound [@name "BlobNotFound"] | `RepoNotFound [@name "RepoNotFound"] | `RepoTakendown [@name "RepoTakendown"] | `RepoSuspended [@name "RepoSuspended"] | `RepoDeactivated [@name "RepoDeactivated"]]
+  type main_error = [  | `BlobNotFound [@name "BlobNotFound"]  | `RepoNotFound [@name "RepoNotFound"]  | `RepoTakendown [@name "RepoTakendown"]  | `RepoSuspended [@name "RepoSuspended"]  | `RepoDeactivated [@name "RepoDeactivated"]]
   [@@deriving show {with_path=false}]
 
   (** Get a blob associated with a given account. Returns the full blob as originally uploaded. Does not require auth; implemented by PDS. *)
@@ -3632,7 +3632,7 @@ module Com_Atproto_Server_UpdateEmail = struct
     let token = Value.Util.get_key_opt "token" Value.Util.to_text v in
     {email;emailAuthFactor;token;})
 
-  type main_error = [ `ExpiredToken [@name "ExpiredToken"] | `InvalidToken [@name "InvalidToken"] | `TokenRequired [@name "TokenRequired"]]
+  type main_error = [  | `ExpiredToken [@name "ExpiredToken"]  | `InvalidToken [@name "InvalidToken"]  | `TokenRequired [@name "TokenRequired"]]
   [@@deriving show {with_path=false}]
 
   (** Update an account's email. *)
@@ -3686,7 +3686,7 @@ module Com_Atproto_Server_ResetPassword = struct
     let password = Value.Util.get_key "password" Value.Util.to_text v in
     {token;password;})
 
-  type main_error = [ `ExpiredToken [@name "ExpiredToken"] | `InvalidToken [@name "InvalidToken"]]
+  type main_error = [  | `ExpiredToken [@name "ExpiredToken"]  | `InvalidToken [@name "InvalidToken"]]
   [@@deriving show {with_path=false}]
 
   (** Reset a user account password using a token. *)
@@ -3833,7 +3833,7 @@ module Com_Atproto_Server_RefreshSession = struct
     let status = Value.Util.get_key_opt "status" Value.Util.to_text v in
     {accessJwt;refreshJwt;handle;did;didDoc;active;status;})
 
-  type main_error = [ `AccountTakedown [@name "AccountTakedown"]]
+  type main_error = [  | `AccountTakedown [@name "AccountTakedown"]]
   [@@deriving show {with_path=false}]
 
   (** Refresh an authentication session. Requires auth using the 'refreshJwt' (not the 'accessJwt'). *)
@@ -3861,7 +3861,7 @@ module Com_Atproto_Server_ListAppPasswords = struct
     let passwords = Value.Util.get_key "passwords" (Value.Util.to_array_of com_atproto_server_listapppasswords_apppassword_of_value) v in
     {passwords;})
 
-  type main_error = [ `AccountTakedown [@name "AccountTakedown"]]
+  type main_error = [  | `AccountTakedown [@name "AccountTakedown"]]
   [@@deriving show {with_path=false}]
 
   (** List all App Passwords. *)
@@ -3952,7 +3952,7 @@ module Com_Atproto_Server_GetServiceAuth = struct
     let token = Value.Util.get_key "token" Value.Util.to_text v in
     {token;})
 
-  type main_error = [ `BadExpiration [@name "BadExpiration"]]
+  type main_error = [  | `BadExpiration [@name "BadExpiration"]]
   [@@deriving show {with_path=false}]
 
   (** Get a signed token on behalf of the requesting DID for the requested service. *)
@@ -3995,7 +3995,7 @@ module Com_Atproto_Server_GetAccountInviteCodes = struct
     let codes = Value.Util.get_key "codes" (Value.Util.to_array_of com_atproto_server_defs_invitecode_of_value) v in
     {codes;})
 
-  type main_error = [ `DuplicateCreate [@name "DuplicateCreate"]]
+  type main_error = [  | `DuplicateCreate [@name "DuplicateCreate"]]
   [@@deriving show {with_path=false}]
 
   (** Get all invite codes for the current account. Requires auth. *)
@@ -4097,7 +4097,7 @@ module Com_Atproto_Server_DeleteAccount = struct
     let token = Value.Util.get_key "token" Value.Util.to_text v in
     {did;password;token;})
 
-  type main_error = [ `ExpiredToken [@name "ExpiredToken"] | `InvalidToken [@name "InvalidToken"]]
+  type main_error = [  | `ExpiredToken [@name "ExpiredToken"]  | `InvalidToken [@name "InvalidToken"]]
   [@@deriving show {with_path=false}]
 
   (** Delete an actor's account with a token and password. Can only be called after requesting a deletion token. Requires auth. *)
@@ -4182,7 +4182,7 @@ module Com_Atproto_Server_CreateSession = struct
     let status = Value.Util.get_key_opt "status" Value.Util.to_text v in
     {accessJwt;refreshJwt;handle;did;didDoc;email;emailConfirmed;emailAuthFactor;active;status;})
 
-  type main_error = [ `AccountTakedown [@name "AccountTakedown"] | `AuthFactorTokenRequired [@name "AuthFactorTokenRequired"]]
+  type main_error = [  | `AccountTakedown [@name "AccountTakedown"]  | `AuthFactorTokenRequired [@name "AuthFactorTokenRequired"]]
   [@@deriving show {with_path=false}]
 
   (** Create an authentication session. *)
@@ -4312,7 +4312,7 @@ module Com_Atproto_Server_CreateAppPassword = struct
 
   let main_output_of_value : main_output Value.Util.conv = com_atproto_server_createapppassword_apppassword_of_value
 
-  type main_error = [ `AccountTakedown [@name "AccountTakedown"]]
+  type main_error = [  | `AccountTakedown [@name "AccountTakedown"]]
   [@@deriving show {with_path=false}]
 
   (** Create an App Password. *)
@@ -4390,7 +4390,7 @@ module Com_Atproto_Server_CreateAccount = struct
     let didDoc = Value.Util.get_key_opt "didDoc" (fun v -> v (* immediate *)) v in
     {accessJwt;refreshJwt;handle;did;didDoc;})
 
-  type main_error = [ `InvalidHandle [@name "InvalidHandle"] | `InvalidPassword [@name "InvalidPassword"] | `InvalidInviteCode [@name "InvalidInviteCode"] | `HandleNotAvailable [@name "HandleNotAvailable"] | `UnsupportedDomain [@name "UnsupportedDomain"] | `UnresolvableDid [@name "UnresolvableDid"] | `IncompatibleDidDoc [@name "IncompatibleDidDoc"]]
+  type main_error = [  | `InvalidHandle [@name "InvalidHandle"]  | `InvalidPassword [@name "InvalidPassword"]  | `InvalidInviteCode [@name "InvalidInviteCode"]  | `HandleNotAvailable [@name "HandleNotAvailable"]  | `UnsupportedDomain [@name "UnsupportedDomain"]  | `UnresolvableDid [@name "UnresolvableDid"]  | `IncompatibleDidDoc [@name "IncompatibleDidDoc"]]
   [@@deriving show {with_path=false}]
 
   (** Create an account. Implemented by PDS. *)
@@ -4424,7 +4424,7 @@ module Com_Atproto_Server_ConfirmEmail = struct
     let token = Value.Util.get_key "token" Value.Util.to_text v in
     {email;token;})
 
-  type main_error = [ `AccountNotFound [@name "AccountNotFound"] | `ExpiredToken [@name "ExpiredToken"] | `InvalidToken [@name "InvalidToken"] | `InvalidEmail [@name "InvalidEmail"]]
+  type main_error = [  | `AccountNotFound [@name "AccountNotFound"]  | `ExpiredToken [@name "ExpiredToken"]  | `InvalidToken [@name "InvalidToken"]  | `InvalidEmail [@name "InvalidEmail"]]
   [@@deriving show {with_path=false}]
 
   (** Confirm an email using a token from com.atproto.server.requestEmailConfirmation. *)
@@ -4555,7 +4555,7 @@ module Com_Atproto_Repo_PutRecord = struct
     let validationStatus = Value.Util.get_key_opt "validationStatus" Value.Util.to_text v in
     {uri;cid;commit;validationStatus;})
 
-  type main_error = [ `InvalidSwap [@name "InvalidSwap"]]
+  type main_error = [  | `InvalidSwap [@name "InvalidSwap"]]
   [@@deriving show {with_path=false}]
 
   (** Write a repository record, creating or updating it as needed. Requires auth, implemented by PDS. *)
@@ -4729,7 +4729,7 @@ module Com_Atproto_Repo_GetRecord = struct
     let value = Value.Util.get_key "value" (fun v -> v (* immediate *)) v in
     {uri;cid;value;})
 
-  type main_error = [ `RecordNotFound [@name "RecordNotFound"]]
+  type main_error = [  | `RecordNotFound [@name "RecordNotFound"]]
   [@@deriving show {with_path=false}]
 
   (** Get a single record from a repository. Does not require auth. *)
@@ -4823,7 +4823,7 @@ module Com_Atproto_Repo_DeleteRecord = struct
     let commit = Value.Util.get_key_opt "commit" com_atproto_repo_defs_commitmeta_of_value v in
     {commit;})
 
-  type main_error = [ `InvalidSwap [@name "InvalidSwap"]]
+  type main_error = [  | `InvalidSwap [@name "InvalidSwap"]]
   [@@deriving show {with_path=false}]
 
   (** Delete a repository record, or ensure it doesn't exist. Requires auth, implemented by PDS. *)
@@ -4880,7 +4880,7 @@ module Com_Atproto_Repo_CreateRecord = struct
     let validationStatus = Value.Util.get_key_opt "validationStatus" Value.Util.to_text v in
     {uri;cid;commit;validationStatus;})
 
-  type main_error = [ `InvalidSwap [@name "InvalidSwap"]]
+  type main_error = [  | `InvalidSwap [@name "InvalidSwap"]]
   [@@deriving show {with_path=false}]
 
   (** Create a single new repository record. Requires auth, implemented by PDS. *)
@@ -4907,7 +4907,7 @@ module Com_Atproto_Repo_ApplyWrites = struct
     repo: string;
     validate: bool option;
     writes: [
-    `Com_atproto_repo_applywrites_create of com_atproto_repo_applywrites_create
+    | `Com_atproto_repo_applywrites_create of com_atproto_repo_applywrites_create
     | `Com_atproto_repo_applywrites_update of com_atproto_repo_applywrites_update
     | `Com_atproto_repo_applywrites_delete of com_atproto_repo_applywrites_delete
     ] list;
@@ -4920,16 +4920,17 @@ module Com_Atproto_Repo_ApplyWrites = struct
     let validate = Value.Util.get_key_opt "validate" Value.Util.to_bool v in
     let writes = Value.Util.get_key "writes" (Value.Util.to_array_of (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "create" -> `Com_atproto_repo_applywrites_create (com_atproto_repo_applywrites_create_of_value v)
-    | "update" -> `Com_atproto_repo_applywrites_update (com_atproto_repo_applywrites_update_of_value v)
-    | "delete" -> `Com_atproto_repo_applywrites_delete (com_atproto_repo_applywrites_delete_of_value v)    ))) v in
+    | "com.atproto.repo.applyWrites#create" -> `Com_atproto_repo_applywrites_create (com_atproto_repo_applywrites_create_of_value v)
+    | "com.atproto.repo.applyWrites#update" -> `Com_atproto_repo_applywrites_update (com_atproto_repo_applywrites_update_of_value v)
+    | "com.atproto.repo.applyWrites#delete" -> `Com_atproto_repo_applywrites_delete (com_atproto_repo_applywrites_delete_of_value v)
+    | v -> Value.Util.conv_error {msg="expected "_main_input""; value=v; path=[]}    ))) v in
     let swapCommit = Value.Util.get_key_opt "swapCommit" Value.Util.to_text v in
     {repo;validate;writes;swapCommit;})
 
   type main_output = {
     commit: com_atproto_repo_defs_commitmeta option;
     results: [
-    `Com_atproto_repo_applywrites_createresult of com_atproto_repo_applywrites_createresult
+    | `Com_atproto_repo_applywrites_createresult of com_atproto_repo_applywrites_createresult
     | `Com_atproto_repo_applywrites_updateresult of com_atproto_repo_applywrites_updateresult
     | `Com_atproto_repo_applywrites_deleteresult of com_atproto_repo_applywrites_deleteresult
     ] list option;
@@ -4940,12 +4941,13 @@ module Com_Atproto_Repo_ApplyWrites = struct
     let commit = Value.Util.get_key_opt "commit" com_atproto_repo_defs_commitmeta_of_value v in
     let results = Value.Util.get_key_opt "results" (Value.Util.to_array_of (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "createResult" -> `Com_atproto_repo_applywrites_createresult (com_atproto_repo_applywrites_createresult_of_value v)
-    | "updateResult" -> `Com_atproto_repo_applywrites_updateresult (com_atproto_repo_applywrites_updateresult_of_value v)
-    | "deleteResult" -> `Com_atproto_repo_applywrites_deleteresult (com_atproto_repo_applywrites_deleteresult_of_value v)    ))) v in
+    | "com.atproto.repo.applyWrites#createResult" -> `Com_atproto_repo_applywrites_createresult (com_atproto_repo_applywrites_createresult_of_value v)
+    | "com.atproto.repo.applyWrites#updateResult" -> `Com_atproto_repo_applywrites_updateresult (com_atproto_repo_applywrites_updateresult_of_value v)
+    | "com.atproto.repo.applyWrites#deleteResult" -> `Com_atproto_repo_applywrites_deleteresult (com_atproto_repo_applywrites_deleteresult_of_value v)
+    | v -> Value.Util.conv_error {msg="expected "_main_output""; value=v; path=[]}    ))) v in
     {commit;results;})
 
-  type main_error = [ `InvalidSwap [@name "InvalidSwap"]]
+  type main_error = [  | `InvalidSwap [@name "InvalidSwap"]]
   [@@deriving show {with_path=false}]
 
   (** Apply a batch transaction of repository creates, updates, and deletes. Requires auth, implemented by PDS. *)
@@ -5056,7 +5058,7 @@ module Com_Atproto_Moderation_CreateReport = struct
     reasonType: com_atproto_moderation_defs_reasontype;
     reason: string option;
     subject: [
-    `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
+    | `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
     | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main
     | `Other of Value.t (** Non closed union *)
     ];
@@ -5068,8 +5070,8 @@ module Com_Atproto_Moderation_CreateReport = struct
     let reason = Value.Util.get_key_opt "reason" Value.Util.to_text v in
     let subject = Value.Util.get_key "subject" (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "repoRef" -> `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
-    | "main" -> `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
+    | "com.atproto.admin.defs#repoRef" -> `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
+    | "com.atproto.repo.strongRef" -> `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     {reasonType;reason;subject;})
@@ -5079,7 +5081,7 @@ module Com_Atproto_Moderation_CreateReport = struct
     reasonType: com_atproto_moderation_defs_reasontype;
     reason: string option;
     subject: [
-    `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
+    | `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
     | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main
     | `Other of Value.t (** Non closed union *)
     ];
@@ -5094,8 +5096,8 @@ module Com_Atproto_Moderation_CreateReport = struct
     let reason = Value.Util.get_key_opt "reason" Value.Util.to_text v in
     let subject = Value.Util.get_key "subject" (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "repoRef" -> `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
-    | "main" -> `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
+    | "com.atproto.admin.defs#repoRef" -> `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
+    | "com.atproto.repo.strongRef" -> `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let reportedBy = Value.Util.get_key "reportedBy" Value.Util.to_text v in
@@ -5137,7 +5139,7 @@ module Com_Atproto_Label_SubscribeLabels = struct
   (** {2 def main} *)
 
   type main_msg = [
-    `Com_atproto_label_subscribelabels_labels of com_atproto_label_subscribelabels_labels
+    | `Com_atproto_label_subscribelabels_labels of com_atproto_label_subscribelabels_labels
     | `Com_atproto_label_subscribelabels_info of com_atproto_label_subscribelabels_info
     | `Other of Value.t (** Non closed union *)
     ]
@@ -5145,8 +5147,8 @@ module Com_Atproto_Label_SubscribeLabels = struct
 
   let main_msg_of_value : main_msg Value.Util.conv = (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "labels" -> `Com_atproto_label_subscribelabels_labels (com_atproto_label_subscribelabels_labels_of_value v)
-    | "info" -> `Com_atproto_label_subscribelabels_info (com_atproto_label_subscribelabels_info_of_value v)
+    | "com.atproto.label.subscribeLabels#labels" -> `Com_atproto_label_subscribelabels_labels (com_atproto_label_subscribelabels_labels_of_value v)
+    | "com.atproto.label.subscribeLabels#info" -> `Com_atproto_label_subscribelabels_info (com_atproto_label_subscribelabels_info_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))
 
@@ -5159,7 +5161,7 @@ module Com_Atproto_Label_SubscribeLabels = struct
     let cursor = Value.Util.get_key_opt "cursor" Value.Util.to_int v in
     {cursor;}
 
-  type main_error = [ `FutureCursor [@name "FutureCursor"]]
+  type main_error = [  | `FutureCursor [@name "FutureCursor"]]
   [@@deriving show {with_path=false}]
 
   (** Subscribe to stream of labels (and negations). Public endpoint implemented by mod services. Uses same sequencing scheme as repo event stream. *)
@@ -5355,7 +5357,7 @@ module Com_Atproto_Identity_ResolveIdentity = struct
 
   let main_output_of_value : main_output Value.Util.conv = com_atproto_identity_defs_identityinfo_of_value
 
-  type main_error = [ `HandleNotFound [@name "HandleNotFound"] | `DidNotFound [@name "DidNotFound"] | `DidDeactivated [@name "DidDeactivated"]]
+  type main_error = [  | `HandleNotFound [@name "HandleNotFound"]  | `DidNotFound [@name "DidNotFound"]  | `DidDeactivated [@name "DidDeactivated"]]
   [@@deriving show {with_path=false}]
 
   (** Resolves an identity (DID or Handle) to a full identity (DID document and verified handle). *)
@@ -5396,7 +5398,7 @@ module Com_Atproto_Identity_ResolveHandle = struct
     let did = Value.Util.get_key "did" Value.Util.to_text v in
     {did;})
 
-  type main_error = [ `HandleNotFound [@name "HandleNotFound"]]
+  type main_error = [  | `HandleNotFound [@name "HandleNotFound"]]
   [@@deriving show {with_path=false}]
 
   (** Resolves an atproto handle (hostname) to a DID. Does not necessarily bi-directionally verify against the the DID document. *)
@@ -5437,7 +5439,7 @@ module Com_Atproto_Identity_ResolveDid = struct
     let didDoc = Value.Util.get_key "didDoc" (fun v -> v (* immediate *)) v in
     {didDoc;})
 
-  type main_error = [ `DidNotFound [@name "DidNotFound"] | `DidDeactivated [@name "DidDeactivated"]]
+  type main_error = [  | `DidNotFound [@name "DidNotFound"]  | `DidDeactivated [@name "DidDeactivated"]]
   [@@deriving show {with_path=false}]
 
   (** Resolves DID to DID document. Does not bi-directionally verify handle. *)
@@ -5485,7 +5487,7 @@ module Com_Atproto_Identity_RefreshIdentity = struct
 
   let main_output_of_value : main_output Value.Util.conv = com_atproto_identity_defs_identityinfo_of_value
 
-  type main_error = [ `HandleNotFound [@name "HandleNotFound"] | `DidNotFound [@name "DidNotFound"] | `DidDeactivated [@name "DidDeactivated"]]
+  type main_error = [  | `HandleNotFound [@name "HandleNotFound"]  | `DidNotFound [@name "DidNotFound"]  | `DidDeactivated [@name "DidDeactivated"]]
   [@@deriving show {with_path=false}]
 
   (** Request that the server re-resolve an identity (DID and handle). The server may ignore this request, or require authentication, depending on the role, implementation, and policy of the server. *)
@@ -5558,7 +5560,7 @@ module Com_Atproto_Admin_UpdateSubjectStatus = struct
 
   type main_input = {
     subject: [
-    `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
+    | `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
     | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main
     | `Com_atproto_admin_defs_repoblobref of com_atproto_admin_defs_repoblobref
     | `Other of Value.t (** Non closed union *)
@@ -5571,9 +5573,9 @@ module Com_Atproto_Admin_UpdateSubjectStatus = struct
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
     let subject = Value.Util.get_key "subject" (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "repoRef" -> `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
-    | "main" -> `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
-    | "repoBlobRef" -> `Com_atproto_admin_defs_repoblobref (com_atproto_admin_defs_repoblobref_of_value v)
+    | "com.atproto.admin.defs#repoRef" -> `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
+    | "com.atproto.repo.strongRef" -> `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
+    | "com.atproto.admin.defs#repoBlobRef" -> `Com_atproto_admin_defs_repoblobref (com_atproto_admin_defs_repoblobref_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let takedown = Value.Util.get_key_opt "takedown" com_atproto_admin_defs_statusattr_of_value v in
@@ -5582,7 +5584,7 @@ module Com_Atproto_Admin_UpdateSubjectStatus = struct
 
   type main_output = {
     subject: [
-    `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
+    | `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
     | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main
     | `Com_atproto_admin_defs_repoblobref of com_atproto_admin_defs_repoblobref
     | `Other of Value.t (** Non closed union *)
@@ -5594,9 +5596,9 @@ module Com_Atproto_Admin_UpdateSubjectStatus = struct
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
     let subject = Value.Util.get_key "subject" (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "repoRef" -> `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
-    | "main" -> `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
-    | "repoBlobRef" -> `Com_atproto_admin_defs_repoblobref (com_atproto_admin_defs_repoblobref_of_value v)
+    | "com.atproto.admin.defs#repoRef" -> `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
+    | "com.atproto.repo.strongRef" -> `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
+    | "com.atproto.admin.defs#repoBlobRef" -> `Com_atproto_admin_defs_repoblobref (com_atproto_admin_defs_repoblobref_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let takedown = Value.Util.get_key_opt "takedown" com_atproto_admin_defs_statusattr_of_value v in
@@ -5828,7 +5830,7 @@ module Com_Atproto_Admin_GetSubjectStatus = struct
 
   type main_output = {
     subject: [
-    `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
+    | `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
     | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main
     | `Com_atproto_admin_defs_repoblobref of com_atproto_admin_defs_repoblobref
     | `Other of Value.t (** Non closed union *)
@@ -5841,9 +5843,9 @@ module Com_Atproto_Admin_GetSubjectStatus = struct
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
     let subject = Value.Util.get_key "subject" (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "repoRef" -> `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
-    | "main" -> `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
-    | "repoBlobRef" -> `Com_atproto_admin_defs_repoblobref (com_atproto_admin_defs_repoblobref_of_value v)
+    | "com.atproto.admin.defs#repoRef" -> `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
+    | "com.atproto.repo.strongRef" -> `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
+    | "com.atproto.admin.defs#repoBlobRef" -> `Com_atproto_admin_defs_repoblobref (com_atproto_admin_defs_repoblobref_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let takedown = Value.Util.get_key_opt "takedown" com_atproto_admin_defs_statusattr_of_value v in
@@ -6332,7 +6334,7 @@ module App_Bsky_Unspecced_SearchStarterPacksSkeleton = struct
     let starterPacks = Value.Util.get_key "starterPacks" (Value.Util.to_array_of app_bsky_unspecced_defs_skeletonsearchstarterpack_of_value) v in
     {cursor;hitsTotal;starterPacks;})
 
-  type main_error = [ `BadQueryString [@name "BadQueryString"]]
+  type main_error = [  | `BadQueryString [@name "BadQueryString"]]
   [@@deriving show {with_path=false}]
 
   (** Backend Starter Pack search, returns only skeleton. *)
@@ -6401,7 +6403,7 @@ module App_Bsky_Unspecced_SearchPostsSkeleton = struct
     let posts = Value.Util.get_key "posts" (Value.Util.to_array_of app_bsky_unspecced_defs_skeletonsearchpost_of_value) v in
     {cursor;hitsTotal;posts;})
 
-  type main_error = [ `BadQueryString [@name "BadQueryString"]]
+  type main_error = [  | `BadQueryString [@name "BadQueryString"]]
   [@@deriving show {with_path=false}]
 
   (** Backend Posts search, returns only skeleton *)
@@ -6454,7 +6456,7 @@ module App_Bsky_Unspecced_SearchActorsSkeleton = struct
     let actors = Value.Util.get_key "actors" (Value.Util.to_array_of app_bsky_unspecced_defs_skeletonsearchactor_of_value) v in
     {cursor;hitsTotal;actors;})
 
-  type main_error = [ `BadQueryString [@name "BadQueryString"]]
+  type main_error = [  | `BadQueryString [@name "BadQueryString"]]
   [@@deriving show {with_path=false}]
 
   (** Backend Actors (profile) search, returns only skeleton. *)
@@ -7278,7 +7280,7 @@ module App_Bsky_Labeler_Service = struct
   type main = {
     policies: app_bsky_labeler_defs_labelerpolicies;
     labels: [
-    `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
+    | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
     | `Other of Value.t (** Non closed union *)
     ] option;
     createdAt: string;
@@ -7310,7 +7312,7 @@ module App_Bsky_Labeler_GetServices = struct
 
   type main_output = {
     views: [
-    `App_bsky_labeler_defs_labelerview of app_bsky_labeler_defs_labelerview
+    | `App_bsky_labeler_defs_labelerview of app_bsky_labeler_defs_labelerview
     | `App_bsky_labeler_defs_labelerviewdetailed of app_bsky_labeler_defs_labelerviewdetailed
     | `Other of Value.t (** Non closed union *)
     ] list;
@@ -7320,8 +7322,8 @@ module App_Bsky_Labeler_GetServices = struct
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
     let views = Value.Util.get_key "views" (Value.Util.to_array_of (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "labelerView" -> `App_bsky_labeler_defs_labelerview (app_bsky_labeler_defs_labelerview_of_value v)
-    | "labelerViewDetailed" -> `App_bsky_labeler_defs_labelerviewdetailed (app_bsky_labeler_defs_labelerviewdetailed_of_value v)
+    | "app.bsky.labeler.defs#labelerView" -> `App_bsky_labeler_defs_labelerview (app_bsky_labeler_defs_labelerview_of_value v)
+    | "app.bsky.labeler.defs#labelerViewDetailed" -> `App_bsky_labeler_defs_labelerviewdetailed (app_bsky_labeler_defs_labelerviewdetailed_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
     {views;})
@@ -7621,7 +7623,7 @@ module App_Bsky_Graph_List = struct
     descriptionFacets: app_bsky_richtext_facet_main list option;
     avatar: Blob.t option;
     labels: [
-    `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
+    | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
     | `Other of Value.t (** Non closed union *)
     ] option;
     createdAt: string;
@@ -7766,7 +7768,7 @@ module App_Bsky_Graph_GetRelationships = struct
   type main_output = {
     actor: string option;
     relationships: [
-    `App_bsky_graph_defs_relationship of app_bsky_graph_defs_relationship
+    | `App_bsky_graph_defs_relationship of app_bsky_graph_defs_relationship
     | `App_bsky_graph_defs_notfoundactor of app_bsky_graph_defs_notfoundactor
     | `Other of Value.t (** Non closed union *)
     ] list;
@@ -7777,13 +7779,13 @@ module App_Bsky_Graph_GetRelationships = struct
     let actor = Value.Util.get_key_opt "actor" Value.Util.to_text v in
     let relationships = Value.Util.get_key "relationships" (Value.Util.to_array_of (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "relationship" -> `App_bsky_graph_defs_relationship (app_bsky_graph_defs_relationship_of_value v)
-    | "notFoundActor" -> `App_bsky_graph_defs_notfoundactor (app_bsky_graph_defs_notfoundactor_of_value v)
+    | "app.bsky.graph.defs#relationship" -> `App_bsky_graph_defs_relationship (app_bsky_graph_defs_relationship_of_value v)
+    | "app.bsky.graph.defs#notFoundActor" -> `App_bsky_graph_defs_notfoundactor (app_bsky_graph_defs_notfoundactor_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
     {actor;relationships;})
 
-  type main_error = [ `ActorNotFound [@name "ActorNotFound"]]
+  type main_error = [  | `ActorNotFound [@name "ActorNotFound"]]
   [@@deriving show {with_path=false}]
 
   (** Enumerates public relationships between one account, and a list of other accounts. Does not require auth. *)
@@ -8345,7 +8347,7 @@ module App_Bsky_Feed_SearchPosts = struct
     let posts = Value.Util.get_key "posts" (Value.Util.to_array_of app_bsky_feed_defs_postview_of_value) v in
     {cursor;hitsTotal;posts;})
 
-  type main_error = [ `BadQueryString [@name "BadQueryString"]]
+  type main_error = [  | `BadQueryString [@name "BadQueryString"]]
   [@@deriving show {with_path=false}]
 
   (** Find posts matching search criteria, returning views of those posts. *)
@@ -8391,7 +8393,7 @@ module App_Bsky_Feed_Post = struct
     facets: app_bsky_richtext_facet_main list option;
     reply: app_bsky_feed_post_replyref option;
     embed: [
-    `App_bsky_embed_images_main of app_bsky_embed_images_main
+    | `App_bsky_embed_images_main of app_bsky_embed_images_main
     | `App_bsky_embed_video_main of app_bsky_embed_video_main
     | `App_bsky_embed_external_main of app_bsky_embed_external_main
     | `App_bsky_embed_record_main of app_bsky_embed_record_main
@@ -8400,7 +8402,7 @@ module App_Bsky_Feed_Post = struct
     ] option;
     langs: string list option;
     labels: [
-    `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
+    | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
     | `Other of Value.t (** Non closed union *)
     ] option;
     tags: string list option;
@@ -8701,7 +8703,7 @@ module App_Bsky_Feed_GetPostThread = struct
 
   type main_output = {
     thread: [
-    `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost
+    | `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost
     | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
     | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
     | `Other of Value.t (** Non closed union *)
@@ -8713,15 +8715,15 @@ module App_Bsky_Feed_GetPostThread = struct
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
     let thread = Value.Util.get_key "thread" (fun v ->
     (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "threadViewPost" -> `App_bsky_feed_defs_threadviewpost (app_bsky_feed_defs_threadviewpost_of_value v)
-    | "notFoundPost" -> `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
-    | "blockedPost" -> `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
+    | "app.bsky.feed.defs#threadViewPost" -> `App_bsky_feed_defs_threadviewpost (app_bsky_feed_defs_threadviewpost_of_value v)
+    | "app.bsky.feed.defs#notFoundPost" -> `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
+    | "app.bsky.feed.defs#blockedPost" -> `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let threadgate = Value.Util.get_key_opt "threadgate" app_bsky_feed_defs_threadgateview_of_value v in
     {thread;threadgate;})
 
-  type main_error = [ `NotFound [@name "NotFound"]]
+  type main_error = [  | `NotFound [@name "NotFound"]]
   [@@deriving show {with_path=false}]
 
   (** Get posts in a thread. Does not require auth, but additional metadata and filtering will be applied for authed requests. *)
@@ -8768,7 +8770,7 @@ module App_Bsky_Feed_GetListFeed = struct
     let feed = Value.Util.get_key "feed" (Value.Util.to_array_of app_bsky_feed_defs_feedviewpost_of_value) v in
     {cursor;feed;})
 
-  type main_error = [ `UnknownList [@name "UnknownList"]]
+  type main_error = [  | `UnknownList [@name "UnknownList"]]
   [@@deriving show {with_path=false}]
 
   (** Get a feed of recent posts from a list (posts and reposts from any actors on the list). Does not require auth. *)
@@ -8876,7 +8878,7 @@ module App_Bsky_Feed_GetFeedSkeleton = struct
     let feed = Value.Util.get_key "feed" (Value.Util.to_array_of app_bsky_feed_defs_skeletonfeedpost_of_value) v in
     {cursor;feed;})
 
-  type main_error = [ `UnknownFeed [@name "UnknownFeed"]]
+  type main_error = [  | `UnknownFeed [@name "UnknownFeed"]]
   [@@deriving show {with_path=false}]
 
   (** Get a skeleton of a feed provided by a feed generator. Auth is optional, depending on provider requirements, and provides the DID of the requester. Implemented by Feed Generator Service. *)
@@ -9001,7 +9003,7 @@ module App_Bsky_Feed_GetFeed = struct
     let feed = Value.Util.get_key "feed" (Value.Util.to_array_of app_bsky_feed_defs_feedviewpost_of_value) v in
     {cursor;feed;})
 
-  type main_error = [ `UnknownFeed [@name "UnknownFeed"]]
+  type main_error = [  | `UnknownFeed [@name "UnknownFeed"]]
   [@@deriving show {with_path=false}]
 
   (** Get a hydrated feed from an actor's selected feed generator. Implemented by App View. *)
@@ -9052,7 +9054,7 @@ module App_Bsky_Feed_GetAuthorFeed = struct
     let feed = Value.Util.get_key "feed" (Value.Util.to_array_of app_bsky_feed_defs_feedviewpost_of_value) v in
     {cursor;feed;})
 
-  type main_error = [ `BlockedActor [@name "BlockedActor"] | `BlockedByActor [@name "BlockedByActor"]]
+  type main_error = [  | `BlockedActor [@name "BlockedActor"]  | `BlockedByActor [@name "BlockedByActor"]]
   [@@deriving show {with_path=false}]
 
   (** Get a view of an actor's 'author feed' (post and reposts by the author). Does not require auth. *)
@@ -9099,7 +9101,7 @@ module App_Bsky_Feed_GetActorLikes = struct
     let feed = Value.Util.get_key "feed" (Value.Util.to_array_of app_bsky_feed_defs_feedviewpost_of_value) v in
     {cursor;feed;})
 
-  type main_error = [ `BlockedActor [@name "BlockedActor"] | `BlockedByActor [@name "BlockedByActor"]]
+  type main_error = [  | `BlockedActor [@name "BlockedActor"]  | `BlockedByActor [@name "BlockedByActor"]]
   [@@deriving show {with_path=false}]
 
   (** Get a list of posts liked by an actor. Requires auth, actor must be the requesting account. *)
@@ -9174,7 +9176,7 @@ module App_Bsky_Feed_Generator = struct
     avatar: Blob.t option;
     acceptsInteractions: bool option;
     labels: [
-    `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
+    | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
     | `Other of Value.t (** Non closed union *)
     ] option;
     contentMode: string option;
@@ -9244,7 +9246,7 @@ module App_Bsky_Actor_Status = struct
   type main = {
     status: string;
     embed: [
-    `App_bsky_embed_external_main of app_bsky_embed_external_main
+    | `App_bsky_embed_external_main of app_bsky_embed_external_main
     | `Other of Value.t (** Non closed union *)
     ] option;
     durationMinutes: int64 option;
@@ -9386,7 +9388,7 @@ module App_Bsky_Actor_Profile = struct
     avatar: Blob.t option;
     banner: Blob.t option;
     labels: [
-    `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
+    | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
     | `Other of Value.t (** Non closed union *)
     ] option;
     joinedViaStarterPack: com_atproto_repo_strongref_main option;
@@ -9905,14 +9907,14 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec postinteractionsettingspref = app_bsky_actor_defs_postinteractionsettingspref = {
     threadgateAllowRules: [
-    `App_bsky_feed_threadgate_mentionrule of app_bsky_feed_threadgate_mentionrule
+    | `App_bsky_feed_threadgate_mentionrule of app_bsky_feed_threadgate_mentionrule
     | `App_bsky_feed_threadgate_followerrule of app_bsky_feed_threadgate_followerrule
     | `App_bsky_feed_threadgate_followingrule of app_bsky_feed_threadgate_followingrule
     | `App_bsky_feed_threadgate_listrule of app_bsky_feed_threadgate_listrule
     | `Other of Value.t (** Non closed union *)
     ] list option;
     postgateEmbeddingRules: [
-    `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule
+    | `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule
     | `Other of Value.t (** Non closed union *)
     ] list option;
   }
@@ -9927,7 +9929,7 @@ module App_Bsky_Actor_Defs = struct
     status: string;
     record: Value.t (* unknown *);
     embed: [
-    `App_bsky_embed_external_view of app_bsky_embed_external_view
+    | `App_bsky_embed_external_view of app_bsky_embed_external_view
     | `Other of Value.t (** Non closed union *)
     ] option;
     expiresAt: string option;
@@ -10112,7 +10114,7 @@ module App_Bsky_Feed_Defs = struct
     author: app_bsky_actor_defs_profileviewbasic;
     record: Value.t (* unknown *);
     embed: [
-    `App_bsky_embed_images_view of app_bsky_embed_images_view
+    | `App_bsky_embed_images_view of app_bsky_embed_images_view
     | `App_bsky_embed_video_view of app_bsky_embed_video_view
     | `App_bsky_embed_external_view of app_bsky_embed_external_view
     | `App_bsky_embed_record_view of app_bsky_embed_record_view
@@ -10164,7 +10166,7 @@ module App_Bsky_Feed_Defs = struct
     post: app_bsky_feed_defs_postview;
     reply: app_bsky_feed_defs_replyref option;
     reason: [
-    `App_bsky_feed_defs_reasonrepost of app_bsky_feed_defs_reasonrepost
+    | `App_bsky_feed_defs_reasonrepost of app_bsky_feed_defs_reasonrepost
     | `App_bsky_feed_defs_reasonpin of app_bsky_feed_defs_reasonpin
     | `Other of Value.t (** Non closed union *)
     ] option;
@@ -10179,13 +10181,13 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec replyref = app_bsky_feed_defs_replyref = {
     root: [
-    `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview
+    | `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview
     | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
     | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
     | `Other of Value.t (** Non closed union *)
     ];
     parent: [
-    `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview
+    | `App_bsky_feed_defs_postview of app_bsky_feed_defs_postview
     | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
     | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
     | `Other of Value.t (** Non closed union *)
@@ -10221,13 +10223,13 @@ module App_Bsky_Feed_Defs = struct
   type nonrec threadviewpost = app_bsky_feed_defs_threadviewpost = {
     post: app_bsky_feed_defs_postview;
     parent: [
-    `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost
+    | `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost
     | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
     | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
     | `Other of Value.t (** Non closed union *)
     ] option;
     replies: [
-    `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost
+    | `App_bsky_feed_defs_threadviewpost of app_bsky_feed_defs_threadviewpost
     | `App_bsky_feed_defs_notfoundpost of app_bsky_feed_defs_notfoundpost
     | `App_bsky_feed_defs_blockedpost of app_bsky_feed_defs_blockedpost
     | `Other of Value.t (** Non closed union *)
@@ -10311,7 +10313,7 @@ module App_Bsky_Feed_Defs = struct
   type nonrec skeletonfeedpost = app_bsky_feed_defs_skeletonfeedpost = {
     post: string;
     reason: [
-    `App_bsky_feed_defs_skeletonreasonrepost of app_bsky_feed_defs_skeletonreasonrepost
+    | `App_bsky_feed_defs_skeletonreasonrepost of app_bsky_feed_defs_skeletonreasonrepost
     | `App_bsky_feed_defs_skeletonreasonpin of app_bsky_feed_defs_skeletonreasonpin
     | `Other of Value.t (** Non closed union *)
     ] option;
@@ -10489,7 +10491,7 @@ module App_Bsky_Embed_RecordWithMedia = struct
   type nonrec main = app_bsky_embed_recordwithmedia_main = {
     record: app_bsky_embed_record_main;
     media: [
-    `App_bsky_embed_images_main of app_bsky_embed_images_main
+    | `App_bsky_embed_images_main of app_bsky_embed_images_main
     | `App_bsky_embed_video_main of app_bsky_embed_video_main
     | `App_bsky_embed_external_main of app_bsky_embed_external_main
     | `Other of Value.t (** Non closed union *)
@@ -10505,7 +10507,7 @@ module App_Bsky_Embed_RecordWithMedia = struct
   type nonrec view = app_bsky_embed_recordwithmedia_view = {
     record: app_bsky_embed_record_view;
     media: [
-    `App_bsky_embed_images_view of app_bsky_embed_images_view
+    | `App_bsky_embed_images_view of app_bsky_embed_images_view
     | `App_bsky_embed_video_view of app_bsky_embed_video_view
     | `App_bsky_embed_external_view of app_bsky_embed_external_view
     | `Other of Value.t (** Non closed union *)
@@ -10537,7 +10539,7 @@ module App_Bsky_Embed_Record = struct
 
   type nonrec view = app_bsky_embed_record_view = {
     record: [
-    `App_bsky_embed_record_viewrecord of app_bsky_embed_record_viewrecord
+    | `App_bsky_embed_record_viewrecord of app_bsky_embed_record_viewrecord
     | `App_bsky_embed_record_viewnotfound of app_bsky_embed_record_viewnotfound
     | `App_bsky_embed_record_viewblocked of app_bsky_embed_record_viewblocked
     | `App_bsky_embed_record_viewdetached of app_bsky_embed_record_viewdetached
@@ -10566,7 +10568,7 @@ module App_Bsky_Embed_Record = struct
     likeCount: int64 option;
     quoteCount: int64 option;
     embeds: [
-    `App_bsky_embed_images_view of app_bsky_embed_images_view
+    | `App_bsky_embed_images_view of app_bsky_embed_images_view
     | `App_bsky_embed_video_view of app_bsky_embed_video_view
     | `App_bsky_embed_external_view of app_bsky_embed_external_view
     | `App_bsky_embed_record_view of app_bsky_embed_record_view
@@ -10898,7 +10900,7 @@ module App_Bsky_Richtext_Facet = struct
   type nonrec main = app_bsky_richtext_facet_main = {
     index: app_bsky_richtext_facet_byteslice;
     features: [
-    `App_bsky_richtext_facet_mention of app_bsky_richtext_facet_mention
+    | `App_bsky_richtext_facet_mention of app_bsky_richtext_facet_mention
     | `App_bsky_richtext_facet_link of app_bsky_richtext_facet_link
     | `App_bsky_richtext_facet_tag of app_bsky_richtext_facet_tag
     | `Other of Value.t (** Non closed union *)
@@ -11041,7 +11043,7 @@ module App_Bsky_Feed_Threadgate = struct
   type main = {
     post: string;
     allow: [
-    `App_bsky_feed_threadgate_mentionrule of app_bsky_feed_threadgate_mentionrule
+    | `App_bsky_feed_threadgate_mentionrule of app_bsky_feed_threadgate_mentionrule
     | `App_bsky_feed_threadgate_followerrule of app_bsky_feed_threadgate_followerrule
     | `App_bsky_feed_threadgate_followingrule of app_bsky_feed_threadgate_followingrule
     | `App_bsky_feed_threadgate_listrule of app_bsky_feed_threadgate_listrule
@@ -11101,7 +11103,7 @@ module App_Bsky_Feed_Postgate = struct
     post: string;
     detachedEmbeddingUris: string list option;
     embeddingRules: [
-    `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule
+    | `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule
     | `Other of Value.t (** Non closed union *)
     ] list option;
   }  [@@deriving show {with_path=false}, make]

@@ -189,9 +189,9 @@ module Util = struct
   open struct
     let add_path name (err : conv_error) : conv_error =
       { err with path = err.path @ [ name ] }
-
-    let conv_error e = raise (Conv_error e)
   end
+
+  let conv_error e = raise (Conv_error e)
 
   type 'a conv = t -> 'a
 

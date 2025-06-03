@@ -131,6 +131,12 @@ module Codegen = struct
       (split_id ref.name |> List.map String.lowercase_ascii |> String.concat "_")
       (String.lowercase_ascii ref.fragment)
 
+  let nsid_of_ref (ref : A.ref) : string =
+    if ref.fragment = "main" then
+      ref.name
+    else
+      spf "%s#%s" ref.name ref.fragment
+
   let val_name_unqualified_of_ref (ref : A.ref) : string =
     String.lowercase_ascii ref.fragment
 
@@ -185,12 +191,7 @@ module Codegen = struct
     List.iteri
       (fun i (r : A.ref) ->
         let cstor = cstor_name_of_ref r in
-        bpf out "   %s `%s of %s\n"
-          (if i = 0 then
-             ""
-           else
-             " |")
-          cstor (val_name_of_ref r))
+        bpf out "    | `%s of %s\n" cstor (val_name_of_ref r))
       refs;
     if not closed then
       bpf out "    | `Other of Value.t (** Non closed union *)\n";
@@ -248,16 +249,23 @@ module Codegen = struct
       properties;
     bpf out "}"
 
-  and gen_decode_union ~inside:_ ~refs ~closed out (expr : string) =
+  and gen_decode_union ~inside ~refs ~closed out (expr : string) =
     bpf out "    (match Value.Util.get_key %S Value.Util.to_text %s with"
       "$type" expr;
     List.iter
       (fun (r : A.ref) ->
         let cstor = cstor_name_of_ref r in
-        bpf out "\n    | %S -> `%s (%s_of_value v)" r.fragment
+        bpf out "\n    | %S -> `%s (%s_of_value v)" (nsid_of_ref r)
           (* (val_name_of_ref r) *) cstor (val_name_of_ref r))
       refs;
-    if not closed then bpf out "\n    | _ -> `Other v (* Non closed union *)\n";
+    if closed then
+      bpf out
+        "\n\
+        \    | v -> Value.Util.conv_error {msg=\"expected %S\"; value=v; \
+         path=[]}"
+        (val_name_of_ref inside)
+    else
+      bpf out "\n    | _ -> `Other v (* Non closed union *)\n";
     bpf out "    )"
 
   let gen_object (out : out) ((ref, o) : A.ref * A.object_) : unit =
@@ -364,13 +372,9 @@ module Codegen = struct
   let define_errors ~ref out (errs : A.error list) : unit =
     assert (errs <> []);
     bpf out "  type %s = [" (name_of_errors ~ref errs);
-    List.iteri
-      (fun i (e : A.error) ->
-        bpf out "%s `%s [@name %S]"
-          (if i = 0 then
-             ""
-           else
-             " |")
+    List.iter
+      (fun (e : A.error) ->
+        bpf out "  | `%s [@name %S]"
           (String.capitalize_ascii e.name |> remove_keyword)
           e.name)
       errs;
