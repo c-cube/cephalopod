@@ -3,4 +3,9 @@
  (flags :standard -open Cephalopod_common)
  (preprocess
   (pps ppx_deriving.std))
- (libraries containers cephalopod.common cephalopod.dasl cephalopod-models logs))
+ (libraries
+  containers
+  cephalopod.common
+  cephalopod.dasl
+  cephalopod-models
+  logs))
