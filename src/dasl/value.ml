@@ -170,12 +170,18 @@ let[@inline] of_yojson j : (t, string) result =
 module Util = struct
   let null = Null
   let[@inline] array x : t = Array x
+  let[@inline] array_of enc x : t = array @@ List.map enc x
   let[@inline] bool x : t = Bool x
-  let[@inline] bytes x : t = Bytes x
+  let[@inline] bytes x : t = Bytes (Bytes.unsafe_to_string x)
   let[@inline] int x : t = Int x
   let[@inline] map x : t = Map x
   let[@inline] cid x : t = Cid x
   let[@inline] text x : t = Text x
+
+  let[@inline] option_of enc x : t =
+    match x with
+    | None -> null
+    | Some x -> enc x
 
   type conv_error = {
     msg: string;
