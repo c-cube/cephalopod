@@ -109,6 +109,22 @@ module Sort_lexicons = struct
       ~nodes:lex ()
 end
 
+(* warning -12: we have some redundant matches for unions where fragments are all the same *)
+let codegen_prelude =
+  {|(* geherated by Cephalopod_lexicon's codegen tool, do not modify *)
+open Cephalopod_dasl
+[@@@ocaml.warning "-12-39-41"]
+
+open struct
+  let pp_bytes_len out (data:bytes) = Format.fprintf out "<data: %d B>" (Bytes.length data)
+  let[@inline] add_opt_key_value (enc:'a -> Value.t)
+      (key:string) (value:'a option) (l : _ list) : _ list =
+    match value with
+    | None -> l
+    | Some v -> (key, enc v) :: l
+end
+|}
+
 module Codegen = struct
   let spf = Printf.sprintf
   let bpf = Printf.bprintf
@@ -127,9 +143,16 @@ module Codegen = struct
   let field_name s = String.uncapitalize_ascii s |> remove_keyword
 
   let val_name_of_ref (ref : A.ref) : string =
-    spf "%s_%s"
-      (split_id ref.name |> List.map String.lowercase_ascii |> String.concat "_")
-      (String.lowercase_ascii ref.fragment)
+    if ref.name = "" then
+      ref.fragment
+    else if ref.fragment = "" then
+      ref.name
+    else
+      spf "%s_%s"
+        (split_id ref.name
+        |> List.map String.lowercase_ascii
+        |> String.concat "_")
+        (String.lowercase_ascii ref.fragment)
 
   let nsid_of_ref (ref : A.ref) : string =
     if ref.fragment = "main" then
@@ -156,7 +179,7 @@ module Codegen = struct
       | A.Token | A.Object { properties = []; _ } ->
         bpf out "[`%s]" (cstor_name_of_ref inside)
       | A.String _ -> bpf out "string"
-      | A.Bytes _ -> bpf out "bytes"
+      | A.Bytes _ -> bpf out "(bytes [@printer pp_bytes_len])"
       | A.CidLink -> bpf out "Cid.t"
       | A.Ref { ref; raw = _ } -> bpf out "%s" (val_name_of_ref ref)
       | A.Blob _ -> bpf out "Blob.t"
@@ -214,8 +237,9 @@ module Codegen = struct
   end
 
   module Decode = struct
-    let rec gen_ty ~(inside : A.ref) (out : out) (ty : A.ty) : unit =
-      let recurse out e = gen_ty ~inside out e in
+    let rec gen_ty ~(read_type_key : bool) ~(inside : A.ref) (out : out)
+        (ty : A.ty) : unit =
+      let recurse out e = gen_ty ~read_type_key:true ~inside out e in
       match ty.view with
       | A.Null -> bpf out "Value.Util.to_unit"
       | A.Unknown -> bpf out "(fun v -> v (* immediate *))"
@@ -235,10 +259,18 @@ module Codegen = struct
           (gen_fields ~inside ~required ~nullable ~properties)
           "v"
       | A.Union { refs; closed } ->
-        bpf out "(fun v ->\n%a)" (gen_union ~inside ~refs ~closed) "v"
+        if read_type_key then
+          bpf out
+            "(fun v ->\n    let type_tag = Value.Util.get_type_key v in\n%a)"
+            (gen_union ~inside ~refs ~closed ~type_expr:"type_tag")
+            "v"
+        else
+          bpf out "(fun v ->\n%a)"
+            (gen_union ~inside ~refs ~closed ~type_expr:"type_tag")
+            "v"
 
     and gen_fields ~inside ~required ~nullable ~properties out (expr : string) =
-      let recurse out e = gen_ty ~inside out e in
+      let recurse out e = gen_ty ~read_type_key:true ~inside out e in
       List.iter
         (fun (k, ty) ->
           let required =
@@ -265,33 +297,49 @@ module Codegen = struct
         properties;
       bpf out "}"
 
-    and gen_union ~inside ~refs ~closed out (expr : string) =
-      bpf out "    (match Value.Util.get_key %S Value.Util.to_text %s with"
-        "$type" expr;
+    and gen_union ~inside ~refs ~closed ~(type_expr : string) out
+        (expr : string) =
+      bpf out "    (match %s with" type_expr;
       List.iter
         (fun (r : A.ref) ->
           let cstor = cstor_name_of_ref r in
-          bpf out "\n    | %S -> `%s (%s_of_value v)" (nsid_of_ref r)
-            (* (val_name_of_ref r) *) cstor (val_name_of_ref r))
+          bpf out "\n    | %S | %S ->\n    `%s (%s_of_value %s)"
+            (spf "#%s" r.fragment) (nsid_of_ref r) cstor (val_name_of_ref r)
+            expr)
         refs;
       if closed then
         bpf out
           "\n\
           \    | _txt -> Value.Util.conv_error {msg=\"expected `%s`\"; \
-           value=v; path=[]}"
-          (val_name_of_ref inside)
+           value=%s; path=[]}"
+          (val_name_of_ref inside) expr
       else
-        bpf out "\n    | _ -> `Other v (* Non closed union *)\n";
+        bpf out "\n    | _ -> `Other %s (* Non closed union *)\n" expr;
       bpf out "    )"
 
     let gen_object (out : out) ((ref, o) : A.ref * A.object_) : unit =
       let ty : A.ty = { description = None; view = Object o } in
       bpf out "%s_of_value : %s Value.Util.conv = %a" (val_name_of_ref ref)
-        (val_name_of_ref ref) (gen_ty ~inside:ref) ty
+        (val_name_of_ref ref)
+        (gen_ty ~read_type_key:true ~inside:ref)
+        ty
 
     let gen_ty_def (out : out) ((ref, ty) : A.ref * A.ty) : unit =
-      bpf out "%s_of_value : %a Value.Util.conv = %a" (val_name_of_ref ref)
-        (Ty.gen_ty ~inside:ref) ty (gen_ty ~inside:ref) ty
+      let is_union =
+        match ty.view with
+        | A.Union _ -> true
+        | _ -> false
+      in
+      let type_kind_param =
+        if is_union then
+          " ~(type_tag:string)"
+        else
+          ""
+      in
+      bpf out "%s_of_value%s : %s Value.Util.conv = %a" (val_name_of_ref ref)
+        type_kind_param (val_name_of_ref ref)
+        (gen_ty ~read_type_key:false ~inside:ref)
+        ty
 
     let gen_def_type (out : out) ((ref, def) : A.ref * A.def) : unit =
       match def with
@@ -408,7 +456,7 @@ module Codegen = struct
         Decode.gen_def_type out (ref, def);
         bpf out "\n")
       clique;
-    bpf out "\n";
+    bpf out "\n\n";
 
     List.iteri
       (fun i (ref, def) ->
@@ -465,9 +513,7 @@ module Codegen = struct
     let as_ref = { A.name = ""; fragment = name } in
     bpf out "  type %s = %a" name (Ty.gen_ty ~inside:as_ref) ty;
     bpf out "\n  [@@deriving show {with_path=false}]\n\n";
-    bpf out "  let %s_of_value : %s Value.Util.conv = %a\n" name name
-      (Decode.gen_ty ~inside:as_ref)
-      ty;
+    bpf out "  let %a\n" Decode.gen_ty_def (as_ref, ty);
     bpf out "  let %s_to_value : %s -> Value.t = %a\n" name name
       (Encode.gen_ty ~with_type:false ~inside:as_ref)
       ty;
@@ -491,9 +537,7 @@ module Codegen = struct
     let as_ref = { A.name = ""; fragment = name } in
     bpf out "  type %s = %a" name (Ty.gen_ty ~inside:as_ref) m.schema;
     bpf out "\n  [@@deriving show {with_path=false}]\n\n";
-    bpf out "  let %s_of_value : %s Value.Util.conv = %a\n" name name
-      (Decode.gen_ty ~inside:as_ref)
-      m.schema;
+    bpf out "  let %a\n" Decode.gen_ty_def (as_ref, m.schema);
     bpf out "  let %s_to_value : %s -> Value.t = %a\n" name name
       (Encode.gen_ty ~with_type:false ~inside:as_ref)
       m.schema;
@@ -563,11 +607,11 @@ module Codegen = struct
 
     let message_as_argument (msg : A.message option) =
       match msg with
-      | None -> "~message:No_message"
+      | None -> failwith @@ spf "no message defined in %s" (nsid_of_ref ref)
       | Some m ->
         let name = name_of_message ~ref m in
         define_message ~ref out m;
-        spf "~message:(Message %s)" (base_typ_of_name name)
+        spf "~message:%s" (base_typ_of_name name)
     in
 
     match def with
@@ -637,20 +681,6 @@ module Codegen = struct
     fpf oc "end\n\n";
     ()
 
-  let prelude =
-    {|(* geherated by Cephalopod_lexicon's codegen tool, do not modify *)
-open Cephalopod_dasl
-[@@@ocaml.warning "-39-41"]
-
-open struct
-  let[@inline] add_opt_key_value (enc:'a -> Value.t)
-      (key:string) (value:'a option) (l : _ list) : _ list =
-    match value with
-    | None -> l
-    | Some v -> (key, enc v) :: l
-end
-|}
-
   let run (oc : out_channel) (lex_l : Lex.Ast.lexicon list) : unit =
     let dep_graph = Dep_graph_for_types.build lex_l in
     if !debug then
@@ -663,7 +693,7 @@ end
         Fmt.Dump.(list (list (A.pp_ref |> Fmt.map fst)))
         types_scc;
 
-    fpf oc "%s\n" prelude;
+    fpf oc "%s\n" codegen_prelude;
 
     fpf oc "(** Type definitions *)\n";
     fpf oc "module Types = struct\n";

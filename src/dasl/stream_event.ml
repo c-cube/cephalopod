@@ -20,3 +20,6 @@ let decode (data : Byte_slice.t) : (t, decode_error) result =
 let encode (buf : Byte_buffer.t) self : unit =
   Value.to_cbor buf self.header;
   Value.to_cbor buf self.value
+
+let type_tag (self:t) : string =
+  Value.Util.get_key "t" Value.Util.to_text self.header

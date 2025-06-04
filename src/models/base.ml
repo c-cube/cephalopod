@@ -5,13 +5,15 @@ type error = {
   name: string;
 }
 
+type 'a pp = Format.formatter -> 'a -> unit
+
 type 'a encodable = {
   to_value: 'a -> Cephalopod_dasl.Value.t;
   of_value: Cephalopod_dasl.Value.t -> 'a;
-  pp: Format.formatter -> 'a -> unit;
+  pp: 'a pp;
 }
 
-type 'a printable = { pp: Format.formatter -> 'a -> unit }
+type 'a printable = { pp: 'a pp }
 
 let printable_unit = { pp = CCFormat.unit }
 
@@ -39,9 +41,11 @@ type 'a errors =
   | Errors : 'e printable -> 'e errors
   | No_errors : unit errors
 
-type 'a message =
-  | Message : 'e encodable -> 'e message
-  | No_message : unit message
+type 'e message = {
+  pp: 'e pp;
+  to_value: 'e -> Cephalopod_dasl.Value.t;
+  of_value: type_tag:string -> Cephalopod_dasl.Value.t -> 'e;
+}
 
 type 'a input_or_output =
   | IO_encodable : {

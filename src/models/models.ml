@@ -1,8 +1,9 @@
 (* geherated by Cephalopod_lexicon's codegen tool, do not modify *)
 open Cephalopod_dasl
-[@@@ocaml.warning "-39-41"]
+[@@@ocaml.warning "-12-39-41"]
 
 open struct
+  let pp_bytes_len out (data:bytes) = Format.fprintf out "<data: %d B>" (Bytes.length data)
   let[@inline] add_opt_key_value (enc:'a -> Value.t)
       (key:string) (value:'a option) (l : _ list) : _ list =
     match value with
@@ -25,6 +26,7 @@ module Types = struct
     let termsOfService = Value.Util.get_key_opt "termsOfService" Value.Util.to_text v in
     {privacyPolicy;termsOfService;})
 
+
   let rec app_bsky_feed_describefeedgenerator_links_to_value : app_bsky_feed_describefeedgenerator_links -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.feed.describeFeedGenerator#links") :: l in
@@ -42,6 +44,7 @@ module Types = struct
   let rec app_bsky_actor_defs_profileassociatedchat_of_value : app_bsky_actor_defs_profileassociatedchat Value.Util.conv = (fun v ->
     let allowIncoming = Value.Util.get_key "allowIncoming" Value.Util.to_text v in
     {allowIncoming;})
+
 
   let rec app_bsky_actor_defs_profileassociatedchat_to_value : app_bsky_actor_defs_profileassociatedchat -> Value.t = (fun v ->
     let l = [] in
@@ -68,6 +71,7 @@ module Types = struct
     let chat = Value.Util.get_key_opt "chat" app_bsky_actor_defs_profileassociatedchat_of_value v in
     {lists;feedgens;starterPacks;labeler;chat;})
 
+
   let rec app_bsky_actor_defs_profileassociated_to_value : app_bsky_actor_defs_profileassociated -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#profileAssociated") :: l in
@@ -83,7 +87,8 @@ module Types = struct
   type app_bsky_graph_defs_listpurpose = string
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_graph_defs_listpurpose_of_value : string Value.Util.conv = Value.Util.to_text
+  let rec app_bsky_graph_defs_listpurpose_of_value : app_bsky_graph_defs_listpurpose Value.Util.conv = Value.Util.to_text
+
 
   let rec app_bsky_graph_defs_listpurpose_to_value : string -> Value.t = Value.Util.text
 
@@ -98,7 +103,7 @@ module Types = struct
     neg: bool option;
     cts: string;
     exp: string option;
-    sig_: bytes option;
+    sig_: (bytes [@printer pp_bytes_len]) option;
   }
   [@@deriving show {with_path=false}]
 
@@ -113,6 +118,7 @@ module Types = struct
     let exp = Value.Util.get_key_opt "exp" Value.Util.to_text v in
     let sig_ = Value.Util.get_key_opt "sig" Value.Util.to_bytes v in
     {ver;src;uri;cid;val_;neg;cts;exp;sig_;})
+
 
   let rec com_atproto_label_defs_label_to_value : com_atproto_label_defs_label -> Value.t = (fun v ->
     let l = [] in
@@ -140,6 +146,7 @@ module Types = struct
     let muted = Value.Util.get_key_opt "muted" Value.Util.to_bool v in
     let blocked = Value.Util.get_key_opt "blocked" Value.Util.to_text v in
     {muted;blocked;})
+
 
   let rec app_bsky_graph_defs_listviewerstate_to_value : app_bsky_graph_defs_listviewerstate -> Value.t = (fun v ->
     let l = [] in
@@ -175,6 +182,7 @@ module Types = struct
     let indexedAt = Value.Util.get_key_opt "indexedAt" Value.Util.to_text v in
     {uri;cid;name;purpose;avatar;listItemCount;labels;viewer;indexedAt;})
 
+
   let rec app_bsky_graph_defs_listviewbasic_to_value : app_bsky_graph_defs_listviewbasic -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.graph.defs#listViewBasic") :: l in
@@ -206,6 +214,7 @@ module Types = struct
     let createdAt = Value.Util.get_key "createdAt" Value.Util.to_text v in
     {issuer;uri;isValid;createdAt;})
 
+
   let rec app_bsky_actor_defs_verificationview_to_value : app_bsky_actor_defs_verificationview -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#verificationView") :: l in
@@ -229,6 +238,7 @@ module Types = struct
     let verifiedStatus = Value.Util.get_key "verifiedStatus" Value.Util.to_text v in
     let trustedVerifierStatus = Value.Util.get_key "trustedVerifierStatus" Value.Util.to_text v in
     {verifications;verifiedStatus;trustedVerifierStatus;})
+
 
   let rec app_bsky_actor_defs_verificationstate_to_value : app_bsky_actor_defs_verificationstate -> Value.t = (fun v ->
     let l = [] in
@@ -255,6 +265,7 @@ module Types = struct
     let thumb = Value.Util.get_key_opt "thumb" Value.Util.to_text v in
     {uri;title;description;thumb;})
 
+
   let rec app_bsky_embed_external_viewexternal_to_value : app_bsky_embed_external_viewexternal -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.embed.external#viewExternal") :: l in
@@ -274,6 +285,7 @@ module Types = struct
   let rec app_bsky_embed_external_view_of_value : app_bsky_embed_external_view Value.Util.conv = (fun v ->
     let external_ = Value.Util.get_key "external" app_bsky_embed_external_viewexternal_of_value v in
     {external_;})
+
 
   let rec app_bsky_embed_external_view_to_value : app_bsky_embed_external_view -> Value.t = (fun v ->
     let l = [] in
@@ -299,13 +311,16 @@ module Types = struct
     let status = Value.Util.get_key "status" Value.Util.to_text v in
     let record = Value.Util.get_key "record" (fun v -> v (* immediate *)) v in
     let embed = Value.Util.get_key_opt "embed" (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.embed.external#view" -> `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#view" | "app.bsky.embed.external#view" ->
+    `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let expiresAt = Value.Util.get_key_opt "expiresAt" Value.Util.to_text v in
     let isActive = Value.Util.get_key_opt "isActive" Value.Util.to_bool v in
     {status;record;embed;expiresAt;isActive;})
+
 
   let rec app_bsky_actor_defs_statusview_to_value : app_bsky_actor_defs_statusview -> Value.t = (fun v ->
     let l = [] in
@@ -382,6 +397,7 @@ module Types = struct
     let followers = Value.Util.get_key "followers" (Value.Util.to_array_of app_bsky_actor_defs_profileviewbasic_of_value) v in
     {count;followers;})
 
+
   let rec app_bsky_actor_defs_profileviewbasic_to_value : app_bsky_actor_defs_profileviewbasic -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#profileViewBasic") :: l in
@@ -442,6 +458,7 @@ module Types = struct
     let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
     {uri;cid;record;creator;listItemCount;joinedWeekCount;joinedAllTimeCount;labels;indexedAt;})
 
+
   let rec app_bsky_graph_defs_starterpackviewbasic_to_value : app_bsky_graph_defs_starterpackviewbasic -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.graph.defs#starterPackViewBasic") :: l in
@@ -468,6 +485,7 @@ module Types = struct
     let uri = Value.Util.get_key "uri" Value.Util.to_text v in
     let cid = Value.Util.get_key "cid" Value.Util.to_text v in
     {uri;cid;})
+
 
   let rec com_atproto_repo_strongref_main_to_value : com_atproto_repo_strongref_main -> Value.t = (fun v ->
     let l = [] in
@@ -520,6 +538,7 @@ module Types = struct
     let verification = Value.Util.get_key_opt "verification" app_bsky_actor_defs_verificationstate_of_value v in
     let status = Value.Util.get_key_opt "status" app_bsky_actor_defs_statusview_of_value v in
     {did;handle;displayName;description;avatar;banner;followersCount;followsCount;postsCount;associated;joinedViaStarterPack;indexedAt;createdAt;viewer;labels;pinnedPost;verification;status;})
+
 
   let rec app_bsky_actor_defs_profileviewdetailed_to_value : app_bsky_actor_defs_profileviewdetailed -> Value.t = (fun v ->
     let l = [] in
@@ -577,6 +596,7 @@ module Types = struct
     let status = Value.Util.get_key_opt "status" app_bsky_actor_defs_statusview_of_value v in
     {did;handle;displayName;description;avatar;associated;indexedAt;createdAt;viewer;labels;verification;status;})
 
+
   let rec app_bsky_actor_defs_profileview_to_value : app_bsky_actor_defs_profileview -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#profileView") :: l in
@@ -607,6 +627,7 @@ module Types = struct
     let byteEnd = Value.Util.get_key "byteEnd" Value.Util.to_int v in
     {byteStart;byteEnd;})
 
+
   let rec app_bsky_richtext_facet_byteslice_to_value : app_bsky_richtext_facet_byteslice -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.richtext.facet#byteSlice") :: l in
@@ -625,6 +646,7 @@ module Types = struct
     let did = Value.Util.get_key "did" Value.Util.to_text v in
     {did;})
 
+
   let rec app_bsky_richtext_facet_mention_to_value : app_bsky_richtext_facet_mention -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.richtext.facet#mention") :: l in
@@ -642,6 +664,7 @@ module Types = struct
     let uri = Value.Util.get_key "uri" Value.Util.to_text v in
     {uri;})
 
+
   let rec app_bsky_richtext_facet_link_to_value : app_bsky_richtext_facet_link -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.richtext.facet#link") :: l in
@@ -658,6 +681,7 @@ module Types = struct
   let rec app_bsky_richtext_facet_tag_of_value : app_bsky_richtext_facet_tag Value.Util.conv = (fun v ->
     let tag = Value.Util.get_key "tag" Value.Util.to_text v in
     {tag;})
+
 
   let rec app_bsky_richtext_facet_tag_to_value : app_bsky_richtext_facet_tag -> Value.t = (fun v ->
     let l = [] in
@@ -681,13 +705,18 @@ module Types = struct
   let rec app_bsky_richtext_facet_main_of_value : app_bsky_richtext_facet_main Value.Util.conv = (fun v ->
     let index = Value.Util.get_key "index" app_bsky_richtext_facet_byteslice_of_value v in
     let features = Value.Util.get_key "features" (Value.Util.to_array_of (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.richtext.facet#mention" -> `App_bsky_richtext_facet_mention (app_bsky_richtext_facet_mention_of_value v)
-    | "app.bsky.richtext.facet#link" -> `App_bsky_richtext_facet_link (app_bsky_richtext_facet_link_of_value v)
-    | "app.bsky.richtext.facet#tag" -> `App_bsky_richtext_facet_tag (app_bsky_richtext_facet_tag_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#mention" | "app.bsky.richtext.facet#mention" ->
+    `App_bsky_richtext_facet_mention (app_bsky_richtext_facet_mention_of_value v)
+    | "#link" | "app.bsky.richtext.facet#link" ->
+    `App_bsky_richtext_facet_link (app_bsky_richtext_facet_link_of_value v)
+    | "#tag" | "app.bsky.richtext.facet#tag" ->
+    `App_bsky_richtext_facet_tag (app_bsky_richtext_facet_tag_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
     {index;features;})
+
 
   let rec app_bsky_richtext_facet_main_to_value : app_bsky_richtext_facet_main -> Value.t = (fun v ->
     let l = [] in
@@ -712,6 +741,7 @@ module Types = struct
   let rec app_bsky_feed_defs_generatorviewerstate_of_value : app_bsky_feed_defs_generatorviewerstate Value.Util.conv = (fun v ->
     let like = Value.Util.get_key_opt "like" Value.Util.to_text v in
     {like;})
+
 
   let rec app_bsky_feed_defs_generatorviewerstate_to_value : app_bsky_feed_defs_generatorviewerstate -> Value.t = (fun v ->
     let l = [] in
@@ -756,6 +786,7 @@ module Types = struct
     let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
     {uri;cid;did;creator;displayName;description;descriptionFacets;avatar;likeCount;acceptsInteractions;labels;viewer;contentMode;indexedAt;})
 
+
   let rec app_bsky_feed_defs_generatorview_to_value : app_bsky_feed_defs_generatorview -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.feed.defs#generatorView") :: l in
@@ -788,6 +819,7 @@ module Types = struct
     let height = Value.Util.get_key "height" Value.Util.to_int v in
     {width;height;})
 
+
   let rec app_bsky_embed_defs_aspectratio_to_value : app_bsky_embed_defs_aspectratio -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.embed.defs#aspectRatio") :: l in
@@ -811,6 +843,7 @@ module Types = struct
     let alt = Value.Util.get_key "alt" Value.Util.to_text v in
     let aspectRatio = Value.Util.get_key_opt "aspectRatio" app_bsky_embed_defs_aspectratio_of_value v in
     {thumb;fullsize;alt;aspectRatio;})
+
 
   let rec app_bsky_embed_images_viewimage_to_value : app_bsky_embed_images_viewimage -> Value.t = (fun v ->
     let l = [] in
@@ -836,6 +869,7 @@ module Types = struct
     let value = Value.Util.get_key "value" (fun v -> v (* immediate *)) v in
     {collection;rkey;value;})
 
+
   let rec com_atproto_repo_applywrites_create_to_value : com_atproto_repo_applywrites_create -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.repo.applyWrites#create") :: l in
@@ -849,7 +883,8 @@ module Types = struct
   type com_atproto_sync_defs_hoststatus = string
   [@@deriving show {with_path=false}]
 
-  let rec com_atproto_sync_defs_hoststatus_of_value : string Value.Util.conv = Value.Util.to_text
+  let rec com_atproto_sync_defs_hoststatus_of_value : com_atproto_sync_defs_hoststatus Value.Util.conv = Value.Util.to_text
+
 
   let rec com_atproto_sync_defs_hoststatus_to_value : string -> Value.t = Value.Util.text
 
@@ -867,6 +902,7 @@ module Types = struct
     let alt = Value.Util.get_key "alt" Value.Util.to_text v in
     let aspectRatio = Value.Util.get_key_opt "aspectRatio" app_bsky_embed_defs_aspectratio_of_value v in
     {image;alt;aspectRatio;})
+
 
   let rec app_bsky_embed_images_image_to_value : app_bsky_embed_images_image -> Value.t = (fun v ->
     let l = [] in
@@ -886,6 +922,7 @@ module Types = struct
   let rec app_bsky_embed_images_main_of_value : app_bsky_embed_images_main Value.Util.conv = (fun v ->
     let images = Value.Util.get_key "images" (Value.Util.to_array_of app_bsky_embed_images_image_of_value) v in
     {images;})
+
 
   let rec app_bsky_embed_images_main_to_value : app_bsky_embed_images_main -> Value.t = (fun v ->
     let l = [] in
@@ -912,6 +949,7 @@ module Types = struct
     let status = Value.Util.get_key_opt "status" Value.Util.to_text v in
     {seq;did;time;active;status;})
 
+
   let rec com_atproto_sync_subscriberepos_account_to_value : com_atproto_sync_subscriberepos_account -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.sync.subscribeRepos#account") :: l in
@@ -933,6 +971,7 @@ module Types = struct
     let enabled = Value.Util.get_key "enabled" Value.Util.to_bool v in
     {enabled;})
 
+
   let rec app_bsky_actor_defs_adultcontentpref_to_value : app_bsky_actor_defs_adultcontentpref -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#adultContentPref") :: l in
@@ -953,6 +992,7 @@ module Types = struct
     let label = Value.Util.get_key "label" Value.Util.to_text v in
     let visibility = Value.Util.get_key "visibility" Value.Util.to_text v in
     {labelerDid;label;visibility;})
+
 
   let rec app_bsky_actor_defs_contentlabelpref_to_value : app_bsky_actor_defs_contentlabelpref -> Value.t = (fun v ->
     let l = [] in
@@ -976,6 +1016,7 @@ module Types = struct
     let saved = Value.Util.get_key "saved" (Value.Util.to_array_of Value.Util.to_text) v in
     let timelineIndex = Value.Util.get_key_opt "timelineIndex" Value.Util.to_int v in
     {pinned;saved;timelineIndex;})
+
 
   let rec app_bsky_actor_defs_savedfeedspref_to_value : app_bsky_actor_defs_savedfeedspref -> Value.t = (fun v ->
     let l = [] in
@@ -1002,6 +1043,7 @@ module Types = struct
     let pinned = Value.Util.get_key "pinned" Value.Util.to_bool v in
     {id;type_;value;pinned;})
 
+
   let rec app_bsky_actor_defs_savedfeed_to_value : app_bsky_actor_defs_savedfeed -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#savedFeed") :: l in
@@ -1022,6 +1064,7 @@ module Types = struct
     let items = Value.Util.get_key "items" (Value.Util.to_array_of app_bsky_actor_defs_savedfeed_of_value) v in
     {items;})
 
+
   let rec app_bsky_actor_defs_savedfeedsprefv2_to_value : app_bsky_actor_defs_savedfeedsprefv2 -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#savedFeedsPrefV2") :: l in
@@ -1038,6 +1081,7 @@ module Types = struct
   let rec app_bsky_actor_defs_personaldetailspref_of_value : app_bsky_actor_defs_personaldetailspref Value.Util.conv = (fun v ->
     let birthDate = Value.Util.get_key_opt "birthDate" Value.Util.to_text v in
     {birthDate;})
+
 
   let rec app_bsky_actor_defs_personaldetailspref_to_value : app_bsky_actor_defs_personaldetailspref -> Value.t = (fun v ->
     let l = [] in
@@ -1066,6 +1110,7 @@ module Types = struct
     let hideQuotePosts = Value.Util.get_key_opt "hideQuotePosts" Value.Util.to_bool v in
     {feed;hideReplies;hideRepliesByUnfollowed;hideRepliesByLikeCount;hideReposts;hideQuotePosts;})
 
+
   let rec app_bsky_actor_defs_feedviewpref_to_value : app_bsky_actor_defs_feedviewpref -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#feedViewPref") :: l in
@@ -1090,6 +1135,7 @@ module Types = struct
     let prioritizeFollowedUsers = Value.Util.get_key_opt "prioritizeFollowedUsers" Value.Util.to_bool v in
     {sort;prioritizeFollowedUsers;})
 
+
   let rec app_bsky_actor_defs_threadviewpref_to_value : app_bsky_actor_defs_threadviewpref -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#threadViewPref") :: l in
@@ -1108,6 +1154,7 @@ module Types = struct
     let tags = Value.Util.get_key "tags" (Value.Util.to_array_of Value.Util.to_text) v in
     {tags;})
 
+
   let rec app_bsky_actor_defs_interestspref_to_value : app_bsky_actor_defs_interestspref -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#interestsPref") :: l in
@@ -1119,7 +1166,8 @@ module Types = struct
   type app_bsky_actor_defs_mutedwordtarget = string
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_actor_defs_mutedwordtarget_of_value : string Value.Util.conv = Value.Util.to_text
+  let rec app_bsky_actor_defs_mutedwordtarget_of_value : app_bsky_actor_defs_mutedwordtarget Value.Util.conv = Value.Util.to_text
+
 
   let rec app_bsky_actor_defs_mutedwordtarget_to_value : string -> Value.t = Value.Util.text
 
@@ -1142,6 +1190,7 @@ module Types = struct
     let expiresAt = Value.Util.get_key_opt "expiresAt" Value.Util.to_text v in
     {id;value;targets;actorTarget;expiresAt;})
 
+
   let rec app_bsky_actor_defs_mutedword_to_value : app_bsky_actor_defs_mutedword -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#mutedWord") :: l in
@@ -1163,6 +1212,7 @@ module Types = struct
     let items = Value.Util.get_key "items" (Value.Util.to_array_of app_bsky_actor_defs_mutedword_of_value) v in
     {items;})
 
+
   let rec app_bsky_actor_defs_mutedwordspref_to_value : app_bsky_actor_defs_mutedwordspref -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#mutedWordsPref") :: l in
@@ -1180,6 +1230,7 @@ module Types = struct
     let items = Value.Util.get_key "items" (Value.Util.to_array_of Value.Util.to_text) v in
     {items;})
 
+
   let rec app_bsky_actor_defs_hiddenpostspref_to_value : app_bsky_actor_defs_hiddenpostspref -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#hiddenPostsPref") :: l in
@@ -1196,6 +1247,7 @@ module Types = struct
   let rec app_bsky_actor_defs_bskyappprogressguide_of_value : app_bsky_actor_defs_bskyappprogressguide Value.Util.conv = (fun v ->
     let guide = Value.Util.get_key "guide" Value.Util.to_text v in
     {guide;})
+
 
   let rec app_bsky_actor_defs_bskyappprogressguide_to_value : app_bsky_actor_defs_bskyappprogressguide -> Value.t = (fun v ->
     let l = [] in
@@ -1219,6 +1271,7 @@ module Types = struct
     let data = Value.Util.get_key_opt "data" Value.Util.to_text v in
     let expiresAt = Value.Util.get_key_opt "expiresAt" Value.Util.to_text v in
     {id;completed;data;expiresAt;})
+
 
   let rec app_bsky_actor_defs_nux_to_value : app_bsky_actor_defs_nux -> Value.t = (fun v ->
     let l = [] in
@@ -1244,6 +1297,7 @@ module Types = struct
     let nuxs = Value.Util.get_key_opt "nuxs" (Value.Util.to_array_of app_bsky_actor_defs_nux_of_value) v in
     {activeProgressGuide;queuedNudges;nuxs;})
 
+
   let rec app_bsky_actor_defs_bskyappstatepref_to_value : app_bsky_actor_defs_bskyappstatepref -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#bskyAppStatePref") :: l in
@@ -1263,6 +1317,7 @@ module Types = struct
     let did = Value.Util.get_key "did" Value.Util.to_text v in
     {did;})
 
+
   let rec app_bsky_actor_defs_labelerprefitem_to_value : app_bsky_actor_defs_labelerprefitem -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#labelerPrefItem") :: l in
@@ -1280,6 +1335,7 @@ module Types = struct
     let labelers = Value.Util.get_key "labelers" (Value.Util.to_array_of app_bsky_actor_defs_labelerprefitem_of_value) v in
     {labelers;})
 
+
   let rec app_bsky_actor_defs_labelerspref_to_value : app_bsky_actor_defs_labelerspref -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#labelersPref") :: l in
@@ -1293,6 +1349,7 @@ module Types = struct
 
   let rec app_bsky_feed_threadgate_mentionrule_of_value : app_bsky_feed_threadgate_mentionrule Value.Util.conv = (fun _ -> `App_bsky_feed_threadgate_mentionrule)
 
+
   let rec app_bsky_feed_threadgate_mentionrule_to_value : app_bsky_feed_threadgate_mentionrule -> Value.t = (fun `App_bsky_feed_threadgate_mentionrule -> Value.Util.text "app.bsky.feed.threadgate#mentionRule")
 
 
@@ -1302,6 +1359,7 @@ module Types = struct
 
   let rec app_bsky_feed_threadgate_followerrule_of_value : app_bsky_feed_threadgate_followerrule Value.Util.conv = (fun _ -> `App_bsky_feed_threadgate_followerrule)
 
+
   let rec app_bsky_feed_threadgate_followerrule_to_value : app_bsky_feed_threadgate_followerrule -> Value.t = (fun `App_bsky_feed_threadgate_followerrule -> Value.Util.text "app.bsky.feed.threadgate#followerRule")
 
 
@@ -1310,6 +1368,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_threadgate_followingrule_of_value : app_bsky_feed_threadgate_followingrule Value.Util.conv = (fun _ -> `App_bsky_feed_threadgate_followingrule)
+
 
   let rec app_bsky_feed_threadgate_followingrule_to_value : app_bsky_feed_threadgate_followingrule -> Value.t = (fun `App_bsky_feed_threadgate_followingrule -> Value.Util.text "app.bsky.feed.threadgate#followingRule")
 
@@ -1324,6 +1383,7 @@ module Types = struct
     let list = Value.Util.get_key "list" Value.Util.to_text v in
     {list;})
 
+
   let rec app_bsky_feed_threadgate_listrule_to_value : app_bsky_feed_threadgate_listrule -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.feed.threadgate#listRule") :: l in
@@ -1336,6 +1396,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_postgate_disablerule_of_value : app_bsky_feed_postgate_disablerule Value.Util.conv = (fun _ -> `App_bsky_feed_postgate_disablerule)
+
 
   let rec app_bsky_feed_postgate_disablerule_to_value : app_bsky_feed_postgate_disablerule -> Value.t = (fun `App_bsky_feed_postgate_disablerule -> Value.Util.text "app.bsky.feed.postgate#disableRule")
 
@@ -1358,19 +1419,27 @@ module Types = struct
 
   let rec app_bsky_actor_defs_postinteractionsettingspref_of_value : app_bsky_actor_defs_postinteractionsettingspref Value.Util.conv = (fun v ->
     let threadgateAllowRules = Value.Util.get_key_opt "threadgateAllowRules" (Value.Util.to_array_of (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.feed.threadgate#mentionRule" -> `App_bsky_feed_threadgate_mentionrule (app_bsky_feed_threadgate_mentionrule_of_value v)
-    | "app.bsky.feed.threadgate#followerRule" -> `App_bsky_feed_threadgate_followerrule (app_bsky_feed_threadgate_followerrule_of_value v)
-    | "app.bsky.feed.threadgate#followingRule" -> `App_bsky_feed_threadgate_followingrule (app_bsky_feed_threadgate_followingrule_of_value v)
-    | "app.bsky.feed.threadgate#listRule" -> `App_bsky_feed_threadgate_listrule (app_bsky_feed_threadgate_listrule_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#mentionRule" | "app.bsky.feed.threadgate#mentionRule" ->
+    `App_bsky_feed_threadgate_mentionrule (app_bsky_feed_threadgate_mentionrule_of_value v)
+    | "#followerRule" | "app.bsky.feed.threadgate#followerRule" ->
+    `App_bsky_feed_threadgate_followerrule (app_bsky_feed_threadgate_followerrule_of_value v)
+    | "#followingRule" | "app.bsky.feed.threadgate#followingRule" ->
+    `App_bsky_feed_threadgate_followingrule (app_bsky_feed_threadgate_followingrule_of_value v)
+    | "#listRule" | "app.bsky.feed.threadgate#listRule" ->
+    `App_bsky_feed_threadgate_listrule (app_bsky_feed_threadgate_listrule_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
     let postgateEmbeddingRules = Value.Util.get_key_opt "postgateEmbeddingRules" (Value.Util.to_array_of (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.feed.postgate#disableRule" -> `App_bsky_feed_postgate_disablerule (app_bsky_feed_postgate_disablerule_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#disableRule" | "app.bsky.feed.postgate#disableRule" ->
+    `App_bsky_feed_postgate_disablerule (app_bsky_feed_postgate_disablerule_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
     {threadgateAllowRules;postgateEmbeddingRules;})
+
 
   let rec app_bsky_actor_defs_postinteractionsettingspref_to_value : app_bsky_actor_defs_postinteractionsettingspref -> Value.t = (fun v ->
     let l = [] in
@@ -1401,6 +1470,7 @@ module Types = struct
     let hideBadges = Value.Util.get_key_opt "hideBadges" Value.Util.to_bool v in
     {hideBadges;})
 
+
   let rec app_bsky_actor_defs_verificationprefs_to_value : app_bsky_actor_defs_verificationprefs -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.actor.defs#verificationPrefs") :: l in
@@ -1428,40 +1498,40 @@ module Types = struct
     ] list
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_actor_defs_preferences_of_value : [
-    | `App_bsky_actor_defs_adultcontentpref of app_bsky_actor_defs_adultcontentpref
-    | `App_bsky_actor_defs_contentlabelpref of app_bsky_actor_defs_contentlabelpref
-    | `App_bsky_actor_defs_savedfeedspref of app_bsky_actor_defs_savedfeedspref
-    | `App_bsky_actor_defs_savedfeedsprefv2 of app_bsky_actor_defs_savedfeedsprefv2
-    | `App_bsky_actor_defs_personaldetailspref of app_bsky_actor_defs_personaldetailspref
-    | `App_bsky_actor_defs_feedviewpref of app_bsky_actor_defs_feedviewpref
-    | `App_bsky_actor_defs_threadviewpref of app_bsky_actor_defs_threadviewpref
-    | `App_bsky_actor_defs_interestspref of app_bsky_actor_defs_interestspref
-    | `App_bsky_actor_defs_mutedwordspref of app_bsky_actor_defs_mutedwordspref
-    | `App_bsky_actor_defs_hiddenpostspref of app_bsky_actor_defs_hiddenpostspref
-    | `App_bsky_actor_defs_bskyappstatepref of app_bsky_actor_defs_bskyappstatepref
-    | `App_bsky_actor_defs_labelerspref of app_bsky_actor_defs_labelerspref
-    | `App_bsky_actor_defs_postinteractionsettingspref of app_bsky_actor_defs_postinteractionsettingspref
-    | `App_bsky_actor_defs_verificationprefs of app_bsky_actor_defs_verificationprefs
-    | `Other of Value.t (** Non closed union *)
-    ] list Value.Util.conv = (Value.Util.to_array_of (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.actor.defs#adultContentPref" -> `App_bsky_actor_defs_adultcontentpref (app_bsky_actor_defs_adultcontentpref_of_value v)
-    | "app.bsky.actor.defs#contentLabelPref" -> `App_bsky_actor_defs_contentlabelpref (app_bsky_actor_defs_contentlabelpref_of_value v)
-    | "app.bsky.actor.defs#savedFeedsPref" -> `App_bsky_actor_defs_savedfeedspref (app_bsky_actor_defs_savedfeedspref_of_value v)
-    | "app.bsky.actor.defs#savedFeedsPrefV2" -> `App_bsky_actor_defs_savedfeedsprefv2 (app_bsky_actor_defs_savedfeedsprefv2_of_value v)
-    | "app.bsky.actor.defs#personalDetailsPref" -> `App_bsky_actor_defs_personaldetailspref (app_bsky_actor_defs_personaldetailspref_of_value v)
-    | "app.bsky.actor.defs#feedViewPref" -> `App_bsky_actor_defs_feedviewpref (app_bsky_actor_defs_feedviewpref_of_value v)
-    | "app.bsky.actor.defs#threadViewPref" -> `App_bsky_actor_defs_threadviewpref (app_bsky_actor_defs_threadviewpref_of_value v)
-    | "app.bsky.actor.defs#interestsPref" -> `App_bsky_actor_defs_interestspref (app_bsky_actor_defs_interestspref_of_value v)
-    | "app.bsky.actor.defs#mutedWordsPref" -> `App_bsky_actor_defs_mutedwordspref (app_bsky_actor_defs_mutedwordspref_of_value v)
-    | "app.bsky.actor.defs#hiddenPostsPref" -> `App_bsky_actor_defs_hiddenpostspref (app_bsky_actor_defs_hiddenpostspref_of_value v)
-    | "app.bsky.actor.defs#bskyAppStatePref" -> `App_bsky_actor_defs_bskyappstatepref (app_bsky_actor_defs_bskyappstatepref_of_value v)
-    | "app.bsky.actor.defs#labelersPref" -> `App_bsky_actor_defs_labelerspref (app_bsky_actor_defs_labelerspref_of_value v)
-    | "app.bsky.actor.defs#postInteractionSettingsPref" -> `App_bsky_actor_defs_postinteractionsettingspref (app_bsky_actor_defs_postinteractionsettingspref_of_value v)
-    | "app.bsky.actor.defs#verificationPrefs" -> `App_bsky_actor_defs_verificationprefs (app_bsky_actor_defs_verificationprefs_of_value v)
+  let rec app_bsky_actor_defs_preferences_of_value : app_bsky_actor_defs_preferences Value.Util.conv = (Value.Util.to_array_of (fun v ->
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#adultContentPref" | "app.bsky.actor.defs#adultContentPref" ->
+    `App_bsky_actor_defs_adultcontentpref (app_bsky_actor_defs_adultcontentpref_of_value v)
+    | "#contentLabelPref" | "app.bsky.actor.defs#contentLabelPref" ->
+    `App_bsky_actor_defs_contentlabelpref (app_bsky_actor_defs_contentlabelpref_of_value v)
+    | "#savedFeedsPref" | "app.bsky.actor.defs#savedFeedsPref" ->
+    `App_bsky_actor_defs_savedfeedspref (app_bsky_actor_defs_savedfeedspref_of_value v)
+    | "#savedFeedsPrefV2" | "app.bsky.actor.defs#savedFeedsPrefV2" ->
+    `App_bsky_actor_defs_savedfeedsprefv2 (app_bsky_actor_defs_savedfeedsprefv2_of_value v)
+    | "#personalDetailsPref" | "app.bsky.actor.defs#personalDetailsPref" ->
+    `App_bsky_actor_defs_personaldetailspref (app_bsky_actor_defs_personaldetailspref_of_value v)
+    | "#feedViewPref" | "app.bsky.actor.defs#feedViewPref" ->
+    `App_bsky_actor_defs_feedviewpref (app_bsky_actor_defs_feedviewpref_of_value v)
+    | "#threadViewPref" | "app.bsky.actor.defs#threadViewPref" ->
+    `App_bsky_actor_defs_threadviewpref (app_bsky_actor_defs_threadviewpref_of_value v)
+    | "#interestsPref" | "app.bsky.actor.defs#interestsPref" ->
+    `App_bsky_actor_defs_interestspref (app_bsky_actor_defs_interestspref_of_value v)
+    | "#mutedWordsPref" | "app.bsky.actor.defs#mutedWordsPref" ->
+    `App_bsky_actor_defs_mutedwordspref (app_bsky_actor_defs_mutedwordspref_of_value v)
+    | "#hiddenPostsPref" | "app.bsky.actor.defs#hiddenPostsPref" ->
+    `App_bsky_actor_defs_hiddenpostspref (app_bsky_actor_defs_hiddenpostspref_of_value v)
+    | "#bskyAppStatePref" | "app.bsky.actor.defs#bskyAppStatePref" ->
+    `App_bsky_actor_defs_bskyappstatepref (app_bsky_actor_defs_bskyappstatepref_of_value v)
+    | "#labelersPref" | "app.bsky.actor.defs#labelersPref" ->
+    `App_bsky_actor_defs_labelerspref (app_bsky_actor_defs_labelerspref_of_value v)
+    | "#postInteractionSettingsPref" | "app.bsky.actor.defs#postInteractionSettingsPref" ->
+    `App_bsky_actor_defs_postinteractionsettingspref (app_bsky_actor_defs_postinteractionsettingspref_of_value v)
+    | "#verificationPrefs" | "app.bsky.actor.defs#verificationPrefs" ->
+    `App_bsky_actor_defs_verificationprefs (app_bsky_actor_defs_verificationprefs_of_value v)
     | _ -> `Other v (* Non closed union *)
     )))
+
 
   let rec app_bsky_actor_defs_preferences_to_value : [
     | `App_bsky_actor_defs_adultcontentpref of app_bsky_actor_defs_adultcontentpref
@@ -1503,7 +1573,8 @@ module Types = struct
   type com_atproto_moderation_defs_reasontype = string
   [@@deriving show {with_path=false}]
 
-  let rec com_atproto_moderation_defs_reasontype_of_value : string Value.Util.conv = Value.Util.to_text
+  let rec com_atproto_moderation_defs_reasontype_of_value : com_atproto_moderation_defs_reasontype Value.Util.conv = Value.Util.to_text
+
 
   let rec com_atproto_moderation_defs_reasontype_to_value : string -> Value.t = Value.Util.text
 
@@ -1517,6 +1588,7 @@ module Types = struct
   let rec app_bsky_embed_images_view_of_value : app_bsky_embed_images_view Value.Util.conv = (fun v ->
     let images = Value.Util.get_key "images" (Value.Util.to_array_of app_bsky_embed_images_viewimage_of_value) v in
     {images;})
+
 
   let rec app_bsky_embed_images_view_to_value : app_bsky_embed_images_view -> Value.t = (fun v ->
     let l = [] in
@@ -1543,6 +1615,7 @@ module Types = struct
     let aspectRatio = Value.Util.get_key_opt "aspectRatio" app_bsky_embed_defs_aspectratio_of_value v in
     {cid;playlist;thumbnail;alt;aspectRatio;})
 
+
   let rec app_bsky_embed_video_view_to_value : app_bsky_embed_video_view -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.embed.video#view") :: l in
@@ -1566,6 +1639,7 @@ module Types = struct
     let notFound = Value.Util.get_key "notFound" Value.Util.to_bool v in
     {uri;notFound;})
 
+
   let rec app_bsky_embed_record_viewnotfound_to_value : app_bsky_embed_record_viewnotfound -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.embed.record#viewNotFound") :: l in
@@ -1585,6 +1659,7 @@ module Types = struct
     let did = Value.Util.get_key "did" Value.Util.to_text v in
     let viewer = Value.Util.get_key_opt "viewer" app_bsky_actor_defs_viewerstate_of_value v in
     {did;viewer;})
+
 
   let rec app_bsky_feed_defs_blockedauthor_to_value : app_bsky_feed_defs_blockedauthor -> Value.t = (fun v ->
     let l = [] in
@@ -1608,6 +1683,7 @@ module Types = struct
     let author = Value.Util.get_key "author" app_bsky_feed_defs_blockedauthor_of_value v in
     {uri;blocked;author;})
 
+
   let rec app_bsky_embed_record_viewblocked_to_value : app_bsky_embed_record_viewblocked -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.embed.record#viewBlocked") :: l in
@@ -1628,6 +1704,7 @@ module Types = struct
     let uri = Value.Util.get_key "uri" Value.Util.to_text v in
     let detached = Value.Util.get_key "detached" Value.Util.to_bool v in
     {uri;detached;})
+
 
   let rec app_bsky_embed_record_viewdetached_to_value : app_bsky_embed_record_viewdetached -> Value.t = (fun v ->
     let l = [] in
@@ -1669,6 +1746,7 @@ module Types = struct
     let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
     {uri;cid;creator;name;purpose;description;descriptionFacets;avatar;listItemCount;labels;viewer;indexedAt;})
 
+
   let rec app_bsky_graph_defs_listview_to_value : app_bsky_graph_defs_listview -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.graph.defs#listView") :: l in
@@ -1696,6 +1774,7 @@ module Types = struct
   let rec app_bsky_labeler_defs_labelerviewerstate_of_value : app_bsky_labeler_defs_labelerviewerstate Value.Util.conv = (fun v ->
     let like = Value.Util.get_key_opt "like" Value.Util.to_text v in
     {like;})
+
 
   let rec app_bsky_labeler_defs_labelerviewerstate_to_value : app_bsky_labeler_defs_labelerviewerstate -> Value.t = (fun v ->
     let l = [] in
@@ -1725,6 +1804,7 @@ module Types = struct
     let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
     let labels = Value.Util.get_key_opt "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
     {uri;cid;creator;likeCount;viewer;indexedAt;labels;})
+
 
   let rec app_bsky_labeler_defs_labelerview_to_value : app_bsky_labeler_defs_labelerview -> Value.t = (fun v ->
     let l = [] in
@@ -1799,40 +1879,60 @@ module Types = struct
     let likeCount = Value.Util.get_key_opt "likeCount" Value.Util.to_int v in
     let quoteCount = Value.Util.get_key_opt "quoteCount" Value.Util.to_int v in
     let embeds = Value.Util.get_key_opt "embeds" (Value.Util.to_array_of (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.embed.images#view" -> `App_bsky_embed_images_view (app_bsky_embed_images_view_of_value v)
-    | "app.bsky.embed.video#view" -> `App_bsky_embed_video_view (app_bsky_embed_video_view_of_value v)
-    | "app.bsky.embed.external#view" -> `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
-    | "app.bsky.embed.record#view" -> `App_bsky_embed_record_view (app_bsky_embed_record_view_of_value v)
-    | "app.bsky.embed.recordWithMedia#view" -> `App_bsky_embed_recordwithmedia_view (app_bsky_embed_recordwithmedia_view_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#view" | "app.bsky.embed.images#view" ->
+    `App_bsky_embed_images_view (app_bsky_embed_images_view_of_value v)
+    | "#view" | "app.bsky.embed.video#view" ->
+    `App_bsky_embed_video_view (app_bsky_embed_video_view_of_value v)
+    | "#view" | "app.bsky.embed.external#view" ->
+    `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
+    | "#view" | "app.bsky.embed.record#view" ->
+    `App_bsky_embed_record_view (app_bsky_embed_record_view_of_value v)
+    | "#view" | "app.bsky.embed.recordWithMedia#view" ->
+    `App_bsky_embed_recordwithmedia_view (app_bsky_embed_recordwithmedia_view_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
     let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
     {uri;cid;author;value;labels;replyCount;repostCount;likeCount;quoteCount;embeds;indexedAt;})
   and app_bsky_embed_record_view_of_value : app_bsky_embed_record_view Value.Util.conv = (fun v ->
     let record = Value.Util.get_key "record" (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.embed.record#viewRecord" -> `App_bsky_embed_record_viewrecord (app_bsky_embed_record_viewrecord_of_value v)
-    | "app.bsky.embed.record#viewNotFound" -> `App_bsky_embed_record_viewnotfound (app_bsky_embed_record_viewnotfound_of_value v)
-    | "app.bsky.embed.record#viewBlocked" -> `App_bsky_embed_record_viewblocked (app_bsky_embed_record_viewblocked_of_value v)
-    | "app.bsky.embed.record#viewDetached" -> `App_bsky_embed_record_viewdetached (app_bsky_embed_record_viewdetached_of_value v)
-    | "app.bsky.feed.defs#generatorView" -> `App_bsky_feed_defs_generatorview (app_bsky_feed_defs_generatorview_of_value v)
-    | "app.bsky.graph.defs#listView" -> `App_bsky_graph_defs_listview (app_bsky_graph_defs_listview_of_value v)
-    | "app.bsky.labeler.defs#labelerView" -> `App_bsky_labeler_defs_labelerview (app_bsky_labeler_defs_labelerview_of_value v)
-    | "app.bsky.graph.defs#starterPackViewBasic" -> `App_bsky_graph_defs_starterpackviewbasic (app_bsky_graph_defs_starterpackviewbasic_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#viewRecord" | "app.bsky.embed.record#viewRecord" ->
+    `App_bsky_embed_record_viewrecord (app_bsky_embed_record_viewrecord_of_value v)
+    | "#viewNotFound" | "app.bsky.embed.record#viewNotFound" ->
+    `App_bsky_embed_record_viewnotfound (app_bsky_embed_record_viewnotfound_of_value v)
+    | "#viewBlocked" | "app.bsky.embed.record#viewBlocked" ->
+    `App_bsky_embed_record_viewblocked (app_bsky_embed_record_viewblocked_of_value v)
+    | "#viewDetached" | "app.bsky.embed.record#viewDetached" ->
+    `App_bsky_embed_record_viewdetached (app_bsky_embed_record_viewdetached_of_value v)
+    | "#generatorView" | "app.bsky.feed.defs#generatorView" ->
+    `App_bsky_feed_defs_generatorview (app_bsky_feed_defs_generatorview_of_value v)
+    | "#listView" | "app.bsky.graph.defs#listView" ->
+    `App_bsky_graph_defs_listview (app_bsky_graph_defs_listview_of_value v)
+    | "#labelerView" | "app.bsky.labeler.defs#labelerView" ->
+    `App_bsky_labeler_defs_labelerview (app_bsky_labeler_defs_labelerview_of_value v)
+    | "#starterPackViewBasic" | "app.bsky.graph.defs#starterPackViewBasic" ->
+    `App_bsky_graph_defs_starterpackviewbasic (app_bsky_graph_defs_starterpackviewbasic_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     {record;})
   and app_bsky_embed_recordwithmedia_view_of_value : app_bsky_embed_recordwithmedia_view Value.Util.conv = (fun v ->
     let record = Value.Util.get_key "record" app_bsky_embed_record_view_of_value v in
     let media = Value.Util.get_key "media" (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.embed.images#view" -> `App_bsky_embed_images_view (app_bsky_embed_images_view_of_value v)
-    | "app.bsky.embed.video#view" -> `App_bsky_embed_video_view (app_bsky_embed_video_view_of_value v)
-    | "app.bsky.embed.external#view" -> `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#view" | "app.bsky.embed.images#view" ->
+    `App_bsky_embed_images_view (app_bsky_embed_images_view_of_value v)
+    | "#view" | "app.bsky.embed.video#view" ->
+    `App_bsky_embed_video_view (app_bsky_embed_video_view_of_value v)
+    | "#view" | "app.bsky.embed.external#view" ->
+    `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     {record;media;})
+
 
   let rec app_bsky_embed_record_viewrecord_to_value : app_bsky_embed_record_viewrecord -> Value.t = (fun v ->
     let l = [] in
@@ -1891,7 +1991,8 @@ module Types = struct
   type app_bsky_feed_defs_requestmore = [`App_bsky_feed_defs_requestmore]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_feed_defs_requestmore_of_value : [`App_bsky_feed_defs_requestmore] Value.Util.conv = (fun _ -> `App_bsky_feed_defs_requestmore)
+  let rec app_bsky_feed_defs_requestmore_of_value : app_bsky_feed_defs_requestmore Value.Util.conv = (fun _ -> `App_bsky_feed_defs_requestmore)
+
 
   let rec app_bsky_feed_defs_requestmore_to_value : [`App_bsky_feed_defs_requestmore] -> Value.t = (fun `App_bsky_feed_defs_requestmore -> Value.Util.text "app.bsky.feed.defs#requestMore")
 
@@ -1900,7 +2001,8 @@ module Types = struct
   type app_bsky_feed_defs_interactionseen = [`App_bsky_feed_defs_interactionseen]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_feed_defs_interactionseen_of_value : [`App_bsky_feed_defs_interactionseen] Value.Util.conv = (fun _ -> `App_bsky_feed_defs_interactionseen)
+  let rec app_bsky_feed_defs_interactionseen_of_value : app_bsky_feed_defs_interactionseen Value.Util.conv = (fun _ -> `App_bsky_feed_defs_interactionseen)
+
 
   let rec app_bsky_feed_defs_interactionseen_to_value : [`App_bsky_feed_defs_interactionseen] -> Value.t = (fun `App_bsky_feed_defs_interactionseen -> Value.Util.text "app.bsky.feed.defs#interactionSeen")
 
@@ -1916,6 +2018,7 @@ module Types = struct
     let collection = Value.Util.get_key "collection" Value.Util.to_text v in
     let rkey = Value.Util.get_key "rkey" Value.Util.to_text v in
     {collection;rkey;})
+
 
   let rec com_atproto_repo_applywrites_delete_to_value : com_atproto_repo_applywrites_delete -> Value.t = (fun v ->
     let l = [] in
@@ -1937,6 +2040,7 @@ module Types = struct
     let rev = Value.Util.get_key "rev" Value.Util.to_text v in
     {cid;rev;})
 
+
   let rec com_atproto_repo_defs_commitmeta_to_value : com_atproto_repo_defs_commitmeta -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.repo.defs#commitMeta") :: l in
@@ -1956,6 +2060,7 @@ module Types = struct
     let privacyPolicy = Value.Util.get_key_opt "privacyPolicy" Value.Util.to_text v in
     let termsOfService = Value.Util.get_key_opt "termsOfService" Value.Util.to_text v in
     {privacyPolicy;termsOfService;})
+
 
   let rec com_atproto_server_describeserver_links_to_value : com_atproto_server_describeserver_links -> Value.t = (fun v ->
     let l = [] in
@@ -1977,6 +2082,7 @@ module Types = struct
     let message = Value.Util.get_key_opt "message" Value.Util.to_text v in
     {name;message;})
 
+
   let rec com_atproto_label_subscribelabels_info_to_value : com_atproto_label_subscribelabels_info -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.label.subscribeLabels#info") :: l in
@@ -1996,6 +2102,7 @@ module Types = struct
     let lang = Value.Util.get_key "lang" Value.Util.to_text v in
     let file = Value.Util.get_key "file" Blob.of_value_exn v in
     {lang;file;})
+
 
   let rec app_bsky_embed_video_caption_to_value : app_bsky_embed_video_caption -> Value.t = (fun v ->
     let l = [] in
@@ -2021,6 +2128,7 @@ module Types = struct
     let aspectRatio = Value.Util.get_key_opt "aspectRatio" app_bsky_embed_defs_aspectratio_of_value v in
     {video;captions;alt;aspectRatio;})
 
+
   let rec app_bsky_embed_video_main_to_value : app_bsky_embed_video_main -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.embed.video") :: l in
@@ -2041,6 +2149,7 @@ module Types = struct
     let uri = Value.Util.get_key "uri" Value.Util.to_text v in
     {uri;})
 
+
   let rec app_bsky_feed_describefeedgenerator_feed_to_value : app_bsky_feed_describefeedgenerator_feed -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.feed.describeFeedGenerator#feed") :: l in
@@ -2052,7 +2161,8 @@ module Types = struct
   type app_bsky_feed_defs_requestless = [`App_bsky_feed_defs_requestless]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_feed_defs_requestless_of_value : [`App_bsky_feed_defs_requestless] Value.Util.conv = (fun _ -> `App_bsky_feed_defs_requestless)
+  let rec app_bsky_feed_defs_requestless_of_value : app_bsky_feed_defs_requestless Value.Util.conv = (fun _ -> `App_bsky_feed_defs_requestless)
+
 
   let rec app_bsky_feed_defs_requestless_to_value : [`App_bsky_feed_defs_requestless] -> Value.t = (fun `App_bsky_feed_defs_requestless -> Value.Util.text "app.bsky.feed.defs#requestLess")
 
@@ -2079,6 +2189,7 @@ module Types = struct
     let message = Value.Util.get_key_opt "message" Value.Util.to_text v in
     {jobId;did;state;progress;blob;error;message;})
 
+
   let rec app_bsky_video_defs_jobstatus_to_value : app_bsky_video_defs_jobstatus -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.video.defs#jobStatus") :: l in
@@ -2096,7 +2207,8 @@ module Types = struct
   type app_bsky_feed_defs_interactionreply = [`App_bsky_feed_defs_interactionreply]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_feed_defs_interactionreply_of_value : [`App_bsky_feed_defs_interactionreply] Value.Util.conv = (fun _ -> `App_bsky_feed_defs_interactionreply)
+  let rec app_bsky_feed_defs_interactionreply_of_value : app_bsky_feed_defs_interactionreply Value.Util.conv = (fun _ -> `App_bsky_feed_defs_interactionreply)
+
 
   let rec app_bsky_feed_defs_interactionreply_to_value : [`App_bsky_feed_defs_interactionreply] -> Value.t = (fun `App_bsky_feed_defs_interactionreply -> Value.Util.text "app.bsky.feed.defs#interactionReply")
 
@@ -2107,6 +2219,7 @@ module Types = struct
 
   let rec app_bsky_feed_defs_reasonpin_of_value : app_bsky_feed_defs_reasonpin Value.Util.conv = (fun _ -> `App_bsky_feed_defs_reasonpin)
 
+
   let rec app_bsky_feed_defs_reasonpin_to_value : app_bsky_feed_defs_reasonpin -> Value.t = (fun `App_bsky_feed_defs_reasonpin -> Value.Util.text "app.bsky.feed.defs#reasonPin")
 
 
@@ -2115,6 +2228,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_notification_defs_recorddeleted_of_value : app_bsky_notification_defs_recorddeleted Value.Util.conv = (fun _ -> `App_bsky_notification_defs_recorddeleted)
+
 
   let rec app_bsky_notification_defs_recorddeleted_to_value : app_bsky_notification_defs_recorddeleted -> Value.t = (fun `App_bsky_notification_defs_recorddeleted -> Value.Util.text "app.bsky.notification.defs#recordDeleted")
 
@@ -2133,6 +2247,7 @@ module Types = struct
     let subject = Value.Util.get_key "subject" Value.Util.to_text v in
     {tag;subjectType;subject;})
 
+
   let rec app_bsky_unspecced_gettaggedsuggestions_suggestion_to_value : app_bsky_unspecced_gettaggedsuggestions_suggestion -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.unspecced.getTaggedSuggestions#suggestion") :: l in
@@ -2148,6 +2263,7 @@ module Types = struct
 
   let rec app_bsky_feed_defs_skeletonreasonpin_of_value : app_bsky_feed_defs_skeletonreasonpin Value.Util.conv = (fun _ -> `App_bsky_feed_defs_skeletonreasonpin)
 
+
   let rec app_bsky_feed_defs_skeletonreasonpin_to_value : app_bsky_feed_defs_skeletonreasonpin -> Value.t = (fun `App_bsky_feed_defs_skeletonreasonpin -> Value.Util.text "app.bsky.feed.defs#skeletonReasonPin")
 
 
@@ -2160,6 +2276,7 @@ module Types = struct
   let rec com_atproto_admin_defs_reporef_of_value : com_atproto_admin_defs_reporef Value.Util.conv = (fun v ->
     let did = Value.Util.get_key "did" Value.Util.to_text v in
     {did;})
+
 
   let rec com_atproto_admin_defs_reporef_to_value : com_atproto_admin_defs_reporef -> Value.t = (fun v ->
     let l = [] in
@@ -2179,6 +2296,7 @@ module Types = struct
     let usedBy = Value.Util.get_key "usedBy" Value.Util.to_text v in
     let usedAt = Value.Util.get_key "usedAt" Value.Util.to_text v in
     {usedBy;usedAt;})
+
 
   let rec com_atproto_server_defs_invitecodeuse_to_value : com_atproto_server_defs_invitecodeuse -> Value.t = (fun v ->
     let l = [] in
@@ -2201,6 +2319,7 @@ module Types = struct
     let createdAt = Value.Util.get_key "createdAt" Value.Util.to_text v in
     let actor = Value.Util.get_key "actor" app_bsky_actor_defs_profileview_of_value v in
     {indexedAt;createdAt;actor;})
+
 
   let rec app_bsky_feed_getlikes_like_to_value : app_bsky_feed_getlikes_like -> Value.t = (fun v ->
     let l = [] in
@@ -2227,6 +2346,7 @@ module Types = struct
     let thumb = Value.Util.get_key_opt "thumb" Blob.of_value_exn v in
     {uri;title;description;thumb;})
 
+
   let rec app_bsky_embed_external_external_to_value : app_bsky_embed_external_external -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.embed.external#external") :: l in
@@ -2250,6 +2370,7 @@ module Types = struct
     let name = Value.Util.get_key "name" Value.Util.to_text v in
     let description = Value.Util.get_key "description" Value.Util.to_text v in
     {lang;name;description;})
+
 
   let rec com_atproto_label_defs_labelvaluedefinitionstrings_to_value : com_atproto_label_defs_labelvaluedefinitionstrings -> Value.t = (fun v ->
     let l = [] in
@@ -2280,6 +2401,7 @@ module Types = struct
     let locales = Value.Util.get_key "locales" (Value.Util.to_array_of com_atproto_label_defs_labelvaluedefinitionstrings_of_value) v in
     {identifier;severity;blurs;defaultSetting;adultOnly;locales;})
 
+
   let rec com_atproto_label_defs_labelvaluedefinition_to_value : com_atproto_label_defs_labelvaluedefinition -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.label.defs#labelValueDefinition") :: l in
@@ -2304,6 +2426,7 @@ module Types = struct
     let end_ = Value.Util.get_key "end" Value.Util.to_int v in
     {start;end_;})
 
+
   let rec app_bsky_feed_post_textslice_to_value : app_bsky_feed_post_textslice -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.feed.post#textSlice") :: l in
@@ -2316,7 +2439,8 @@ module Types = struct
   type com_atproto_label_defs_labelvalue = string
   [@@deriving show {with_path=false}]
 
-  let rec com_atproto_label_defs_labelvalue_of_value : string Value.Util.conv = Value.Util.to_text
+  let rec com_atproto_label_defs_labelvalue_of_value : com_atproto_label_defs_labelvalue Value.Util.conv = Value.Util.to_text
+
 
   let rec com_atproto_label_defs_labelvalue_to_value : string -> Value.t = Value.Util.text
 
@@ -2325,7 +2449,8 @@ module Types = struct
   type com_atproto_moderation_defs_reasonappeal = [`Com_atproto_moderation_defs_reasonappeal]
   [@@deriving show {with_path=false}]
 
-  let rec com_atproto_moderation_defs_reasonappeal_of_value : [`Com_atproto_moderation_defs_reasonappeal] Value.Util.conv = (fun _ -> `Com_atproto_moderation_defs_reasonappeal)
+  let rec com_atproto_moderation_defs_reasonappeal_of_value : com_atproto_moderation_defs_reasonappeal Value.Util.conv = (fun _ -> `Com_atproto_moderation_defs_reasonappeal)
+
 
   let rec com_atproto_moderation_defs_reasonappeal_to_value : [`Com_atproto_moderation_defs_reasonappeal] -> Value.t = (fun `Com_atproto_moderation_defs_reasonappeal -> Value.Util.text "com.atproto.moderation.defs#reasonAppeal")
 
@@ -2341,6 +2466,7 @@ module Types = struct
     let uri = Value.Util.get_key "uri" Value.Util.to_text v in
     let subject = Value.Util.get_key "subject" app_bsky_actor_defs_profileview_of_value v in
     {uri;subject;})
+
 
   let rec app_bsky_graph_defs_listitemview_to_value : app_bsky_graph_defs_listitemview -> Value.t = (fun v ->
     let l = [] in
@@ -2362,6 +2488,7 @@ module Types = struct
     let value = Value.Util.get_key "value" Value.Util.to_text v in
     {property;value;})
 
+
   let rec com_atproto_admin_defs_threatsignature_to_value : com_atproto_admin_defs_threatsignature -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.admin.defs#threatSignature") :: l in
@@ -2379,6 +2506,7 @@ module Types = struct
   let rec app_bsky_feed_defs_skeletonreasonrepost_of_value : app_bsky_feed_defs_skeletonreasonrepost Value.Util.conv = (fun v ->
     let repost = Value.Util.get_key "repost" Value.Util.to_text v in
     {repost;})
+
 
   let rec app_bsky_feed_defs_skeletonreasonrepost_to_value : app_bsky_feed_defs_skeletonreasonrepost -> Value.t = (fun v ->
     let l = [] in
@@ -2401,6 +2529,7 @@ module Types = struct
     let feedContext = Value.Util.get_key_opt "feedContext" Value.Util.to_text v in
     {item;event;feedContext;})
 
+
   let rec app_bsky_feed_defs_interaction_to_value : app_bsky_feed_defs_interaction -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.feed.defs#interaction") :: l in
@@ -2414,7 +2543,8 @@ module Types = struct
   type com_atproto_moderation_defs_reasonviolation = [`Com_atproto_moderation_defs_reasonviolation]
   [@@deriving show {with_path=false}]
 
-  let rec com_atproto_moderation_defs_reasonviolation_of_value : [`Com_atproto_moderation_defs_reasonviolation] Value.Util.conv = (fun _ -> `Com_atproto_moderation_defs_reasonviolation)
+  let rec com_atproto_moderation_defs_reasonviolation_of_value : com_atproto_moderation_defs_reasonviolation Value.Util.conv = (fun _ -> `Com_atproto_moderation_defs_reasonviolation)
+
 
   let rec com_atproto_moderation_defs_reasonviolation_to_value : [`Com_atproto_moderation_defs_reasonviolation] -> Value.t = (fun `Com_atproto_moderation_defs_reasonviolation -> Value.Util.text "com.atproto.moderation.defs#reasonViolation")
 
@@ -2435,6 +2565,7 @@ module Types = struct
     let prev = Value.Util.get_key_opt "prev" Value.Util.to_cid v in
     {action;path;cid;prev;})
 
+
   let rec com_atproto_sync_subscriberepos_repoop_to_value : com_atproto_sync_subscriberepos_repoop -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.sync.subscribeRepos#repoOp") :: l in
@@ -2454,7 +2585,7 @@ module Types = struct
     commit: Cid.t;
     rev: string;
     since: string;
-    blocks: bytes;
+    blocks: (bytes [@printer pp_bytes_len]);
     ops: com_atproto_sync_subscriberepos_repoop list;
     blobs: Cid.t list;
     prevData: Cid.t option;
@@ -2476,6 +2607,7 @@ module Types = struct
     let prevData = Value.Util.get_key_opt "prevData" Value.Util.to_cid v in
     let time = Value.Util.get_key "time" Value.Util.to_text v in
     {seq;rebase;tooBig;repo;commit;rev;since;blocks;ops;blobs;prevData;time;})
+
 
   let rec com_atproto_sync_subscriberepos_commit_to_value : com_atproto_sync_subscriberepos_commit -> Value.t = (fun v ->
     let l = [] in
@@ -2499,7 +2631,8 @@ module Types = struct
   type app_bsky_actor_status_live = [`App_bsky_actor_status_live]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_actor_status_live_of_value : [`App_bsky_actor_status_live] Value.Util.conv = (fun _ -> `App_bsky_actor_status_live)
+  let rec app_bsky_actor_status_live_of_value : app_bsky_actor_status_live Value.Util.conv = (fun _ -> `App_bsky_actor_status_live)
+
 
   let rec app_bsky_actor_status_live_to_value : [`App_bsky_actor_status_live] -> Value.t = (fun `App_bsky_actor_status_live -> Value.Util.text "app.bsky.actor.status#live")
 
@@ -2523,6 +2656,7 @@ module Types = struct
     let embeddingDisabled = Value.Util.get_key_opt "embeddingDisabled" Value.Util.to_bool v in
     let pinned = Value.Util.get_key_opt "pinned" Value.Util.to_bool v in
     {repost;like;threadMuted;replyDisabled;embeddingDisabled;pinned;})
+
 
   let rec app_bsky_feed_defs_viewerstate_to_value : app_bsky_feed_defs_viewerstate -> Value.t = (fun v ->
     let l = [] in
@@ -2551,6 +2685,7 @@ module Types = struct
     let record = Value.Util.get_key_opt "record" (fun v -> v (* immediate *)) v in
     let lists = Value.Util.get_key_opt "lists" (Value.Util.to_array_of app_bsky_graph_defs_listviewbasic_of_value) v in
     {uri;cid;record;lists;})
+
 
   let rec app_bsky_feed_defs_threadgateview_to_value : app_bsky_feed_defs_threadgateview -> Value.t = (fun v ->
     let l = [] in
@@ -2593,12 +2728,18 @@ module Types = struct
     let author = Value.Util.get_key "author" app_bsky_actor_defs_profileviewbasic_of_value v in
     let record = Value.Util.get_key "record" (fun v -> v (* immediate *)) v in
     let embed = Value.Util.get_key_opt "embed" (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.embed.images#view" -> `App_bsky_embed_images_view (app_bsky_embed_images_view_of_value v)
-    | "app.bsky.embed.video#view" -> `App_bsky_embed_video_view (app_bsky_embed_video_view_of_value v)
-    | "app.bsky.embed.external#view" -> `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
-    | "app.bsky.embed.record#view" -> `App_bsky_embed_record_view (app_bsky_embed_record_view_of_value v)
-    | "app.bsky.embed.recordWithMedia#view" -> `App_bsky_embed_recordwithmedia_view (app_bsky_embed_recordwithmedia_view_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#view" | "app.bsky.embed.images#view" ->
+    `App_bsky_embed_images_view (app_bsky_embed_images_view_of_value v)
+    | "#view" | "app.bsky.embed.video#view" ->
+    `App_bsky_embed_video_view (app_bsky_embed_video_view_of_value v)
+    | "#view" | "app.bsky.embed.external#view" ->
+    `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
+    | "#view" | "app.bsky.embed.record#view" ->
+    `App_bsky_embed_record_view (app_bsky_embed_record_view_of_value v)
+    | "#view" | "app.bsky.embed.recordWithMedia#view" ->
+    `App_bsky_embed_recordwithmedia_view (app_bsky_embed_recordwithmedia_view_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let replyCount = Value.Util.get_key_opt "replyCount" Value.Util.to_int v in
@@ -2610,6 +2751,7 @@ module Types = struct
     let labels = Value.Util.get_key_opt "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
     let threadgate = Value.Util.get_key_opt "threadgate" app_bsky_feed_defs_threadgateview_of_value v in
     {uri;cid;author;record;embed;replyCount;repostCount;likeCount;quoteCount;indexedAt;viewer;labels;threadgate;})
+
 
   let rec app_bsky_feed_defs_postview_to_value : app_bsky_feed_defs_postview -> Value.t = (fun v ->
     let l = [] in
@@ -2650,6 +2792,7 @@ module Types = struct
     let notFound = Value.Util.get_key "notFound" Value.Util.to_bool v in
     {uri;notFound;})
 
+
   let rec app_bsky_feed_defs_notfoundpost_to_value : app_bsky_feed_defs_notfoundpost -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.feed.defs#notFoundPost") :: l in
@@ -2671,6 +2814,7 @@ module Types = struct
     let blocked = Value.Util.get_key "blocked" Value.Util.to_bool v in
     let author = Value.Util.get_key "author" app_bsky_feed_defs_blockedauthor_of_value v in
     {uri;blocked;author;})
+
 
   let rec app_bsky_feed_defs_blockedpost_to_value : app_bsky_feed_defs_blockedpost -> Value.t = (fun v ->
     let l = [] in
@@ -2701,21 +2845,30 @@ module Types = struct
 
   let rec app_bsky_feed_defs_replyref_of_value : app_bsky_feed_defs_replyref Value.Util.conv = (fun v ->
     let root = Value.Util.get_key "root" (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.feed.defs#postView" -> `App_bsky_feed_defs_postview (app_bsky_feed_defs_postview_of_value v)
-    | "app.bsky.feed.defs#notFoundPost" -> `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
-    | "app.bsky.feed.defs#blockedPost" -> `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#postView" | "app.bsky.feed.defs#postView" ->
+    `App_bsky_feed_defs_postview (app_bsky_feed_defs_postview_of_value v)
+    | "#notFoundPost" | "app.bsky.feed.defs#notFoundPost" ->
+    `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
+    | "#blockedPost" | "app.bsky.feed.defs#blockedPost" ->
+    `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let parent = Value.Util.get_key "parent" (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.feed.defs#postView" -> `App_bsky_feed_defs_postview (app_bsky_feed_defs_postview_of_value v)
-    | "app.bsky.feed.defs#notFoundPost" -> `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
-    | "app.bsky.feed.defs#blockedPost" -> `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#postView" | "app.bsky.feed.defs#postView" ->
+    `App_bsky_feed_defs_postview (app_bsky_feed_defs_postview_of_value v)
+    | "#notFoundPost" | "app.bsky.feed.defs#notFoundPost" ->
+    `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
+    | "#blockedPost" | "app.bsky.feed.defs#blockedPost" ->
+    `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let grandparentAuthor = Value.Util.get_key_opt "grandparentAuthor" app_bsky_actor_defs_profileviewbasic_of_value v in
     {root;parent;grandparentAuthor;})
+
 
   let rec app_bsky_feed_defs_replyref_to_value : app_bsky_feed_defs_replyref -> Value.t = (fun v ->
     let l = [] in
@@ -2750,6 +2903,7 @@ module Types = struct
     let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
     {by;indexedAt;})
 
+
   let rec app_bsky_feed_defs_reasonrepost_to_value : app_bsky_feed_defs_reasonrepost -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.feed.defs#reasonRepost") :: l in
@@ -2775,13 +2929,17 @@ module Types = struct
     let post = Value.Util.get_key "post" app_bsky_feed_defs_postview_of_value v in
     let reply = Value.Util.get_key_opt "reply" app_bsky_feed_defs_replyref_of_value v in
     let reason = Value.Util.get_key_opt "reason" (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.feed.defs#reasonRepost" -> `App_bsky_feed_defs_reasonrepost (app_bsky_feed_defs_reasonrepost_of_value v)
-    | "app.bsky.feed.defs#reasonPin" -> `App_bsky_feed_defs_reasonpin (app_bsky_feed_defs_reasonpin_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#reasonRepost" | "app.bsky.feed.defs#reasonRepost" ->
+    `App_bsky_feed_defs_reasonrepost (app_bsky_feed_defs_reasonrepost_of_value v)
+    | "#reasonPin" | "app.bsky.feed.defs#reasonPin" ->
+    `App_bsky_feed_defs_reasonpin (app_bsky_feed_defs_reasonpin_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let feedContext = Value.Util.get_key_opt "feedContext" Value.Util.to_text v in
     {post;reply;reason;feedContext;})
+
 
   let rec app_bsky_feed_defs_feedviewpost_to_value : app_bsky_feed_defs_feedviewpost -> Value.t = (fun v ->
     let l = [] in
@@ -2812,6 +2970,7 @@ module Types = struct
     let validationStatus = Value.Util.get_key_opt "validationStatus" Value.Util.to_text v in
     {uri;cid;validationStatus;})
 
+
   let rec com_atproto_repo_applywrites_createresult_to_value : com_atproto_repo_applywrites_createresult -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.repo.applyWrites#createResult") :: l in
@@ -2837,6 +2996,7 @@ module Types = struct
     let handle = Value.Util.get_key_opt "handle" Value.Util.to_text v in
     {seq;did;time;handle;})
 
+
   let rec com_atproto_sync_subscriberepos_identity_to_value : com_atproto_sync_subscriberepos_identity -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.sync.subscribeRepos#identity") :: l in
@@ -2858,6 +3018,7 @@ module Types = struct
     let applied = Value.Util.get_key "applied" Value.Util.to_bool v in
     let ref = Value.Util.get_key_opt "ref" Value.Util.to_text v in
     {applied;ref;})
+
 
   let rec com_atproto_admin_defs_statusattr_to_value : com_atproto_admin_defs_statusattr -> Value.t = (fun v ->
     let l = [] in
@@ -2883,6 +3044,7 @@ module Types = struct
     let privileged = Value.Util.get_key_opt "privileged" Value.Util.to_bool v in
     {name;password;createdAt;privileged;})
 
+
   let rec com_atproto_server_createapppassword_apppassword_to_value : com_atproto_server_createapppassword_apppassword -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.server.createAppPassword#appPassword") :: l in
@@ -2904,6 +3066,7 @@ module Types = struct
     let did = Value.Util.get_key "did" Value.Util.to_text v in
     let domains = Value.Util.get_key "domains" (Value.Util.to_array_of Value.Util.to_text) v in
     {did;domains;})
+
 
   let rec app_bsky_unspecced_getconfig_livenowconfig_to_value : app_bsky_unspecced_getconfig_livenowconfig -> Value.t = (fun v ->
     let l = [] in
@@ -2927,6 +3090,7 @@ module Types = struct
     let value = Value.Util.get_key "value" (fun v -> v (* immediate *)) v in
     {collection;rkey;value;})
 
+
   let rec com_atproto_repo_applywrites_update_to_value : com_atproto_repo_applywrites_update -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.repo.applyWrites#update") :: l in
@@ -2940,7 +3104,8 @@ module Types = struct
   type app_bsky_feed_defs_clickthroughembed = [`App_bsky_feed_defs_clickthroughembed]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_feed_defs_clickthroughembed_of_value : [`App_bsky_feed_defs_clickthroughembed] Value.Util.conv = (fun _ -> `App_bsky_feed_defs_clickthroughembed)
+  let rec app_bsky_feed_defs_clickthroughembed_of_value : app_bsky_feed_defs_clickthroughembed Value.Util.conv = (fun _ -> `App_bsky_feed_defs_clickthroughembed)
+
 
   let rec app_bsky_feed_defs_clickthroughembed_to_value : [`App_bsky_feed_defs_clickthroughembed] -> Value.t = (fun `App_bsky_feed_defs_clickthroughembed -> Value.Util.text "app.bsky.feed.defs#clickthroughEmbed")
 
@@ -2949,7 +3114,8 @@ module Types = struct
   type app_bsky_feed_defs_interactionlike = [`App_bsky_feed_defs_interactionlike]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_feed_defs_interactionlike_of_value : [`App_bsky_feed_defs_interactionlike] Value.Util.conv = (fun _ -> `App_bsky_feed_defs_interactionlike)
+  let rec app_bsky_feed_defs_interactionlike_of_value : app_bsky_feed_defs_interactionlike Value.Util.conv = (fun _ -> `App_bsky_feed_defs_interactionlike)
+
 
   let rec app_bsky_feed_defs_interactionlike_to_value : [`App_bsky_feed_defs_interactionlike] -> Value.t = (fun `App_bsky_feed_defs_interactionlike -> Value.Util.text "app.bsky.feed.defs#interactionLike")
 
@@ -2966,6 +3132,7 @@ module Types = struct
     let labelValueDefinitions = Value.Util.get_key_opt "labelValueDefinitions" (Value.Util.to_array_of com_atproto_label_defs_labelvaluedefinition_of_value) v in
     {labelValues;labelValueDefinitions;})
 
+
   let rec app_bsky_labeler_defs_labelerpolicies_to_value : app_bsky_labeler_defs_labelerpolicies -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.labeler.defs#labelerPolicies") :: l in
@@ -2978,7 +3145,8 @@ module Types = struct
   type com_atproto_moderation_defs_subjecttype = string
   [@@deriving show {with_path=false}]
 
-  let rec com_atproto_moderation_defs_subjecttype_of_value : string Value.Util.conv = Value.Util.to_text
+  let rec com_atproto_moderation_defs_subjecttype_of_value : com_atproto_moderation_defs_subjecttype Value.Util.conv = Value.Util.to_text
+
 
   let rec com_atproto_moderation_defs_subjecttype_to_value : string -> Value.t = Value.Util.text
 
@@ -3013,6 +3181,7 @@ module Types = struct
     let subjectCollections = Value.Util.get_key_opt "subjectCollections" (Value.Util.to_array_of Value.Util.to_text) v in
     {uri;cid;creator;policies;likeCount;viewer;indexedAt;labels;reasonTypes;subjectTypes;subjectCollections;})
 
+
   let rec app_bsky_labeler_defs_labelerviewdetailed_to_value : app_bsky_labeler_defs_labelerviewdetailed -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.labeler.defs#labelerViewDetailed") :: l in
@@ -3040,6 +3209,7 @@ module Types = struct
     let record = Value.Util.get_key "record" com_atproto_repo_strongref_main_of_value v in
     {record;})
 
+
   let rec app_bsky_embed_record_main_to_value : app_bsky_embed_record_main -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.embed.record") :: l in
@@ -3056,6 +3226,7 @@ module Types = struct
   let rec app_bsky_unspecced_defs_skeletonsearchactor_of_value : app_bsky_unspecced_defs_skeletonsearchactor Value.Util.conv = (fun v ->
     let did = Value.Util.get_key "did" Value.Util.to_text v in
     {did;})
+
 
   let rec app_bsky_unspecced_defs_skeletonsearchactor_to_value : app_bsky_unspecced_defs_skeletonsearchactor -> Value.t = (fun v ->
     let l = [] in
@@ -3078,6 +3249,7 @@ module Types = struct
     let didDoc = Value.Util.get_key "didDoc" (fun v -> v (* immediate *)) v in
     {did;handle;didDoc;})
 
+
   let rec com_atproto_identity_defs_identityinfo_to_value : com_atproto_identity_defs_identityinfo -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.identity.defs#identityInfo") :: l in
@@ -3091,7 +3263,8 @@ module Types = struct
   type app_bsky_graph_defs_referencelist = [`App_bsky_graph_defs_referencelist]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_graph_defs_referencelist_of_value : [`App_bsky_graph_defs_referencelist] Value.Util.conv = (fun _ -> `App_bsky_graph_defs_referencelist)
+  let rec app_bsky_graph_defs_referencelist_of_value : app_bsky_graph_defs_referencelist Value.Util.conv = (fun _ -> `App_bsky_graph_defs_referencelist)
+
 
   let rec app_bsky_graph_defs_referencelist_to_value : [`App_bsky_graph_defs_referencelist] -> Value.t = (fun `App_bsky_graph_defs_referencelist -> Value.Util.text "app.bsky.graph.defs#referencelist")
 
@@ -3107,6 +3280,7 @@ module Types = struct
     let root = Value.Util.get_key "root" com_atproto_repo_strongref_main_of_value v in
     let parent = Value.Util.get_key "parent" com_atproto_repo_strongref_main_of_value v in
     {root;parent;})
+
 
   let rec app_bsky_feed_post_replyref_to_value : app_bsky_feed_post_replyref -> Value.t = (fun v ->
     let l = [] in
@@ -3125,6 +3299,7 @@ module Types = struct
   let rec com_atproto_server_describeserver_contact_of_value : com_atproto_server_describeserver_contact Value.Util.conv = (fun v ->
     let email = Value.Util.get_key_opt "email" Value.Util.to_text v in
     {email;})
+
 
   let rec com_atproto_server_describeserver_contact_to_value : com_atproto_server_describeserver_contact -> Value.t = (fun v ->
     let l = [] in
@@ -3157,6 +3332,7 @@ module Types = struct
     let dids = Value.Util.get_key "dids" (Value.Util.to_array_of Value.Util.to_text) v in
     {topic;displayName;link;startedAt;postCount;status;category;dids;})
 
+
   let rec app_bsky_unspecced_defs_skeletontrend_to_value : app_bsky_unspecced_defs_skeletontrend -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.unspecced.defs#skeletonTrend") :: l in
@@ -3181,6 +3357,7 @@ module Types = struct
     let did = Value.Util.get_key "did" Value.Util.to_text v in
     {did;})
 
+
   let rec com_atproto_sync_listreposbycollection_repo_to_value : com_atproto_sync_listreposbycollection_repo -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.sync.listReposByCollection#repo") :: l in
@@ -3202,6 +3379,7 @@ module Types = struct
     let value = Value.Util.get_key "value" (fun v -> v (* immediate *)) v in
     {uri;cid;value;})
 
+
   let rec com_atproto_repo_listrecords_record_to_value : com_atproto_repo_listrecords_record -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.repo.listRecords#record") :: l in
@@ -3215,7 +3393,8 @@ module Types = struct
   type com_atproto_moderation_defs_reasonsexual = [`Com_atproto_moderation_defs_reasonsexual]
   [@@deriving show {with_path=false}]
 
-  let rec com_atproto_moderation_defs_reasonsexual_of_value : [`Com_atproto_moderation_defs_reasonsexual] Value.Util.conv = (fun _ -> `Com_atproto_moderation_defs_reasonsexual)
+  let rec com_atproto_moderation_defs_reasonsexual_of_value : com_atproto_moderation_defs_reasonsexual Value.Util.conv = (fun _ -> `Com_atproto_moderation_defs_reasonsexual)
+
 
   let rec com_atproto_moderation_defs_reasonsexual_to_value : [`Com_atproto_moderation_defs_reasonsexual] -> Value.t = (fun `Com_atproto_moderation_defs_reasonsexual -> Value.Util.text "com.atproto.moderation.defs#reasonSexual")
 
@@ -3224,7 +3403,8 @@ module Types = struct
   type com_atproto_moderation_defs_reasonother = [`Com_atproto_moderation_defs_reasonother]
   [@@deriving show {with_path=false}]
 
-  let rec com_atproto_moderation_defs_reasonother_of_value : [`Com_atproto_moderation_defs_reasonother] Value.Util.conv = (fun _ -> `Com_atproto_moderation_defs_reasonother)
+  let rec com_atproto_moderation_defs_reasonother_of_value : com_atproto_moderation_defs_reasonother Value.Util.conv = (fun _ -> `Com_atproto_moderation_defs_reasonother)
+
 
   let rec com_atproto_moderation_defs_reasonother_to_value : [`Com_atproto_moderation_defs_reasonother] -> Value.t = (fun `Com_atproto_moderation_defs_reasonother -> Value.Util.text "com.atproto.moderation.defs#reasonOther")
 
@@ -3233,7 +3413,8 @@ module Types = struct
   type app_bsky_graph_defs_curatelist = [`App_bsky_graph_defs_curatelist]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_graph_defs_curatelist_of_value : [`App_bsky_graph_defs_curatelist] Value.Util.conv = (fun _ -> `App_bsky_graph_defs_curatelist)
+  let rec app_bsky_graph_defs_curatelist_of_value : app_bsky_graph_defs_curatelist Value.Util.conv = (fun _ -> `App_bsky_graph_defs_curatelist)
+
 
   let rec app_bsky_graph_defs_curatelist_to_value : [`App_bsky_graph_defs_curatelist] -> Value.t = (fun `App_bsky_graph_defs_curatelist -> Value.Util.text "app.bsky.graph.defs#curatelist")
 
@@ -3251,6 +3432,7 @@ module Types = struct
     let following = Value.Util.get_key_opt "following" Value.Util.to_text v in
     let followedBy = Value.Util.get_key_opt "followedBy" Value.Util.to_text v in
     {did;following;followedBy;})
+
 
   let rec app_bsky_graph_defs_relationship_to_value : app_bsky_graph_defs_relationship -> Value.t = (fun v ->
     let l = [] in
@@ -3273,6 +3455,7 @@ module Types = struct
     let notFound = Value.Util.get_key "notFound" Value.Util.to_bool v in
     {actor;notFound;})
 
+
   let rec app_bsky_graph_defs_notfoundactor_to_value : app_bsky_graph_defs_notfoundactor -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.graph.defs#notFoundActor") :: l in
@@ -3293,6 +3476,7 @@ module Types = struct
     let recordUri = Value.Util.get_key "recordUri" Value.Util.to_text v in
     {cid;recordUri;})
 
+
   let rec com_atproto_repo_listmissingblobs_recordblob_to_value : com_atproto_repo_listmissingblobs_recordblob -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.repo.listMissingBlobs#recordBlob") :: l in
@@ -3310,6 +3494,7 @@ module Types = struct
   let rec com_atproto_label_defs_selflabel_of_value : com_atproto_label_defs_selflabel Value.Util.conv = (fun v ->
     let val_ = Value.Util.get_key "val" Value.Util.to_text v in
     {val_;})
+
 
   let rec com_atproto_label_defs_selflabel_to_value : com_atproto_label_defs_selflabel -> Value.t = (fun v ->
     let l = [] in
@@ -3332,6 +3517,7 @@ module Types = struct
     let recordUri = Value.Util.get_key_opt "recordUri" Value.Util.to_text v in
     {did;cid;recordUri;})
 
+
   let rec com_atproto_admin_defs_repoblobref_to_value : com_atproto_admin_defs_repoblobref -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.admin.defs#repoBlobRef") :: l in
@@ -3345,7 +3531,8 @@ module Types = struct
   type com_atproto_moderation_defs_reasonrude = [`Com_atproto_moderation_defs_reasonrude]
   [@@deriving show {with_path=false}]
 
-  let rec com_atproto_moderation_defs_reasonrude_of_value : [`Com_atproto_moderation_defs_reasonrude] Value.Util.conv = (fun _ -> `Com_atproto_moderation_defs_reasonrude)
+  let rec com_atproto_moderation_defs_reasonrude_of_value : com_atproto_moderation_defs_reasonrude Value.Util.conv = (fun _ -> `Com_atproto_moderation_defs_reasonrude)
+
 
   let rec com_atproto_moderation_defs_reasonrude_to_value : [`Com_atproto_moderation_defs_reasonrude] -> Value.t = (fun `Com_atproto_moderation_defs_reasonrude -> Value.Util.text "com.atproto.moderation.defs#reasonRude")
 
@@ -3354,7 +3541,7 @@ module Types = struct
   type com_atproto_sync_subscriberepos_sync = {
     seq: int64;
     did: string;
-    blocks: bytes;
+    blocks: (bytes [@printer pp_bytes_len]);
     rev: string;
     time: string;
   }
@@ -3367,6 +3554,7 @@ module Types = struct
     let rev = Value.Util.get_key "rev" Value.Util.to_text v in
     let time = Value.Util.get_key "time" Value.Util.to_text v in
     {seq;did;blocks;rev;time;})
+
 
   let rec com_atproto_sync_subscriberepos_sync_to_value : com_atproto_sync_subscriberepos_sync -> Value.t = (fun v ->
     let l = [] in
@@ -3409,6 +3597,7 @@ module Types = struct
     let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
     {uri;cid;record;creator;list;listItemsSample;feeds;joinedWeekCount;joinedAllTimeCount;labels;indexedAt;})
 
+
   let rec app_bsky_graph_defs_starterpackview_to_value : app_bsky_graph_defs_starterpackview -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.graph.defs#starterPackView") :: l in
@@ -3430,7 +3619,8 @@ module Types = struct
   type app_bsky_feed_defs_interactionquote = [`App_bsky_feed_defs_interactionquote]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_feed_defs_interactionquote_of_value : [`App_bsky_feed_defs_interactionquote] Value.Util.conv = (fun _ -> `App_bsky_feed_defs_interactionquote)
+  let rec app_bsky_feed_defs_interactionquote_of_value : app_bsky_feed_defs_interactionquote Value.Util.conv = (fun _ -> `App_bsky_feed_defs_interactionquote)
+
 
   let rec app_bsky_feed_defs_interactionquote_to_value : [`App_bsky_feed_defs_interactionquote] -> Value.t = (fun `App_bsky_feed_defs_interactionquote -> Value.Util.text "app.bsky.feed.defs#interactionQuote")
 
@@ -3440,6 +3630,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_repo_applywrites_deleteresult_of_value : com_atproto_repo_applywrites_deleteresult Value.Util.conv = (fun _ -> `Com_atproto_repo_applywrites_deleteresult)
+
 
   let rec com_atproto_repo_applywrites_deleteresult_to_value : com_atproto_repo_applywrites_deleteresult -> Value.t = (fun `Com_atproto_repo_applywrites_deleteresult -> Value.Util.text "com.atproto.repo.applyWrites#deleteResult")
 
@@ -3457,6 +3648,7 @@ module Types = struct
     let cid = Value.Util.get_key "cid" Value.Util.to_text v in
     let validationStatus = Value.Util.get_key_opt "validationStatus" Value.Util.to_text v in
     {uri;cid;validationStatus;})
+
 
   let rec com_atproto_repo_applywrites_updateresult_to_value : com_atproto_repo_applywrites_updateresult -> Value.t = (fun v ->
     let l = [] in
@@ -3491,6 +3683,7 @@ module Types = struct
     let actors = Value.Util.get_key "actors" (Value.Util.to_array_of app_bsky_actor_defs_profileviewbasic_of_value) v in
     {topic;displayName;link;startedAt;postCount;status;category;actors;})
 
+
   let rec app_bsky_unspecced_defs_trendview_to_value : app_bsky_unspecced_defs_trendview -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.unspecced.defs#trendView") :: l in
@@ -3509,7 +3702,8 @@ module Types = struct
   type app_bsky_feed_defs_clickthroughitem = [`App_bsky_feed_defs_clickthroughitem]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_feed_defs_clickthroughitem_of_value : [`App_bsky_feed_defs_clickthroughitem] Value.Util.conv = (fun _ -> `App_bsky_feed_defs_clickthroughitem)
+  let rec app_bsky_feed_defs_clickthroughitem_of_value : app_bsky_feed_defs_clickthroughitem Value.Util.conv = (fun _ -> `App_bsky_feed_defs_clickthroughitem)
+
 
   let rec app_bsky_feed_defs_clickthroughitem_to_value : [`App_bsky_feed_defs_clickthroughitem] -> Value.t = (fun `App_bsky_feed_defs_clickthroughitem -> Value.Util.text "app.bsky.feed.defs#clickthroughItem")
 
@@ -3523,6 +3717,7 @@ module Types = struct
   let rec app_bsky_graph_starterpack_feeditem_of_value : app_bsky_graph_starterpack_feeditem Value.Util.conv = (fun v ->
     let uri = Value.Util.get_key "uri" Value.Util.to_text v in
     {uri;})
+
 
   let rec app_bsky_graph_starterpack_feeditem_to_value : app_bsky_graph_starterpack_feeditem -> Value.t = (fun v ->
     let l = [] in
@@ -3541,6 +3736,7 @@ module Types = struct
     let uri = Value.Util.get_key "uri" Value.Util.to_text v in
     {uri;})
 
+
   let rec app_bsky_unspecced_defs_skeletonsearchpost_to_value : app_bsky_unspecced_defs_skeletonsearchpost -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.unspecced.defs#skeletonSearchPost") :: l in
@@ -3557,6 +3753,7 @@ module Types = struct
   let rec app_bsky_embed_external_main_of_value : app_bsky_embed_external_main Value.Util.conv = (fun v ->
     let external_ = Value.Util.get_key "external" app_bsky_embed_external_external_of_value v in
     {external_;})
+
 
   let rec app_bsky_embed_external_main_to_value : app_bsky_embed_external_main -> Value.t = (fun v ->
     let l = [] in
@@ -3591,6 +3788,7 @@ module Types = struct
     let labels = Value.Util.get_key_opt "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
     {uri;cid;author;reason;reasonSubject;record;isRead;indexedAt;labels;})
 
+
   let rec app_bsky_notification_listnotifications_notification_to_value : app_bsky_notification_listnotifications_notification -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.notification.listNotifications#notification") :: l in
@@ -3616,6 +3814,7 @@ module Types = struct
     let rootAuthorLike = Value.Util.get_key_opt "rootAuthorLike" Value.Util.to_text v in
     {rootAuthorLike;})
 
+
   let rec app_bsky_feed_defs_threadcontext_to_value : app_bsky_feed_defs_threadcontext -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.feed.defs#threadContext") :: l in
@@ -3632,6 +3831,7 @@ module Types = struct
   let rec app_bsky_unspecced_defs_skeletonsearchstarterpack_of_value : app_bsky_unspecced_defs_skeletonsearchstarterpack Value.Util.conv = (fun v ->
     let uri = Value.Util.get_key "uri" Value.Util.to_text v in
     {uri;})
+
 
   let rec app_bsky_unspecced_defs_skeletonsearchstarterpack_to_value : app_bsky_unspecced_defs_skeletonsearchstarterpack -> Value.t = (fun v ->
     let l = [] in
@@ -3652,6 +3852,7 @@ module Types = struct
     let message = Value.Util.get_key_opt "message" Value.Util.to_text v in
     {name;message;})
 
+
   let rec com_atproto_sync_subscriberepos_info_to_value : com_atproto_sync_subscriberepos_info -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.sync.subscribeRepos#info") :: l in
@@ -3664,7 +3865,8 @@ module Types = struct
   type app_bsky_feed_defs_interactionrepost = [`App_bsky_feed_defs_interactionrepost]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_feed_defs_interactionrepost_of_value : [`App_bsky_feed_defs_interactionrepost] Value.Util.conv = (fun _ -> `App_bsky_feed_defs_interactionrepost)
+  let rec app_bsky_feed_defs_interactionrepost_of_value : app_bsky_feed_defs_interactionrepost Value.Util.conv = (fun _ -> `App_bsky_feed_defs_interactionrepost)
+
 
   let rec app_bsky_feed_defs_interactionrepost_to_value : [`App_bsky_feed_defs_interactionrepost] -> Value.t = (fun `App_bsky_feed_defs_interactionrepost -> Value.Util.text "app.bsky.feed.defs#interactionRepost")
 
@@ -3680,6 +3882,7 @@ module Types = struct
     let account = Value.Util.get_key "account" Value.Util.to_text v in
     let codes = Value.Util.get_key "codes" (Value.Util.to_array_of Value.Util.to_text) v in
     {account;codes;})
+
 
   let rec com_atproto_server_createinvitecodes_accountcodes_to_value : com_atproto_server_createinvitecodes_accountcodes -> Value.t = (fun v ->
     let l = [] in
@@ -3710,6 +3913,7 @@ module Types = struct
     let createdAt = Value.Util.get_key "createdAt" Value.Util.to_text v in
     let uses = Value.Util.get_key "uses" (Value.Util.to_array_of com_atproto_server_defs_invitecodeuse_of_value) v in
     {code;available;disabled;forAccount;createdBy;createdAt;uses;})
+
 
   let rec com_atproto_server_defs_invitecode_to_value : com_atproto_server_defs_invitecode -> Value.t = (fun v ->
     let l = [] in
@@ -3756,6 +3960,7 @@ module Types = struct
     let threatSignatures = Value.Util.get_key_opt "threatSignatures" (Value.Util.to_array_of com_atproto_admin_defs_threatsignature_of_value) v in
     {did;handle;email;relatedRecords;indexedAt;invitedBy;invites;invitesDisabled;emailConfirmedAt;inviteNote;deactivatedAt;threatSignatures;})
 
+
   let rec com_atproto_admin_defs_accountview_to_value : com_atproto_admin_defs_accountview -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.admin.defs#accountView") :: l in
@@ -3778,7 +3983,8 @@ module Types = struct
   type app_bsky_feed_defs_interactionshare = [`App_bsky_feed_defs_interactionshare]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_feed_defs_interactionshare_of_value : [`App_bsky_feed_defs_interactionshare] Value.Util.conv = (fun _ -> `App_bsky_feed_defs_interactionshare)
+  let rec app_bsky_feed_defs_interactionshare_of_value : app_bsky_feed_defs_interactionshare Value.Util.conv = (fun _ -> `App_bsky_feed_defs_interactionshare)
+
 
   let rec app_bsky_feed_defs_interactionshare_to_value : [`App_bsky_feed_defs_interactionshare] -> Value.t = (fun `App_bsky_feed_defs_interactionshare -> Value.Util.text "app.bsky.feed.defs#interactionShare")
 
@@ -3787,7 +3993,8 @@ module Types = struct
   type com_atproto_moderation_defs_reasonspam = [`Com_atproto_moderation_defs_reasonspam]
   [@@deriving show {with_path=false}]
 
-  let rec com_atproto_moderation_defs_reasonspam_of_value : [`Com_atproto_moderation_defs_reasonspam] Value.Util.conv = (fun _ -> `Com_atproto_moderation_defs_reasonspam)
+  let rec com_atproto_moderation_defs_reasonspam_of_value : com_atproto_moderation_defs_reasonspam Value.Util.conv = (fun _ -> `Com_atproto_moderation_defs_reasonspam)
+
 
   let rec com_atproto_moderation_defs_reasonspam_to_value : [`Com_atproto_moderation_defs_reasonspam] -> Value.t = (fun `Com_atproto_moderation_defs_reasonspam -> Value.Util.text "com.atproto.moderation.defs#reasonSpam")
 
@@ -3808,6 +4015,7 @@ module Types = struct
     let link = Value.Util.get_key "link" Value.Util.to_text v in
     {topic;displayName;description;link;})
 
+
   let rec app_bsky_unspecced_defs_trendingtopic_to_value : app_bsky_unspecced_defs_trendingtopic -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "app.bsky.unspecced.defs#trendingTopic") :: l in
@@ -3822,7 +4030,8 @@ module Types = struct
   type app_bsky_feed_defs_clickthroughauthor = [`App_bsky_feed_defs_clickthroughauthor]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_feed_defs_clickthroughauthor_of_value : [`App_bsky_feed_defs_clickthroughauthor] Value.Util.conv = (fun _ -> `App_bsky_feed_defs_clickthroughauthor)
+  let rec app_bsky_feed_defs_clickthroughauthor_of_value : app_bsky_feed_defs_clickthroughauthor Value.Util.conv = (fun _ -> `App_bsky_feed_defs_clickthroughauthor)
+
 
   let rec app_bsky_feed_defs_clickthroughauthor_to_value : [`App_bsky_feed_defs_clickthroughauthor] -> Value.t = (fun `App_bsky_feed_defs_clickthroughauthor -> Value.Util.text "app.bsky.feed.defs#clickthroughAuthor")
 
@@ -3836,6 +4045,7 @@ module Types = struct
   let rec com_atproto_label_defs_selflabels_of_value : com_atproto_label_defs_selflabels Value.Util.conv = (fun v ->
     let values = Value.Util.get_key "values" (Value.Util.to_array_of com_atproto_label_defs_selflabel_of_value) v in
     {values;})
+
 
   let rec com_atproto_label_defs_selflabels_to_value : com_atproto_label_defs_selflabels -> Value.t = (fun v ->
     let l = [] in
@@ -3859,13 +4069,17 @@ module Types = struct
   let rec app_bsky_feed_defs_skeletonfeedpost_of_value : app_bsky_feed_defs_skeletonfeedpost Value.Util.conv = (fun v ->
     let post = Value.Util.get_key "post" Value.Util.to_text v in
     let reason = Value.Util.get_key_opt "reason" (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.feed.defs#skeletonReasonRepost" -> `App_bsky_feed_defs_skeletonreasonrepost (app_bsky_feed_defs_skeletonreasonrepost_of_value v)
-    | "app.bsky.feed.defs#skeletonReasonPin" -> `App_bsky_feed_defs_skeletonreasonpin (app_bsky_feed_defs_skeletonreasonpin_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#skeletonReasonRepost" | "app.bsky.feed.defs#skeletonReasonRepost" ->
+    `App_bsky_feed_defs_skeletonreasonrepost (app_bsky_feed_defs_skeletonreasonrepost_of_value v)
+    | "#skeletonReasonPin" | "app.bsky.feed.defs#skeletonReasonPin" ->
+    `App_bsky_feed_defs_skeletonreasonpin (app_bsky_feed_defs_skeletonreasonpin_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let feedContext = Value.Util.get_key_opt "feedContext" Value.Util.to_text v in
     {post;reason;feedContext;})
+
 
   let rec app_bsky_feed_defs_skeletonfeedpost_to_value : app_bsky_feed_defs_skeletonfeedpost -> Value.t = (fun v ->
     let l = [] in
@@ -3903,21 +4117,30 @@ module Types = struct
   let rec app_bsky_feed_defs_threadviewpost_of_value : app_bsky_feed_defs_threadviewpost Value.Util.conv = (fun v ->
     let post = Value.Util.get_key "post" app_bsky_feed_defs_postview_of_value v in
     let parent = Value.Util.get_key_opt "parent" (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.feed.defs#threadViewPost" -> `App_bsky_feed_defs_threadviewpost (app_bsky_feed_defs_threadviewpost_of_value v)
-    | "app.bsky.feed.defs#notFoundPost" -> `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
-    | "app.bsky.feed.defs#blockedPost" -> `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#threadViewPost" | "app.bsky.feed.defs#threadViewPost" ->
+    `App_bsky_feed_defs_threadviewpost (app_bsky_feed_defs_threadviewpost_of_value v)
+    | "#notFoundPost" | "app.bsky.feed.defs#notFoundPost" ->
+    `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
+    | "#blockedPost" | "app.bsky.feed.defs#blockedPost" ->
+    `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let replies = Value.Util.get_key_opt "replies" (Value.Util.to_array_of (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.feed.defs#threadViewPost" -> `App_bsky_feed_defs_threadviewpost (app_bsky_feed_defs_threadviewpost_of_value v)
-    | "app.bsky.feed.defs#notFoundPost" -> `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
-    | "app.bsky.feed.defs#blockedPost" -> `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#threadViewPost" | "app.bsky.feed.defs#threadViewPost" ->
+    `App_bsky_feed_defs_threadviewpost (app_bsky_feed_defs_threadviewpost_of_value v)
+    | "#notFoundPost" | "app.bsky.feed.defs#notFoundPost" ->
+    `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
+    | "#blockedPost" | "app.bsky.feed.defs#blockedPost" ->
+    `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
     let threadContext = Value.Util.get_key_opt "threadContext" app_bsky_feed_defs_threadcontext_of_value v in
     {post;parent;replies;threadContext;})
+
 
   let rec app_bsky_feed_defs_threadviewpost_to_value : app_bsky_feed_defs_threadviewpost -> Value.t = (fun v ->
     let l = [] in
@@ -3945,7 +4168,8 @@ module Types = struct
   type app_bsky_feed_defs_contentmodeunspecified = [`App_bsky_feed_defs_contentmodeunspecified]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_feed_defs_contentmodeunspecified_of_value : [`App_bsky_feed_defs_contentmodeunspecified] Value.Util.conv = (fun _ -> `App_bsky_feed_defs_contentmodeunspecified)
+  let rec app_bsky_feed_defs_contentmodeunspecified_of_value : app_bsky_feed_defs_contentmodeunspecified Value.Util.conv = (fun _ -> `App_bsky_feed_defs_contentmodeunspecified)
+
 
   let rec app_bsky_feed_defs_contentmodeunspecified_to_value : [`App_bsky_feed_defs_contentmodeunspecified] -> Value.t = (fun `App_bsky_feed_defs_contentmodeunspecified -> Value.Util.text "app.bsky.feed.defs#contentModeUnspecified")
 
@@ -3963,6 +4187,7 @@ module Types = struct
     let type_ = Value.Util.get_key "type" Value.Util.to_text v in
     let value = Value.Util.get_key "value" Value.Util.to_text v in
     {index;type_;value;})
+
 
   let rec app_bsky_feed_post_entity_to_value : app_bsky_feed_post_entity -> Value.t = (fun v ->
     let l = [] in
@@ -3991,6 +4216,7 @@ module Types = struct
     let status = Value.Util.get_key_opt "status" Value.Util.to_text v in
     {did;head;rev;active;status;})
 
+
   let rec com_atproto_sync_listrepos_repo_to_value : com_atproto_sync_listrepos_repo -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.sync.listRepos#repo") :: l in
@@ -4016,6 +4242,7 @@ module Types = struct
     let privileged = Value.Util.get_key_opt "privileged" Value.Util.to_bool v in
     {name;createdAt;privileged;})
 
+
   let rec com_atproto_server_listapppasswords_apppassword_to_value : com_atproto_server_listapppasswords_apppassword -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.server.listAppPasswords#appPassword") :: l in
@@ -4029,7 +4256,8 @@ module Types = struct
   type com_atproto_moderation_defs_reasonmisleading = [`Com_atproto_moderation_defs_reasonmisleading]
   [@@deriving show {with_path=false}]
 
-  let rec com_atproto_moderation_defs_reasonmisleading_of_value : [`Com_atproto_moderation_defs_reasonmisleading] Value.Util.conv = (fun _ -> `Com_atproto_moderation_defs_reasonmisleading)
+  let rec com_atproto_moderation_defs_reasonmisleading_of_value : com_atproto_moderation_defs_reasonmisleading Value.Util.conv = (fun _ -> `Com_atproto_moderation_defs_reasonmisleading)
+
 
   let rec com_atproto_moderation_defs_reasonmisleading_to_value : [`Com_atproto_moderation_defs_reasonmisleading] -> Value.t = (fun `Com_atproto_moderation_defs_reasonmisleading -> Value.Util.text "com.atproto.moderation.defs#reasonMisleading")
 
@@ -4050,6 +4278,7 @@ module Types = struct
     let status = Value.Util.get_key_opt "status" com_atproto_sync_defs_hoststatus_of_value v in
     {hostname;seq;accountCount;status;})
 
+
   let rec com_atproto_sync_listhosts_host_to_value : com_atproto_sync_listhosts_host -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.sync.listHosts#host") :: l in
@@ -4064,7 +4293,8 @@ module Types = struct
   type app_bsky_feed_defs_contentmodevideo = [`App_bsky_feed_defs_contentmodevideo]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_feed_defs_contentmodevideo_of_value : [`App_bsky_feed_defs_contentmodevideo] Value.Util.conv = (fun _ -> `App_bsky_feed_defs_contentmodevideo)
+  let rec app_bsky_feed_defs_contentmodevideo_of_value : app_bsky_feed_defs_contentmodevideo Value.Util.conv = (fun _ -> `App_bsky_feed_defs_contentmodevideo)
+
 
   let rec app_bsky_feed_defs_contentmodevideo_to_value : [`App_bsky_feed_defs_contentmodevideo] -> Value.t = (fun `App_bsky_feed_defs_contentmodevideo -> Value.Util.text "app.bsky.feed.defs#contentModeVideo")
 
@@ -4084,13 +4314,18 @@ module Types = struct
   let rec app_bsky_embed_recordwithmedia_main_of_value : app_bsky_embed_recordwithmedia_main Value.Util.conv = (fun v ->
     let record = Value.Util.get_key "record" app_bsky_embed_record_main_of_value v in
     let media = Value.Util.get_key "media" (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.embed.images" -> `App_bsky_embed_images_main (app_bsky_embed_images_main_of_value v)
-    | "app.bsky.embed.video" -> `App_bsky_embed_video_main (app_bsky_embed_video_main_of_value v)
-    | "app.bsky.embed.external" -> `App_bsky_embed_external_main (app_bsky_embed_external_main_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#main" | "app.bsky.embed.images" ->
+    `App_bsky_embed_images_main (app_bsky_embed_images_main_of_value v)
+    | "#main" | "app.bsky.embed.video" ->
+    `App_bsky_embed_video_main (app_bsky_embed_video_main_of_value v)
+    | "#main" | "app.bsky.embed.external" ->
+    `App_bsky_embed_external_main (app_bsky_embed_external_main_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     {record;media;})
+
 
   let rec app_bsky_embed_recordwithmedia_main_to_value : app_bsky_embed_recordwithmedia_main -> Value.t = (fun v ->
     let l = [] in
@@ -4110,7 +4345,8 @@ module Types = struct
   type app_bsky_graph_defs_modlist = [`App_bsky_graph_defs_modlist]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_graph_defs_modlist_of_value : [`App_bsky_graph_defs_modlist] Value.Util.conv = (fun _ -> `App_bsky_graph_defs_modlist)
+  let rec app_bsky_graph_defs_modlist_of_value : app_bsky_graph_defs_modlist Value.Util.conv = (fun _ -> `App_bsky_graph_defs_modlist)
+
 
   let rec app_bsky_graph_defs_modlist_to_value : [`App_bsky_graph_defs_modlist] -> Value.t = (fun `App_bsky_graph_defs_modlist -> Value.Util.text "app.bsky.graph.defs#modlist")
 
@@ -4127,6 +4363,7 @@ module Types = struct
     let labels = Value.Util.get_key "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
     {seq;labels;})
 
+
   let rec com_atproto_label_subscribelabels_labels_to_value : com_atproto_label_subscribelabels_labels -> Value.t = (fun v ->
     let l = [] in
     let l = ("$type", Value.Util.text "com.atproto.label.subscribeLabels#labels") :: l in
@@ -4139,7 +4376,8 @@ module Types = struct
   type app_bsky_feed_defs_clickthroughreposter = [`App_bsky_feed_defs_clickthroughreposter]
   [@@deriving show {with_path=false}]
 
-  let rec app_bsky_feed_defs_clickthroughreposter_of_value : [`App_bsky_feed_defs_clickthroughreposter] Value.Util.conv = (fun _ -> `App_bsky_feed_defs_clickthroughreposter)
+  let rec app_bsky_feed_defs_clickthroughreposter_of_value : app_bsky_feed_defs_clickthroughreposter Value.Util.conv = (fun _ -> `App_bsky_feed_defs_clickthroughreposter)
+
 
   let rec app_bsky_feed_defs_clickthroughreposter_to_value : [`App_bsky_feed_defs_clickthroughreposter] -> Value.t = (fun `App_bsky_feed_defs_clickthroughreposter -> Value.Util.text "app.bsky.feed.defs#clickthroughReposter")
 
@@ -4278,11 +4516,11 @@ module Com_Atproto_Temp_AddReservedHandle = struct
     let l = ("handle", Value.Util.text v.handle) :: l in
     Value.Util.map l)
 
-  type main_output = [`_main_output]
+  type main_output = [`Main_output]
   [@@deriving show {with_path=false}]
 
-  let main_output_of_value : main_output Value.Util.conv = (fun _ -> `_main_output)
-  let main_output_to_value : main_output -> Value.t = (fun `_main_output -> Value.Util.text "#main_output")
+  let main_output_of_value : main_output Value.Util.conv = (fun _ -> `Main_output)
+  let main_output_to_value : main_output -> Value.t = (fun `Main_output -> Value.Util.text "#main_output")
 
   (** Add a handle to the set of reserved handles. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
@@ -4313,13 +4551,18 @@ module Com_Atproto_Sync_SubscribeRepos = struct
     ]
   [@@deriving show {with_path=false}]
 
-  let main_msg_of_value : main_msg Value.Util.conv = (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "com.atproto.sync.subscribeRepos#commit" -> `Com_atproto_sync_subscriberepos_commit (com_atproto_sync_subscriberepos_commit_of_value v)
-    | "com.atproto.sync.subscribeRepos#sync" -> `Com_atproto_sync_subscriberepos_sync (com_atproto_sync_subscriberepos_sync_of_value v)
-    | "com.atproto.sync.subscribeRepos#identity" -> `Com_atproto_sync_subscriberepos_identity (com_atproto_sync_subscriberepos_identity_of_value v)
-    | "com.atproto.sync.subscribeRepos#account" -> `Com_atproto_sync_subscriberepos_account (com_atproto_sync_subscriberepos_account_of_value v)
-    | "com.atproto.sync.subscribeRepos#info" -> `Com_atproto_sync_subscriberepos_info (com_atproto_sync_subscriberepos_info_of_value v)
+  let main_msg_of_value ~(type_tag:string) : main_msg Value.Util.conv = (fun v ->
+    (match type_tag with
+    | "#commit" | "com.atproto.sync.subscribeRepos#commit" ->
+    `Com_atproto_sync_subscriberepos_commit (com_atproto_sync_subscriberepos_commit_of_value v)
+    | "#sync" | "com.atproto.sync.subscribeRepos#sync" ->
+    `Com_atproto_sync_subscriberepos_sync (com_atproto_sync_subscriberepos_sync_of_value v)
+    | "#identity" | "com.atproto.sync.subscribeRepos#identity" ->
+    `Com_atproto_sync_subscriberepos_identity (com_atproto_sync_subscriberepos_identity_of_value v)
+    | "#account" | "com.atproto.sync.subscribeRepos#account" ->
+    `Com_atproto_sync_subscriberepos_account (com_atproto_sync_subscriberepos_account_of_value v)
+    | "#info" | "com.atproto.sync.subscribeRepos#info" ->
+    `Com_atproto_sync_subscriberepos_info (com_atproto_sync_subscriberepos_info_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))
   let main_msg_to_value : main_msg -> Value.t = (fun v ->
@@ -4353,10 +4596,10 @@ module Com_Atproto_Sync_SubscribeRepos = struct
     ~parameters:(Params {
     to_value=main_params_to_value;
     of_value=main_params_of_value;
-    pp=pp_main_params}) ~message:(Message {
+    pp=pp_main_params}) ~message:{
     to_value=main_msg_to_value;
     of_value=main_msg_of_value;
-    pp=pp_main_msg}) 
+    pp=pp_main_msg} 
     ~errors:(Errors {pp=pp_main_error})
 
   (** {2 def commit} *)
@@ -4369,7 +4612,7 @@ module Com_Atproto_Sync_SubscribeRepos = struct
     commit: Cid.t;
     rev: string;
     since: string;
-    blocks: bytes;
+    blocks: (bytes [@printer pp_bytes_len]);
     ops: com_atproto_sync_subscriberepos_repoop list;
     blobs: Cid.t list;
     prevData: Cid.t option;
@@ -4385,7 +4628,7 @@ module Com_Atproto_Sync_SubscribeRepos = struct
   type nonrec sync = com_atproto_sync_subscriberepos_sync = {
     seq: int64;
     did: string;
-    blocks: bytes;
+    blocks: (bytes [@printer pp_bytes_len]);
     rev: string;
     time: string;
   }
@@ -6747,11 +6990,15 @@ module Com_Atproto_Repo_ApplyWrites = struct
     let repo = Value.Util.get_key "repo" Value.Util.to_text v in
     let validate = Value.Util.get_key_opt "validate" Value.Util.to_bool v in
     let writes = Value.Util.get_key "writes" (Value.Util.to_array_of (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "com.atproto.repo.applyWrites#create" -> `Com_atproto_repo_applywrites_create (com_atproto_repo_applywrites_create_of_value v)
-    | "com.atproto.repo.applyWrites#update" -> `Com_atproto_repo_applywrites_update (com_atproto_repo_applywrites_update_of_value v)
-    | "com.atproto.repo.applyWrites#delete" -> `Com_atproto_repo_applywrites_delete (com_atproto_repo_applywrites_delete_of_value v)
-    | _txt -> Value.Util.conv_error {msg="expected `_main_input`"; value=v; path=[]}    ))) v in
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#create" | "com.atproto.repo.applyWrites#create" ->
+    `Com_atproto_repo_applywrites_create (com_atproto_repo_applywrites_create_of_value v)
+    | "#update" | "com.atproto.repo.applyWrites#update" ->
+    `Com_atproto_repo_applywrites_update (com_atproto_repo_applywrites_update_of_value v)
+    | "#delete" | "com.atproto.repo.applyWrites#delete" ->
+    `Com_atproto_repo_applywrites_delete (com_atproto_repo_applywrites_delete_of_value v)
+    | _txt -> Value.Util.conv_error {msg="expected `main_input`"; value=v; path=[]}    ))) v in
     let swapCommit = Value.Util.get_key_opt "swapCommit" Value.Util.to_text v in
     {repo;validate;writes;swapCommit;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
@@ -6779,11 +7026,15 @@ module Com_Atproto_Repo_ApplyWrites = struct
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
     let commit = Value.Util.get_key_opt "commit" com_atproto_repo_defs_commitmeta_of_value v in
     let results = Value.Util.get_key_opt "results" (Value.Util.to_array_of (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "com.atproto.repo.applyWrites#createResult" -> `Com_atproto_repo_applywrites_createresult (com_atproto_repo_applywrites_createresult_of_value v)
-    | "com.atproto.repo.applyWrites#updateResult" -> `Com_atproto_repo_applywrites_updateresult (com_atproto_repo_applywrites_updateresult_of_value v)
-    | "com.atproto.repo.applyWrites#deleteResult" -> `Com_atproto_repo_applywrites_deleteresult (com_atproto_repo_applywrites_deleteresult_of_value v)
-    | _txt -> Value.Util.conv_error {msg="expected `_main_output`"; value=v; path=[]}    ))) v in
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#createResult" | "com.atproto.repo.applyWrites#createResult" ->
+    `Com_atproto_repo_applywrites_createresult (com_atproto_repo_applywrites_createresult_of_value v)
+    | "#updateResult" | "com.atproto.repo.applyWrites#updateResult" ->
+    `Com_atproto_repo_applywrites_updateresult (com_atproto_repo_applywrites_updateresult_of_value v)
+    | "#deleteResult" | "com.atproto.repo.applyWrites#deleteResult" ->
+    `Com_atproto_repo_applywrites_deleteresult (com_atproto_repo_applywrites_deleteresult_of_value v)
+    | _txt -> Value.Util.conv_error {msg="expected `main_output`"; value=v; path=[]}    ))) v in
     {commit;results;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -6917,9 +7168,12 @@ module Com_Atproto_Moderation_CreateReport = struct
     let reasonType = Value.Util.get_key "reasonType" com_atproto_moderation_defs_reasontype_of_value v in
     let reason = Value.Util.get_key_opt "reason" Value.Util.to_text v in
     let subject = Value.Util.get_key "subject" (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "com.atproto.admin.defs#repoRef" -> `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
-    | "com.atproto.repo.strongRef" -> `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#repoRef" | "com.atproto.admin.defs#repoRef" ->
+    `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
+    | "#main" | "com.atproto.repo.strongRef" ->
+    `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     {reasonType;reason;subject;})
@@ -6954,9 +7208,12 @@ module Com_Atproto_Moderation_CreateReport = struct
     let reasonType = Value.Util.get_key "reasonType" com_atproto_moderation_defs_reasontype_of_value v in
     let reason = Value.Util.get_key_opt "reason" Value.Util.to_text v in
     let subject = Value.Util.get_key "subject" (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "com.atproto.admin.defs#repoRef" -> `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
-    | "com.atproto.repo.strongRef" -> `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#repoRef" | "com.atproto.admin.defs#repoRef" ->
+    `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
+    | "#main" | "com.atproto.repo.strongRef" ->
+    `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let reportedBy = Value.Util.get_key "reportedBy" Value.Util.to_text v in
@@ -7018,10 +7275,12 @@ module Com_Atproto_Label_SubscribeLabels = struct
     ]
   [@@deriving show {with_path=false}]
 
-  let main_msg_of_value : main_msg Value.Util.conv = (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "com.atproto.label.subscribeLabels#labels" -> `Com_atproto_label_subscribelabels_labels (com_atproto_label_subscribelabels_labels_of_value v)
-    | "com.atproto.label.subscribeLabels#info" -> `Com_atproto_label_subscribelabels_info (com_atproto_label_subscribelabels_info_of_value v)
+  let main_msg_of_value ~(type_tag:string) : main_msg Value.Util.conv = (fun v ->
+    (match type_tag with
+    | "#labels" | "com.atproto.label.subscribeLabels#labels" ->
+    `Com_atproto_label_subscribelabels_labels (com_atproto_label_subscribelabels_labels_of_value v)
+    | "#info" | "com.atproto.label.subscribeLabels#info" ->
+    `Com_atproto_label_subscribelabels_info (com_atproto_label_subscribelabels_info_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))
   let main_msg_to_value : main_msg -> Value.t = (fun v ->
@@ -7052,10 +7311,10 @@ module Com_Atproto_Label_SubscribeLabels = struct
     ~parameters:(Params {
     to_value=main_params_to_value;
     of_value=main_params_of_value;
-    pp=pp_main_params}) ~message:(Message {
+    pp=pp_main_params}) ~message:{
     to_value=main_msg_to_value;
     of_value=main_msg_of_value;
-    pp=pp_main_msg}) 
+    pp=pp_main_msg} 
     ~errors:(Errors {pp=pp_main_error})
 
   (** {2 def labels} *)
@@ -7520,10 +7779,14 @@ module Com_Atproto_Admin_UpdateSubjectStatus = struct
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
     let subject = Value.Util.get_key "subject" (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "com.atproto.admin.defs#repoRef" -> `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
-    | "com.atproto.repo.strongRef" -> `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
-    | "com.atproto.admin.defs#repoBlobRef" -> `Com_atproto_admin_defs_repoblobref (com_atproto_admin_defs_repoblobref_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#repoRef" | "com.atproto.admin.defs#repoRef" ->
+    `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
+    | "#main" | "com.atproto.repo.strongRef" ->
+    `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
+    | "#repoBlobRef" | "com.atproto.admin.defs#repoBlobRef" ->
+    `Com_atproto_admin_defs_repoblobref (com_atproto_admin_defs_repoblobref_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let takedown = Value.Util.get_key_opt "takedown" com_atproto_admin_defs_statusattr_of_value v in
@@ -7555,10 +7818,14 @@ module Com_Atproto_Admin_UpdateSubjectStatus = struct
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
     let subject = Value.Util.get_key "subject" (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "com.atproto.admin.defs#repoRef" -> `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
-    | "com.atproto.repo.strongRef" -> `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
-    | "com.atproto.admin.defs#repoBlobRef" -> `Com_atproto_admin_defs_repoblobref (com_atproto_admin_defs_repoblobref_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#repoRef" | "com.atproto.admin.defs#repoRef" ->
+    `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
+    | "#main" | "com.atproto.repo.strongRef" ->
+    `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
+    | "#repoBlobRef" | "com.atproto.admin.defs#repoBlobRef" ->
+    `Com_atproto_admin_defs_repoblobref (com_atproto_admin_defs_repoblobref_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let takedown = Value.Util.get_key_opt "takedown" com_atproto_admin_defs_statusattr_of_value v in
@@ -7862,10 +8129,14 @@ module Com_Atproto_Admin_GetSubjectStatus = struct
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
     let subject = Value.Util.get_key "subject" (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "com.atproto.admin.defs#repoRef" -> `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
-    | "com.atproto.repo.strongRef" -> `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
-    | "com.atproto.admin.defs#repoBlobRef" -> `Com_atproto_admin_defs_repoblobref (com_atproto_admin_defs_repoblobref_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#repoRef" | "com.atproto.admin.defs#repoRef" ->
+    `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
+    | "#main" | "com.atproto.repo.strongRef" ->
+    `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
+    | "#repoBlobRef" | "com.atproto.admin.defs#repoBlobRef" ->
+    `Com_atproto_admin_defs_repoblobref (com_atproto_admin_defs_repoblobref_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let takedown = Value.Util.get_key_opt "takedown" com_atproto_admin_defs_statusattr_of_value v in
@@ -9623,9 +9894,12 @@ module App_Bsky_Labeler_GetServices = struct
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
     let views = Value.Util.get_key "views" (Value.Util.to_array_of (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.labeler.defs#labelerView" -> `App_bsky_labeler_defs_labelerview (app_bsky_labeler_defs_labelerview_of_value v)
-    | "app.bsky.labeler.defs#labelerViewDetailed" -> `App_bsky_labeler_defs_labelerviewdetailed (app_bsky_labeler_defs_labelerviewdetailed_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#labelerView" | "app.bsky.labeler.defs#labelerView" ->
+    `App_bsky_labeler_defs_labelerview (app_bsky_labeler_defs_labelerview_of_value v)
+    | "#labelerViewDetailed" | "app.bsky.labeler.defs#labelerViewDetailed" ->
+    `App_bsky_labeler_defs_labelerviewdetailed (app_bsky_labeler_defs_labelerviewdetailed_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
     {views;})
@@ -10155,9 +10429,12 @@ module App_Bsky_Graph_GetRelationships = struct
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
     let actor = Value.Util.get_key_opt "actor" Value.Util.to_text v in
     let relationships = Value.Util.get_key "relationships" (Value.Util.to_array_of (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.graph.defs#relationship" -> `App_bsky_graph_defs_relationship (app_bsky_graph_defs_relationship_of_value v)
-    | "app.bsky.graph.defs#notFoundActor" -> `App_bsky_graph_defs_notfoundactor (app_bsky_graph_defs_notfoundactor_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#relationship" | "app.bsky.graph.defs#relationship" ->
+    `App_bsky_graph_defs_relationship (app_bsky_graph_defs_relationship_of_value v)
+    | "#notFoundActor" | "app.bsky.graph.defs#notFoundActor" ->
+    `App_bsky_graph_defs_notfoundactor (app_bsky_graph_defs_notfoundactor_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
     {actor;relationships;})
@@ -10780,11 +11057,11 @@ module App_Bsky_Feed_SendInteractions = struct
     let l = ("interactions", (Value.Util.array_of app_bsky_feed_defs_interaction_to_value) v.interactions) :: l in
     Value.Util.map l)
 
-  type main_output = [`_main_output]
+  type main_output = [`Main_output]
   [@@deriving show {with_path=false}]
 
-  let main_output_of_value : main_output Value.Util.conv = (fun _ -> `_main_output)
-  let main_output_to_value : main_output -> Value.t = (fun `_main_output -> Value.Util.text "#main_output")
+  let main_output_of_value : main_output Value.Util.conv = (fun _ -> `Main_output)
+  let main_output_to_value : main_output -> Value.t = (fun `Main_output -> Value.Util.text "#main_output")
 
   (** Send information about interactions with feed items back to the feed generator that served them. *)
   let main: _ Base.procedure = Base.make_procedure ~parameters:No_params 
@@ -11300,10 +11577,14 @@ module App_Bsky_Feed_GetPostThread = struct
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
     let thread = Value.Util.get_key "thread" (fun v ->
-    (match Value.Util.get_key "$type" Value.Util.to_text v with
-    | "app.bsky.feed.defs#threadViewPost" -> `App_bsky_feed_defs_threadviewpost (app_bsky_feed_defs_threadviewpost_of_value v)
-    | "app.bsky.feed.defs#notFoundPost" -> `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
-    | "app.bsky.feed.defs#blockedPost" -> `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
+    let type_tag = Value.Util.get_type_key v in
+    (match type_tag with
+    | "#threadViewPost" | "app.bsky.feed.defs#threadViewPost" ->
+    `App_bsky_feed_defs_threadviewpost (app_bsky_feed_defs_threadviewpost_of_value v)
+    | "#notFoundPost" | "app.bsky.feed.defs#notFoundPost" ->
+    `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
+    | "#blockedPost" | "app.bsky.feed.defs#blockedPost" ->
+    `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     let threadgate = Value.Util.get_key_opt "threadgate" app_bsky_feed_defs_threadgateview_of_value v in
@@ -13726,7 +14007,7 @@ module Com_Atproto_Label_Defs = struct
     neg: bool option;
     cts: string;
     exp: string option;
-    sig_: bytes option;
+    sig_: (bytes [@printer pp_bytes_len]) option;
   }
   let pp_label = pp_com_atproto_label_defs_label
   let label_of_value = com_atproto_label_defs_label_of_value

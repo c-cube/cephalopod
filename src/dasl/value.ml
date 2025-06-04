@@ -254,11 +254,15 @@ module Util = struct
         (try conv v with Conv_error err -> conv_error @@ add_path name err))
     | value -> conv_error { value; msg = spf "expected map"; path = [] }
 
+  (** Access the "$type" key *)
+  let get_type_key : string conv = get_key "$type" to_text
+
   let get_key_opt (name : string) (conv : t -> 'a) (value : t) : 'a option =
     match value with
     | Map l ->
       (match List.assoc_opt name l with
       | None -> None
+      | Some Null -> None
       | Some v ->
         (try Some (conv v)
          with Conv_error err -> conv_error @@ add_path name err))
