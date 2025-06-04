@@ -33,7 +33,7 @@
   base32
   base64
   (yojson
-   (>= 2.0))
+   (and (>= 2.0) (< 3.0)))
   ; mirage-crypto
   (trace :with-test)
   (trace-tef :with-test)
