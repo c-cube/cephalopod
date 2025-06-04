@@ -169,6 +169,7 @@ type ty = {
 
 and ty_view =
   | Null
+  | Nullable of ty
   | Boolean of { default: bool option }
   | Int of integer
   | String of string_ty
@@ -203,9 +204,12 @@ let rec iter_refs_ty (ty : ty) : ref iter =
   | Ref { raw = _; ref } -> yield ref
   | Union u -> List.iter yield u.refs
   | Object o -> List.iter (fun (_, ty) -> iter_refs_ty ty yield) o.properties
+  | Nullable ty -> iter_refs_ty ty yield
   | Null | Boolean _ | Int _ | String _ | Bytes _ | CidLink | Blob _ | Unknown
   | Token ->
     ()
+
+let nullable ty : ty = { description = None; view = Nullable ty }
 
 let rec ty_of_yojson j =
   let@ () = try_catch "type" in

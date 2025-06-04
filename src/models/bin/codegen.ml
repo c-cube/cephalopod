@@ -168,11 +168,17 @@ module Codegen = struct
 
   type out = Buffer.t
 
+  let list_opt_mem k l =
+    match l with
+    | None -> false
+    | Some l -> List.mem k l
+
   module Ty = struct
     let rec gen_ty ~(inside : A.ref) (out : out) (ty : A.ty) : unit =
       let recurse out ty = gen_ty ~inside out ty in
       match ty.view with
       | A.Null -> bpf out "unit"
+      | A.Nullable ty -> bpf out "%a option" recurse ty
       | A.Unknown -> bpf out "Value.t (* unknown *)"
       | A.Boolean _ -> bpf out "bool"
       | A.Int _ -> bpf out "int64"
@@ -193,11 +199,13 @@ module Codegen = struct
       bpf out "{\n";
       List.iter
         (fun (k, ty) ->
-          let required =
-            match required, nullable with
-            | Some r, _ when List.mem k r -> true
-            | _, Some n when List.mem k n -> false
-            | _ -> false
+          let required = list_opt_mem k required in
+          let nullable = list_opt_mem k nullable in
+          let ty =
+            if nullable then
+              A.nullable ty
+            else
+              ty
           in
           let option_suffix =
             if required then
@@ -242,6 +250,7 @@ module Codegen = struct
       let recurse out e = gen_ty ~read_type_key:true ~inside out e in
       match ty.view with
       | A.Null -> bpf out "Value.Util.to_unit"
+      | A.Nullable ty -> bpf out "(Value.Util.to_option_of %a)" recurse ty
       | A.Unknown -> bpf out "(fun v -> v (* immediate *))"
       | A.Boolean _ -> bpf out "Value.Util.to_bool"
       | A.Int _ -> bpf out "Value.Util.to_int"
@@ -273,17 +282,19 @@ module Codegen = struct
       let recurse out e = gen_ty ~read_type_key:true ~inside out e in
       List.iter
         (fun (k, ty) ->
-          let required =
-            match required, nullable with
-            | Some r, _ when List.mem k r -> true
-            | _, Some n when List.mem k n -> false
-            | _ -> false
+          let required = list_opt_mem k required in
+          let nullable = list_opt_mem k nullable in
+          let ty =
+            if nullable then
+              A.nullable ty
+            else
+              ty
           in
           let decode_fun =
             if required then
               "get_key"
             else
-              "get_key_opt"
+              "get_key_not_required"
           in
           let fname = field_name k in
           bpf out "    let %s = Value.Util.%s %S %a %s in\n" fname decode_fun k
@@ -355,6 +366,7 @@ module Codegen = struct
       let recurse out e = gen_ty ~inside ~with_type:false out e in
       match ty.view with
       | A.Null -> bpf out "Value.Util.unit"
+      | A.Nullable ty -> bpf out "(Value.Util.option_of %a)" recurse ty
       | A.Unknown -> bpf out "(fun v -> v (* immediate *))"
       | A.Boolean _ -> bpf out "Value.Util.bool"
       | A.Int _ -> bpf out "Value.Util.int"
@@ -384,11 +396,13 @@ module Codegen = struct
           (nsid_of_ref inside);
       List.iter
         (fun (k, ty) ->
-          let required =
-            match required, nullable with
-            | Some r, _ when List.mem k r -> true
-            | _, Some n when List.mem k n -> false
-            | _ -> false
+          let required = list_opt_mem k required in
+          let nullable = list_opt_mem k nullable in
+          let ty =
+            if nullable then
+              A.nullable ty
+            else
+              ty
           in
           let fname = field_name k in
           if required then
