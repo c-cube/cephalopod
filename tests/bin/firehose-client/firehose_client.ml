@@ -7,12 +7,14 @@ let () =
   let debug = ref false in
   let dump = ref "" in
   let show_events = ref false in
+  let decode = ref false in
   let opts =
     [
       "-d", Arg.Set debug, " enable debug";
       "--uri", Arg.String (fun s -> uri := Uri.of_string s), " set firehose URI";
       "--show-events", Arg.Set show_events, " show decoded events";
       "--dump-into", Arg.Set_string dump, " dump into given file";
+      "--decode", Arg.Set decode, " decode events";
     ]
     |> Arg.align
   in
@@ -32,6 +34,7 @@ let () =
   let@ sw = Eio.Switch.run ~name:"main" in
 
   Logs.info (fun k -> k "Connecting to %a" Uri.pp !uri);
+  let n_decode_errors = ref 0 in
 
   let oc =
     if !dump <> "" then
@@ -48,13 +51,36 @@ let () =
             k "got ev %a" Cephalopod_firehose_client.Client.pp_event ev);
 
         (match ev with
-        | E_received buf when !show_events ->
+        | E_received buf when !show_events || !decode ->
           (match
              Cephalopod_dasl.Stream_event.decode (Byte_buffer.to_slice buf)
            with
           | Ok ev ->
-            Log.app (fun k ->
-                k "received event@ %a" Cephalopod_dasl.Stream_event.pp ev)
+            if !show_events then
+              Log.app (fun k ->
+                  k "received event@ %a" Cephalopod_dasl.Stream_event.pp ev);
+
+            if !decode then
+              let module M = Cephalopod_models.Models in
+              (match
+                 let type_tag = Cephalopod_dasl.Stream_event.type_tag ev in
+                 M.Com_Atproto_Sync_SubscribeRepos.main_msg_of_value ~type_tag
+                   ev.value
+               with
+              | msg ->
+                Log.app (fun k ->
+                    k "got firehose message:@ %a"
+                      M.Com_Atproto_Sync_SubscribeRepos.pp_main_msg msg)
+              | exception Cephalopod_dasl.Value.Util.Conv_error err ->
+                incr n_decode_errors;
+                Log.err (fun k ->
+                    k "failed to decode firehose message:@ %a"
+                      Cephalopod_dasl.Value.Util.pp_conv_error err)
+              | exception exn ->
+                incr n_decode_errors;
+                Log.err (fun k ->
+                    k "failed to decode firehose message:@ %s"
+                      (Printexc.to_string exn)))
           | Error err ->
             Log.err (fun k ->
                 k "error when decoding event:@ %a"
@@ -82,5 +108,8 @@ let () =
     (fun () ->
       Cephalopod_firehose_client.Client.await client;
       Log.info (fun k -> k "client done, shutting down"));
+
+  if !n_decode_errors > 0 then
+    Log.warn (fun k -> k "got %d decode errors" !n_decode_errors);
 
   Log.info (fun k -> k "exiting")
