@@ -181,6 +181,57 @@ module Codegen = struct
     | Some l -> List.mem k l
 
   module Ty = struct
+    let rec additional_info (ty : A.ty) : string list =
+      let l = ref [] in
+      let add str = l := str :: !l in
+      Option.iter add ty.description;
+      (match ty.view with
+      | A.String str ->
+        Option.iter
+          (fun l ->
+            add
+            @@ spf "known values: [%s]"
+                 (String.concat "; " @@ List.map (spf "%S") l))
+          str.knownValues;
+        Option.iter
+          (fun l ->
+            add @@ spf "enum: [%s]" (String.concat "; " @@ List.map (spf "%S") l))
+          str.enum;
+        Option.iter
+          (fun fmt -> add @@ spf "format: %S" (A.show_string_format fmt))
+          str.format;
+        Option.iter (fun i -> add @@ spf "maximum length: %d" i) str.maxLength;
+        Option.iter (fun i -> add @@ spf "minimum length: %d" i) str.minLength
+      | A.Bytes str ->
+        Option.iter (fun i -> add @@ spf "maximum length: %d" i) str.max_length;
+        Option.iter (fun i -> add @@ spf "minimum length: %d" i) str.min_length
+      | A.Null -> ()
+      | A.Nullable ty -> l := List.rev_append (additional_info ty) !l
+      | A.Unknown -> ()
+      | A.Boolean b ->
+        Option.iter (fun b -> add @@ spf "default: %B" b) b.default
+      | A.Int i ->
+        Option.iter (fun x -> add @@ spf "default: %Ld" x) i.default;
+        Option.iter
+          (fun l ->
+            add @@ spf "enum: [%s]" @@ String.concat "; "
+            @@ List.map (spf "%Ld") l)
+          i.enum;
+        Option.iter (fun i -> add @@ spf "maximum: %Ld" i) i.maximum;
+        Option.iter (fun i -> add @@ spf "minimum: %Ld" i) i.minimum
+      | A.Ref _ | A.CidLink -> ()
+      | A.Blob b ->
+        Option.iter
+          (fun a -> add @@ spf "accept: %s" (A.show_accept a))
+          b.accept;
+        Option.iter (fun s -> add @@ spf "max size: %d" s) b.maxSize
+      | A.Array arr ->
+        Option.iter (fun i -> add @@ spf "maximum length: %d" i) arr.maxLength;
+        Option.iter (fun i -> add @@ spf "minimum length: %d" i) arr.minLength
+      | A.Token | A.Object { properties = []; _ } -> ()
+      | A.Object _ | A.Union _ -> ());
+      List.rev !l
+
     let rec gen_ty ~(inside : A.ref) (out : out) (ty : A.ty) : unit =
       let recurse out ty = gen_ty ~inside out ty in
       match ty.view with
@@ -221,7 +272,12 @@ module Codegen = struct
               " option"
           in
           let fname = field_name k in
-          bpf out "    %s: %a%s;\n" fname recurse ty option_suffix)
+          bpf out "    %s: %a%s;\n" fname recurse ty option_suffix;
+
+          let info = additional_info ty in
+          if info <> [] then
+            bpf out "      (** %s *)\n" (String.concat "\n      " info);
+          ())
         properties;
       bpf out "  }"
 

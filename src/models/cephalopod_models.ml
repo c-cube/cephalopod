@@ -65,6 +65,7 @@ module Types = struct
   (** def "app.bsky.actor.defs#profileAssociatedChat" *)
   type app_bsky_actor_defs_profileassociatedchat = {
     allowIncoming: string;
+      (** known values: ["all"; "none"; "following"] *)
   }
   [@@deriving show {with_path=false}]
 
@@ -123,14 +124,29 @@ module Types = struct
   (** def "com.atproto.label.defs#label" *)
   type com_atproto_label_defs_label = {
     ver: int64 option;
+      (** The AT Protocol version of the label object. *)
     src: string;
+      (** DID of the actor who created this label.
+      format: "Did" *)
     uri: string;
+      (** AT URI of the record, repository (account), or other resource that this label applies to.
+      format: "Uri" *)
     cid: string option;
+      (** Optionally, CID specifying the specific version of 'uri' resource this label applies to.
+      format: "Cid" *)
     val_: string;
+      (** The short string name of the value or type of this label.
+      maximum length: 128 *)
     neg: bool option;
+      (** If true, this is a negation label, overwriting a previous label. *)
     cts: string;
+      (** Timestamp when this label was created.
+      format: "Datetime" *)
     exp: string option;
+      (** Timestamp at which this label expires (no longer applies).
+      format: "Datetime" *)
     sig_: (bytes [@printer pp_bytes_len]) option;
+      (** Signature of dag-cbor encoded label. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -166,6 +182,7 @@ module Types = struct
   type app_bsky_graph_defs_listviewerstate = {
     muted: bool option;
     blocked: string option;
+      (** format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -186,14 +203,21 @@ module Types = struct
   (** def "app.bsky.graph.defs#listViewBasic" *)
   type app_bsky_graph_defs_listviewbasic = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     name: string;
+      (** maximum length: 64
+      minimum length: 1 *)
     purpose: app_bsky_graph_defs_listpurpose;
     avatar: string option;
+      (** format: "Uri" *)
     listItemCount: int64 option;
+      (** minimum: 0 *)
     labels: com_atproto_label_defs_label list option;
     viewer: app_bsky_graph_defs_listviewerstate option;
     indexedAt: string option;
+      (** format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -228,9 +252,16 @@ module Types = struct
   (** def "app.bsky.actor.defs#verificationView" *)
   type app_bsky_actor_defs_verificationview = {
     issuer: string;
+      (** The user who issued this verification.
+      format: "Did" *)
     uri: string;
+      (** The AT-URI of the verification record.
+      format: "AtUri" *)
     isValid: bool;
+      (** True if the verification passes validation, otherwise false. *)
     createdAt: string;
+      (** Timestamp when the verification was created.
+      format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -255,8 +286,13 @@ module Types = struct
   (** def "app.bsky.actor.defs#verificationState" *)
   type app_bsky_actor_defs_verificationstate = {
     verifications: app_bsky_actor_defs_verificationview list;
+      (** All verifications issued by trusted verifiers on behalf of this user. Verifications by untrusted verifiers are not included. *)
     verifiedStatus: string;
+      (** The user's status as a verified account.
+      known values: ["valid"; "invalid"; "none"] *)
     trustedVerifierStatus: string;
+      (** The user's status as a trusted verifier.
+      known values: ["valid"; "invalid"; "none"] *)
   }
   [@@deriving show {with_path=false}]
 
@@ -279,9 +315,11 @@ module Types = struct
   (** def "app.bsky.embed.external#viewExternal" *)
   type app_bsky_embed_external_viewexternal = {
     uri: string;
+      (** format: "Uri" *)
     title: string;
     description: string;
     thumb: string option;
+      (** format: "Uri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -324,13 +362,19 @@ module Types = struct
   (** def "app.bsky.actor.defs#statusView" *)
   type app_bsky_actor_defs_statusview = {
     status: string;
+      (** The status for the account.
+      known values: ["app.bsky.actor.status#live"] *)
     record: Value.t (* unknown *);
     embed: [
     | `App_bsky_embed_external_view of app_bsky_embed_external_view
     | `Other of Value.t (** Non closed union *)
     ] option;
+      (** An optional embed associated with the status. *)
     expiresAt: string option;
+      (** The date when this status will expire. The application might choose to no longer return the status after expiration.
+      format: "Datetime" *)
     isActive: bool option;
+      (** True if the status is not expired, false if it is expired. Only present if expiration was set. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -367,13 +411,18 @@ module Types = struct
   (** def "app.bsky.actor.defs#profileViewBasic" *)
   type app_bsky_actor_defs_profileviewbasic = {
     did: string;
+      (** format: "Did" *)
     handle: string;
+      (** format: "Handle" *)
     displayName: string option;
+      (** maximum length: 640 *)
     avatar: string option;
+      (** format: "Uri" *)
     associated: app_bsky_actor_defs_profileassociated option;
     viewer: app_bsky_actor_defs_viewerstate option;
     labels: com_atproto_label_defs_label list option;
     createdAt: string option;
+      (** format: "Datetime" *)
     verification: app_bsky_actor_defs_verificationstate option;
     status: app_bsky_actor_defs_statusview option;
   }
@@ -384,9 +433,12 @@ module Types = struct
     mutedByList: app_bsky_graph_defs_listviewbasic option;
     blockedBy: bool option;
     blocking: string option;
+      (** format: "AtUri" *)
     blockingByList: app_bsky_graph_defs_listviewbasic option;
     following: string option;
+      (** format: "AtUri" *)
     followedBy: string option;
+      (** format: "AtUri" *)
     knownFollowers: app_bsky_actor_defs_knownfollowers option;
   }
 
@@ -394,6 +446,8 @@ module Types = struct
   and app_bsky_actor_defs_knownfollowers = {
     count: int64;
     followers: app_bsky_actor_defs_profileviewbasic list;
+      (** maximum length: 5
+      minimum length: 0 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -462,14 +516,20 @@ module Types = struct
   (** def "app.bsky.graph.defs#starterPackViewBasic" *)
   type app_bsky_graph_defs_starterpackviewbasic = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     record: Value.t (* unknown *);
     creator: app_bsky_actor_defs_profileviewbasic;
     listItemCount: int64 option;
+      (** minimum: 0 *)
     joinedWeekCount: int64 option;
+      (** minimum: 0 *)
     joinedAllTimeCount: int64 option;
+      (** minimum: 0 *)
     labels: com_atproto_label_defs_label list option;
     indexedAt: string;
+      (** format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -504,7 +564,9 @@ module Types = struct
   (** def "com.atproto.repo.strongRef#main" *)
   type com_atproto_repo_strongref_main = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -525,18 +587,26 @@ module Types = struct
   (** def "app.bsky.actor.defs#profileViewDetailed" *)
   type app_bsky_actor_defs_profileviewdetailed = {
     did: string;
+      (** format: "Did" *)
     handle: string;
+      (** format: "Handle" *)
     displayName: string option;
+      (** maximum length: 640 *)
     description: string option;
+      (** maximum length: 2560 *)
     avatar: string option;
+      (** format: "Uri" *)
     banner: string option;
+      (** format: "Uri" *)
     followersCount: int64 option;
     followsCount: int64 option;
     postsCount: int64 option;
     associated: app_bsky_actor_defs_profileassociated option;
     joinedViaStarterPack: app_bsky_graph_defs_starterpackviewbasic option;
     indexedAt: string option;
+      (** format: "Datetime" *)
     createdAt: string option;
+      (** format: "Datetime" *)
     viewer: app_bsky_actor_defs_viewerstate option;
     labels: com_atproto_label_defs_label list option;
     pinnedPost: com_atproto_repo_strongref_main option;
@@ -594,13 +664,20 @@ module Types = struct
   (** def "app.bsky.actor.defs#profileView" *)
   type app_bsky_actor_defs_profileview = {
     did: string;
+      (** format: "Did" *)
     handle: string;
+      (** format: "Handle" *)
     displayName: string option;
+      (** maximum length: 640 *)
     description: string option;
+      (** maximum length: 2560 *)
     avatar: string option;
+      (** format: "Uri" *)
     associated: app_bsky_actor_defs_profileassociated option;
     indexedAt: string option;
+      (** format: "Datetime" *)
     createdAt: string option;
+      (** format: "Datetime" *)
     viewer: app_bsky_actor_defs_viewerstate option;
     labels: com_atproto_label_defs_label list option;
     verification: app_bsky_actor_defs_verificationstate option;
@@ -645,7 +722,9 @@ module Types = struct
   (** def "app.bsky.richtext.facet#byteSlice" *)
   type app_bsky_richtext_facet_byteslice = {
     byteStart: int64;
+      (** minimum: 0 *)
     byteEnd: int64;
+      (** minimum: 0 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -666,6 +745,7 @@ module Types = struct
   (** def "app.bsky.richtext.facet#mention" *)
   type app_bsky_richtext_facet_mention = {
     did: string;
+      (** format: "Did" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -684,6 +764,7 @@ module Types = struct
   (** def "app.bsky.richtext.facet#link" *)
   type app_bsky_richtext_facet_link = {
     uri: string;
+      (** format: "Uri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -702,6 +783,7 @@ module Types = struct
   (** def "app.bsky.richtext.facet#tag" *)
   type app_bsky_richtext_facet_tag = {
     tag: string;
+      (** maximum length: 640 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -762,6 +844,7 @@ module Types = struct
   (** def "app.bsky.feed.defs#generatorViewerState" *)
   type app_bsky_feed_defs_generatorviewerstate = {
     like: string option;
+      (** format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -780,19 +863,27 @@ module Types = struct
   (** def "app.bsky.feed.defs#generatorView" *)
   type app_bsky_feed_defs_generatorview = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     did: string;
+      (** format: "Did" *)
     creator: app_bsky_actor_defs_profileview;
     displayName: string;
     description: string option;
+      (** maximum length: 3000 *)
     descriptionFacets: app_bsky_richtext_facet_main list option;
     avatar: string option;
+      (** format: "Uri" *)
     likeCount: int64 option;
+      (** minimum: 0 *)
     acceptsInteractions: bool option;
     labels: com_atproto_label_defs_label list option;
     viewer: app_bsky_feed_defs_generatorviewerstate option;
     contentMode: string option;
+      (** known values: ["app.bsky.feed.defs#contentModeUnspecified"; "app.bsky.feed.defs#contentModeVideo"] *)
     indexedAt: string;
+      (** format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -837,7 +928,9 @@ module Types = struct
   (** def "app.bsky.embed.defs#aspectRatio" *)
   type app_bsky_embed_defs_aspectratio = {
     width: int64;
+      (** minimum: 1 *)
     height: int64;
+      (** minimum: 1 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -858,8 +951,13 @@ module Types = struct
   (** def "app.bsky.embed.images#viewImage" *)
   type app_bsky_embed_images_viewimage = {
     thumb: string;
+      (** Fully-qualified URL where a thumbnail of the image can be fetched. For example, CDN location provided by the App View.
+      format: "Uri" *)
     fullsize: string;
+      (** Fully-qualified URL where a large version of the image can be fetched. May or may not be the exact original blob. For example, CDN location provided by the App View.
+      format: "Uri" *)
     alt: string;
+      (** Alt text description of the image, for accessibility. *)
     aspectRatio: app_bsky_embed_defs_aspectratio option;
   }
   [@@deriving show {with_path=false}]
@@ -885,6 +983,7 @@ module Types = struct
   (** def "app.bsky.embed.images#view" *)
   type app_bsky_embed_images_view = {
     images: app_bsky_embed_images_viewimage list;
+      (** maximum length: 4 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -903,9 +1002,13 @@ module Types = struct
   (** def "app.bsky.embed.video#view" *)
   type app_bsky_embed_video_view = {
     cid: string;
+      (** format: "Cid" *)
     playlist: string;
+      (** format: "Uri" *)
     thumbnail: string option;
+      (** format: "Uri" *)
     alt: string option;
+      (** maximum length: 10000 *)
     aspectRatio: app_bsky_embed_defs_aspectratio option;
   }
   [@@deriving show {with_path=false}]
@@ -933,6 +1036,7 @@ module Types = struct
   (** def "app.bsky.embed.record#viewNotFound" *)
   type app_bsky_embed_record_viewnotfound = {
     uri: string;
+      (** format: "AtUri" *)
     notFound: bool;
   }
   [@@deriving show {with_path=false}]
@@ -954,6 +1058,7 @@ module Types = struct
   (** def "app.bsky.feed.defs#blockedAuthor" *)
   type app_bsky_feed_defs_blockedauthor = {
     did: string;
+      (** format: "Did" *)
     viewer: app_bsky_actor_defs_viewerstate option;
   }
   [@@deriving show {with_path=false}]
@@ -975,6 +1080,7 @@ module Types = struct
   (** def "app.bsky.embed.record#viewBlocked" *)
   type app_bsky_embed_record_viewblocked = {
     uri: string;
+      (** format: "AtUri" *)
     blocked: bool;
     author: app_bsky_feed_defs_blockedauthor;
   }
@@ -999,6 +1105,7 @@ module Types = struct
   (** def "app.bsky.embed.record#viewDetached" *)
   type app_bsky_embed_record_viewdetached = {
     uri: string;
+      (** format: "AtUri" *)
     detached: bool;
   }
   [@@deriving show {with_path=false}]
@@ -1020,17 +1127,25 @@ module Types = struct
   (** def "app.bsky.graph.defs#listView" *)
   type app_bsky_graph_defs_listview = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     creator: app_bsky_actor_defs_profileview;
     name: string;
+      (** maximum length: 64
+      minimum length: 1 *)
     purpose: app_bsky_graph_defs_listpurpose;
     description: string option;
+      (** maximum length: 3000 *)
     descriptionFacets: app_bsky_richtext_facet_main list option;
     avatar: string option;
+      (** format: "Uri" *)
     listItemCount: int64 option;
+      (** minimum: 0 *)
     labels: com_atproto_label_defs_label list option;
     viewer: app_bsky_graph_defs_listviewerstate option;
     indexedAt: string;
+      (** format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1071,6 +1186,7 @@ module Types = struct
   (** def "app.bsky.labeler.defs#labelerViewerState" *)
   type app_bsky_labeler_defs_labelerviewerstate = {
     like: string option;
+      (** format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1089,11 +1205,15 @@ module Types = struct
   (** def "app.bsky.labeler.defs#labelerView" *)
   type app_bsky_labeler_defs_labelerview = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     creator: app_bsky_actor_defs_profileview;
     likeCount: int64 option;
+      (** minimum: 0 *)
     viewer: app_bsky_labeler_defs_labelerviewerstate option;
     indexedAt: string;
+      (** format: "Datetime" *)
     labels: com_atproto_label_defs_label list option;
   }
   [@@deriving show {with_path=false}]
@@ -1140,9 +1260,12 @@ module Types = struct
   (** def "app.bsky.embed.record#viewRecord" *)
   and app_bsky_embed_record_viewrecord = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     author: app_bsky_actor_defs_profileviewbasic;
     value: Value.t (* unknown *);
+      (** The record data itself. *)
     labels: com_atproto_label_defs_label list option;
     replyCount: int64 option;
     repostCount: int64 option;
@@ -1157,6 +1280,7 @@ module Types = struct
     | `Other of Value.t (** Non closed union *)
     ] list option;
     indexedAt: string;
+      (** format: "Datetime" *)
   }
 
   (** def "app.bsky.embed.recordWithMedia#view" *)
@@ -1293,6 +1417,7 @@ module Types = struct
   (** def "chat.bsky.convo.defs#reactionViewSender" *)
   type chat_bsky_convo_defs_reactionviewsender = {
     did: string;
+      (** format: "Did" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1313,6 +1438,7 @@ module Types = struct
     value: string;
     sender: chat_bsky_convo_defs_reactionviewsender;
     createdAt: string;
+      (** format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1335,6 +1461,7 @@ module Types = struct
   (** def "chat.bsky.convo.defs#messageViewSender" *)
   type chat_bsky_convo_defs_messageviewsender = {
     did: string;
+      (** format: "Did" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1355,14 +1482,18 @@ module Types = struct
     id: string;
     rev: string;
     text: string;
+      (** maximum length: 10000 *)
     facets: app_bsky_richtext_facet_main list option;
+      (** Annotations of text (mentions, URLs, hashtags, etc) *)
     embed: [
     | `App_bsky_embed_record_view of app_bsky_embed_record_view
     | `Other of Value.t (** Non closed union *)
     ] option;
     reactions: chat_bsky_convo_defs_reactionview list option;
+      (** Reactions to this message, in ascending order of creation time. *)
     sender: chat_bsky_convo_defs_messageviewsender;
     sentAt: string;
+      (** format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1447,7 +1578,11 @@ module Types = struct
   (** def "com.atproto.repo.applyWrites#create" *)
   type com_atproto_repo_applywrites_create = {
     collection: string;
+      (** format: "Nsid" *)
     rkey: string option;
+      (** NOTE: maxLength is redundant with record-key format. Keeping it temporarily to ensure backwards compatibility.
+      format: "RecordKey"
+      maximum length: 512 *)
     value: Value.t (* unknown *);
   }
   [@@deriving show {with_path=false}]
@@ -1481,7 +1616,10 @@ module Types = struct
   (** def "app.bsky.embed.images#image" *)
   type app_bsky_embed_images_image = {
     image: Blob.t;
+      (** accept: (AcceptN ["image/*"])
+      max size: 1000000 *)
     alt: string;
+      (** Alt text description of the image, for accessibility. *)
     aspectRatio: app_bsky_embed_defs_aspectratio option;
   }
   [@@deriving show {with_path=false}]
@@ -1505,6 +1643,7 @@ module Types = struct
   (** def "app.bsky.embed.images#main" *)
   type app_bsky_embed_images_main = {
     images: app_bsky_embed_images_image list;
+      (** maximum length: 4 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1524,9 +1663,14 @@ module Types = struct
   type com_atproto_sync_subscriberepos_account = {
     seq: int64;
     did: string;
+      (** format: "Did" *)
     time: string;
+      (** format: "Datetime" *)
     active: bool;
+      (** Indicates that the account has a repository which can be fetched from the host that emitted this event. *)
     status: string option;
+      (** If active=false, this optional field indicates a reason for why the account is not active.
+      known values: ["takendown"; "suspended"; "deleted"; "deactivated"; "desynchronized"; "throttled"] *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1553,6 +1697,7 @@ module Types = struct
   (** def "app.bsky.actor.defs#adultContentPref" *)
   type app_bsky_actor_defs_adultcontentpref = {
     enabled: bool;
+      (** default: false *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1571,8 +1716,11 @@ module Types = struct
   (** def "app.bsky.actor.defs#contentLabelPref" *)
   type app_bsky_actor_defs_contentlabelpref = {
     labelerDid: string option;
+      (** Which labeler does this preference apply to? If undefined, applies globally.
+      format: "Did" *)
     label: string;
     visibility: string;
+      (** known values: ["ignore"; "show"; "warn"; "hide"] *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1620,6 +1768,7 @@ module Types = struct
   type app_bsky_actor_defs_savedfeed = {
     id: string;
     type_: string;
+      (** known values: ["feed"; "list"; "timeline"] *)
     value: string;
     pinned: bool;
   }
@@ -1664,6 +1813,8 @@ module Types = struct
   (** def "app.bsky.actor.defs#personalDetailsPref" *)
   type app_bsky_actor_defs_personaldetailspref = {
     birthDate: string option;
+      (** The birth date of account owner.
+      format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1682,11 +1833,18 @@ module Types = struct
   (** def "app.bsky.actor.defs#feedViewPref" *)
   type app_bsky_actor_defs_feedviewpref = {
     feed: string;
+      (** The URI of the feed, or an identifier which describes the feed. *)
     hideReplies: bool option;
+      (** Hide replies in the feed. *)
     hideRepliesByUnfollowed: bool option;
+      (** Hide replies in the feed if they are not by followed users.
+      default: true *)
     hideRepliesByLikeCount: int64 option;
+      (** Hide replies in the feed if they do not have this number of likes. *)
     hideReposts: bool option;
+      (** Hide reposts in the feed. *)
     hideQuotePosts: bool option;
+      (** Hide quote posts in the feed. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1715,7 +1873,10 @@ module Types = struct
   (** def "app.bsky.actor.defs#threadViewPref" *)
   type app_bsky_actor_defs_threadviewpref = {
     sort: string option;
+      (** Sorting mode for threads.
+      known values: ["oldest"; "newest"; "most-likes"; "random"; "hotness"] *)
     prioritizeFollowedUsers: bool option;
+      (** Show followed users at the top of all replies. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1736,6 +1897,8 @@ module Types = struct
   (** def "app.bsky.actor.defs#interestsPref" *)
   type app_bsky_actor_defs_interestspref = {
     tags: string list;
+      (** A list of tags which describe the account owner's interests gathered during onboarding.
+      maximum length: 100 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1765,9 +1928,16 @@ module Types = struct
   type app_bsky_actor_defs_mutedword = {
     id: string option;
     value: string;
+      (** The muted word itself.
+      maximum length: 10000 *)
     targets: app_bsky_actor_defs_mutedwordtarget list;
+      (** The intended targets of the muted word. *)
     actorTarget: string option;
+      (** Groups of users to apply the muted word to. If undefined, applies to all users.
+      known values: ["all"; "exclude-following"] *)
     expiresAt: string option;
+      (** The date and time at which the muted word will expire and no longer be applied.
+      format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1794,6 +1964,7 @@ module Types = struct
   (** def "app.bsky.actor.defs#mutedWordsPref" *)
   type app_bsky_actor_defs_mutedwordspref = {
     items: app_bsky_actor_defs_mutedword list;
+      (** A list of words the account owner has muted. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1812,6 +1983,7 @@ module Types = struct
   (** def "app.bsky.actor.defs#hiddenPostsPref" *)
   type app_bsky_actor_defs_hiddenpostspref = {
     items: string list;
+      (** A list of URIs of posts the account owner has hidden. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1830,6 +2002,7 @@ module Types = struct
   (** def "app.bsky.actor.defs#bskyAppProgressGuide" *)
   type app_bsky_actor_defs_bskyappprogressguide = {
     guide: string;
+      (** maximum length: 100 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1848,9 +2021,15 @@ module Types = struct
   (** def "app.bsky.actor.defs#nux" *)
   type app_bsky_actor_defs_nux = {
     id: string;
+      (** maximum length: 100 *)
     completed: bool;
+      (** default: false *)
     data: string option;
+      (** Arbitrary data for the NUX. The structure is defined by the NUX itself. Limited to 300 characters.
+      maximum length: 3000 *)
     expiresAt: string option;
+      (** The date and time at which the NUX will expire and should be considered completed.
+      format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1876,7 +2055,11 @@ module Types = struct
   type app_bsky_actor_defs_bskyappstatepref = {
     activeProgressGuide: app_bsky_actor_defs_bskyappprogressguide option;
     queuedNudges: string list option;
+      (** An array of tokens which identify nudges (modals, popups, tours, highlight dots) that should be shown to the user.
+      maximum length: 1000 *)
     nuxs: app_bsky_actor_defs_nux list option;
+      (** Storage for NUXs the user has encountered.
+      maximum length: 100 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1899,6 +2082,7 @@ module Types = struct
   (** def "app.bsky.actor.defs#labelerPrefItem" *)
   type app_bsky_actor_defs_labelerprefitem = {
     did: string;
+      (** format: "Did" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1965,6 +2149,7 @@ module Types = struct
   (** def "app.bsky.feed.threadgate#listRule" *)
   type app_bsky_feed_threadgate_listrule = {
     list: string;
+      (** format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -1999,10 +2184,14 @@ module Types = struct
     | `App_bsky_feed_threadgate_listrule of app_bsky_feed_threadgate_listrule
     | `Other of Value.t (** Non closed union *)
     ] list option;
+      (** Matches threadgate record. List of rules defining who can reply to this users posts. If value is an empty array, no one can reply. If value is undefined, anyone can reply.
+      maximum length: 5 *)
     postgateEmbeddingRules: [
     | `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule
     | `Other of Value.t (** Non closed union *)
     ] list option;
+      (** Matches postgate record. List of rules defining who can embed this users posts. If value is an empty array or is undefined, no particular rules apply and anyone can embed.
+      maximum length: 5 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -2052,6 +2241,8 @@ module Types = struct
   (** def "app.bsky.actor.defs#verificationPrefs" *)
   type app_bsky_actor_defs_verificationprefs = {
     hideBadges: bool option;
+      (** Hide the blue check badges for verified accounts and trusted verifiers.
+      default: false *)
   }
   [@@deriving show {with_path=false}]
 
@@ -2171,7 +2362,9 @@ module Types = struct
   (** def "app.bsky.feed.defs#viewerState" *)
   type app_bsky_feed_defs_viewerstate = {
     repost: string option;
+      (** format: "AtUri" *)
     like: string option;
+      (** format: "AtUri" *)
     threadMuted: bool option;
     replyDisabled: bool option;
     embeddingDisabled: bool option;
@@ -2204,7 +2397,9 @@ module Types = struct
   (** def "app.bsky.feed.defs#threadgateView" *)
   type app_bsky_feed_defs_threadgateview = {
     uri: string option;
+      (** format: "AtUri" *)
     cid: string option;
+      (** format: "Cid" *)
     record: Value.t (* unknown *) option;
     lists: app_bsky_graph_defs_listviewbasic list option;
   }
@@ -2231,7 +2426,9 @@ module Types = struct
   (** def "app.bsky.feed.defs#postView" *)
   type app_bsky_feed_defs_postview = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     author: app_bsky_actor_defs_profileviewbasic;
     record: Value.t (* unknown *);
     embed: [
@@ -2247,6 +2444,7 @@ module Types = struct
     likeCount: int64 option;
     quoteCount: int64 option;
     indexedAt: string;
+      (** format: "Datetime" *)
     viewer: app_bsky_feed_defs_viewerstate option;
     labels: com_atproto_label_defs_label list option;
     threadgate: app_bsky_feed_defs_threadgateview option;
@@ -2315,10 +2513,15 @@ module Types = struct
   type app_bsky_unspecced_defs_threaditempost = {
     post: app_bsky_feed_defs_postview;
     moreParents: bool;
+      (** This post has more parents that were not present in the response. This is just a boolean, without the number of parents. *)
     moreReplies: int64;
+      (** This post has more replies that were not present in the response. This is a numeric value, which is best-effort and might not be accurate. *)
     opThread: bool;
+      (** This post is part of a contiguous thread by the OP from the thread root. Many different OP threads can happen in the same thread. *)
     hiddenByThreadgate: bool;
+      (** The threadgate created by the author indicates this post as a reply to be hidden for everyone consuming the thread. *)
     mutedByViewer: bool;
+      (** This is by an account muted by the viewer requesting it. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -2367,7 +2570,9 @@ module Types = struct
   (** def "com.atproto.repo.applyWrites#delete" *)
   type com_atproto_repo_applywrites_delete = {
     collection: string;
+      (** format: "Nsid" *)
     rkey: string;
+      (** format: "RecordKey" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -2388,7 +2593,9 @@ module Types = struct
   (** def "com.atproto.repo.defs#commitMeta" *)
   type com_atproto_repo_defs_commitmeta = {
     cid: string;
+      (** format: "Cid" *)
     rev: string;
+      (** format: "Tid" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -2409,7 +2616,9 @@ module Types = struct
   (** def "com.atproto.server.describeServer#links" *)
   type com_atproto_server_describeserver_links = {
     privacyPolicy: string option;
+      (** format: "Uri" *)
     termsOfService: string option;
+      (** format: "Uri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -2430,6 +2639,7 @@ module Types = struct
   (** def "com.atproto.label.subscribeLabels#info" *)
   type com_atproto_label_subscribelabels_info = {
     name: string;
+      (** known values: ["OutdatedCursor"] *)
     message: string option;
   }
   [@@deriving show {with_path=false}]
@@ -2451,7 +2661,10 @@ module Types = struct
   (** def "app.bsky.embed.video#caption" *)
   type app_bsky_embed_video_caption = {
     lang: string;
+      (** format: "Language" *)
     file: Blob.t;
+      (** accept: (AcceptN ["text/vtt"])
+      max size: 20000 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -2472,8 +2685,14 @@ module Types = struct
   (** def "app.bsky.embed.video#main" *)
   type app_bsky_embed_video_main = {
     video: Blob.t;
+      (** The mp4 video file. May be up to 100mb, formerly limited to 50mb.
+      accept: (AcceptN ["video/mp4"])
+      max size: 100000000 *)
     captions: app_bsky_embed_video_caption list option;
+      (** maximum length: 20 *)
     alt: string option;
+      (** Alt text description of the video, for accessibility.
+      maximum length: 10000 *)
     aspectRatio: app_bsky_embed_defs_aspectratio option;
   }
   [@@deriving show {with_path=false}]
@@ -2499,6 +2718,7 @@ module Types = struct
   (** def "app.bsky.feed.describeFeedGenerator#feed" *)
   type app_bsky_feed_describefeedgenerator_feed = {
     uri: string;
+      (** format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -2520,6 +2740,7 @@ module Types = struct
     rev: string;
     sender: chat_bsky_convo_defs_messageviewsender;
     sentAt: string;
+      (** format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -2555,8 +2776,14 @@ module Types = struct
   type app_bsky_video_defs_jobstatus = {
     jobId: string;
     did: string;
+      (** format: "Did" *)
     state: string;
+      (** The state of the video processing job. All values not listed as a known value indicate that the job is in process.
+      known values: ["JOB_STATE_COMPLETED"; "JOB_STATE_FAILED"] *)
     progress: int64 option;
+      (** Progress within the current processing state.
+      maximum: 100
+      minimum: 0 *)
     blob: Blob.t option;
     error: string option;
     message: string option;
@@ -2621,7 +2848,9 @@ module Types = struct
   type app_bsky_unspecced_gettaggedsuggestions_suggestion = {
     tag: string;
     subjectType: string;
+      (** known values: ["actor"; "feed"] *)
     subject: string;
+      (** format: "Uri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -2654,6 +2883,7 @@ module Types = struct
   (** def "com.atproto.admin.defs#repoRef" *)
   type com_atproto_admin_defs_reporef = {
     did: string;
+      (** format: "Did" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -2672,7 +2902,9 @@ module Types = struct
   (** def "com.atproto.server.defs#inviteCodeUse" *)
   type com_atproto_server_defs_invitecodeuse = {
     usedBy: string;
+      (** format: "Did" *)
     usedAt: string;
+      (** format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -2693,7 +2925,9 @@ module Types = struct
   (** def "app.bsky.feed.getLikes#like" *)
   type app_bsky_feed_getlikes_like = {
     indexedAt: string;
+      (** format: "Datetime" *)
     createdAt: string;
+      (** format: "Datetime" *)
     actor: app_bsky_actor_defs_profileview;
   }
   [@@deriving show {with_path=false}]
@@ -2717,13 +2951,18 @@ module Types = struct
   (** def "chat.bsky.actor.defs#profileViewBasic" *)
   type chat_bsky_actor_defs_profileviewbasic = {
     did: string;
+      (** format: "Did" *)
     handle: string;
+      (** format: "Handle" *)
     displayName: string option;
+      (** maximum length: 640 *)
     avatar: string option;
+      (** format: "Uri" *)
     associated: app_bsky_actor_defs_profileassociated option;
     viewer: app_bsky_actor_defs_viewerstate option;
     labels: com_atproto_label_defs_label list option;
     chatDisabled: bool option;
+      (** Set to true when the actor cannot actively participate in conversations *)
     verification: app_bsky_actor_defs_verificationstate option;
   }
   [@@deriving show {with_path=false}]
@@ -2772,6 +3011,7 @@ module Types = struct
     ] option;
     muted: bool;
     status: string option;
+      (** known values: ["request"; "accepted"] *)
     unreadCount: int64;
   }
   [@@deriving show {with_path=false}]
@@ -2828,9 +3068,12 @@ module Types = struct
   (** def "app.bsky.embed.external#external" *)
   type app_bsky_embed_external_external = {
     uri: string;
+      (** format: "Uri" *)
     title: string;
     description: string;
     thumb: Blob.t option;
+      (** accept: (AcceptN ["image/*"])
+      max size: 1000000 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -2855,8 +3098,14 @@ module Types = struct
   (** def "com.atproto.label.defs#labelValueDefinitionStrings" *)
   type com_atproto_label_defs_labelvaluedefinitionstrings = {
     lang: string;
+      (** The code of the language these strings are written in.
+      format: "Language" *)
     name: string;
+      (** A short human-readable name for the label.
+      maximum length: 640 *)
     description: string;
+      (** A longer description of what the label means and why it might be applied.
+      maximum length: 100000 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -2879,10 +3128,19 @@ module Types = struct
   (** def "com.atproto.label.defs#labelValueDefinition" *)
   type com_atproto_label_defs_labelvaluedefinition = {
     identifier: string;
+      (** The value of the label being defined. Must only include lowercase ascii and the '-' character ([a-z-]+).
+      maximum length: 100 *)
     severity: string;
+      (** How should a client visually convey this label? 'inform' means neutral and informational; 'alert' means negative and warning; 'none' means show nothing.
+      known values: ["inform"; "alert"; "none"] *)
     blurs: string;
+      (** What should this label hide in the UI, if applied? 'content' hides all of the target; 'media' hides the images/video/audio; 'none' hides nothing.
+      known values: ["content"; "media"; "none"] *)
     defaultSetting: string option;
+      (** The default setting for this label.
+      known values: ["ignore"; "warn"; "hide"] *)
     adultOnly: bool option;
+      (** Does the user need to have adult content enabled in order to configure this label? *)
     locales: com_atproto_label_defs_labelvaluedefinitionstrings list;
   }
   [@@deriving show {with_path=false}]
@@ -2912,7 +3170,9 @@ module Types = struct
   (** def "app.bsky.feed.post#textSlice" *)
   type app_bsky_feed_post_textslice = {
     start: int64;
+      (** minimum: 0 *)
     end_: int64;
+      (** minimum: 0 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -2953,6 +3213,7 @@ module Types = struct
   (** def "app.bsky.graph.defs#listItemView" *)
   type app_bsky_graph_defs_listitemview = {
     uri: string;
+      (** format: "AtUri" *)
     subject: app_bsky_actor_defs_profileview;
   }
   [@@deriving show {with_path=false}]
@@ -2995,6 +3256,7 @@ module Types = struct
   (** def "app.bsky.feed.defs#skeletonReasonRepost" *)
   type app_bsky_feed_defs_skeletonreasonrepost = {
     repost: string;
+      (** format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -3051,7 +3313,9 @@ module Types = struct
   (** def "app.bsky.unspecced.getPostThreadV2#threadItem" *)
   type app_bsky_unspecced_getpostthreadv2_threaditem = {
     uri: string;
+      (** format: "AtUri" *)
     depth: int64;
+      (** The nesting level of this item in the thread. Depth 0 means the anchor item. Items above have negative depths, items below have positive depths. *)
     value: [
     | `App_bsky_unspecced_defs_threaditempost of app_bsky_unspecced_defs_threaditempost
     | `App_bsky_unspecced_defs_threaditemnounauthenticated of app_bsky_unspecced_defs_threaditemnounauthenticated
@@ -3100,9 +3364,15 @@ module Types = struct
   (** def "app.bsky.feed.defs#interaction" *)
   type app_bsky_feed_defs_interaction = {
     item: string option;
+      (** format: "AtUri" *)
     event: string option;
+      (** known values: ["app.bsky.feed.defs#requestLess"; "app.bsky.feed.defs#requestMore"; "app.bsky.feed.defs#clickthroughItem"; "app.bsky.feed.defs#clickthroughAuthor"; "app.bsky.feed.defs#clickthroughReposter"; "app.bsky.feed.defs#clickthroughEmbed"; "app.bsky.feed.defs#interactionSeen"; "app.bsky.feed.defs#interactionLike"; "app.bsky.feed.defs#interactionRepost"; "app.bsky.feed.defs#interactionReply"; "app.bsky.feed.defs#interactionQuote"; "app.bsky.feed.defs#interactionShare"] *)
     feedContext: string option;
+      (** Context on a feed item that was originally supplied by the feed generator on getFeedSkeleton.
+      maximum length: 2000 *)
     reqId: string option;
+      (** Unique identifier per request that may be passed back alongside interactions.
+      maximum length: 100 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -3137,9 +3407,12 @@ module Types = struct
   (** def "com.atproto.sync.subscribeRepos#repoOp" *)
   type com_atproto_sync_subscriberepos_repoop = {
     action: string;
+      (** known values: ["create"; "update"; "delete"] *)
     path: string;
     cid: Cid.t option;
+      (** For creates and updates, the new record CID. For deletions, null. *)
     prev: Cid.t option;
+      (** For updates and deletes, the previous record CID (required for inductive firehose). For creations, field should not be defined. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -3164,17 +3437,33 @@ module Types = struct
   (** def "com.atproto.sync.subscribeRepos#commit" *)
   type com_atproto_sync_subscriberepos_commit = {
     seq: int64;
+      (** The stream sequence number of this message. *)
     rebase: bool;
+      (** DEPRECATED -- unused *)
     tooBig: bool;
+      (** DEPRECATED -- replaced by #sync event and data limits. Indicates that this commit contained too many ops, or data size was too large. Consumers will need to make a separate request to get missing data. *)
     repo: string;
+      (** The repo this event comes from. Note that all other message types name this field 'did'.
+      format: "Did" *)
     commit: Cid.t;
+      (** Repo commit object CID. *)
     rev: string;
+      (** The rev of the emitted commit. Note that this information is also in the commit object included in blocks, unless this is a tooBig event.
+      format: "Tid" *)
     since: string option;
+      (** The rev of the last emitted commit from this repo (if any).
+      format: "Tid" *)
     blocks: (bytes [@printer pp_bytes_len]);
+      (** CAR file containing relevant blocks, as a diff since the previous repo state. The commit must be included as a block, and the commit block CID must be the first entry in the CAR header 'roots' list.
+      maximum length: 2000000 *)
     ops: com_atproto_sync_subscriberepos_repoop list;
+      (** maximum length: 200 *)
     blobs: Cid.t list;
     prevData: Cid.t option;
+      (** The root CID of the MST tree for the previous commit from this repo (indicated by the 'since' revision field in this message). Corresponds to the 'data' field in the repo commit object. NOTE: this field is effectively required for the 'inductive' version of firehose. *)
     time: string;
+      (** Timestamp of when this message was originally broadcast.
+      format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -3266,6 +3555,7 @@ module Types = struct
   (** def "app.bsky.feed.defs#notFoundPost" *)
   type app_bsky_feed_defs_notfoundpost = {
     uri: string;
+      (** format: "AtUri" *)
     notFound: bool;
   }
   [@@deriving show {with_path=false}]
@@ -3287,6 +3577,7 @@ module Types = struct
   (** def "app.bsky.feed.defs#blockedPost" *)
   type app_bsky_feed_defs_blockedpost = {
     uri: string;
+      (** format: "AtUri" *)
     blocked: bool;
     author: app_bsky_feed_defs_blockedauthor;
   }
@@ -3323,6 +3614,7 @@ module Types = struct
     | `Other of Value.t (** Non closed union *)
     ];
     grandparentAuthor: app_bsky_actor_defs_profileviewbasic option;
+      (** When parent is a reply to another post, this is the author of that post. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -3378,8 +3670,11 @@ module Types = struct
   type app_bsky_feed_defs_reasonrepost = {
     by: app_bsky_actor_defs_profileviewbasic;
     uri: string option;
+      (** format: "AtUri" *)
     cid: string option;
+      (** format: "Cid" *)
     indexedAt: string;
+      (** format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -3411,7 +3706,11 @@ module Types = struct
     | `Other of Value.t (** Non closed union *)
     ] option;
     feedContext: string option;
+      (** Context provided by feed generator that may be passed back alongside interactions.
+      maximum length: 2000 *)
     reqId: string option;
+      (** Unique identifier per request that may be passed back alongside interactions.
+      maximum length: 100 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -3451,8 +3750,11 @@ module Types = struct
   (** def "com.atproto.repo.applyWrites#createResult" *)
   type com_atproto_repo_applywrites_createresult = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     validationStatus: string option;
+      (** known values: ["valid"; "unknown"] *)
   }
   [@@deriving show {with_path=false}]
 
@@ -3476,8 +3778,12 @@ module Types = struct
   type com_atproto_sync_subscriberepos_identity = {
     seq: int64;
     did: string;
+      (** format: "Did" *)
     time: string;
+      (** format: "Datetime" *)
     handle: string option;
+      (** The current handle for the account, or 'handle.invalid' if validation fails. This field is optional, might have been validated or passed-through from an upstream source. Semantics and behaviors for PDS vs Relay may evolve in the future; see atproto specs for more details.
+      format: "Handle" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -3525,6 +3831,7 @@ module Types = struct
     name: string;
     password: string;
     createdAt: string;
+      (** format: "Datetime" *)
     privileged: bool option;
   }
   [@@deriving show {with_path=false}]
@@ -3550,6 +3857,7 @@ module Types = struct
   (** def "app.bsky.unspecced.getConfig#liveNowConfig" *)
   type app_bsky_unspecced_getconfig_livenowconfig = {
     did: string;
+      (** format: "Did" *)
     domains: string list;
   }
   [@@deriving show {with_path=false}]
@@ -3571,7 +3879,9 @@ module Types = struct
   (** def "app.bsky.unspecced.getPostThreadHiddenV2#threadHiddenItem" *)
   type app_bsky_unspecced_getpostthreadhiddenv2_threadhiddenitem = {
     uri: string;
+      (** format: "AtUri" *)
     depth: int64;
+      (** The nesting level of this item in the thread. Depth 0 means the anchor item. Items above have negative depths, items below have positive depths. *)
     value: [
     | `App_bsky_unspecced_defs_threaditempost of app_bsky_unspecced_defs_threaditempost
     | `Other of Value.t (** Non closed union *)
@@ -3608,7 +3918,9 @@ module Types = struct
   (** def "com.atproto.repo.applyWrites#update" *)
   type com_atproto_repo_applywrites_update = {
     collection: string;
+      (** format: "Nsid" *)
     rkey: string;
+      (** format: "RecordKey" *)
     value: Value.t (* unknown *);
   }
   [@@deriving show {with_path=false}]
@@ -3673,7 +3985,9 @@ module Types = struct
   (** def "app.bsky.labeler.defs#labelerPolicies" *)
   type app_bsky_labeler_defs_labelerpolicies = {
     labelValues: com_atproto_label_defs_labelvalue list;
+      (** The label values which this labeler publishes. May include global or custom labels. *)
     labelValueDefinitions: com_atproto_label_defs_labelvaluedefinition list option;
+      (** Label values created by this labeler and scoped exclusively to it. Labels defined here will override global label definitions for this labeler. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -3704,16 +4018,23 @@ module Types = struct
   (** def "app.bsky.labeler.defs#labelerViewDetailed" *)
   type app_bsky_labeler_defs_labelerviewdetailed = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     creator: app_bsky_actor_defs_profileview;
     policies: app_bsky_labeler_defs_labelerpolicies;
     likeCount: int64 option;
+      (** minimum: 0 *)
     viewer: app_bsky_labeler_defs_labelerviewerstate option;
     indexedAt: string;
+      (** format: "Datetime" *)
     labels: com_atproto_label_defs_label list option;
     reasonTypes: com_atproto_moderation_defs_reasontype list option;
+      (** The set of report reason 'codes' which are in-scope for this service to review and action. These usually align to policy categories. If not defined (distinct from empty array), all reason types are allowed. *)
     subjectTypes: com_atproto_moderation_defs_subjecttype list option;
+      (** The set of subject types (account, record, etc) this service accepts reports on. *)
     subjectCollections: string list option;
+      (** Set of record types (collection NSIDs) which can be reported to this service. If not defined (distinct from empty array), default is any record type. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -3770,6 +4091,7 @@ module Types = struct
   (** def "app.bsky.unspecced.defs#skeletonSearchActor" *)
   type app_bsky_unspecced_defs_skeletonsearchactor = {
     did: string;
+      (** format: "Did" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -3788,8 +4110,12 @@ module Types = struct
   (** def "com.atproto.identity.defs#identityInfo" *)
   type com_atproto_identity_defs_identityinfo = {
     did: string;
+      (** format: "Did" *)
     handle: string;
+      (** The validated handle of the account; or 'handle.invalid' if the handle did not bi-directionally match the DID document.
+      format: "Handle" *)
     didDoc: Value.t (* unknown *);
+      (** The complete DID document for the identity. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -3864,8 +4190,10 @@ module Types = struct
     displayName: string;
     link: string;
     startedAt: string;
+      (** format: "Datetime" *)
     postCount: int64;
     status: string option;
+      (** known values: ["hot"] *)
     category: string option;
     dids: string list;
   }
@@ -3900,6 +4228,7 @@ module Types = struct
   (** def "com.atproto.sync.listReposByCollection#repo" *)
   type com_atproto_sync_listreposbycollection_repo = {
     did: string;
+      (** format: "Did" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -3939,7 +4268,9 @@ module Types = struct
   (** def "com.atproto.repo.listRecords#record" *)
   type com_atproto_repo_listrecords_record = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     value: Value.t (* unknown *);
   }
   [@@deriving show {with_path=false}]
@@ -3993,8 +4324,13 @@ module Types = struct
   (** def "app.bsky.graph.defs#relationship" *)
   type app_bsky_graph_defs_relationship = {
     did: string;
+      (** format: "Did" *)
     following: string option;
+      (** if the actor follows this DID, this is the AT-URI of the follow record
+      format: "AtUri" *)
     followedBy: string option;
+      (** if the actor is followed by this DID, contains the AT-URI of the follow record
+      format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -4058,6 +4394,7 @@ module Types = struct
   (** def "app.bsky.graph.defs#notFoundActor" *)
   type app_bsky_graph_defs_notfoundactor = {
     actor: string;
+      (** format: "AtIdentifier" *)
     notFound: bool;
   }
   [@@deriving show {with_path=false}]
@@ -4079,7 +4416,9 @@ module Types = struct
   (** def "com.atproto.repo.listMissingBlobs#recordBlob" *)
   type com_atproto_repo_listmissingblobs_recordblob = {
     cid: string;
+      (** format: "Cid" *)
     recordUri: string;
+      (** format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -4100,6 +4439,8 @@ module Types = struct
   (** def "com.atproto.label.defs#selfLabel" *)
   type com_atproto_label_defs_selflabel = {
     val_: string;
+      (** The short string name of the value or type of this label.
+      maximum length: 128 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -4118,7 +4459,9 @@ module Types = struct
   (** def "chat.bsky.convo.defs#messageInput" *)
   type chat_bsky_convo_defs_messageinput = {
     text: string;
+      (** maximum length: 10000 *)
     facets: app_bsky_richtext_facet_main list option;
+      (** Annotations of text (mentions, URLs, hashtags, etc) *)
     embed: [
     | `App_bsky_embed_record_main of app_bsky_embed_record_main
     | `Other of Value.t (** Non closed union *)
@@ -4155,8 +4498,11 @@ module Types = struct
   (** def "com.atproto.admin.defs#repoBlobRef" *)
   type com_atproto_admin_defs_repoblobref = {
     did: string;
+      (** format: "Did" *)
     cid: string;
+      (** format: "Cid" *)
     recordUri: string option;
+      (** format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -4233,10 +4579,18 @@ module Types = struct
   (** def "com.atproto.sync.subscribeRepos#sync" *)
   type com_atproto_sync_subscriberepos_sync = {
     seq: int64;
+      (** The stream sequence number of this message. *)
     did: string;
+      (** The account this repo event corresponds to. Must match that in the commit object.
+      format: "Did" *)
     blocks: (bytes [@printer pp_bytes_len]);
+      (** CAR file containing the commit, as a block. The CAR header must include the commit block CID as the first 'root'.
+      maximum length: 10000 *)
     rev: string;
+      (** The rev of the commit. This value must match that in the commit object. *)
     time: string;
+      (** Timestamp of when this message was originally broadcast.
+      format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -4263,16 +4617,23 @@ module Types = struct
   (** def "app.bsky.graph.defs#starterPackView" *)
   type app_bsky_graph_defs_starterpackview = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     record: Value.t (* unknown *);
     creator: app_bsky_actor_defs_profileviewbasic;
     list: app_bsky_graph_defs_listviewbasic option;
     listItemsSample: app_bsky_graph_defs_listitemview list option;
+      (** maximum length: 12 *)
     feeds: app_bsky_feed_defs_generatorview list option;
+      (** maximum length: 3 *)
     joinedWeekCount: int64 option;
+      (** minimum: 0 *)
     joinedAllTimeCount: int64 option;
+      (** minimum: 0 *)
     labels: com_atproto_label_defs_label list option;
     indexedAt: string;
+      (** format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -4331,8 +4692,11 @@ module Types = struct
   (** def "com.atproto.repo.applyWrites#updateResult" *)
   type com_atproto_repo_applywrites_updateresult = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     validationStatus: string option;
+      (** known values: ["valid"; "unknown"] *)
   }
   [@@deriving show {with_path=false}]
 
@@ -4358,8 +4722,10 @@ module Types = struct
     displayName: string;
     link: string;
     startedAt: string;
+      (** format: "Datetime" *)
     postCount: int64;
     status: string option;
+      (** known values: ["hot"] *)
     category: string option;
     actors: app_bsky_actor_defs_profileviewbasic list;
   }
@@ -4404,6 +4770,7 @@ module Types = struct
   (** def "app.bsky.graph.starterpack#feedItem" *)
   type app_bsky_graph_starterpack_feeditem = {
     uri: string;
+      (** format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -4422,6 +4789,7 @@ module Types = struct
   (** def "app.bsky.unspecced.defs#skeletonSearchPost" *)
   type app_bsky_unspecced_defs_skeletonsearchpost = {
     uri: string;
+      (** format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -4458,13 +4826,19 @@ module Types = struct
   (** def "app.bsky.notification.listNotifications#notification" *)
   type app_bsky_notification_listnotifications_notification = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     author: app_bsky_actor_defs_profileview;
     reason: string;
+      (** The reason why this notification was delivered - e.g. your post was liked, or you received a new follower.
+      known values: ["like"; "repost"; "follow"; "mention"; "reply"; "quote"; "starterpack-joined"; "verified"; "unverified"; "like-via-repost"; "repost-via-repost"] *)
     reasonSubject: string option;
+      (** format: "AtUri" *)
     record: Value.t (* unknown *);
     isRead: bool;
     indexedAt: string;
+      (** format: "Datetime" *)
     labels: com_atproto_label_defs_label list option;
   }
   [@@deriving show {with_path=false}]
@@ -4500,6 +4874,7 @@ module Types = struct
   (** def "app.bsky.feed.defs#threadContext" *)
   type app_bsky_feed_defs_threadcontext = {
     rootAuthorLike: string option;
+      (** format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -4518,6 +4893,7 @@ module Types = struct
   (** def "app.bsky.unspecced.defs#skeletonSearchStarterPack" *)
   type app_bsky_unspecced_defs_skeletonsearchstarterpack = {
     uri: string;
+      (** format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -4557,6 +4933,7 @@ module Types = struct
   (** def "com.atproto.sync.subscribeRepos#info" *)
   type com_atproto_sync_subscriberepos_info = {
     name: string;
+      (** known values: ["OutdatedCursor"] *)
     message: string option;
   }
   [@@deriving show {with_path=false}]
@@ -4614,6 +4991,7 @@ module Types = struct
     forAccount: string;
     createdBy: string;
     createdAt: string;
+      (** format: "Datetime" *)
     uses: com_atproto_server_defs_invitecodeuse list;
   }
   [@@deriving show {with_path=false}]
@@ -4645,16 +5023,21 @@ module Types = struct
   (** def "com.atproto.admin.defs#accountView" *)
   type com_atproto_admin_defs_accountview = {
     did: string;
+      (** format: "Did" *)
     handle: string;
+      (** format: "Handle" *)
     email: string option;
     relatedRecords: Value.t (* unknown *) list option;
     indexedAt: string;
+      (** format: "Datetime" *)
     invitedBy: com_atproto_server_defs_invitecode option;
     invites: com_atproto_server_defs_invitecode list option;
     invitesDisabled: bool option;
     emailConfirmedAt: string option;
+      (** format: "Datetime" *)
     inviteNote: string option;
     deactivatedAt: string option;
+      (** format: "Datetime" *)
     threatSignatures: com_atproto_admin_defs_threatsignature list option;
   }
   [@@deriving show {with_path=false}]
@@ -4753,6 +5136,7 @@ module Types = struct
   (** def "com.atproto.label.defs#selfLabels" *)
   type com_atproto_label_defs_selflabels = {
     values: com_atproto_label_defs_selflabel list;
+      (** maximum length: 10 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -4771,12 +5155,15 @@ module Types = struct
   (** def "app.bsky.feed.defs#skeletonFeedPost" *)
   type app_bsky_feed_defs_skeletonfeedpost = {
     post: string;
+      (** format: "AtUri" *)
     reason: [
     | `App_bsky_feed_defs_skeletonreasonrepost of app_bsky_feed_defs_skeletonreasonrepost
     | `App_bsky_feed_defs_skeletonreasonpin of app_bsky_feed_defs_skeletonreasonpin
     | `Other of Value.t (** Non closed union *)
     ] option;
     feedContext: string option;
+      (** Context that will be passed through to client and may be passed to feed generator back alongside interactions.
+      maximum length: 2000 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -4924,6 +5311,7 @@ module Types = struct
   (** def "chat.bsky.convo.defs#messageRef" *)
   type chat_bsky_convo_defs_messageref = {
     did: string;
+      (** format: "Did" *)
     convoId: string;
     messageId: string;
   }
@@ -5049,6 +5437,7 @@ module Types = struct
   type app_bsky_feed_post_entity = {
     index: app_bsky_feed_post_textslice;
     type_: string;
+      (** Expected values are 'mention' and 'link'. *)
     value: string;
   }
   [@@deriving show {with_path=false}]
@@ -5072,10 +5461,16 @@ module Types = struct
   (** def "com.atproto.sync.listRepos#repo" *)
   type com_atproto_sync_listrepos_repo = {
     did: string;
+      (** format: "Did" *)
     head: string;
+      (** Current repo commit CID
+      format: "Cid" *)
     rev: string;
+      (** format: "Tid" *)
     active: bool option;
     status: string option;
+      (** If active=false, this optional field indicates a possible reason for why the account is not active. If active=false and no status is supplied, then the host makes no claim for why the repository is no longer being hosted.
+      known values: ["takendown"; "suspended"; "deleted"; "deactivated"; "desynchronized"; "throttled"] *)
   }
   [@@deriving show {with_path=false}]
 
@@ -5103,6 +5498,7 @@ module Types = struct
   type com_atproto_server_listapppasswords_apppassword = {
     name: string;
     createdAt: string;
+      (** format: "Datetime" *)
     privileged: bool option;
   }
   [@@deriving show {with_path=false}]
@@ -5136,7 +5532,9 @@ module Types = struct
   (** def "com.atproto.sync.listHosts#host" *)
   type com_atproto_sync_listhosts_host = {
     hostname: string;
+      (** hostname of server; not a URL (no scheme) *)
     seq: int64 option;
+      (** Recent repo stream event sequence number. May be delayed from actual stream processing (eg, persisted cursor not in-memory cursor). *)
     accountCount: int64 option;
     status: com_atproto_sync_defs_hoststatus option;
   }
@@ -5295,6 +5693,9 @@ module Com_Atproto_Temp_FetchLabels = struct
   type main_params = {
     since: int64 option;
     limit: int64 option;
+      (** default: 50
+      maximum: 250
+      minimum: 1 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -5452,6 +5853,7 @@ module Com_Atproto_Sync_SubscribeRepos = struct
 
   type main_params = {
     cursor: int64 option;
+      (** The last known event seq number to backfill from. *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -5482,17 +5884,33 @@ module Com_Atproto_Sync_SubscribeRepos = struct
 
   type nonrec commit = com_atproto_sync_subscriberepos_commit = {
     seq: int64;
+      (** The stream sequence number of this message. *)
     rebase: bool;
+      (** DEPRECATED -- unused *)
     tooBig: bool;
+      (** DEPRECATED -- replaced by #sync event and data limits. Indicates that this commit contained too many ops, or data size was too large. Consumers will need to make a separate request to get missing data. *)
     repo: string;
+      (** The repo this event comes from. Note that all other message types name this field 'did'.
+      format: "Did" *)
     commit: Cid.t;
+      (** Repo commit object CID. *)
     rev: string;
+      (** The rev of the emitted commit. Note that this information is also in the commit object included in blocks, unless this is a tooBig event.
+      format: "Tid" *)
     since: string option;
+      (** The rev of the last emitted commit from this repo (if any).
+      format: "Tid" *)
     blocks: (bytes [@printer pp_bytes_len]);
+      (** CAR file containing relevant blocks, as a diff since the previous repo state. The commit must be included as a block, and the commit block CID must be the first entry in the CAR header 'roots' list.
+      maximum length: 2000000 *)
     ops: com_atproto_sync_subscriberepos_repoop list;
+      (** maximum length: 200 *)
     blobs: Cid.t list;
     prevData: Cid.t option;
+      (** The root CID of the MST tree for the previous commit from this repo (indicated by the 'since' revision field in this message). Corresponds to the 'data' field in the repo commit object. NOTE: this field is effectively required for the 'inductive' version of firehose. *)
     time: string;
+      (** Timestamp of when this message was originally broadcast.
+      format: "Datetime" *)
   }
   let pp_commit = pp_com_atproto_sync_subscriberepos_commit
 
@@ -5505,10 +5923,18 @@ module Com_Atproto_Sync_SubscribeRepos = struct
 
   type nonrec sync = com_atproto_sync_subscriberepos_sync = {
     seq: int64;
+      (** The stream sequence number of this message. *)
     did: string;
+      (** The account this repo event corresponds to. Must match that in the commit object.
+      format: "Did" *)
     blocks: (bytes [@printer pp_bytes_len]);
+      (** CAR file containing the commit, as a block. The CAR header must include the commit block CID as the first 'root'.
+      maximum length: 10000 *)
     rev: string;
+      (** The rev of the commit. This value must match that in the commit object. *)
     time: string;
+      (** Timestamp of when this message was originally broadcast.
+      format: "Datetime" *)
   }
   let pp_sync = pp_com_atproto_sync_subscriberepos_sync
 
@@ -5522,8 +5948,12 @@ module Com_Atproto_Sync_SubscribeRepos = struct
   type nonrec identity = com_atproto_sync_subscriberepos_identity = {
     seq: int64;
     did: string;
+      (** format: "Did" *)
     time: string;
+      (** format: "Datetime" *)
     handle: string option;
+      (** The current handle for the account, or 'handle.invalid' if validation fails. This field is optional, might have been validated or passed-through from an upstream source. Semantics and behaviors for PDS vs Relay may evolve in the future; see atproto specs for more details.
+      format: "Handle" *)
   }
   let pp_identity = pp_com_atproto_sync_subscriberepos_identity
 
@@ -5537,9 +5967,14 @@ module Com_Atproto_Sync_SubscribeRepos = struct
   type nonrec account = com_atproto_sync_subscriberepos_account = {
     seq: int64;
     did: string;
+      (** format: "Did" *)
     time: string;
+      (** format: "Datetime" *)
     active: bool;
+      (** Indicates that the account has a repository which can be fetched from the host that emitted this event. *)
     status: string option;
+      (** If active=false, this optional field indicates a reason for why the account is not active.
+      known values: ["takendown"; "suspended"; "deleted"; "deactivated"; "desynchronized"; "throttled"] *)
   }
   let pp_account = pp_com_atproto_sync_subscriberepos_account
 
@@ -5552,6 +5987,7 @@ module Com_Atproto_Sync_SubscribeRepos = struct
 
   type nonrec info = com_atproto_sync_subscriberepos_info = {
     name: string;
+      (** known values: ["OutdatedCursor"] *)
     message: string option;
   }
   let pp_info = pp_com_atproto_sync_subscriberepos_info
@@ -5565,9 +6001,12 @@ module Com_Atproto_Sync_SubscribeRepos = struct
 
   type nonrec repoop = com_atproto_sync_subscriberepos_repoop = {
     action: string;
+      (** known values: ["create"; "update"; "delete"] *)
     path: string;
     cid: Cid.t option;
+      (** For creates and updates, the new record CID. For deletions, null. *)
     prev: Cid.t option;
+      (** For updates and deletes, the previous record CID (required for inductive firehose). For creations, field should not be defined. *)
   }
   let pp_repoop = pp_com_atproto_sync_subscriberepos_repoop
 
@@ -5586,6 +6025,7 @@ module Com_Atproto_Sync_RequestCrawl = struct
 
   type main_input = {
     hostname: string;
+      (** Hostname of the current service (eg, PDS) that is requesting to be crawled. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -5618,6 +6058,7 @@ module Com_Atproto_Sync_NotifyOfUpdate = struct
 
   type main_input = {
     hostname: string;
+      (** Hostname of the current service (usually a PDS) that is notifying of update. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -5646,7 +6087,12 @@ module Com_Atproto_Sync_ListReposByCollection = struct
 
   type main_params = {
     collection: string;
+      (** format: "Nsid" *)
     limit: int64 option;
+      (** Maximum size of response set. Recommend setting a large maximum (1000+) when enumerating large DID lists.
+      default: 500
+      maximum: 2000
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -5694,6 +6140,7 @@ module Com_Atproto_Sync_ListReposByCollection = struct
 
   type nonrec repo = com_atproto_sync_listreposbycollection_repo = {
     did: string;
+      (** format: "Did" *)
   }
   let pp_repo = pp_com_atproto_sync_listreposbycollection_repo
 
@@ -5712,6 +6159,9 @@ module Com_Atproto_Sync_ListRepos = struct
 
   type main_params = {
     limit: int64 option;
+      (** default: 500
+      maximum: 1000
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -5757,10 +6207,16 @@ module Com_Atproto_Sync_ListRepos = struct
 
   type nonrec repo = com_atproto_sync_listrepos_repo = {
     did: string;
+      (** format: "Did" *)
     head: string;
+      (** Current repo commit CID
+      format: "Cid" *)
     rev: string;
+      (** format: "Tid" *)
     active: bool option;
     status: string option;
+      (** If active=false, this optional field indicates a possible reason for why the account is not active. If active=false and no status is supplied, then the host makes no claim for why the repository is no longer being hosted.
+      known values: ["takendown"; "suspended"; "deleted"; "deactivated"; "desynchronized"; "throttled"] *)
   }
   let pp_repo = pp_com_atproto_sync_listrepos_repo
 
@@ -5779,6 +6235,9 @@ module Com_Atproto_Sync_ListHosts = struct
 
   type main_params = {
     limit: int64 option;
+      (** default: 200
+      maximum: 1000
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -5796,6 +6255,7 @@ module Com_Atproto_Sync_ListHosts = struct
   type main_output = {
     cursor: string option;
     hosts: com_atproto_sync_listhosts_host list;
+      (** Sort order is not formally specified. Recommended order is by time host was first seen by the server, with oldest first. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -5824,7 +6284,9 @@ module Com_Atproto_Sync_ListHosts = struct
 
   type nonrec host = com_atproto_sync_listhosts_host = {
     hostname: string;
+      (** hostname of server; not a URL (no scheme) *)
     seq: int64 option;
+      (** Recent repo stream event sequence number. May be delayed from actual stream processing (eg, persisted cursor not in-memory cursor). *)
     accountCount: int64 option;
     status: com_atproto_sync_defs_hoststatus option;
   }
@@ -5845,8 +6307,15 @@ module Com_Atproto_Sync_ListBlobs = struct
 
   type main_params = {
     did: string;
+      (** The DID of the repo.
+      format: "Did" *)
     since: string option;
+      (** Optional revision of the repo to list blobs since.
+      format: "Tid" *)
     limit: int64 option;
+      (** default: 500
+      maximum: 1000
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -5906,6 +6375,8 @@ module Com_Atproto_Sync_GetRepoStatus = struct
 
   type main_params = {
     did: string;
+      (** The DID of the repo.
+      format: "Did" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -5919,9 +6390,14 @@ module Com_Atproto_Sync_GetRepoStatus = struct
 
   type main_output = {
     did: string;
+      (** format: "Did" *)
     active: bool;
     status: string option;
+      (** If active=false, this optional field indicates a possible reason for why the account is not active. If active=false and no status is supplied, then the host makes no claim for why the repository is no longer being hosted.
+      known values: ["takendown"; "suspended"; "deleted"; "deactivated"; "desynchronized"; "throttled"] *)
     rev: string option;
+      (** Optional field, the current rev of the repo, if active=true
+      format: "Tid" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -5964,7 +6440,11 @@ module Com_Atproto_Sync_GetRepo = struct
 
   type main_params = {
     did: string;
+      (** The DID of the repo.
+      format: "Did" *)
     since: string option;
+      (** The revision ('rev') of the repo to create a diff from.
+      format: "Tid" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -6000,8 +6480,13 @@ module Com_Atproto_Sync_GetRecord = struct
 
   type main_params = {
     did: string;
+      (** The DID of the repo.
+      format: "Did" *)
     collection: string;
+      (** format: "Nsid" *)
     rkey: string;
+      (** Record Key
+      format: "RecordKey" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -6039,6 +6524,8 @@ module Com_Atproto_Sync_GetLatestCommit = struct
 
   type main_params = {
     did: string;
+      (** The DID of the repo.
+      format: "Did" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -6052,7 +6539,9 @@ module Com_Atproto_Sync_GetLatestCommit = struct
 
   type main_output = {
     cid: string;
+      (** format: "Cid" *)
     rev: string;
+      (** format: "Tid" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -6091,6 +6580,7 @@ module Com_Atproto_Sync_GetHostStatus = struct
 
   type main_params = {
     hostname: string;
+      (** Hostname of the host (eg, PDS or relay) being queried. *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -6105,7 +6595,9 @@ module Com_Atproto_Sync_GetHostStatus = struct
   type main_output = {
     hostname: string;
     seq: int64 option;
+      (** Recent repo stream event sequence number. May be delayed from actual stream processing (eg, persisted cursor not in-memory cursor). *)
     accountCount: int64 option;
+      (** Number of accounts on the server which are associated with the upstream host. Note that the upstream may actually have more accounts. *)
     status: com_atproto_sync_defs_hoststatus option;
   }
   [@@deriving show {with_path=false}]
@@ -6149,6 +6641,8 @@ module Com_Atproto_Sync_GetHead = struct
 
   type main_params = {
     did: string;
+      (** The DID of the repo.
+      format: "Did" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -6162,6 +6656,7 @@ module Com_Atproto_Sync_GetHead = struct
 
   type main_output = {
     root: string;
+      (** format: "Cid" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -6198,6 +6693,8 @@ module Com_Atproto_Sync_GetCheckout = struct
 
   type main_params = {
     did: string;
+      (** The DID of the repo.
+      format: "Did" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -6227,6 +6724,8 @@ module Com_Atproto_Sync_GetBlocks = struct
 
   type main_params = {
     did: string;
+      (** The DID of the repo.
+      format: "Did" *)
     cids: string list;
   }
   [@@deriving show {with_path=false}, make]
@@ -6263,7 +6762,11 @@ module Com_Atproto_Sync_GetBlob = struct
 
   type main_params = {
     did: string;
+      (** The DID of the account.
+      format: "Did" *)
     cid: string;
+      (** The CID of the blob to fetch
+      format: "Cid" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -6317,6 +6820,7 @@ module Com_Atproto_Server_UpdateEmail = struct
     email: string;
     emailAuthFactor: bool option;
     token: string option;
+      (** Requires a token from com.atproto.sever.requestEmailUpdate if the account's email has been confirmed. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -6416,6 +6920,8 @@ module Com_Atproto_Server_ReserveSigningKey = struct
 
   type main_input = {
     did: string option;
+      (** The DID to reserve a key for.
+      format: "Did" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -6429,6 +6935,7 @@ module Com_Atproto_Server_ReserveSigningKey = struct
 
   type main_output = {
     signingKey: string;
+      (** The public key for the reserved signing key, in did:key serialization. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -6541,10 +7048,14 @@ module Com_Atproto_Server_RefreshSession = struct
     accessJwt: string;
     refreshJwt: string;
     handle: string;
+      (** format: "Handle" *)
     did: string;
+      (** format: "Did" *)
     didDoc: Value.t (* unknown *) option;
     active: bool option;
     status: string option;
+      (** Hosting status of the account. If not specified, then assume 'active'.
+      known values: ["takendown"; "suspended"; "deactivated"] *)
   }
   [@@deriving show {with_path=false}]
 
@@ -6616,6 +7127,7 @@ module Com_Atproto_Server_ListAppPasswords = struct
   type nonrec apppassword = com_atproto_server_listapppasswords_apppassword = {
     name: string;
     createdAt: string;
+      (** format: "Datetime" *)
     privileged: bool option;
   }
   let pp_apppassword = pp_com_atproto_server_listapppasswords_apppassword
@@ -6635,13 +7147,17 @@ module Com_Atproto_Server_GetSession = struct
 
   type main_output = {
     handle: string;
+      (** format: "Handle" *)
     did: string;
+      (** format: "Did" *)
     email: string option;
     emailConfirmed: bool option;
     emailAuthFactor: bool option;
     didDoc: Value.t (* unknown *) option;
     active: bool option;
     status: string option;
+      (** If active=false, this optional field indicates a possible reason for why the account is not active. If active=false and no status is supplied, then the host makes no claim for why the repository is no longer being hosted.
+      known values: ["takendown"; "suspended"; "deactivated"] *)
   }
   [@@deriving show {with_path=false}]
 
@@ -6684,8 +7200,13 @@ module Com_Atproto_Server_GetServiceAuth = struct
 
   type main_params = {
     aud: string;
+      (** The DID of the service that the token will be used to authenticate with
+      format: "Did" *)
     exp: int64 option;
+      (** The time in Unix Epoch seconds that the JWT expires. Defaults to 60 seconds in the future. The service may enforce certain time bounds on tokens depending on the requested scope. *)
     lxm: string option;
+      (** Lexicon (XRPC) method to bind the requested token to
+      format: "Nsid" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -6739,7 +7260,10 @@ module Com_Atproto_Server_GetAccountInviteCodes = struct
 
   type main_params = {
     includeUsed: bool option;
+      (** default: true *)
     createAvailable: bool option;
+      (** Controls whether any new 'earned' but not 'created' invites should be created.
+      default: true *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -6791,11 +7315,17 @@ module Com_Atproto_Server_DescribeServer = struct
 
   type main_output = {
     inviteCodeRequired: bool option;
+      (** If true, an invite code must be supplied to create an account on this instance. *)
     phoneVerificationRequired: bool option;
+      (** If true, a phone verification token must be supplied to create an account on this instance. *)
     availableUserDomains: string list;
+      (** List of domain suffixes that can be used in account handles. *)
     links: com_atproto_server_describeserver_links option;
+      (** URLs of service policy documents. *)
     contact: com_atproto_server_describeserver_contact option;
+      (** Contact information *)
     did: string;
+      (** format: "Did" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -6828,7 +7358,9 @@ module Com_Atproto_Server_DescribeServer = struct
 
   type nonrec links = com_atproto_server_describeserver_links = {
     privacyPolicy: string option;
+      (** format: "Uri" *)
     termsOfService: string option;
+      (** format: "Uri" *)
   }
   let pp_links = pp_com_atproto_server_describeserver_links
 
@@ -6870,6 +7402,7 @@ module Com_Atproto_Server_DeleteAccount = struct
 
   type main_input = {
     did: string;
+      (** format: "Did" *)
     password: string;
     token: string;
   }
@@ -6908,6 +7441,8 @@ module Com_Atproto_Server_DeactivateAccount = struct
 
   type main_input = {
     deleteAfter: string option;
+      (** A recommendation to server as to how long they should hold onto the deactivated account before deleting.
+      format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -6936,9 +7471,11 @@ module Com_Atproto_Server_CreateSession = struct
 
   type main_input = {
     identifier: string;
+      (** Handle or other identifier supported by the server for the authenticating user. *)
     password: string;
     authFactorToken: string option;
     allowTakendown: bool option;
+      (** When true, instead of throwing error for takendown accounts, a valid response with a narrow scoped token will be returned *)
   }
   [@@deriving show {with_path=false}]
 
@@ -6960,13 +7497,17 @@ module Com_Atproto_Server_CreateSession = struct
     accessJwt: string;
     refreshJwt: string;
     handle: string;
+      (** format: "Handle" *)
     did: string;
+      (** format: "Did" *)
     didDoc: Value.t (* unknown *) option;
     email: string option;
     emailConfirmed: bool option;
     emailAuthFactor: bool option;
     active: bool option;
     status: string option;
+      (** If active=false, this optional field indicates a possible reason for why the account is not active. If active=false and no status is supplied, then the host makes no claim for why the repository is no longer being hosted.
+      known values: ["takendown"; "suspended"; "deactivated"] *)
   }
   [@@deriving show {with_path=false}]
 
@@ -7021,6 +7562,7 @@ module Com_Atproto_Server_CreateInviteCodes = struct
 
   type main_input = {
     codeCount: int64;
+      (** default: 1 *)
     useCount: int64;
     forAccounts: string list option;
   }
@@ -7086,6 +7628,7 @@ module Com_Atproto_Server_CreateInviteCode = struct
   type main_input = {
     useCount: int64;
     forAccount: string option;
+      (** format: "Did" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -7133,7 +7676,9 @@ module Com_Atproto_Server_CreateAppPassword = struct
 
   type main_input = {
     name: string;
+      (** A short name for the App Password, to help distinguish them. *)
     privileged: bool option;
+      (** If an app password has 'privileged' access to possibly sensitive account state. Meant for use with trusted clients. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -7174,6 +7719,7 @@ module Com_Atproto_Server_CreateAppPassword = struct
     name: string;
     password: string;
     createdAt: string;
+      (** format: "Datetime" *)
     privileged: bool option;
   }
   let pp_apppassword = pp_com_atproto_server_createapppassword_apppassword
@@ -7194,13 +7740,20 @@ module Com_Atproto_Server_CreateAccount = struct
   type main_input = {
     email: string option;
     handle: string;
+      (** Requested handle for the account.
+      format: "Handle" *)
     did: string option;
+      (** Pre-existing atproto DID, being imported to a new account.
+      format: "Did" *)
     inviteCode: string option;
     verificationCode: string option;
     verificationPhone: string option;
     password: string option;
+      (** Initial account password. May need to meet instance-specific password strength requirements. *)
     recoveryKey: string option;
+      (** DID PLC rotation key (aka, recovery key) to be included in PLC creation operation. *)
     plcOp: Value.t (* unknown *) option;
+      (** A signed DID PLC operation to be submitted as part of importing an existing account to this instance. NOTE: this optional field may be updated when full account migration is implemented. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -7232,8 +7785,12 @@ module Com_Atproto_Server_CreateAccount = struct
     accessJwt: string;
     refreshJwt: string;
     handle: string;
+      (** format: "Handle" *)
     did: string;
+      (** The DID of the new account.
+      format: "Did" *)
     didDoc: Value.t (* unknown *) option;
+      (** Complete DID document. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -7315,6 +7872,7 @@ module Com_Atproto_Server_CheckAccountStatus = struct
     activated: bool;
     validDid: bool;
     repoCommit: string;
+      (** format: "Cid" *)
     repoRev: string;
     repoBlocks: int64;
     indexedRecords: int64;
@@ -7405,12 +7963,25 @@ module Com_Atproto_Repo_PutRecord = struct
 
   type main_input = {
     repo: string;
+      (** The handle or DID of the repo (aka, current account).
+      format: "AtIdentifier" *)
     collection: string;
+      (** The NSID of the record collection.
+      format: "Nsid" *)
     rkey: string;
+      (** The Record Key.
+      format: "RecordKey"
+      maximum length: 512 *)
     validate: bool option;
+      (** Can be set to 'false' to skip Lexicon schema validation of record data, 'true' to require it, or leave unset to validate only for known Lexicons. *)
     record: Value.t (* unknown *);
+      (** The record to write. *)
     swapRecord: string option option;
+      (** Compare and swap with the previous record by CID. WARNING: nullable and optional field; may cause problems with golang implementation
+      format: "Cid" *)
     swapCommit: string option;
+      (** Compare and swap with the previous commit by CID.
+      format: "Cid" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -7436,9 +8007,12 @@ module Com_Atproto_Repo_PutRecord = struct
 
   type main_output = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     commit: com_atproto_repo_defs_commitmeta option;
     validationStatus: string option;
+      (** known values: ["valid"; "unknown"] *)
   }
   [@@deriving show {with_path=false}]
 
@@ -7481,10 +8055,19 @@ module Com_Atproto_Repo_ListRecords = struct
 
   type main_params = {
     repo: string;
+      (** The handle or DID of the repo.
+      format: "AtIdentifier" *)
     collection: string;
+      (** The NSID of the record type.
+      format: "Nsid" *)
     limit: int64 option;
+      (** The number of records to return.
+      default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
     reverse: bool option;
+      (** Flag to reverse the order of the returned records. *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -7535,7 +8118,9 @@ module Com_Atproto_Repo_ListRecords = struct
 
   type nonrec record = com_atproto_repo_listrecords_record = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     value: Value.t (* unknown *);
   }
   let pp_record = pp_com_atproto_repo_listrecords_record
@@ -7555,6 +8140,9 @@ module Com_Atproto_Repo_ListMissingBlobs = struct
 
   type main_params = {
     limit: int64 option;
+      (** default: 500
+      maximum: 1000
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -7600,7 +8188,9 @@ module Com_Atproto_Repo_ListMissingBlobs = struct
 
   type nonrec recordblob = com_atproto_repo_listmissingblobs_recordblob = {
     cid: string;
+      (** format: "Cid" *)
     recordUri: string;
+      (** format: "AtUri" *)
   }
   let pp_recordblob = pp_com_atproto_repo_listmissingblobs_recordblob
 
@@ -7631,9 +8221,17 @@ module Com_Atproto_Repo_GetRecord = struct
 
   type main_params = {
     repo: string;
+      (** The handle or DID of the repo.
+      format: "AtIdentifier" *)
     collection: string;
+      (** The NSID of the record collection.
+      format: "Nsid" *)
     rkey: string;
+      (** The Record Key.
+      format: "RecordKey" *)
     cid: string option;
+      (** The CID of the version of the record. If not specified, then return the most recent version.
+      format: "Cid" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -7653,7 +8251,9 @@ module Com_Atproto_Repo_GetRecord = struct
 
   type main_output = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string option;
+      (** format: "Cid" *)
     value: Value.t (* unknown *);
   }
   [@@deriving show {with_path=false}]
@@ -7695,6 +8295,8 @@ module Com_Atproto_Repo_DescribeRepo = struct
 
   type main_params = {
     repo: string;
+      (** The handle or DID of the repo.
+      format: "AtIdentifier" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -7708,10 +8310,15 @@ module Com_Atproto_Repo_DescribeRepo = struct
 
   type main_output = {
     handle: string;
+      (** format: "Handle" *)
     did: string;
+      (** format: "Did" *)
     didDoc: Value.t (* unknown *);
+      (** The complete DID document for this account. *)
     collections: string list;
+      (** List of all the collections (NSIDs) for which this repo contains at least one record. *)
     handleIsCorrect: bool;
+      (** Indicates if handle is currently valid (resolves bi-directionally) *)
   }
   [@@deriving show {with_path=false}]
 
@@ -7752,10 +8359,20 @@ module Com_Atproto_Repo_DeleteRecord = struct
 
   type main_input = {
     repo: string;
+      (** The handle or DID of the repo (aka, current account).
+      format: "AtIdentifier" *)
     collection: string;
+      (** The NSID of the record collection.
+      format: "Nsid" *)
     rkey: string;
+      (** The Record Key.
+      format: "RecordKey" *)
     swapRecord: string option;
+      (** Compare and swap with the previous record by CID.
+      format: "Cid" *)
     swapCommit: string option;
+      (** Compare and swap with the previous commit by CID.
+      format: "Cid" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -7813,11 +8430,22 @@ module Com_Atproto_Repo_CreateRecord = struct
 
   type main_input = {
     repo: string;
+      (** The handle or DID of the repo (aka, current account).
+      format: "AtIdentifier" *)
     collection: string;
+      (** The NSID of the record collection.
+      format: "Nsid" *)
     rkey: string option;
+      (** The Record Key.
+      format: "RecordKey"
+      maximum length: 512 *)
     validate: bool option;
+      (** Can be set to 'false' to skip Lexicon schema validation of record data, 'true' to require it, or leave unset to validate only for known Lexicons. *)
     record: Value.t (* unknown *);
+      (** The record itself. Must contain a $type field. *)
     swapCommit: string option;
+      (** Compare and swap with the previous commit by CID.
+      format: "Cid" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -7841,9 +8469,12 @@ module Com_Atproto_Repo_CreateRecord = struct
 
   type main_output = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     commit: com_atproto_repo_defs_commitmeta option;
     validationStatus: string option;
+      (** known values: ["valid"; "unknown"] *)
   }
   [@@deriving show {with_path=false}]
 
@@ -7886,13 +8517,18 @@ module Com_Atproto_Repo_ApplyWrites = struct
 
   type main_input = {
     repo: string;
+      (** The handle or DID of the repo (aka, current account).
+      format: "AtIdentifier" *)
     validate: bool option;
+      (** Can be set to 'false' to skip Lexicon schema validation of record data across all operations, 'true' to require it, or leave unset to validate only for known Lexicons. *)
     writes: [
     | `Com_atproto_repo_applywrites_create of com_atproto_repo_applywrites_create
     | `Com_atproto_repo_applywrites_update of com_atproto_repo_applywrites_update
     | `Com_atproto_repo_applywrites_delete of com_atproto_repo_applywrites_delete
     ] list;
     swapCommit: string option;
+      (** If provided, the entire operation will fail if the current repo commit CID does not match this value. Used to prevent conflicting repo mutations.
+      format: "Cid" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -7975,7 +8611,11 @@ module Com_Atproto_Repo_ApplyWrites = struct
 
   type nonrec create = com_atproto_repo_applywrites_create = {
     collection: string;
+      (** format: "Nsid" *)
     rkey: string option;
+      (** NOTE: maxLength is redundant with record-key format. Keeping it temporarily to ensure backwards compatibility.
+      format: "RecordKey"
+      maximum length: 512 *)
     value: Value.t (* unknown *);
   }
   let pp_create = pp_com_atproto_repo_applywrites_create
@@ -7989,7 +8629,9 @@ module Com_Atproto_Repo_ApplyWrites = struct
 
   type nonrec update = com_atproto_repo_applywrites_update = {
     collection: string;
+      (** format: "Nsid" *)
     rkey: string;
+      (** format: "RecordKey" *)
     value: Value.t (* unknown *);
   }
   let pp_update = pp_com_atproto_repo_applywrites_update
@@ -8003,7 +8645,9 @@ module Com_Atproto_Repo_ApplyWrites = struct
 
   type nonrec delete = com_atproto_repo_applywrites_delete = {
     collection: string;
+      (** format: "Nsid" *)
     rkey: string;
+      (** format: "RecordKey" *)
   }
   let pp_delete = pp_com_atproto_repo_applywrites_delete
 
@@ -8016,8 +8660,11 @@ module Com_Atproto_Repo_ApplyWrites = struct
 
   type nonrec createresult = com_atproto_repo_applywrites_createresult = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     validationStatus: string option;
+      (** known values: ["valid"; "unknown"] *)
   }
   let pp_createresult = pp_com_atproto_repo_applywrites_createresult
 
@@ -8030,8 +8677,11 @@ module Com_Atproto_Repo_ApplyWrites = struct
 
   type nonrec updateresult = com_atproto_repo_applywrites_updateresult = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     validationStatus: string option;
+      (** known values: ["valid"; "unknown"] *)
   }
   let pp_updateresult = pp_com_atproto_repo_applywrites_updateresult
 
@@ -8060,7 +8710,9 @@ module Com_Atproto_Repo_Defs = struct
 
   type nonrec commitmeta = com_atproto_repo_defs_commitmeta = {
     cid: string;
+      (** format: "Cid" *)
     rev: string;
+      (** format: "Tid" *)
   }
   let pp_commitmeta = pp_com_atproto_repo_defs_commitmeta
 
@@ -8079,7 +8731,10 @@ module Com_Atproto_Moderation_CreateReport = struct
 
   type main_input = {
     reasonType: com_atproto_moderation_defs_reasontype;
+      (** Indicates the broad category of violation the report is for. *)
     reason: string option;
+      (** Additional context about the content and violation.
+      maximum length: 20000 *)
     subject: [
     | `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
     | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main
@@ -8117,13 +8772,16 @@ module Com_Atproto_Moderation_CreateReport = struct
     id: int64;
     reasonType: com_atproto_moderation_defs_reasontype;
     reason: string option;
+      (** maximum length: 20000 *)
     subject: [
     | `Com_atproto_admin_defs_reporef of com_atproto_admin_defs_reporef
     | `Com_atproto_repo_strongref_main of com_atproto_repo_strongref_main
     | `Other of Value.t (** Non closed union *)
     ];
     reportedBy: string;
+      (** format: "Did" *)
     createdAt: string;
+      (** format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -8180,6 +8838,7 @@ module Com_Atproto_Lexicon_Schema = struct
   (** Representation of Lexicon schemas themselves, when published as atproto records. Note that the schema language is not defined in Lexicon; this meta schema currently only includes a single version field ('lexicon'). See the atproto specifications for description of the other expected top-level fields ('id', 'defs', etc). *)
   type main = {
     lexicon: int64;
+      (** Indicates the 'version' of the Lexicon language. Must be '1' for the current atproto/Lexicon schema system. *)
   }  [@@deriving show {with_path=false}, make]
 
   let main_of_value : main Value.Util.conv = fun v ->
@@ -8241,6 +8900,7 @@ module Com_Atproto_Label_SubscribeLabels = struct
 
   type main_params = {
     cursor: int64 option;
+      (** The last known event seq number to backfill from. *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -8284,6 +8944,7 @@ module Com_Atproto_Label_SubscribeLabels = struct
 
   type nonrec info = com_atproto_label_subscribelabels_info = {
     name: string;
+      (** known values: ["OutdatedCursor"] *)
     message: string option;
   }
   let pp_info = pp_com_atproto_label_subscribelabels_info
@@ -8303,8 +8964,13 @@ module Com_Atproto_Label_QueryLabels = struct
 
   type main_params = {
     uriPatterns: string list;
+      (** List of AT URI patterns to match (boolean 'OR'). Each may be a prefix (ending with '*'; will match inclusive of the string leading to '*'), or a full URI. *)
     sources: string list option;
+      (** Optional list of label sources (DIDs) to filter on. *)
     limit: int64 option;
+      (** default: 50
+      maximum: 250
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -8360,6 +9026,8 @@ module Com_Atproto_Identity_UpdateHandle = struct
 
   type main_input = {
     handle: string;
+      (** The new handle.
+      format: "Handle" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -8416,6 +9084,7 @@ module Com_Atproto_Identity_SignPlcOperation = struct
 
   type main_input = {
     token: string option;
+      (** A token received through com.atproto.identity.requestPlcOperationSignature *)
     rotationKeys: string list option;
     alsoKnownAs: string list option;
     verificationMethods: Value.t (* unknown *) option;
@@ -8441,6 +9110,7 @@ module Com_Atproto_Identity_SignPlcOperation = struct
 
   type main_output = {
     operation: Value.t (* unknown *);
+      (** A signed DID PLC operation. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -8473,6 +9143,8 @@ module Com_Atproto_Identity_ResolveIdentity = struct
 
   type main_params = {
     identifier: string;
+      (** Handle or DID to resolve.
+      format: "AtIdentifier" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -8515,6 +9187,8 @@ module Com_Atproto_Identity_ResolveHandle = struct
 
   type main_params = {
     handle: string;
+      (** The handle to resolve.
+      format: "Handle" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -8528,6 +9202,7 @@ module Com_Atproto_Identity_ResolveHandle = struct
 
   type main_output = {
     did: string;
+      (** format: "Did" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -8564,6 +9239,8 @@ module Com_Atproto_Identity_ResolveDid = struct
 
   type main_params = {
     did: string;
+      (** DID to resolve.
+      format: "Did" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -8577,6 +9254,7 @@ module Com_Atproto_Identity_ResolveDid = struct
 
   type main_output = {
     didDoc: Value.t (* unknown *);
+      (** The complete DID document for the identity. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -8624,6 +9302,7 @@ module Com_Atproto_Identity_RefreshIdentity = struct
 
   type main_input = {
     identifier: string;
+      (** format: "AtIdentifier" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -8666,6 +9345,7 @@ module Com_Atproto_Identity_GetRecommendedDidCredentials = struct
 
   type main_output = {
     rotationKeys: string list option;
+      (** Recommended rotation keys for PLC dids. Should be undefined (or ignored) for did:webs. *)
     alsoKnownAs: string list option;
     verificationMethods: Value.t (* unknown *) option;
     services: Value.t (* unknown *) option;
@@ -8703,8 +9383,12 @@ module Com_Atproto_Identity_Defs = struct
 
   type nonrec identityinfo = com_atproto_identity_defs_identityinfo = {
     did: string;
+      (** format: "Did" *)
     handle: string;
+      (** The validated handle of the account; or 'handle.invalid' if the handle did not bi-directionally match the DID document.
+      format: "Handle" *)
     didDoc: Value.t (* unknown *);
+      (** The complete DID document for the identity. *)
   }
   let pp_identityinfo = pp_com_atproto_identity_defs_identityinfo
 
@@ -8819,7 +9503,10 @@ module Com_Atproto_Admin_UpdateAccountSigningKey = struct
 
   type main_input = {
     did: string;
+      (** format: "Did" *)
     signingKey: string;
+      (** Did-key formatted public key
+      format: "Did" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -8850,6 +9537,7 @@ module Com_Atproto_Admin_UpdateAccountPassword = struct
 
   type main_input = {
     did: string;
+      (** format: "Did" *)
     password: string;
   }
   [@@deriving show {with_path=false}]
@@ -8881,7 +9569,9 @@ module Com_Atproto_Admin_UpdateAccountHandle = struct
 
   type main_input = {
     did: string;
+      (** format: "Did" *)
     handle: string;
+      (** format: "Handle" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -8912,6 +9602,8 @@ module Com_Atproto_Admin_UpdateAccountEmail = struct
 
   type main_input = {
     account: string;
+      (** The handle or DID of the repo.
+      format: "AtIdentifier" *)
     email: string;
   }
   [@@deriving show {with_path=false}]
@@ -8943,10 +9635,13 @@ module Com_Atproto_Admin_SendEmail = struct
 
   type main_input = {
     recipientDid: string;
+      (** format: "Did" *)
     content: string;
     subject: string option;
     senderDid: string;
+      (** format: "Did" *)
     comment: string option;
+      (** Additional comment by the sender that won't be used in the email itself but helpful to provide more context for moderators/reviewers *)
   }
   [@@deriving show {with_path=false}]
 
@@ -9002,6 +9697,9 @@ module Com_Atproto_Admin_SearchAccounts = struct
     email: string option;
     cursor: string option;
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -9054,8 +9752,11 @@ module Com_Atproto_Admin_GetSubjectStatus = struct
 
   type main_params = {
     did: string option;
+      (** format: "Did" *)
     uri: string option;
+      (** format: "AtUri" *)
     blob: string option;
+      (** format: "Cid" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -9132,7 +9833,11 @@ module Com_Atproto_Admin_GetInviteCodes = struct
 
   type main_params = {
     sort: string option;
+      (** known values: ["recent"; "usage"] *)
     limit: int64 option;
+      (** default: 100
+      maximum: 500
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -9231,6 +9936,7 @@ module Com_Atproto_Admin_GetAccountInfo = struct
 
   type main_params = {
     did: string;
+      (** format: "Did" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -9269,7 +9975,9 @@ module Com_Atproto_Admin_EnableAccountInvites = struct
 
   type main_input = {
     account: string;
+      (** format: "Did" *)
     note: string option;
+      (** Optional reason for enabled invites. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -9331,7 +10039,9 @@ module Com_Atproto_Admin_DisableAccountInvites = struct
 
   type main_input = {
     account: string;
+      (** format: "Did" *)
     note: string option;
+      (** Optional reason for disabled invites. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -9362,6 +10072,7 @@ module Com_Atproto_Admin_DeleteAccount = struct
 
   type main_input = {
     did: string;
+      (** format: "Did" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -9403,16 +10114,21 @@ module Com_Atproto_Admin_Defs = struct
 
   type nonrec accountview = com_atproto_admin_defs_accountview = {
     did: string;
+      (** format: "Did" *)
     handle: string;
+      (** format: "Handle" *)
     email: string option;
     relatedRecords: Value.t (* unknown *) list option;
     indexedAt: string;
+      (** format: "Datetime" *)
     invitedBy: com_atproto_server_defs_invitecode option;
     invites: com_atproto_server_defs_invitecode list option;
     invitesDisabled: bool option;
     emailConfirmedAt: string option;
+      (** format: "Datetime" *)
     inviteNote: string option;
     deactivatedAt: string option;
+      (** format: "Datetime" *)
     threatSignatures: com_atproto_admin_defs_threatsignature list option;
   }
   let pp_accountview = pp_com_atproto_admin_defs_accountview
@@ -9426,6 +10142,7 @@ module Com_Atproto_Admin_Defs = struct
 
   type nonrec reporef = com_atproto_admin_defs_reporef = {
     did: string;
+      (** format: "Did" *)
   }
   let pp_reporef = pp_com_atproto_admin_defs_reporef
 
@@ -9438,8 +10155,11 @@ module Com_Atproto_Admin_Defs = struct
 
   type nonrec repoblobref = com_atproto_admin_defs_repoblobref = {
     did: string;
+      (** format: "Did" *)
     cid: string;
+      (** format: "Cid" *)
     recordUri: string option;
+      (** format: "AtUri" *)
   }
   let pp_repoblobref = pp_com_atproto_admin_defs_repoblobref
 
@@ -9476,6 +10196,7 @@ module Com_Atproto_Server_Defs = struct
     forAccount: string;
     createdBy: string;
     createdAt: string;
+      (** format: "Datetime" *)
     uses: com_atproto_server_defs_invitecodeuse list;
   }
   let pp_invitecode = pp_com_atproto_server_defs_invitecode
@@ -9489,7 +10210,9 @@ module Com_Atproto_Server_Defs = struct
 
   type nonrec invitecodeuse = com_atproto_server_defs_invitecodeuse = {
     usedBy: string;
+      (** format: "Did" *)
     usedAt: string;
+      (** format: "Datetime" *)
   }
   let pp_invitecodeuse = pp_com_atproto_server_defs_invitecodeuse
 
@@ -9508,6 +10231,7 @@ module Chat_Bsky_Moderation_UpdateActorAccess = struct
 
   type main_input = {
     actor: string;
+      (** format: "Did" *)
     allowAccess: bool;
     ref: string option;
   }
@@ -9541,9 +10265,12 @@ module Chat_Bsky_Moderation_GetMessageContext = struct
 
   type main_params = {
     convoId: string option;
+      (** Conversation that the message is from. NOTE: this field will eventually be required. *)
     messageId: string;
     before: int64 option;
+      (** default: 5 *)
     after: int64 option;
+      (** default: 5 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -9611,6 +10338,7 @@ module Chat_Bsky_Moderation_GetActorMetadata = struct
 
   type main_params = {
     actor: string;
+      (** format: "Did" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -9723,6 +10451,7 @@ module Chat_Bsky_Convo_UpdateAllRead = struct
 
   type main_input = {
     status: string option;
+      (** known values: ["request"; "accepted"] *)
   }
   [@@deriving show {with_path=false}]
 
@@ -9736,6 +10465,7 @@ module Chat_Bsky_Convo_UpdateAllRead = struct
 
   type main_output = {
     updatedCount: int64;
+      (** The count of updated convos. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -9811,6 +10541,7 @@ module Chat_Bsky_Convo_SendMessageBatch = struct
 
   type main_input = {
     items: chat_bsky_convo_sendmessagebatch_batchitem list;
+      (** maximum length: 100 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -9910,6 +10641,8 @@ module Chat_Bsky_Convo_RemoveReaction = struct
     convoId: string;
     messageId: string;
     value: string;
+      (** maximum length: 64
+      minimum length: 1 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -10007,9 +10740,14 @@ module Chat_Bsky_Convo_ListConvos = struct
 
   type main_params = {
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
     readState: string option;
+      (** known values: ["unread"] *)
     status: string option;
+      (** known values: ["request"; "accepted"] *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -10111,6 +10849,9 @@ module Chat_Bsky_Convo_GetMessages = struct
   type main_params = {
     convoId: string;
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -10276,6 +11017,8 @@ module Chat_Bsky_Convo_GetConvoForMembers = struct
 
   type main_params = {
     members: string list;
+      (** maximum length: 10
+      minimum length: 1 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -10320,6 +11063,8 @@ module Chat_Bsky_Convo_GetConvoAvailability = struct
 
   type main_params = {
     members: string list;
+      (** maximum length: 10
+      minimum length: 1 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -10454,6 +11199,8 @@ module Chat_Bsky_Convo_AddReaction = struct
     convoId: string;
     messageId: string;
     value: string;
+      (** maximum length: 64
+      minimum length: 1 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -10507,6 +11254,7 @@ module Chat_Bsky_Convo_Defs = struct
 
   type nonrec messageref = chat_bsky_convo_defs_messageref = {
     did: string;
+      (** format: "Did" *)
     convoId: string;
     messageId: string;
   }
@@ -10521,7 +11269,9 @@ module Chat_Bsky_Convo_Defs = struct
 
   type nonrec messageinput = chat_bsky_convo_defs_messageinput = {
     text: string;
+      (** maximum length: 10000 *)
     facets: app_bsky_richtext_facet_main list option;
+      (** Annotations of text (mentions, URLs, hashtags, etc) *)
     embed: [
     | `App_bsky_embed_record_main of app_bsky_embed_record_main
     | `Other of Value.t (** Non closed union *)
@@ -10540,14 +11290,18 @@ module Chat_Bsky_Convo_Defs = struct
     id: string;
     rev: string;
     text: string;
+      (** maximum length: 10000 *)
     facets: app_bsky_richtext_facet_main list option;
+      (** Annotations of text (mentions, URLs, hashtags, etc) *)
     embed: [
     | `App_bsky_embed_record_view of app_bsky_embed_record_view
     | `Other of Value.t (** Non closed union *)
     ] option;
     reactions: chat_bsky_convo_defs_reactionview list option;
+      (** Reactions to this message, in ascending order of creation time. *)
     sender: chat_bsky_convo_defs_messageviewsender;
     sentAt: string;
+      (** format: "Datetime" *)
   }
   let pp_messageview = pp_chat_bsky_convo_defs_messageview
 
@@ -10563,6 +11317,7 @@ module Chat_Bsky_Convo_Defs = struct
     rev: string;
     sender: chat_bsky_convo_defs_messageviewsender;
     sentAt: string;
+      (** format: "Datetime" *)
   }
   let pp_deletedmessageview = pp_chat_bsky_convo_defs_deletedmessageview
 
@@ -10575,6 +11330,7 @@ module Chat_Bsky_Convo_Defs = struct
 
   type nonrec messageviewsender = chat_bsky_convo_defs_messageviewsender = {
     did: string;
+      (** format: "Did" *)
   }
   let pp_messageviewsender = pp_chat_bsky_convo_defs_messageviewsender
 
@@ -10589,6 +11345,7 @@ module Chat_Bsky_Convo_Defs = struct
     value: string;
     sender: chat_bsky_convo_defs_reactionviewsender;
     createdAt: string;
+      (** format: "Datetime" *)
   }
   let pp_reactionview = pp_chat_bsky_convo_defs_reactionview
 
@@ -10601,6 +11358,7 @@ module Chat_Bsky_Convo_Defs = struct
 
   type nonrec reactionviewsender = chat_bsky_convo_defs_reactionviewsender = {
     did: string;
+      (** format: "Did" *)
   }
   let pp_reactionviewsender = pp_chat_bsky_convo_defs_reactionviewsender
 
@@ -10639,6 +11397,7 @@ module Chat_Bsky_Convo_Defs = struct
     ] option;
     muted: bool;
     status: string option;
+      (** known values: ["request"; "accepted"] *)
     unreadCount: int64;
   }
   let pp_convoview = pp_chat_bsky_convo_defs_convoview
@@ -10828,6 +11587,7 @@ module Chat_Bsky_Convo_AcceptConvo = struct
 
   type main_output = {
     rev: string option;
+      (** Rev when the convo was accepted. If not present, the convo was already accepted. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -10890,13 +11650,18 @@ module Chat_Bsky_Actor_Defs = struct
 
   type nonrec profileviewbasic = chat_bsky_actor_defs_profileviewbasic = {
     did: string;
+      (** format: "Did" *)
     handle: string;
+      (** format: "Handle" *)
     displayName: string option;
+      (** maximum length: 640 *)
     avatar: string option;
+      (** format: "Uri" *)
     associated: app_bsky_actor_defs_profileassociated option;
     viewer: app_bsky_actor_defs_viewerstate option;
     labels: com_atproto_label_defs_label list option;
     chatDisabled: bool option;
+      (** Set to true when the actor cannot actively participate in conversations *)
     verification: app_bsky_actor_defs_verificationstate option;
   }
   let pp_profileviewbasic = pp_chat_bsky_actor_defs_profileviewbasic
@@ -10917,6 +11682,7 @@ module Chat_Bsky_Actor_Declaration = struct
   (** A declaration of a Bluesky chat account. *)
   type main = {
     allowIncoming: string;
+      (** known values: ["all"; "none"; "following"] *)
   }  [@@deriving show {with_path=false}, make]
 
   let main_of_value : main Value.Util.conv = fun v ->
@@ -11067,8 +11833,14 @@ module App_Bsky_Video_Defs = struct
   type nonrec jobstatus = app_bsky_video_defs_jobstatus = {
     jobId: string;
     did: string;
+      (** format: "Did" *)
     state: string;
+      (** The state of the video processing job. All values not listed as a known value indicate that the job is in process.
+      known values: ["JOB_STATE_COMPLETED"; "JOB_STATE_FAILED"] *)
     progress: int64 option;
+      (** Progress within the current processing state.
+      maximum: 100
+      minimum: 0 *)
     blob: Blob.t option;
     error: string option;
     message: string option;
@@ -11090,9 +11862,16 @@ module App_Bsky_Unspecced_SearchStarterPacksSkeleton = struct
 
   type main_params = {
     q: string;
+      (** Search query string; syntax, phrase, boolean, and faceting is unspecified, but Lucene query syntax is recommended. *)
     viewer: string option;
+      (** DID of the account making the request (not included for public/unauthenticated queries).
+      format: "Did" *)
     limit: int64 option;
+      (** default: 25
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
+      (** Optional pagination mechanism; may not necessarily allow scrolling through entire result set. *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -11113,6 +11892,7 @@ module App_Bsky_Unspecced_SearchStarterPacksSkeleton = struct
   type main_output = {
     cursor: string option;
     hitsTotal: int64 option;
+      (** Count of search hits. Optional, may be rounded/truncated, and may not be possible to paginate through all hits. *)
     starterPacks: app_bsky_unspecced_defs_skeletonsearchstarterpack list;
   }
   [@@deriving show {with_path=false}]
@@ -11154,18 +11934,39 @@ module App_Bsky_Unspecced_SearchPostsSkeleton = struct
 
   type main_params = {
     q: string;
+      (** Search query string; syntax, phrase, boolean, and faceting is unspecified, but Lucene query syntax is recommended. *)
     sort: string option;
+      (** Specifies the ranking order of results.
+      known values: ["top"; "latest"] *)
     since: string option;
+      (** Filter results for posts after the indicated datetime (inclusive). Expected to use 'sortAt' timestamp, which may not match 'createdAt'. Can be a datetime, or just an ISO date (YYYY-MM-DD). *)
     until: string option;
+      (** Filter results for posts before the indicated datetime (not inclusive). Expected to use 'sortAt' timestamp, which may not match 'createdAt'. Can be a datetime, or just an ISO date (YYY-MM-DD). *)
     mentions: string option;
+      (** Filter to posts which mention the given account. Handles are resolved to DID before query-time. Only matches rich-text facet mentions.
+      format: "AtIdentifier" *)
     author: string option;
+      (** Filter to posts by the given account. Handles are resolved to DID before query-time.
+      format: "AtIdentifier" *)
     lang: string option;
+      (** Filter to posts in the given language. Expected to be based on post language field, though server may override language detection.
+      format: "Language" *)
     domain: string option;
+      (** Filter to posts with URLs (facet links or embeds) linking to the given domain (hostname). Server may apply hostname normalization. *)
     url: string option;
+      (** Filter to posts with links (facet links or embeds) pointing to this URL. Server may apply URL normalization or fuzzy matching.
+      format: "Uri" *)
     tag: string list option;
+      (** Filter to posts with the given tag (hashtag), based on rich-text facet or tag field. Do not include the hash (#) prefix. Multiple tags can be specified, with 'AND' matching. *)
     viewer: string option;
+      (** DID of the account making the request (not included for public/unauthenticated queries). Used for 'from:me' queries.
+      format: "Did" *)
     limit: int64 option;
+      (** default: 25
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
+      (** Optional pagination mechanism; may not necessarily allow scrolling through entire result set. *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -11204,6 +12005,7 @@ module App_Bsky_Unspecced_SearchPostsSkeleton = struct
   type main_output = {
     cursor: string option;
     hitsTotal: int64 option;
+      (** Count of search hits. Optional, may be rounded/truncated, and may not be possible to paginate through all hits. *)
     posts: app_bsky_unspecced_defs_skeletonsearchpost list;
   }
   [@@deriving show {with_path=false}]
@@ -11245,10 +12047,18 @@ module App_Bsky_Unspecced_SearchActorsSkeleton = struct
 
   type main_params = {
     q: string;
+      (** Search query string; syntax, phrase, boolean, and faceting is unspecified, but Lucene query syntax is recommended. For typeahead search, only simple term match is supported, not full syntax. *)
     viewer: string option;
+      (** DID of the account making the request (not included for public/unauthenticated queries). Used to boost followed accounts in ranking.
+      format: "Did" *)
     typeahead: bool option;
+      (** If true, acts as fast/simple 'typeahead' query. *)
     limit: int64 option;
+      (** default: 25
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
+      (** Optional pagination mechanism; may not necessarily allow scrolling through entire result set. *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -11271,6 +12081,7 @@ module App_Bsky_Unspecced_SearchActorsSkeleton = struct
   type main_output = {
     cursor: string option;
     hitsTotal: int64 option;
+      (** Count of search hits. Optional, may be rounded/truncated, and may not be possible to paginate through all hits. *)
     actors: app_bsky_unspecced_defs_skeletonsearchactor list;
   }
   [@@deriving show {with_path=false}]
@@ -11312,7 +12123,12 @@ module App_Bsky_Unspecced_GetTrendsSkeleton = struct
 
   type main_params = {
     viewer: string option;
+      (** DID of the account making the request (not included for public/unauthenticated queries).
+      format: "Did" *)
     limit: int64 option;
+      (** default: 10
+      maximum: 25
+      minimum: 1 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -11360,6 +12176,9 @@ module App_Bsky_Unspecced_GetTrends = struct
 
   type main_params = {
     limit: int64 option;
+      (** default: 10
+      maximum: 25
+      minimum: 1 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -11405,7 +12224,12 @@ module App_Bsky_Unspecced_GetTrendingTopics = struct
 
   type main_params = {
     viewer: string option;
+      (** DID of the account making the request (not included for public/unauthenticated queries). Used to boost followed accounts in ranking.
+      format: "Did" *)
     limit: int64 option;
+      (** default: 10
+      maximum: 25
+      minimum: 1 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -11479,7 +12303,9 @@ module App_Bsky_Unspecced_GetTaggedSuggestions = struct
   type nonrec suggestion = app_bsky_unspecced_gettaggedsuggestions_suggestion = {
     tag: string;
     subjectType: string;
+      (** known values: ["actor"; "feed"] *)
     subject: string;
+      (** format: "Uri" *)
   }
   let pp_suggestion = pp_app_bsky_unspecced_gettaggedsuggestions_suggestion
 
@@ -11498,9 +12324,16 @@ module App_Bsky_Unspecced_GetSuggestionsSkeleton = struct
 
   type main_params = {
     viewer: string option;
+      (** DID of the account making the request (not included for public/unauthenticated queries). Used to boost followed accounts in ranking.
+      format: "Did" *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
     relativeToDid: string option;
+      (** DID of the account to get suggestions relative to. If not provided, suggestions will be based on the viewer.
+      format: "Did" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -11522,7 +12355,10 @@ module App_Bsky_Unspecced_GetSuggestionsSkeleton = struct
     cursor: string option;
     actors: app_bsky_unspecced_defs_skeletonsearchactor list;
     relativeToDid: string option;
+      (** DID of the account these suggestions are relative to. If this is returned undefined, suggestions are based on the viewer.
+      format: "Did" *)
     recId: int64 option;
+      (** Snowflake for this recommendation, use when submitting recommendation events. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -11561,8 +12397,14 @@ module App_Bsky_Unspecced_GetSuggestedUsersSkeleton = struct
 
   type main_params = {
     viewer: string option;
+      (** DID of the account making the request (not included for public/unauthenticated queries).
+      format: "Did" *)
     category: string option;
+      (** Category of users to get suggestions for. *)
     limit: int64 option;
+      (** default: 25
+      maximum: 50
+      minimum: 1 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -11612,7 +12454,11 @@ module App_Bsky_Unspecced_GetSuggestedUsers = struct
 
   type main_params = {
     category: string option;
+      (** Category of users to get suggestions for. *)
     limit: int64 option;
+      (** default: 25
+      maximum: 50
+      minimum: 1 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -11660,7 +12506,12 @@ module App_Bsky_Unspecced_GetSuggestedStarterPacksSkeleton = struct
 
   type main_params = {
     viewer: string option;
+      (** DID of the account making the request (not included for public/unauthenticated queries).
+      format: "Did" *)
     limit: int64 option;
+      (** default: 10
+      maximum: 25
+      minimum: 1 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -11708,6 +12559,9 @@ module App_Bsky_Unspecced_GetSuggestedStarterPacks = struct
 
   type main_params = {
     limit: int64 option;
+      (** default: 10
+      maximum: 25
+      minimum: 1 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -11753,7 +12607,12 @@ module App_Bsky_Unspecced_GetSuggestedFeedsSkeleton = struct
 
   type main_params = {
     viewer: string option;
+      (** DID of the account making the request (not included for public/unauthenticated queries).
+      format: "Did" *)
     limit: int64 option;
+      (** default: 10
+      maximum: 25
+      minimum: 1 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -11801,6 +12660,9 @@ module App_Bsky_Unspecced_GetSuggestedFeeds = struct
 
   type main_params = {
     limit: int64 option;
+      (** default: 10
+      maximum: 25
+      minimum: 1 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -11846,11 +12708,27 @@ module App_Bsky_Unspecced_GetPostThreadV2 = struct
 
   type main_params = {
     anchor: string;
+      (** Reference (AT-URI) to post record. This is the anchor post, and the thread will be built around it. It can be any post in the tree, not necessarily a root post.
+      format: "AtUri" *)
     above: bool option;
+      (** Whether to include parents above the anchor.
+      default: true *)
     below: int64 option;
+      (** How many levels of replies to include below the anchor.
+      default: 6
+      maximum: 20
+      minimum: 0 *)
     branchingFactor: int64 option;
+      (** Maximum of replies to include at each level of the thread, except for the direct replies to the anchor, which are (NOTE: currently, during unspecced phase) all returned (NOTE: later they might be paginated).
+      default: 10
+      maximum: 100
+      minimum: 0 *)
     prioritizeFollowedUsers: bool option;
+      (** Whether to prioritize posts from followed users. It only has effect when the user is authenticated.
+      default: false *)
     sort: string option;
+      (** Sorting for the thread replies.
+      known values: ["newest"; "oldest"; "top"] *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -11874,8 +12752,10 @@ module App_Bsky_Unspecced_GetPostThreadV2 = struct
 
   type main_output = {
     thread: app_bsky_unspecced_getpostthreadv2_threaditem list;
+      (** A flat list of thread items. The depth of each item is indicated by the depth property inside the item. *)
     threadgate: app_bsky_feed_defs_threadgateview option;
     hasHiddenReplies: bool;
+      (** Whether this thread has hidden replies. If true, a call can be made to the `getPostThreadHiddenV2` endpoint to retrieve them. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -11906,7 +12786,9 @@ module App_Bsky_Unspecced_GetPostThreadV2 = struct
 
   type nonrec threaditem = app_bsky_unspecced_getpostthreadv2_threaditem = {
     uri: string;
+      (** format: "AtUri" *)
     depth: int64;
+      (** The nesting level of this item in the thread. Depth 0 means the anchor item. Items above have negative depths, items below have positive depths. *)
     value: [
     | `App_bsky_unspecced_defs_threaditempost of app_bsky_unspecced_defs_threaditempost
     | `App_bsky_unspecced_defs_threaditemnounauthenticated of app_bsky_unspecced_defs_threaditemnounauthenticated
@@ -11932,7 +12814,11 @@ module App_Bsky_Unspecced_GetPostThreadHiddenV2 = struct
 
   type main_params = {
     anchor: string;
+      (** Reference (AT-URI) to post record. This is the anchor post.
+      format: "AtUri" *)
     prioritizeFollowedUsers: bool option;
+      (** Whether to prioritize posts from followed users. It only has effect when the user is authenticated.
+      default: false *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -11948,6 +12834,7 @@ module App_Bsky_Unspecced_GetPostThreadHiddenV2 = struct
 
   type main_output = {
     thread: app_bsky_unspecced_getpostthreadhiddenv2_threadhiddenitem list;
+      (** A flat list of hidden thread items. The depth of each item is indicated by the depth property inside the item. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -11974,7 +12861,9 @@ module App_Bsky_Unspecced_GetPostThreadHiddenV2 = struct
 
   type nonrec threadhiddenitem = app_bsky_unspecced_getpostthreadhiddenv2_threadhiddenitem = {
     uri: string;
+      (** format: "AtUri" *)
     depth: int64;
+      (** The nesting level of this item in the thread. Depth 0 means the anchor item. Items above have negative depths, items below have positive depths. *)
     value: [
     | `App_bsky_unspecced_defs_threaditempost of app_bsky_unspecced_defs_threaditempost
     | `Other of Value.t (** Non closed union *)
@@ -11997,6 +12886,9 @@ module App_Bsky_Unspecced_GetPopularFeedGenerators = struct
 
   type main_params = {
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
     query: string option;
   }
@@ -12076,6 +12968,7 @@ module App_Bsky_Unspecced_GetConfig = struct
 
   type nonrec livenowconfig = app_bsky_unspecced_getconfig_livenowconfig = {
     did: string;
+      (** format: "Did" *)
     domains: string list;
   }
   let pp_livenowconfig = pp_app_bsky_unspecced_getconfig_livenowconfig
@@ -12095,6 +12988,7 @@ module App_Bsky_Unspecced_Defs = struct
 
   type nonrec skeletonsearchpost = app_bsky_unspecced_defs_skeletonsearchpost = {
     uri: string;
+      (** format: "AtUri" *)
   }
   let pp_skeletonsearchpost = pp_app_bsky_unspecced_defs_skeletonsearchpost
 
@@ -12107,6 +13001,7 @@ module App_Bsky_Unspecced_Defs = struct
 
   type nonrec skeletonsearchactor = app_bsky_unspecced_defs_skeletonsearchactor = {
     did: string;
+      (** format: "Did" *)
   }
   let pp_skeletonsearchactor = pp_app_bsky_unspecced_defs_skeletonsearchactor
 
@@ -12119,6 +13014,7 @@ module App_Bsky_Unspecced_Defs = struct
 
   type nonrec skeletonsearchstarterpack = app_bsky_unspecced_defs_skeletonsearchstarterpack = {
     uri: string;
+      (** format: "AtUri" *)
   }
   let pp_skeletonsearchstarterpack = pp_app_bsky_unspecced_defs_skeletonsearchstarterpack
 
@@ -12149,8 +13045,10 @@ module App_Bsky_Unspecced_Defs = struct
     displayName: string;
     link: string;
     startedAt: string;
+      (** format: "Datetime" *)
     postCount: int64;
     status: string option;
+      (** known values: ["hot"] *)
     category: string option;
     dids: string list;
   }
@@ -12168,8 +13066,10 @@ module App_Bsky_Unspecced_Defs = struct
     displayName: string;
     link: string;
     startedAt: string;
+      (** format: "Datetime" *)
     postCount: int64;
     status: string option;
+      (** known values: ["hot"] *)
     category: string option;
     actors: app_bsky_actor_defs_profileviewbasic list;
   }
@@ -12185,10 +13085,15 @@ module App_Bsky_Unspecced_Defs = struct
   type nonrec threaditempost = app_bsky_unspecced_defs_threaditempost = {
     post: app_bsky_feed_defs_postview;
     moreParents: bool;
+      (** This post has more parents that were not present in the response. This is just a boolean, without the number of parents. *)
     moreReplies: int64;
+      (** This post has more replies that were not present in the response. This is a numeric value, which is best-effort and might not be accurate. *)
     opThread: bool;
+      (** This post is part of a contiguous thread by the OP from the thread root. Many different OP threads can happen in the same thread. *)
     hiddenByThreadgate: bool;
+      (** The threadgate created by the author indicates this post as a reply to be hidden for everyone consuming the thread. *)
     mutedByViewer: bool;
+      (** This is by an account muted by the viewer requesting it. *)
   }
   let pp_threaditempost = pp_app_bsky_unspecced_defs_threaditempost
 
@@ -12239,6 +13144,7 @@ module App_Bsky_Notification_UpdateSeen = struct
 
   type main_input = {
     seenAt: string;
+      (** format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -12267,8 +13173,10 @@ module App_Bsky_Notification_RegisterPush = struct
 
   type main_input = {
     serviceDid: string;
+      (** format: "Did" *)
     token: string;
     platform: string;
+      (** known values: ["ios"; "android"; "web"] *)
     appId: string;
   }
   [@@deriving show {with_path=false}]
@@ -12332,10 +13240,15 @@ module App_Bsky_Notification_ListNotifications = struct
 
   type main_params = {
     reasons: string list option;
+      (** Notification reasons to include in response. *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     priority: bool option;
     cursor: string option;
     seenAt: string option;
+      (** format: "Datetime" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -12360,6 +13273,7 @@ module App_Bsky_Notification_ListNotifications = struct
     notifications: app_bsky_notification_listnotifications_notification list;
     priority: bool option;
     seenAt: string option;
+      (** format: "Datetime" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -12392,13 +13306,19 @@ module App_Bsky_Notification_ListNotifications = struct
 
   type nonrec notification = app_bsky_notification_listnotifications_notification = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     author: app_bsky_actor_defs_profileview;
     reason: string;
+      (** The reason why this notification was delivered - e.g. your post was liked, or you received a new follower.
+      known values: ["like"; "repost"; "follow"; "mention"; "reply"; "quote"; "starterpack-joined"; "verified"; "unverified"; "like-via-repost"; "repost-via-repost"] *)
     reasonSubject: string option;
+      (** format: "AtUri" *)
     record: Value.t (* unknown *);
     isRead: bool;
     indexedAt: string;
+      (** format: "Datetime" *)
     labels: com_atproto_label_defs_label list option;
   }
   let pp_notification = pp_app_bsky_notification_listnotifications_notification
@@ -12419,6 +13339,7 @@ module App_Bsky_Notification_GetUnreadCount = struct
   type main_params = {
     priority: bool option;
     seenAt: string option;
+      (** format: "Datetime" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -12488,9 +13409,13 @@ module App_Bsky_Labeler_Service = struct
     | `Other of Value.t (** Non closed union *)
     ] option;
     createdAt: string;
+      (** format: "Datetime" *)
     reasonTypes: com_atproto_moderation_defs_reasontype list option;
+      (** The set of report reason 'codes' which are in-scope for this service to review and action. These usually align to policy categories. If not defined (distinct from empty array), all reason types are allowed. *)
     subjectTypes: com_atproto_moderation_defs_subjecttype list option;
+      (** The set of subject types (account, record, etc) this service accepts reports on. *)
     subjectCollections: string list option;
+      (** Set of record types (collection NSIDs) which can be reported to this service. If not defined (distinct from empty array), default is any record type. *)
   }  [@@deriving show {with_path=false}, make]
 
   let main_of_value : main Value.Util.conv = fun v ->
@@ -12547,6 +13472,7 @@ module App_Bsky_Labeler_GetServices = struct
   type main_params = {
     dids: string list;
     detailed: bool option;
+      (** default: false *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -12612,9 +13538,16 @@ module App_Bsky_Graph_Verification = struct
   (** Record declaring a verification relationship between two accounts. Verifications are only considered valid by an app if issued by an account the app considers trusted. *)
   type main = {
     subject: string;
+      (** DID of the subject the verification applies to.
+      format: "Did" *)
     handle: string;
+      (** Handle of the subject the verification applies to at the moment of verifying, which might not be the same at the time of viewing. The verification is only valid if the current handle matches the one at the time of verifying.
+      format: "Handle" *)
     displayName: string;
+      (** Display name of the subject the verification applies to at the moment of verifying, which might not be the same at the time of viewing. The verification is only valid if the current displayName matches the one at the time of verifying. *)
     createdAt: string;
+      (** Date of when the verification was created.
+      format: "Datetime" *)
   }  [@@deriving show {with_path=false}, make]
 
   let main_of_value : main Value.Util.conv = fun v ->
@@ -12656,6 +13589,7 @@ module App_Bsky_Graph_UnmuteThread = struct
 
   type main_input = {
     root: string;
+      (** format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -12684,6 +13618,7 @@ module App_Bsky_Graph_UnmuteActorList = struct
 
   type main_input = {
     list: string;
+      (** format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -12712,6 +13647,7 @@ module App_Bsky_Graph_UnmuteActor = struct
 
   type main_input = {
     actor: string;
+      (** format: "AtIdentifier" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -12741,11 +13677,19 @@ module App_Bsky_Graph_Starterpack = struct
   (** Record defining a starter pack of actors and feeds for new users. *)
   type main = {
     name: string;
+      (** Display name for starter pack; can not be empty.
+      maximum length: 500
+      minimum length: 1 *)
     description: string option;
+      (** maximum length: 3000 *)
     descriptionFacets: app_bsky_richtext_facet_main list option;
     list: string;
+      (** Reference (AT-URI) to the list record.
+      format: "AtUri" *)
     feeds: app_bsky_graph_starterpack_feeditem list option;
+      (** maximum length: 3 *)
     createdAt: string;
+      (** format: "Datetime" *)
   }  [@@deriving show {with_path=false}, make]
 
   let main_of_value : main Value.Util.conv = fun v ->
@@ -12785,6 +13729,7 @@ module App_Bsky_Graph_Starterpack = struct
 
   type nonrec feeditem = app_bsky_graph_starterpack_feeditem = {
     uri: string;
+      (** format: "AtUri" *)
   }
   let pp_feeditem = pp_app_bsky_graph_starterpack_feeditem
 
@@ -12803,7 +13748,11 @@ module App_Bsky_Graph_SearchStarterPacks = struct
 
   type main_params = {
     q: string;
+      (** Search query string. Syntax, phrase, boolean, and faceting is unspecified, but Lucene query syntax is recommended. *)
     limit: int64 option;
+      (** default: 25
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -12857,6 +13806,7 @@ module App_Bsky_Graph_MuteThread = struct
 
   type main_input = {
     root: string;
+      (** format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -12885,6 +13835,7 @@ module App_Bsky_Graph_MuteActorList = struct
 
   type main_input = {
     list: string;
+      (** format: "AtUri" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -12913,6 +13864,7 @@ module App_Bsky_Graph_MuteActor = struct
 
   type main_input = {
     actor: string;
+      (** format: "AtIdentifier" *)
   }
   [@@deriving show {with_path=false}]
 
@@ -12942,8 +13894,13 @@ module App_Bsky_Graph_Listitem = struct
   (** Record representing an account's inclusion on a specific list. The AppView will ignore duplicate listitem records. *)
   type main = {
     subject: string;
+      (** The account which is included on the list.
+      format: "Did" *)
     list: string;
+      (** Reference (AT-URI) to the list record (app.bsky.graph.list).
+      format: "AtUri" *)
     createdAt: string;
+      (** format: "Datetime" *)
   }  [@@deriving show {with_path=false}, make]
 
   let main_of_value : main Value.Util.conv = fun v ->
@@ -12984,7 +13941,10 @@ module App_Bsky_Graph_Listblock = struct
   (** Record representing a block relationship against an entire an entire list of accounts (actors). *)
   type main = {
     subject: string;
+      (** Reference (AT-URI) to the mod list record.
+      format: "AtUri" *)
     createdAt: string;
+      (** format: "Datetime" *)
   }  [@@deriving show {with_path=false}, make]
 
   let main_of_value : main Value.Util.conv = fun v ->
@@ -13023,15 +13983,23 @@ module App_Bsky_Graph_List = struct
   (** Record representing a list of accounts (actors). Scope includes both moderation-oriented lists and curration-oriented lists. *)
   type main = {
     purpose: app_bsky_graph_defs_listpurpose;
+      (** Defines the purpose of the list (aka, moderation-oriented or curration-oriented) *)
     name: string;
+      (** Display name for list; can not be empty.
+      maximum length: 64
+      minimum length: 1 *)
     description: string option;
+      (** maximum length: 3000 *)
     descriptionFacets: app_bsky_richtext_facet_main list option;
     avatar: Blob.t option;
+      (** accept: (AcceptN ["image/png"; "image/jpeg"])
+      max size: 1000000 *)
     labels: [
     | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
     | `Other of Value.t (** Non closed union *)
     ] option;
     createdAt: string;
+      (** format: "Datetime" *)
   }  [@@deriving show {with_path=false}, make]
 
   let main_of_value : main Value.Util.conv = fun v ->
@@ -13089,6 +14057,7 @@ module App_Bsky_Graph_GetSuggestedFollowsByActor = struct
 
   type main_params = {
     actor: string;
+      (** format: "AtIdentifier" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -13103,7 +14072,10 @@ module App_Bsky_Graph_GetSuggestedFollowsByActor = struct
   type main_output = {
     suggestions: app_bsky_actor_defs_profileview list;
     isFallback: bool option;
+      (** If true, response has fallen-back to generic results, and is not scoped using relativeToDid
+      default: false *)
     recId: int64 option;
+      (** Snowflake for this recommendation, use when submitting recommendation events. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -13140,6 +14112,7 @@ module App_Bsky_Graph_GetStarterPacks = struct
 
   type main_params = {
     uris: string list;
+      (** maximum length: 25 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -13185,6 +14158,8 @@ module App_Bsky_Graph_GetStarterPack = struct
 
   type main_params = {
     starterPack: string;
+      (** Reference (AT-URI) of the starter pack record.
+      format: "AtUri" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -13230,7 +14205,11 @@ module App_Bsky_Graph_GetRelationships = struct
 
   type main_params = {
     actor: string;
+      (** Primary account requesting relationships for.
+      format: "AtIdentifier" *)
     others: string list option;
+      (** List of 'other' accounts to be related back to the primary.
+      maximum length: 30 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -13246,6 +14225,7 @@ module App_Bsky_Graph_GetRelationships = struct
 
   type main_output = {
     actor: string option;
+      (** format: "Did" *)
     relationships: [
     | `App_bsky_graph_defs_relationship of app_bsky_graph_defs_relationship
     | `App_bsky_graph_defs_notfoundactor of app_bsky_graph_defs_notfoundactor
@@ -13302,6 +14282,9 @@ module App_Bsky_Graph_GetMutes = struct
 
   type main_params = {
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -13353,7 +14336,12 @@ module App_Bsky_Graph_GetLists = struct
 
   type main_params = {
     actor: string;
+      (** The account (actor) to enumerate lists from.
+      format: "AtIdentifier" *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -13407,6 +14395,9 @@ module App_Bsky_Graph_GetListMutes = struct
 
   type main_params = {
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -13458,6 +14449,9 @@ module App_Bsky_Graph_GetListBlocks = struct
 
   type main_params = {
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -13509,7 +14503,12 @@ module App_Bsky_Graph_GetList = struct
 
   type main_params = {
     list: string;
+      (** Reference (AT-URI) of the list record to hydrate.
+      format: "AtUri" *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -13566,7 +14565,11 @@ module App_Bsky_Graph_GetKnownFollowers = struct
 
   type main_params = {
     actor: string;
+      (** format: "AtIdentifier" *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -13623,7 +14626,11 @@ module App_Bsky_Graph_GetFollows = struct
 
   type main_params = {
     actor: string;
+      (** format: "AtIdentifier" *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -13680,7 +14687,11 @@ module App_Bsky_Graph_GetFollowers = struct
 
   type main_params = {
     actor: string;
+      (** format: "AtIdentifier" *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -13737,6 +14748,9 @@ module App_Bsky_Graph_GetBlocks = struct
 
   type main_params = {
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -13788,7 +14802,11 @@ module App_Bsky_Graph_GetActorStarterPacks = struct
 
   type main_params = {
     actor: string;
+      (** format: "AtIdentifier" *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -13843,7 +14861,9 @@ module App_Bsky_Graph_Follow = struct
   (** Record declaring a social 'follow' relationship of another account. Duplicate follows will be ignored by the AppView. *)
   type main = {
     subject: string;
+      (** format: "Did" *)
     createdAt: string;
+      (** format: "Datetime" *)
   }  [@@deriving show {with_path=false}, make]
 
   let main_of_value : main Value.Util.conv = fun v ->
@@ -13882,7 +14902,10 @@ module App_Bsky_Graph_Block = struct
   (** Record declaring a 'block' relationship against another account. NOTE: blocks are public in Bluesky; see blog posts for details. *)
   type main = {
     subject: string;
+      (** DID of the account to be blocked.
+      format: "Did" *)
     createdAt: string;
+      (** format: "Datetime" *)
   }  [@@deriving show {with_path=false}, make]
 
   let main_of_value : main Value.Util.conv = fun v ->
@@ -13958,17 +14981,36 @@ module App_Bsky_Feed_SearchPosts = struct
 
   type main_params = {
     q: string;
+      (** Search query string; syntax, phrase, boolean, and faceting is unspecified, but Lucene query syntax is recommended. *)
     sort: string option;
+      (** Specifies the ranking order of results.
+      known values: ["top"; "latest"] *)
     since: string option;
+      (** Filter results for posts after the indicated datetime (inclusive). Expected to use 'sortAt' timestamp, which may not match 'createdAt'. Can be a datetime, or just an ISO date (YYYY-MM-DD). *)
     until: string option;
+      (** Filter results for posts before the indicated datetime (not inclusive). Expected to use 'sortAt' timestamp, which may not match 'createdAt'. Can be a datetime, or just an ISO date (YYY-MM-DD). *)
     mentions: string option;
+      (** Filter to posts which mention the given account. Handles are resolved to DID before query-time. Only matches rich-text facet mentions.
+      format: "AtIdentifier" *)
     author: string option;
+      (** Filter to posts by the given account. Handles are resolved to DID before query-time.
+      format: "AtIdentifier" *)
     lang: string option;
+      (** Filter to posts in the given language. Expected to be based on post language field, though server may override language detection.
+      format: "Language" *)
     domain: string option;
+      (** Filter to posts with URLs (facet links or embeds) linking to the given domain (hostname). Server may apply hostname normalization. *)
     url: string option;
+      (** Filter to posts with links (facet links or embeds) pointing to this URL. Server may apply URL normalization or fuzzy matching.
+      format: "Uri" *)
     tag: string list option;
+      (** Filter to posts with the given tag (hashtag), based on rich-text facet or tag field. Do not include the hash (#) prefix. Multiple tags can be specified, with 'AND' matching. *)
     limit: int64 option;
+      (** default: 25
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
+      (** Optional pagination mechanism; may not necessarily allow scrolling through entire result set. *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -14005,6 +15047,7 @@ module App_Bsky_Feed_SearchPosts = struct
   type main_output = {
     cursor: string option;
     hitsTotal: int64 option;
+      (** Count of search hits. Optional, may be rounded/truncated, and may not be possible to paginate through all hits. *)
     posts: app_bsky_feed_defs_postview list;
   }
   [@@deriving show {with_path=false}]
@@ -14048,6 +15091,7 @@ module App_Bsky_Feed_Repost = struct
   type main = {
     subject: com_atproto_repo_strongref_main;
     createdAt: string;
+      (** format: "Datetime" *)
     via: com_atproto_repo_strongref_main option;
   }  [@@deriving show {with_path=false}, make]
 
@@ -14089,8 +15133,12 @@ module App_Bsky_Feed_Post = struct
   (** Record containing a Bluesky post. *)
   type main = {
     text: string;
+      (** The primary post content. May be an empty string, if there are embeds.
+      maximum length: 3000 *)
     entities: app_bsky_feed_post_entity list option;
+      (** DEPRECATED: replaced by app.bsky.richtext.facet. *)
     facets: app_bsky_richtext_facet_main list option;
+      (** Annotations of text (mentions, URLs, hashtags, etc) *)
     reply: app_bsky_feed_post_replyref option;
     embed: [
     | `App_bsky_embed_images_main of app_bsky_embed_images_main
@@ -14101,12 +15149,19 @@ module App_Bsky_Feed_Post = struct
     | `Other of Value.t (** Non closed union *)
     ] option;
     langs: string list option;
+      (** Indicates human language of post primary text content.
+      maximum length: 3 *)
     labels: [
     | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
     | `Other of Value.t (** Non closed union *)
     ] option;
+      (** Self-label values for this post. Effectively content warnings. *)
     tags: string list option;
+      (** Additional hashtags, in addition to any included in post text and facets.
+      maximum length: 8 *)
     createdAt: string;
+      (** Client-declared timestamp when this post was originally created.
+      format: "Datetime" *)
   }  [@@deriving show {with_path=false}, make]
 
   let main_of_value : main Value.Util.conv = fun v ->
@@ -14198,6 +15253,7 @@ module App_Bsky_Feed_Post = struct
   type nonrec entity = app_bsky_feed_post_entity = {
     index: app_bsky_feed_post_textslice;
     type_: string;
+      (** Expected values are 'mention' and 'link'. *)
     value: string;
   }
   let pp_entity = pp_app_bsky_feed_post_entity
@@ -14211,7 +15267,9 @@ module App_Bsky_Feed_Post = struct
 
   type nonrec textslice = app_bsky_feed_post_textslice = {
     start: int64;
+      (** minimum: 0 *)
     end_: int64;
+      (** minimum: 0 *)
   }
   let pp_textslice = pp_app_bsky_feed_post_textslice
 
@@ -14232,6 +15290,7 @@ module App_Bsky_Feed_Like = struct
   type main = {
     subject: com_atproto_repo_strongref_main;
     createdAt: string;
+      (** format: "Datetime" *)
     via: com_atproto_repo_strongref_main option;
   }  [@@deriving show {with_path=false}, make]
 
@@ -14272,7 +15331,11 @@ module App_Bsky_Feed_GetTimeline = struct
 
   type main_params = {
     algorithm: string option;
+      (** Variant 'algorithm' for timeline. Implementation-specific. NOTE: most feed flexibility has been moved to feed generator mechanism. *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -14326,6 +15389,9 @@ module App_Bsky_Feed_GetSuggestedFeeds = struct
 
   type main_params = {
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -14377,8 +15443,15 @@ module App_Bsky_Feed_GetRepostedBy = struct
 
   type main_params = {
     uri: string;
+      (** Reference (AT-URI) of post record
+      format: "AtUri" *)
     cid: string option;
+      (** If supplied, filters to reposts of specific version (by CID) of the post record.
+      format: "Cid" *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -14399,7 +15472,9 @@ module App_Bsky_Feed_GetRepostedBy = struct
 
   type main_output = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string option;
+      (** format: "Cid" *)
     cursor: string option;
     repostedBy: app_bsky_actor_defs_profileview list;
   }
@@ -14440,8 +15515,15 @@ module App_Bsky_Feed_GetQuotes = struct
 
   type main_params = {
     uri: string;
+      (** Reference (AT-URI) of post record
+      format: "AtUri" *)
     cid: string option;
+      (** If supplied, filters to quotes of specific version (by CID) of the post record.
+      format: "Cid" *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -14462,7 +15544,9 @@ module App_Bsky_Feed_GetQuotes = struct
 
   type main_output = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string option;
+      (** format: "Cid" *)
     cursor: string option;
     posts: app_bsky_feed_defs_postview list;
   }
@@ -14503,6 +15587,8 @@ module App_Bsky_Feed_GetPosts = struct
 
   type main_params = {
     uris: string list;
+      (** List of post AT-URIs to return hydrated views for.
+      maximum length: 25 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -14548,8 +15634,18 @@ module App_Bsky_Feed_GetPostThread = struct
 
   type main_params = {
     uri: string;
+      (** Reference (AT-URI) to post record.
+      format: "AtUri" *)
     depth: int64 option;
+      (** How many levels of reply depth should be included in response.
+      default: 6
+      maximum: 1000
+      minimum: 0 *)
     parentHeight: int64 option;
+      (** How many levels of parent (and grandparent, etc) post to include.
+      default: 80
+      maximum: 1000
+      minimum: 0 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -14627,7 +15723,12 @@ module App_Bsky_Feed_GetListFeed = struct
 
   type main_params = {
     list: string;
+      (** Reference (AT-URI) to the list record.
+      format: "AtUri" *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -14685,8 +15786,15 @@ module App_Bsky_Feed_GetLikes = struct
 
   type main_params = {
     uri: string;
+      (** AT-URI of the subject (eg, a post record).
+      format: "AtUri" *)
     cid: string option;
+      (** CID of the subject record (aka, specific version of record), to filter likes.
+      format: "Cid" *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -14707,7 +15815,9 @@ module App_Bsky_Feed_GetLikes = struct
 
   type main_output = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string option;
+      (** format: "Cid" *)
     cursor: string option;
     likes: app_bsky_feed_getlikes_like list;
   }
@@ -14742,7 +15852,9 @@ module App_Bsky_Feed_GetLikes = struct
 
   type nonrec like = app_bsky_feed_getlikes_like = {
     indexedAt: string;
+      (** format: "Datetime" *)
     createdAt: string;
+      (** format: "Datetime" *)
     actor: app_bsky_actor_defs_profileview;
   }
   let pp_like = pp_app_bsky_feed_getlikes_like
@@ -14762,7 +15874,12 @@ module App_Bsky_Feed_GetFeedSkeleton = struct
 
   type main_params = {
     feed: string;
+      (** Reference to feed generator record describing the specific feed being requested.
+      format: "AtUri" *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -14783,6 +15900,8 @@ module App_Bsky_Feed_GetFeedSkeleton = struct
     cursor: string option;
     feed: app_bsky_feed_defs_skeletonfeedpost list;
     reqId: string option;
+      (** Unique identifier per request that may be passed back alongside interactions.
+      maximum length: 100 *)
   }
   [@@deriving show {with_path=false}]
 
@@ -14868,6 +15987,8 @@ module App_Bsky_Feed_GetFeedGenerator = struct
 
   type main_params = {
     feed: string;
+      (** AT-URI of the feed generator record.
+      format: "AtUri" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -14882,7 +16003,9 @@ module App_Bsky_Feed_GetFeedGenerator = struct
   type main_output = {
     view: app_bsky_feed_defs_generatorview;
     isOnline: bool;
+      (** Indicates whether the feed generator service has been online recently, or else seems to be inactive. *)
     isValid: bool;
+      (** Indicates whether the feed generator service is compatible with the record declaration. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -14919,7 +16042,11 @@ module App_Bsky_Feed_GetFeed = struct
 
   type main_params = {
     feed: string;
+      (** format: "AtUri" *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -14977,10 +16104,17 @@ module App_Bsky_Feed_GetAuthorFeed = struct
 
   type main_params = {
     actor: string;
+      (** format: "AtIdentifier" *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
     filter: string option;
+      (** Combinations of post/repost types to include in response.
+      known values: ["posts_with_replies"; "posts_no_replies"; "posts_with_media"; "posts_and_author_threads"; "posts_with_video"] *)
     includePins: bool option;
+      (** default: false *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -15041,7 +16175,11 @@ module App_Bsky_Feed_GetActorLikes = struct
 
   type main_params = {
     actor: string;
+      (** format: "AtIdentifier" *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -15099,7 +16237,11 @@ module App_Bsky_Feed_GetActorFeeds = struct
 
   type main_params = {
     actor: string;
+      (** format: "AtIdentifier" *)
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -15154,17 +16296,26 @@ module App_Bsky_Feed_Generator = struct
   (** Record declaring of the existence of a feed generator, and containing metadata about it. The record can exist in any repository. *)
   type main = {
     did: string;
+      (** format: "Did" *)
     displayName: string;
+      (** maximum length: 240 *)
     description: string option;
+      (** maximum length: 3000 *)
     descriptionFacets: app_bsky_richtext_facet_main list option;
     avatar: Blob.t option;
+      (** accept: (AcceptN ["image/png"; "image/jpeg"])
+      max size: 1000000 *)
     acceptsInteractions: bool option;
+      (** Declaration that a feed accepts feedback interactions from a client through app.bsky.feed.sendInteractions *)
     labels: [
     | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
     | `Other of Value.t (** Non closed union *)
     ] option;
+      (** Self-label values *)
     contentMode: string option;
+      (** known values: ["app.bsky.feed.defs#contentModeUnspecified"; "app.bsky.feed.defs#contentModeVideo"] *)
     createdAt: string;
+      (** format: "Datetime" *)
   }  [@@deriving show {with_path=false}, make]
 
   let main_of_value : main Value.Util.conv = fun v ->
@@ -15226,6 +16377,7 @@ module App_Bsky_Feed_DescribeFeedGenerator = struct
 
   type main_output = {
     did: string;
+      (** format: "Did" *)
     feeds: app_bsky_feed_describefeedgenerator_feed list;
     links: app_bsky_feed_describefeedgenerator_links option;
   }
@@ -15254,6 +16406,7 @@ module App_Bsky_Feed_DescribeFeedGenerator = struct
 
   type nonrec feed = app_bsky_feed_describefeedgenerator_feed = {
     uri: string;
+      (** format: "AtUri" *)
   }
   let pp_feed = pp_app_bsky_feed_describefeedgenerator_feed
 
@@ -15286,12 +16439,18 @@ module App_Bsky_Actor_Status = struct
   (** A declaration of a Bluesky account status. *)
   type main = {
     status: string;
+      (** The status for the account.
+      known values: ["app.bsky.actor.status#live"] *)
     embed: [
     | `App_bsky_embed_external_main of app_bsky_embed_external_main
     | `Other of Value.t (** Non closed union *)
     ] option;
+      (** An optional embed associated with the status. *)
     durationMinutes: int64 option;
+      (** The duration of the status in minutes. Applications can choose to impose minimum and maximum limits.
+      minimum: 1 *)
     createdAt: string;
+      (** format: "Datetime" *)
   }  [@@deriving show {with_path=false}, make]
 
   let main_of_value : main Value.Util.conv = fun v ->
@@ -15353,8 +16512,13 @@ module App_Bsky_Actor_SearchActorsTypeahead = struct
 
   type main_params = {
     term: string option;
+      (** DEPRECATED: use 'q' instead. *)
     q: string option;
+      (** Search query prefix; not a full query string. *)
     limit: int64 option;
+      (** default: 10
+      maximum: 100
+      minimum: 1 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -15404,8 +16568,13 @@ module App_Bsky_Actor_SearchActors = struct
 
   type main_params = {
     term: string option;
+      (** DEPRECATED: use 'q' instead. *)
     q: string option;
+      (** Search query string. Syntax, phrase, boolean, and faceting is unspecified, but Lucene query syntax is recommended. *)
     limit: int64 option;
+      (** default: 25
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -15490,16 +16659,27 @@ module App_Bsky_Actor_Profile = struct
   (** A declaration of a Bluesky account profile. *)
   type main = {
     displayName: string option;
+      (** maximum length: 640 *)
     description: string option;
+      (** Free-form profile description text.
+      maximum length: 2560 *)
     avatar: Blob.t option;
+      (** Small image to be displayed next to posts from account. AKA, 'profile picture'
+      accept: (AcceptN ["image/png"; "image/jpeg"])
+      max size: 1000000 *)
     banner: Blob.t option;
+      (** Larger horizontal image to display behind profile view.
+      accept: (AcceptN ["image/png"; "image/jpeg"])
+      max size: 1000000 *)
     labels: [
     | `Com_atproto_label_defs_selflabels of com_atproto_label_defs_selflabels
     | `Other of Value.t (** Non closed union *)
     ] option;
+      (** Self-label values, specific to the Bluesky application, on the overall account. *)
     joinedViaStarterPack: com_atproto_repo_strongref_main option;
     pinnedPost: com_atproto_repo_strongref_main option;
     createdAt: string option;
+      (** format: "Datetime" *)
   }  [@@deriving show {with_path=false}, make]
 
   let main_of_value : main Value.Util.conv = fun v ->
@@ -15559,6 +16739,9 @@ module App_Bsky_Actor_GetSuggestions = struct
 
   type main_params = {
     limit: int64 option;
+      (** default: 50
+      maximum: 100
+      minimum: 1 *)
     cursor: string option;
   }
   [@@deriving show {with_path=false}, make]
@@ -15577,6 +16760,7 @@ module App_Bsky_Actor_GetSuggestions = struct
     cursor: string option;
     actors: app_bsky_actor_defs_profileview list;
     recId: int64 option;
+      (** Snowflake for this recommendation, use when submitting recommendation events. *)
   }
   [@@deriving show {with_path=false}]
 
@@ -15613,6 +16797,7 @@ module App_Bsky_Actor_GetProfiles = struct
 
   type main_params = {
     actors: string list;
+      (** maximum length: 25 *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -15658,6 +16843,8 @@ module App_Bsky_Actor_GetProfile = struct
 
   type main_params = {
     actor: string;
+      (** Handle or DID of account to fetch profile of.
+      format: "AtIdentifier" *)
   }
   [@@deriving show {with_path=false}, make]
 
@@ -15724,13 +16911,18 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec profileviewbasic = app_bsky_actor_defs_profileviewbasic = {
     did: string;
+      (** format: "Did" *)
     handle: string;
+      (** format: "Handle" *)
     displayName: string option;
+      (** maximum length: 640 *)
     avatar: string option;
+      (** format: "Uri" *)
     associated: app_bsky_actor_defs_profileassociated option;
     viewer: app_bsky_actor_defs_viewerstate option;
     labels: com_atproto_label_defs_label list option;
     createdAt: string option;
+      (** format: "Datetime" *)
     verification: app_bsky_actor_defs_verificationstate option;
     status: app_bsky_actor_defs_statusview option;
   }
@@ -15745,13 +16937,20 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec profileview = app_bsky_actor_defs_profileview = {
     did: string;
+      (** format: "Did" *)
     handle: string;
+      (** format: "Handle" *)
     displayName: string option;
+      (** maximum length: 640 *)
     description: string option;
+      (** maximum length: 2560 *)
     avatar: string option;
+      (** format: "Uri" *)
     associated: app_bsky_actor_defs_profileassociated option;
     indexedAt: string option;
+      (** format: "Datetime" *)
     createdAt: string option;
+      (** format: "Datetime" *)
     viewer: app_bsky_actor_defs_viewerstate option;
     labels: com_atproto_label_defs_label list option;
     verification: app_bsky_actor_defs_verificationstate option;
@@ -15768,18 +16967,26 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec profileviewdetailed = app_bsky_actor_defs_profileviewdetailed = {
     did: string;
+      (** format: "Did" *)
     handle: string;
+      (** format: "Handle" *)
     displayName: string option;
+      (** maximum length: 640 *)
     description: string option;
+      (** maximum length: 2560 *)
     avatar: string option;
+      (** format: "Uri" *)
     banner: string option;
+      (** format: "Uri" *)
     followersCount: int64 option;
     followsCount: int64 option;
     postsCount: int64 option;
     associated: app_bsky_actor_defs_profileassociated option;
     joinedViaStarterPack: app_bsky_graph_defs_starterpackviewbasic option;
     indexedAt: string option;
+      (** format: "Datetime" *)
     createdAt: string option;
+      (** format: "Datetime" *)
     viewer: app_bsky_actor_defs_viewerstate option;
     labels: com_atproto_label_defs_label list option;
     pinnedPost: com_atproto_repo_strongref_main option;
@@ -15813,6 +17020,7 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec profileassociatedchat = app_bsky_actor_defs_profileassociatedchat = {
     allowIncoming: string;
+      (** known values: ["all"; "none"; "following"] *)
   }
   let pp_profileassociatedchat = pp_app_bsky_actor_defs_profileassociatedchat
 
@@ -15828,9 +17036,12 @@ module App_Bsky_Actor_Defs = struct
     mutedByList: app_bsky_graph_defs_listviewbasic option;
     blockedBy: bool option;
     blocking: string option;
+      (** format: "AtUri" *)
     blockingByList: app_bsky_graph_defs_listviewbasic option;
     following: string option;
+      (** format: "AtUri" *)
     followedBy: string option;
+      (** format: "AtUri" *)
     knownFollowers: app_bsky_actor_defs_knownfollowers option;
   }
   let pp_viewerstate = pp_app_bsky_actor_defs_viewerstate
@@ -15845,6 +17056,8 @@ module App_Bsky_Actor_Defs = struct
   type nonrec knownfollowers = app_bsky_actor_defs_knownfollowers = {
     count: int64;
     followers: app_bsky_actor_defs_profileviewbasic list;
+      (** maximum length: 5
+      minimum length: 0 *)
   }
   let pp_knownfollowers = pp_app_bsky_actor_defs_knownfollowers
 
@@ -15857,8 +17070,13 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec verificationstate = app_bsky_actor_defs_verificationstate = {
     verifications: app_bsky_actor_defs_verificationview list;
+      (** All verifications issued by trusted verifiers on behalf of this user. Verifications by untrusted verifiers are not included. *)
     verifiedStatus: string;
+      (** The user's status as a verified account.
+      known values: ["valid"; "invalid"; "none"] *)
     trustedVerifierStatus: string;
+      (** The user's status as a trusted verifier.
+      known values: ["valid"; "invalid"; "none"] *)
   }
   let pp_verificationstate = pp_app_bsky_actor_defs_verificationstate
 
@@ -15871,9 +17089,16 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec verificationview = app_bsky_actor_defs_verificationview = {
     issuer: string;
+      (** The user who issued this verification.
+      format: "Did" *)
     uri: string;
+      (** The AT-URI of the verification record.
+      format: "AtUri" *)
     isValid: bool;
+      (** True if the verification passes validation, otherwise false. *)
     createdAt: string;
+      (** Timestamp when the verification was created.
+      format: "Datetime" *)
   }
   let pp_verificationview = pp_app_bsky_actor_defs_verificationview
 
@@ -15896,6 +17121,7 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec adultcontentpref = app_bsky_actor_defs_adultcontentpref = {
     enabled: bool;
+      (** default: false *)
   }
   let pp_adultcontentpref = pp_app_bsky_actor_defs_adultcontentpref
 
@@ -15908,8 +17134,11 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec contentlabelpref = app_bsky_actor_defs_contentlabelpref = {
     labelerDid: string option;
+      (** Which labeler does this preference apply to? If undefined, applies globally.
+      format: "Did" *)
     label: string;
     visibility: string;
+      (** known values: ["ignore"; "show"; "warn"; "hide"] *)
   }
   let pp_contentlabelpref = pp_app_bsky_actor_defs_contentlabelpref
 
@@ -15923,6 +17152,7 @@ module App_Bsky_Actor_Defs = struct
   type nonrec savedfeed = app_bsky_actor_defs_savedfeed = {
     id: string;
     type_: string;
+      (** known values: ["feed"; "list"; "timeline"] *)
     value: string;
     pinned: bool;
   }
@@ -15963,6 +17193,8 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec personaldetailspref = app_bsky_actor_defs_personaldetailspref = {
     birthDate: string option;
+      (** The birth date of account owner.
+      format: "Datetime" *)
   }
   let pp_personaldetailspref = pp_app_bsky_actor_defs_personaldetailspref
 
@@ -15975,11 +17207,18 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec feedviewpref = app_bsky_actor_defs_feedviewpref = {
     feed: string;
+      (** The URI of the feed, or an identifier which describes the feed. *)
     hideReplies: bool option;
+      (** Hide replies in the feed. *)
     hideRepliesByUnfollowed: bool option;
+      (** Hide replies in the feed if they are not by followed users.
+      default: true *)
     hideRepliesByLikeCount: int64 option;
+      (** Hide replies in the feed if they do not have this number of likes. *)
     hideReposts: bool option;
+      (** Hide reposts in the feed. *)
     hideQuotePosts: bool option;
+      (** Hide quote posts in the feed. *)
   }
   let pp_feedviewpref = pp_app_bsky_actor_defs_feedviewpref
 
@@ -15992,7 +17231,10 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec threadviewpref = app_bsky_actor_defs_threadviewpref = {
     sort: string option;
+      (** Sorting mode for threads.
+      known values: ["oldest"; "newest"; "most-likes"; "random"; "hotness"] *)
     prioritizeFollowedUsers: bool option;
+      (** Show followed users at the top of all replies. *)
   }
   let pp_threadviewpref = pp_app_bsky_actor_defs_threadviewpref
 
@@ -16005,6 +17247,8 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec interestspref = app_bsky_actor_defs_interestspref = {
     tags: string list;
+      (** A list of tags which describe the account owner's interests gathered during onboarding.
+      maximum length: 100 *)
   }
   let pp_interestspref = pp_app_bsky_actor_defs_interestspref
 
@@ -16028,9 +17272,16 @@ module App_Bsky_Actor_Defs = struct
   type nonrec mutedword = app_bsky_actor_defs_mutedword = {
     id: string option;
     value: string;
+      (** The muted word itself.
+      maximum length: 10000 *)
     targets: app_bsky_actor_defs_mutedwordtarget list;
+      (** The intended targets of the muted word. *)
     actorTarget: string option;
+      (** Groups of users to apply the muted word to. If undefined, applies to all users.
+      known values: ["all"; "exclude-following"] *)
     expiresAt: string option;
+      (** The date and time at which the muted word will expire and no longer be applied.
+      format: "Datetime" *)
   }
   let pp_mutedword = pp_app_bsky_actor_defs_mutedword
 
@@ -16043,6 +17294,7 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec mutedwordspref = app_bsky_actor_defs_mutedwordspref = {
     items: app_bsky_actor_defs_mutedword list;
+      (** A list of words the account owner has muted. *)
   }
   let pp_mutedwordspref = pp_app_bsky_actor_defs_mutedwordspref
 
@@ -16055,6 +17307,7 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec hiddenpostspref = app_bsky_actor_defs_hiddenpostspref = {
     items: string list;
+      (** A list of URIs of posts the account owner has hidden. *)
   }
   let pp_hiddenpostspref = pp_app_bsky_actor_defs_hiddenpostspref
 
@@ -16079,6 +17332,7 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec labelerprefitem = app_bsky_actor_defs_labelerprefitem = {
     did: string;
+      (** format: "Did" *)
   }
   let pp_labelerprefitem = pp_app_bsky_actor_defs_labelerprefitem
 
@@ -16092,7 +17346,11 @@ module App_Bsky_Actor_Defs = struct
   type nonrec bskyappstatepref = app_bsky_actor_defs_bskyappstatepref = {
     activeProgressGuide: app_bsky_actor_defs_bskyappprogressguide option;
     queuedNudges: string list option;
+      (** An array of tokens which identify nudges (modals, popups, tours, highlight dots) that should be shown to the user.
+      maximum length: 1000 *)
     nuxs: app_bsky_actor_defs_nux list option;
+      (** Storage for NUXs the user has encountered.
+      maximum length: 100 *)
   }
   let pp_bskyappstatepref = pp_app_bsky_actor_defs_bskyappstatepref
 
@@ -16105,6 +17363,7 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec bskyappprogressguide = app_bsky_actor_defs_bskyappprogressguide = {
     guide: string;
+      (** maximum length: 100 *)
   }
   let pp_bskyappprogressguide = pp_app_bsky_actor_defs_bskyappprogressguide
 
@@ -16117,9 +17376,15 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec nux = app_bsky_actor_defs_nux = {
     id: string;
+      (** maximum length: 100 *)
     completed: bool;
+      (** default: false *)
     data: string option;
+      (** Arbitrary data for the NUX. The structure is defined by the NUX itself. Limited to 300 characters.
+      maximum length: 3000 *)
     expiresAt: string option;
+      (** The date and time at which the NUX will expire and should be considered completed.
+      format: "Datetime" *)
   }
   let pp_nux = pp_app_bsky_actor_defs_nux
 
@@ -16132,6 +17397,8 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec verificationprefs = app_bsky_actor_defs_verificationprefs = {
     hideBadges: bool option;
+      (** Hide the blue check badges for verified accounts and trusted verifiers.
+      default: false *)
   }
   let pp_verificationprefs = pp_app_bsky_actor_defs_verificationprefs
 
@@ -16150,10 +17417,14 @@ module App_Bsky_Actor_Defs = struct
     | `App_bsky_feed_threadgate_listrule of app_bsky_feed_threadgate_listrule
     | `Other of Value.t (** Non closed union *)
     ] list option;
+      (** Matches threadgate record. List of rules defining who can reply to this users posts. If value is an empty array, no one can reply. If value is undefined, anyone can reply.
+      maximum length: 5 *)
     postgateEmbeddingRules: [
     | `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule
     | `Other of Value.t (** Non closed union *)
     ] list option;
+      (** Matches postgate record. List of rules defining who can embed this users posts. If value is an empty array or is undefined, no particular rules apply and anyone can embed.
+      maximum length: 5 *)
   }
   let pp_postinteractionsettingspref = pp_app_bsky_actor_defs_postinteractionsettingspref
 
@@ -16166,13 +17437,19 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec statusview = app_bsky_actor_defs_statusview = {
     status: string;
+      (** The status for the account.
+      known values: ["app.bsky.actor.status#live"] *)
     record: Value.t (* unknown *);
     embed: [
     | `App_bsky_embed_external_view of app_bsky_embed_external_view
     | `Other of Value.t (** Non closed union *)
     ] option;
+      (** An optional embed associated with the status. *)
     expiresAt: string option;
+      (** The date when this status will expire. The application might choose to no longer return the status after expiration.
+      format: "Datetime" *)
     isActive: bool option;
+      (** True if the status is not expired, false if it is expired. Only present if expiration was set. *)
   }
   let pp_statusview = pp_app_bsky_actor_defs_statusview
 
@@ -16191,14 +17468,21 @@ module App_Bsky_Graph_Defs = struct
 
   type nonrec listviewbasic = app_bsky_graph_defs_listviewbasic = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     name: string;
+      (** maximum length: 64
+      minimum length: 1 *)
     purpose: app_bsky_graph_defs_listpurpose;
     avatar: string option;
+      (** format: "Uri" *)
     listItemCount: int64 option;
+      (** minimum: 0 *)
     labels: com_atproto_label_defs_label list option;
     viewer: app_bsky_graph_defs_listviewerstate option;
     indexedAt: string option;
+      (** format: "Datetime" *)
   }
   let pp_listviewbasic = pp_app_bsky_graph_defs_listviewbasic
 
@@ -16211,17 +17495,25 @@ module App_Bsky_Graph_Defs = struct
 
   type nonrec listview = app_bsky_graph_defs_listview = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     creator: app_bsky_actor_defs_profileview;
     name: string;
+      (** maximum length: 64
+      minimum length: 1 *)
     purpose: app_bsky_graph_defs_listpurpose;
     description: string option;
+      (** maximum length: 3000 *)
     descriptionFacets: app_bsky_richtext_facet_main list option;
     avatar: string option;
+      (** format: "Uri" *)
     listItemCount: int64 option;
+      (** minimum: 0 *)
     labels: com_atproto_label_defs_label list option;
     viewer: app_bsky_graph_defs_listviewerstate option;
     indexedAt: string;
+      (** format: "Datetime" *)
   }
   let pp_listview = pp_app_bsky_graph_defs_listview
 
@@ -16234,6 +17526,7 @@ module App_Bsky_Graph_Defs = struct
 
   type nonrec listitemview = app_bsky_graph_defs_listitemview = {
     uri: string;
+      (** format: "AtUri" *)
     subject: app_bsky_actor_defs_profileview;
   }
   let pp_listitemview = pp_app_bsky_graph_defs_listitemview
@@ -16247,16 +17540,23 @@ module App_Bsky_Graph_Defs = struct
 
   type nonrec starterpackview = app_bsky_graph_defs_starterpackview = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     record: Value.t (* unknown *);
     creator: app_bsky_actor_defs_profileviewbasic;
     list: app_bsky_graph_defs_listviewbasic option;
     listItemsSample: app_bsky_graph_defs_listitemview list option;
+      (** maximum length: 12 *)
     feeds: app_bsky_feed_defs_generatorview list option;
+      (** maximum length: 3 *)
     joinedWeekCount: int64 option;
+      (** minimum: 0 *)
     joinedAllTimeCount: int64 option;
+      (** minimum: 0 *)
     labels: com_atproto_label_defs_label list option;
     indexedAt: string;
+      (** format: "Datetime" *)
   }
   let pp_starterpackview = pp_app_bsky_graph_defs_starterpackview
 
@@ -16269,14 +17569,20 @@ module App_Bsky_Graph_Defs = struct
 
   type nonrec starterpackviewbasic = app_bsky_graph_defs_starterpackviewbasic = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     record: Value.t (* unknown *);
     creator: app_bsky_actor_defs_profileviewbasic;
     listItemCount: int64 option;
+      (** minimum: 0 *)
     joinedWeekCount: int64 option;
+      (** minimum: 0 *)
     joinedAllTimeCount: int64 option;
+      (** minimum: 0 *)
     labels: com_atproto_label_defs_label list option;
     indexedAt: string;
+      (** format: "Datetime" *)
   }
   let pp_starterpackviewbasic = pp_app_bsky_graph_defs_starterpackviewbasic
 
@@ -16330,6 +17636,7 @@ module App_Bsky_Graph_Defs = struct
   type nonrec listviewerstate = app_bsky_graph_defs_listviewerstate = {
     muted: bool option;
     blocked: string option;
+      (** format: "AtUri" *)
   }
   let pp_listviewerstate = pp_app_bsky_graph_defs_listviewerstate
 
@@ -16342,6 +17649,7 @@ module App_Bsky_Graph_Defs = struct
 
   type nonrec notfoundactor = app_bsky_graph_defs_notfoundactor = {
     actor: string;
+      (** format: "AtIdentifier" *)
     notFound: bool;
   }
   let pp_notfoundactor = pp_app_bsky_graph_defs_notfoundactor
@@ -16355,8 +17663,13 @@ module App_Bsky_Graph_Defs = struct
 
   type nonrec relationship = app_bsky_graph_defs_relationship = {
     did: string;
+      (** format: "Did" *)
     following: string option;
+      (** if the actor follows this DID, this is the AT-URI of the follow record
+      format: "AtUri" *)
     followedBy: string option;
+      (** if the actor is followed by this DID, contains the AT-URI of the follow record
+      format: "AtUri" *)
   }
   let pp_relationship = pp_app_bsky_graph_defs_relationship
 
@@ -16375,7 +17688,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec postview = app_bsky_feed_defs_postview = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     author: app_bsky_actor_defs_profileviewbasic;
     record: Value.t (* unknown *);
     embed: [
@@ -16391,6 +17706,7 @@ module App_Bsky_Feed_Defs = struct
     likeCount: int64 option;
     quoteCount: int64 option;
     indexedAt: string;
+      (** format: "Datetime" *)
     viewer: app_bsky_feed_defs_viewerstate option;
     labels: com_atproto_label_defs_label list option;
     threadgate: app_bsky_feed_defs_threadgateview option;
@@ -16406,7 +17722,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec viewerstate = app_bsky_feed_defs_viewerstate = {
     repost: string option;
+      (** format: "AtUri" *)
     like: string option;
+      (** format: "AtUri" *)
     threadMuted: bool option;
     replyDisabled: bool option;
     embeddingDisabled: bool option;
@@ -16423,6 +17741,7 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec threadcontext = app_bsky_feed_defs_threadcontext = {
     rootAuthorLike: string option;
+      (** format: "AtUri" *)
   }
   let pp_threadcontext = pp_app_bsky_feed_defs_threadcontext
 
@@ -16442,7 +17761,11 @@ module App_Bsky_Feed_Defs = struct
     | `Other of Value.t (** Non closed union *)
     ] option;
     feedContext: string option;
+      (** Context provided by feed generator that may be passed back alongside interactions.
+      maximum length: 2000 *)
     reqId: string option;
+      (** Unique identifier per request that may be passed back alongside interactions.
+      maximum length: 100 *)
   }
   let pp_feedviewpost = pp_app_bsky_feed_defs_feedviewpost
 
@@ -16467,6 +17790,7 @@ module App_Bsky_Feed_Defs = struct
     | `Other of Value.t (** Non closed union *)
     ];
     grandparentAuthor: app_bsky_actor_defs_profileviewbasic option;
+      (** When parent is a reply to another post, this is the author of that post. *)
   }
   let pp_replyref = pp_app_bsky_feed_defs_replyref
 
@@ -16480,8 +17804,11 @@ module App_Bsky_Feed_Defs = struct
   type nonrec reasonrepost = app_bsky_feed_defs_reasonrepost = {
     by: app_bsky_actor_defs_profileviewbasic;
     uri: string option;
+      (** format: "AtUri" *)
     cid: string option;
+      (** format: "Cid" *)
     indexedAt: string;
+      (** format: "Datetime" *)
   }
   let pp_reasonrepost = pp_app_bsky_feed_defs_reasonrepost
 
@@ -16529,6 +17856,7 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec notfoundpost = app_bsky_feed_defs_notfoundpost = {
     uri: string;
+      (** format: "AtUri" *)
     notFound: bool;
   }
   let pp_notfoundpost = pp_app_bsky_feed_defs_notfoundpost
@@ -16542,6 +17870,7 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec blockedpost = app_bsky_feed_defs_blockedpost = {
     uri: string;
+      (** format: "AtUri" *)
     blocked: bool;
     author: app_bsky_feed_defs_blockedauthor;
   }
@@ -16556,6 +17885,7 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec blockedauthor = app_bsky_feed_defs_blockedauthor = {
     did: string;
+      (** format: "Did" *)
     viewer: app_bsky_actor_defs_viewerstate option;
   }
   let pp_blockedauthor = pp_app_bsky_feed_defs_blockedauthor
@@ -16569,19 +17899,27 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec generatorview = app_bsky_feed_defs_generatorview = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     did: string;
+      (** format: "Did" *)
     creator: app_bsky_actor_defs_profileview;
     displayName: string;
     description: string option;
+      (** maximum length: 3000 *)
     descriptionFacets: app_bsky_richtext_facet_main list option;
     avatar: string option;
+      (** format: "Uri" *)
     likeCount: int64 option;
+      (** minimum: 0 *)
     acceptsInteractions: bool option;
     labels: com_atproto_label_defs_label list option;
     viewer: app_bsky_feed_defs_generatorviewerstate option;
     contentMode: string option;
+      (** known values: ["app.bsky.feed.defs#contentModeUnspecified"; "app.bsky.feed.defs#contentModeVideo"] *)
     indexedAt: string;
+      (** format: "Datetime" *)
   }
   let pp_generatorview = pp_app_bsky_feed_defs_generatorview
 
@@ -16594,6 +17932,7 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec generatorviewerstate = app_bsky_feed_defs_generatorviewerstate = {
     like: string option;
+      (** format: "AtUri" *)
   }
   let pp_generatorviewerstate = pp_app_bsky_feed_defs_generatorviewerstate
 
@@ -16606,12 +17945,15 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec skeletonfeedpost = app_bsky_feed_defs_skeletonfeedpost = {
     post: string;
+      (** format: "AtUri" *)
     reason: [
     | `App_bsky_feed_defs_skeletonreasonrepost of app_bsky_feed_defs_skeletonreasonrepost
     | `App_bsky_feed_defs_skeletonreasonpin of app_bsky_feed_defs_skeletonreasonpin
     | `Other of Value.t (** Non closed union *)
     ] option;
     feedContext: string option;
+      (** Context that will be passed through to client and may be passed to feed generator back alongside interactions.
+      maximum length: 2000 *)
   }
   let pp_skeletonfeedpost = pp_app_bsky_feed_defs_skeletonfeedpost
 
@@ -16624,6 +17966,7 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec skeletonreasonrepost = app_bsky_feed_defs_skeletonreasonrepost = {
     repost: string;
+      (** format: "AtUri" *)
   }
   let pp_skeletonreasonrepost = pp_app_bsky_feed_defs_skeletonreasonrepost
 
@@ -16646,7 +17989,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec threadgateview = app_bsky_feed_defs_threadgateview = {
     uri: string option;
+      (** format: "AtUri" *)
     cid: string option;
+      (** format: "Cid" *)
     record: Value.t (* unknown *) option;
     lists: app_bsky_graph_defs_listviewbasic list option;
   }
@@ -16661,9 +18006,15 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec interaction = app_bsky_feed_defs_interaction = {
     item: string option;
+      (** format: "AtUri" *)
     event: string option;
+      (** known values: ["app.bsky.feed.defs#requestLess"; "app.bsky.feed.defs#requestMore"; "app.bsky.feed.defs#clickthroughItem"; "app.bsky.feed.defs#clickthroughAuthor"; "app.bsky.feed.defs#clickthroughReposter"; "app.bsky.feed.defs#clickthroughEmbed"; "app.bsky.feed.defs#interactionSeen"; "app.bsky.feed.defs#interactionLike"; "app.bsky.feed.defs#interactionRepost"; "app.bsky.feed.defs#interactionReply"; "app.bsky.feed.defs#interactionQuote"; "app.bsky.feed.defs#interactionShare"] *)
     feedContext: string option;
+      (** Context on a feed item that was originally supplied by the feed generator on getFeedSkeleton.
+      maximum length: 2000 *)
     reqId: string option;
+      (** Unique identifier per request that may be passed back alongside interactions.
+      maximum length: 100 *)
   }
   let pp_interaction = pp_app_bsky_feed_defs_interaction
 
@@ -16900,9 +18251,12 @@ module App_Bsky_Embed_Record = struct
 
   type nonrec viewrecord = app_bsky_embed_record_viewrecord = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     author: app_bsky_actor_defs_profileviewbasic;
     value: Value.t (* unknown *);
+      (** The record data itself. *)
     labels: com_atproto_label_defs_label list option;
     replyCount: int64 option;
     repostCount: int64 option;
@@ -16917,6 +18271,7 @@ module App_Bsky_Embed_Record = struct
     | `Other of Value.t (** Non closed union *)
     ] list option;
     indexedAt: string;
+      (** format: "Datetime" *)
   }
   let pp_viewrecord = pp_app_bsky_embed_record_viewrecord
 
@@ -16929,6 +18284,7 @@ module App_Bsky_Embed_Record = struct
 
   type nonrec viewnotfound = app_bsky_embed_record_viewnotfound = {
     uri: string;
+      (** format: "AtUri" *)
     notFound: bool;
   }
   let pp_viewnotfound = pp_app_bsky_embed_record_viewnotfound
@@ -16942,6 +18298,7 @@ module App_Bsky_Embed_Record = struct
 
   type nonrec viewblocked = app_bsky_embed_record_viewblocked = {
     uri: string;
+      (** format: "AtUri" *)
     blocked: bool;
     author: app_bsky_feed_defs_blockedauthor;
   }
@@ -16956,6 +18313,7 @@ module App_Bsky_Embed_Record = struct
 
   type nonrec viewdetached = app_bsky_embed_record_viewdetached = {
     uri: string;
+      (** format: "AtUri" *)
     detached: bool;
   }
   let pp_viewdetached = pp_app_bsky_embed_record_viewdetached
@@ -16975,11 +18333,15 @@ module App_Bsky_Labeler_Defs = struct
 
   type nonrec labelerview = app_bsky_labeler_defs_labelerview = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     creator: app_bsky_actor_defs_profileview;
     likeCount: int64 option;
+      (** minimum: 0 *)
     viewer: app_bsky_labeler_defs_labelerviewerstate option;
     indexedAt: string;
+      (** format: "Datetime" *)
     labels: com_atproto_label_defs_label list option;
   }
   let pp_labelerview = pp_app_bsky_labeler_defs_labelerview
@@ -16993,16 +18355,23 @@ module App_Bsky_Labeler_Defs = struct
 
   type nonrec labelerviewdetailed = app_bsky_labeler_defs_labelerviewdetailed = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
     creator: app_bsky_actor_defs_profileview;
     policies: app_bsky_labeler_defs_labelerpolicies;
     likeCount: int64 option;
+      (** minimum: 0 *)
     viewer: app_bsky_labeler_defs_labelerviewerstate option;
     indexedAt: string;
+      (** format: "Datetime" *)
     labels: com_atproto_label_defs_label list option;
     reasonTypes: com_atproto_moderation_defs_reasontype list option;
+      (** The set of report reason 'codes' which are in-scope for this service to review and action. These usually align to policy categories. If not defined (distinct from empty array), all reason types are allowed. *)
     subjectTypes: com_atproto_moderation_defs_subjecttype list option;
+      (** The set of subject types (account, record, etc) this service accepts reports on. *)
     subjectCollections: string list option;
+      (** Set of record types (collection NSIDs) which can be reported to this service. If not defined (distinct from empty array), default is any record type. *)
   }
   let pp_labelerviewdetailed = pp_app_bsky_labeler_defs_labelerviewdetailed
 
@@ -17015,6 +18384,7 @@ module App_Bsky_Labeler_Defs = struct
 
   type nonrec labelerviewerstate = app_bsky_labeler_defs_labelerviewerstate = {
     like: string option;
+      (** format: "AtUri" *)
   }
   let pp_labelerviewerstate = pp_app_bsky_labeler_defs_labelerviewerstate
 
@@ -17027,7 +18397,9 @@ module App_Bsky_Labeler_Defs = struct
 
   type nonrec labelerpolicies = app_bsky_labeler_defs_labelerpolicies = {
     labelValues: com_atproto_label_defs_labelvalue list;
+      (** The label values which this labeler publishes. May include global or custom labels. *)
     labelValueDefinitions: com_atproto_label_defs_labelvaluedefinition list option;
+      (** Label values created by this labeler and scoped exclusively to it. Labels defined here will override global label definitions for this labeler. *)
   }
   let pp_labelerpolicies = pp_app_bsky_labeler_defs_labelerpolicies
 
@@ -17047,7 +18419,9 @@ module Com_Atproto_Repo_StrongRef = struct
 
   type nonrec main = com_atproto_repo_strongref_main = {
     uri: string;
+      (** format: "AtUri" *)
     cid: string;
+      (** format: "Cid" *)
   }
   let pp_main = pp_com_atproto_repo_strongref_main
 
@@ -17163,6 +18537,7 @@ module App_Bsky_Embed_Images = struct
 
   type nonrec main = app_bsky_embed_images_main = {
     images: app_bsky_embed_images_image list;
+      (** maximum length: 4 *)
   }
   let pp_main = pp_app_bsky_embed_images_main
 
@@ -17175,7 +18550,10 @@ module App_Bsky_Embed_Images = struct
 
   type nonrec image = app_bsky_embed_images_image = {
     image: Blob.t;
+      (** accept: (AcceptN ["image/*"])
+      max size: 1000000 *)
     alt: string;
+      (** Alt text description of the image, for accessibility. *)
     aspectRatio: app_bsky_embed_defs_aspectratio option;
   }
   let pp_image = pp_app_bsky_embed_images_image
@@ -17189,6 +18567,7 @@ module App_Bsky_Embed_Images = struct
 
   type nonrec view = app_bsky_embed_images_view = {
     images: app_bsky_embed_images_viewimage list;
+      (** maximum length: 4 *)
   }
   let pp_view = pp_app_bsky_embed_images_view
 
@@ -17201,8 +18580,13 @@ module App_Bsky_Embed_Images = struct
 
   type nonrec viewimage = app_bsky_embed_images_viewimage = {
     thumb: string;
+      (** Fully-qualified URL where a thumbnail of the image can be fetched. For example, CDN location provided by the App View.
+      format: "Uri" *)
     fullsize: string;
+      (** Fully-qualified URL where a large version of the image can be fetched. May or may not be the exact original blob. For example, CDN location provided by the App View.
+      format: "Uri" *)
     alt: string;
+      (** Alt text description of the image, for accessibility. *)
     aspectRatio: app_bsky_embed_defs_aspectratio option;
   }
   let pp_viewimage = pp_app_bsky_embed_images_viewimage
@@ -17223,8 +18607,14 @@ module App_Bsky_Embed_Video = struct
 
   type nonrec main = app_bsky_embed_video_main = {
     video: Blob.t;
+      (** The mp4 video file. May be up to 100mb, formerly limited to 50mb.
+      accept: (AcceptN ["video/mp4"])
+      max size: 100000000 *)
     captions: app_bsky_embed_video_caption list option;
+      (** maximum length: 20 *)
     alt: string option;
+      (** Alt text description of the video, for accessibility.
+      maximum length: 10000 *)
     aspectRatio: app_bsky_embed_defs_aspectratio option;
   }
   let pp_main = pp_app_bsky_embed_video_main
@@ -17238,7 +18628,10 @@ module App_Bsky_Embed_Video = struct
 
   type nonrec caption = app_bsky_embed_video_caption = {
     lang: string;
+      (** format: "Language" *)
     file: Blob.t;
+      (** accept: (AcceptN ["text/vtt"])
+      max size: 20000 *)
   }
   let pp_caption = pp_app_bsky_embed_video_caption
 
@@ -17251,9 +18644,13 @@ module App_Bsky_Embed_Video = struct
 
   type nonrec view = app_bsky_embed_video_view = {
     cid: string;
+      (** format: "Cid" *)
     playlist: string;
+      (** format: "Uri" *)
     thumbnail: string option;
+      (** format: "Uri" *)
     alt: string option;
+      (** maximum length: 10000 *)
     aspectRatio: app_bsky_embed_defs_aspectratio option;
   }
   let pp_view = pp_app_bsky_embed_video_view
@@ -17273,7 +18670,9 @@ module App_Bsky_Embed_Defs = struct
 
   type nonrec aspectratio = app_bsky_embed_defs_aspectratio = {
     width: int64;
+      (** minimum: 1 *)
     height: int64;
+      (** minimum: 1 *)
   }
   let pp_aspectratio = pp_app_bsky_embed_defs_aspectratio
 
@@ -17310,6 +18709,7 @@ module App_Bsky_Richtext_Facet = struct
 
   type nonrec mention = app_bsky_richtext_facet_mention = {
     did: string;
+      (** format: "Did" *)
   }
   let pp_mention = pp_app_bsky_richtext_facet_mention
 
@@ -17322,6 +18722,7 @@ module App_Bsky_Richtext_Facet = struct
 
   type nonrec link = app_bsky_richtext_facet_link = {
     uri: string;
+      (** format: "Uri" *)
   }
   let pp_link = pp_app_bsky_richtext_facet_link
 
@@ -17334,6 +18735,7 @@ module App_Bsky_Richtext_Facet = struct
 
   type nonrec tag = app_bsky_richtext_facet_tag = {
     tag: string;
+      (** maximum length: 640 *)
   }
   let pp_tag = pp_app_bsky_richtext_facet_tag
 
@@ -17346,7 +18748,9 @@ module App_Bsky_Richtext_Facet = struct
 
   type nonrec byteslice = app_bsky_richtext_facet_byteslice = {
     byteStart: int64;
+      (** minimum: 0 *)
     byteEnd: int64;
+      (** minimum: 0 *)
   }
   let pp_byteslice = pp_app_bsky_richtext_facet_byteslice
 
@@ -17365,14 +18769,29 @@ module Com_Atproto_Label_Defs = struct
 
   type nonrec label = com_atproto_label_defs_label = {
     ver: int64 option;
+      (** The AT Protocol version of the label object. *)
     src: string;
+      (** DID of the actor who created this label.
+      format: "Did" *)
     uri: string;
+      (** AT URI of the record, repository (account), or other resource that this label applies to.
+      format: "Uri" *)
     cid: string option;
+      (** Optionally, CID specifying the specific version of 'uri' resource this label applies to.
+      format: "Cid" *)
     val_: string;
+      (** The short string name of the value or type of this label.
+      maximum length: 128 *)
     neg: bool option;
+      (** If true, this is a negation label, overwriting a previous label. *)
     cts: string;
+      (** Timestamp when this label was created.
+      format: "Datetime" *)
     exp: string option;
+      (** Timestamp at which this label expires (no longer applies).
+      format: "Datetime" *)
     sig_: (bytes [@printer pp_bytes_len]) option;
+      (** Signature of dag-cbor encoded label. *)
   }
   let pp_label = pp_com_atproto_label_defs_label
 
@@ -17385,6 +18804,7 @@ module Com_Atproto_Label_Defs = struct
 
   type nonrec selflabels = com_atproto_label_defs_selflabels = {
     values: com_atproto_label_defs_selflabel list;
+      (** maximum length: 10 *)
   }
   let pp_selflabels = pp_com_atproto_label_defs_selflabels
 
@@ -17397,6 +18817,8 @@ module Com_Atproto_Label_Defs = struct
 
   type nonrec selflabel = com_atproto_label_defs_selflabel = {
     val_: string;
+      (** The short string name of the value or type of this label.
+      maximum length: 128 *)
   }
   let pp_selflabel = pp_com_atproto_label_defs_selflabel
 
@@ -17409,10 +18831,19 @@ module Com_Atproto_Label_Defs = struct
 
   type nonrec labelvaluedefinition = com_atproto_label_defs_labelvaluedefinition = {
     identifier: string;
+      (** The value of the label being defined. Must only include lowercase ascii and the '-' character ([a-z-]+).
+      maximum length: 100 *)
     severity: string;
+      (** How should a client visually convey this label? 'inform' means neutral and informational; 'alert' means negative and warning; 'none' means show nothing.
+      known values: ["inform"; "alert"; "none"] *)
     blurs: string;
+      (** What should this label hide in the UI, if applied? 'content' hides all of the target; 'media' hides the images/video/audio; 'none' hides nothing.
+      known values: ["content"; "media"; "none"] *)
     defaultSetting: string option;
+      (** The default setting for this label.
+      known values: ["ignore"; "warn"; "hide"] *)
     adultOnly: bool option;
+      (** Does the user need to have adult content enabled in order to configure this label? *)
     locales: com_atproto_label_defs_labelvaluedefinitionstrings list;
   }
   let pp_labelvaluedefinition = pp_com_atproto_label_defs_labelvaluedefinition
@@ -17426,8 +18857,14 @@ module Com_Atproto_Label_Defs = struct
 
   type nonrec labelvaluedefinitionstrings = com_atproto_label_defs_labelvaluedefinitionstrings = {
     lang: string;
+      (** The code of the language these strings are written in.
+      format: "Language" *)
     name: string;
+      (** A short human-readable name for the label.
+      maximum length: 640 *)
     description: string;
+      (** A longer description of what the label means and why it might be applied.
+      maximum length: 100000 *)
   }
   let pp_labelvaluedefinitionstrings = pp_com_atproto_label_defs_labelvaluedefinitionstrings
 
@@ -17457,6 +18894,8 @@ module App_Bsky_Feed_Threadgate = struct
   (** Record defining interaction gating rules for a thread (aka, reply controls). The record key (rkey) of the threadgate record must match the record key of the thread's root post, and that record must be in the same repository. *)
   type main = {
     post: string;
+      (** Reference (AT-URI) to the post record.
+      format: "AtUri" *)
     allow: [
     | `App_bsky_feed_threadgate_mentionrule of app_bsky_feed_threadgate_mentionrule
     | `App_bsky_feed_threadgate_followerrule of app_bsky_feed_threadgate_followerrule
@@ -17464,8 +18903,13 @@ module App_Bsky_Feed_Threadgate = struct
     | `App_bsky_feed_threadgate_listrule of app_bsky_feed_threadgate_listrule
     | `Other of Value.t (** Non closed union *)
     ] list option;
+      (** List of rules defining who can reply to this post. If value is an empty array, no one can reply. If value is undefined, anyone can reply.
+      maximum length: 5 *)
     createdAt: string;
+      (** format: "Datetime" *)
     hiddenReplies: string list option;
+      (** List of hidden reply URIs.
+      maximum length: 50 *)
   }  [@@deriving show {with_path=false}, make]
 
   let main_of_value : main Value.Util.conv = fun v ->
@@ -17550,6 +18994,7 @@ module App_Bsky_Feed_Threadgate = struct
 
   type nonrec listrule = app_bsky_feed_threadgate_listrule = {
     list: string;
+      (** format: "AtUri" *)
   }
   let pp_listrule = pp_app_bsky_feed_threadgate_listrule
 
@@ -17569,12 +19014,19 @@ module App_Bsky_Feed_Postgate = struct
   (** Record defining interaction rules for a post. The record key (rkey) of the postgate record must match the record key of the post, and that record must be in the same repository. *)
   type main = {
     createdAt: string;
+      (** format: "Datetime" *)
     post: string;
+      (** Reference (AT-URI) to the post record.
+      format: "AtUri" *)
     detachedEmbeddingUris: string list option;
+      (** List of AT-URIs embedding this post that the author has detached from.
+      maximum length: 50 *)
     embeddingRules: [
     | `App_bsky_feed_postgate_disablerule of app_bsky_feed_postgate_disablerule
     | `Other of Value.t (** Non closed union *)
     ] list option;
+      (** List of rules defining who can embed this post. If value is an empty array or is undefined, no particular rules apply and anyone can embed.
+      maximum length: 5 *)
   }  [@@deriving show {with_path=false}, make]
 
   let main_of_value : main Value.Util.conv = fun v ->
@@ -17648,9 +19100,12 @@ module App_Bsky_Embed_External = struct
 
   type nonrec external_ = app_bsky_embed_external_external = {
     uri: string;
+      (** format: "Uri" *)
     title: string;
     description: string;
     thumb: Blob.t option;
+      (** accept: (AcceptN ["image/*"])
+      max size: 1000000 *)
   }
   let pp_external_ = pp_app_bsky_embed_external_external
 
@@ -17675,9 +19130,11 @@ module App_Bsky_Embed_External = struct
 
   type nonrec viewexternal = app_bsky_embed_external_viewexternal = {
     uri: string;
+      (** format: "Uri" *)
     title: string;
     description: string;
     thumb: string option;
+      (** format: "Uri" *)
   }
   let pp_viewexternal = pp_app_bsky_embed_external_viewexternal
 
