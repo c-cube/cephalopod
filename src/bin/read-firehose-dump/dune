@@ -7,5 +7,7 @@
   containers
   cephalopod.common
   cephalopod.dasl
+  cephalopod.xrpc
   cephalopod-models
+  util_firehose
   logs))

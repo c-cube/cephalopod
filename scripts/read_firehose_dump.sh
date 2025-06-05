@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec dune exec tests/bin/read-firehose-dump/read_firehose_dump.exe -- $@
+exec dune exec src/bin/read-firehose-dump/read_firehose_dump.exe -- $@

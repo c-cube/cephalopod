@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec dune exec tests/bin/firehose-client/firehose_client.exe -- $@
+exec dune exec src/bin/firehose-client/firehose_client.exe -- $@

@@ -10,6 +10,7 @@ type stats = {
 type st = {
   dump: bool;
   decode: bool;
+  dump_decoded: bool;
   stats: stats;
 }
 [@@deriving show]
@@ -30,15 +31,19 @@ let dump_file (st : st) file : unit =
             k "@[<2>got event:@ %a@]" Cephalopod_dasl.Stream_event.pp v);
 
       if st.decode then
-        let module M = Cephalopod_models.Models in
+        let module M = Cephalopod_models in
         (match
-           Cephalopod_models.Base.Decode_message.decode
+           Cephalopod_xrpc.Decode_msg.decode_stream_event
              M.Com_Atproto_Sync_SubscribeRepos.main.message v
          with
         | Ok msg ->
-          Log.app (fun k ->
-              k "got firehose message:@ %a"
-                M.Com_Atproto_Sync_SubscribeRepos.pp_main_msg msg);
+          if st.dump_decoded then
+            Log.app (fun k ->
+                k "got firehose message:@ %a"
+                  M.Com_Atproto_Sync_SubscribeRepos.pp_main_msg msg)
+          else
+            Log.info (fun k ->
+                k "got firehose message:@ %a" Util_firehose.pp_msg_short msg);
 
           (match msg with
           | `Com_atproto_sync_subscriberepos_commit c ->
@@ -47,7 +52,9 @@ let dump_file (st : st) file : unit =
                @@ Byte_slice.create c.blocks
              with
             | Ok car ->
-              Log.app (fun k -> k "decoded CAR: %a" Cephalopod_dasl.Car.pp car)
+              if st.dump_decoded then
+                Log.app (fun k ->
+                    k "decoded CAR: %a" Cephalopod_dasl.Car.pp car)
             | Error err ->
               incr st.stats.n_decode_errors;
               Log.err (fun k ->
@@ -62,7 +69,7 @@ let dump_file (st : st) file : unit =
           incr st.stats.n_decode_errors;
           Log.err (fun k ->
               k "failed to decode firehose message:@ %a"
-                Cephalopod_models.Base.Decode_message.pp_error err)
+                Cephalopod_xrpc.Decode_msg.pp_error err)
         | exception exn ->
           incr st.stats.n_decode_errors;
           Log.err (fun k ->
@@ -80,11 +87,13 @@ let () =
   let files = ref [] in
   let dump = ref false in
   let decode = ref false in
+  let dump_decoded = ref false in
   let opts =
     [
       "-d", Arg.Set debug, " enable debug";
       "--dump", Arg.Set dump, " dump decode event";
       "--decode", Arg.Set decode, " try to decode the decode events";
+      "--dump-decoded", Arg.Set dump_decoded, " dump decoded data";
     ]
     |> Arg.align
   in
@@ -103,6 +112,7 @@ let () =
     {
       dump = !dump;
       decode = !decode;
+      dump_decoded = !dump_decoded;
       stats = { n_values = ref 0; n_errors = ref 0; n_decode_errors = ref 0 };
     }
   in

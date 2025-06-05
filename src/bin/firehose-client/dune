@@ -4,7 +4,10 @@
  (libraries
   containers
   cephalopod.common
+  cephalopod.xrpc
+  cephalopod-models
   cephalopod-firehose-client
+  util_firehose
   logs
   uri
   eio
