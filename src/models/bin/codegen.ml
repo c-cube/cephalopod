@@ -109,11 +109,10 @@ module Sort_lexicons = struct
       ~nodes:lex ()
 end
 
-(* warning -12: we have some redundant matches for unions where fragments are all the same *)
 let codegen_prelude =
   {|(* geherated by Cephalopod_lexicon's codegen tool, do not modify *)
 open Cephalopod_dasl
-[@@@ocaml.warning "-12-39-41"]
+[@@@ocaml.warning "-39-41"]
 
 open struct
   let pp_bytes_len out (data:bytes) = Format.fprintf out "<data: %d B>" (Bytes.length data)
@@ -270,7 +269,9 @@ module Codegen = struct
       | A.Union { refs; closed } ->
         if read_type_key then
           bpf out
-            "(fun v ->\n    let type_tag = Value.Util.get_type_key v in\n%a)"
+            "(fun v ->\n\
+            \    let type_tag = Value.Util.get_type_key_exn v in\n\
+             %a)"
             (gen_union ~inside ~refs ~closed ~type_expr:"type_tag")
             "v"
         else
@@ -292,9 +293,9 @@ module Codegen = struct
           in
           let decode_fun =
             if required then
-              "get_key"
+              "get_key_exn"
             else
-              "get_key_not_required"
+              "get_key_not_required_exn"
           in
           let fname = field_name k in
           bpf out "    let %s = Value.Util.%s %S %a %s in\n" fname decode_fun k
@@ -314,9 +315,8 @@ module Codegen = struct
       List.iter
         (fun (r : A.ref) ->
           let cstor = cstor_name_of_ref r in
-          bpf out "\n    | %S | %S ->\n    `%s (%s_of_value %s)"
-            (spf "#%s" r.fragment) (nsid_of_ref r) cstor (val_name_of_ref r)
-            expr)
+          bpf out "\n    | %S ->\n    `%s (%s_of_value %s)" (nsid_of_ref r)
+            cstor (val_name_of_ref r) expr)
         refs;
       if closed then
         bpf out
@@ -551,23 +551,36 @@ module Codegen = struct
     let as_ref = { A.name = ""; fragment = name } in
     bpf out "  type %s = %a" name (Ty.gen_ty ~inside:as_ref) m.schema;
     bpf out "\n  [@@deriving show {with_path=false}]\n\n";
-    bpf out "  let %a\n" Decode.gen_ty_def (as_ref, m.schema);
+    bpf out "  (** Turn a fragment (in header) into a full nsid *)\n";
+    bpf out
+      "  let %s_nsid_of_fragment (fragment:string) : string = %S ^ fragment\n\n"
+      name ref.name;
+    bpf out "  let %a\n\n" Decode.gen_ty_def (as_ref, m.schema);
     bpf out "  let %s_to_value : %s -> Value.t = %a\n" name name
       (Encode.gen_ty ~with_type:false ~inside:as_ref)
       m.schema;
     bpf out "\n"
 
-  let base_typ_of_name name : string =
+  let base_encodeable_of_name name : string =
     spf "{\n    to_value=%s_to_value;\n    of_value=%s_of_value;\n    pp=pp_%s}"
       name name name
+
+  let base_message_of_name name : string =
+    spf
+      "{\n\
+      \    to_value=%s_to_value;\n\
+      \    of_value=%s_of_value;\n\
+      \    nsid_of_fragment=%s_nsid_of_fragment;\n\
+      \    pp=pp_%s}"
+      name name name name
 
   (** Generate code for a single definition, in a module of its own *)
   let gen_def_in_mod (out : out) ((ref, def) : A.ref * A.def) : unit =
     let name = String.lowercase_ascii ref.fragment |> remove_keyword in
 
     let alias_pp_encode name ref =
-      bpf out "  let pp_%s = pp_%s\n" name (val_name_of_ref ref);
-      bpf out "  let %s_of_value = %s_of_value\n" name (val_name_of_ref ref);
+      bpf out "  let pp_%s = pp_%s\n\n" name (val_name_of_ref ref);
+      bpf out "  let %s_of_value = %s_of_value\n\n" name (val_name_of_ref ref);
       bpf out "  let %s_to_value = %s_to_value\n" name (val_name_of_ref ref)
     in
 
@@ -576,7 +589,7 @@ module Codegen = struct
       | Some p when p.properties <> [] ->
         define_params ~ref out p;
         let name = name_of_params ~ref p in
-        spf "\n    ~parameters:(Params %s)" (base_typ_of_name name)
+        spf "\n    ~parameters:(Params %s)" (base_encodeable_of_name name)
       | _ -> "~parameters:No_params"
     in
 
@@ -588,7 +601,7 @@ module Codegen = struct
           define_io ~ref ~which:`In out io;
           spf "\n    ~input:(IO_encodable {encoding=%s; encode=%s})"
             (A.show_encoding io.encoding)
-            (base_typ_of_name name)
+            (base_encodeable_of_name name)
         ) else
           spf "\n    ~input:(IO_opaque {encoding=%s})"
             (A.show_encoding io.encoding)
@@ -603,7 +616,7 @@ module Codegen = struct
           define_io ~ref ~which:`Out out io;
           spf "\n    ~output:(IO_encodable {encoding=%s; encode=%s})"
             (A.show_encoding io.encoding)
-            (base_typ_of_name name)
+            (base_encodeable_of_name name)
         ) else
           spf "\n    ~output:(IO_opaque {encoding=%s})"
             (A.show_encoding io.encoding)
@@ -625,7 +638,7 @@ module Codegen = struct
       | Some m ->
         let name = name_of_message ~ref m in
         define_message ~ref out m;
-        spf "~message:%s" (base_typ_of_name name)
+        spf "~message:%s" (base_message_of_name name)
     in
 
     match def with
@@ -673,7 +686,19 @@ module Codegen = struct
       bpf out "  type %s = " name;
       Ty.gen_fields ~inside:ref ~required:r.record.required
         ~nullable:r.record.nullable ~properties:r.record.properties out ();
-      bpf out "  [@@deriving show {with_path=false}, make]\n\n"
+      bpf out "  [@@deriving show {with_path=false}, make]\n\n";
+
+      bpf out "  let %s_of_value : %s Value.Util.conv = fun v ->\n" name name;
+      Decode.gen_fields ~inside:ref ~required:r.record.required
+        ~nullable:r.record.nullable ~properties:r.record.properties out "v";
+      bpf out "\n\n";
+
+      bpf out "  let %s_to_value : %s -> Value.t = fun self ->\n" name name;
+      Encode.gen_fields ~with_type:true ~inside:ref ~required:r.record.required
+        ~nullable:r.record.nullable ~properties:r.record.properties out "self";
+      bpf out "\n\n";
+
+      ()
 
   let gen_lexicon (oc : out_channel) (lex : A.lexicon) : unit =
     let out = Buffer.create 32 in

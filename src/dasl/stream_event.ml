@@ -21,5 +21,6 @@ let encode (buf : Byte_buffer.t) self : unit =
   Value.to_cbor buf self.header;
   Value.to_cbor buf self.value
 
-let type_tag (self : t) : string =
-  Value.Util.get_key "t" Value.Util.to_text self.header
+let type_tag (self : t) : (string, Value.Util.conv_error) result =
+  try Ok (Value.Util.get_key_exn "t" Value.Util.to_text self.header)
+  with Value.Util.Conv_error err -> Error err

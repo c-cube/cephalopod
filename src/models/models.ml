@@ -1,6 +1,6 @@
 (* geherated by Cephalopod_lexicon's codegen tool, do not modify *)
 open Cephalopod_dasl
-[@@@ocaml.warning "-12-39-41"]
+[@@@ocaml.warning "-39-41"]
 
 open struct
   let pp_bytes_len out (data:bytes) = Format.fprintf out "<data: %d B>" (Bytes.length data)
@@ -22,8 +22,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_describefeedgenerator_links_of_value : app_bsky_feed_describefeedgenerator_links Value.Util.conv = (fun v ->
-    let privacyPolicy = Value.Util.get_key_not_required "privacyPolicy" Value.Util.to_text v in
-    let termsOfService = Value.Util.get_key_not_required "termsOfService" Value.Util.to_text v in
+    let privacyPolicy = Value.Util.get_key_not_required_exn "privacyPolicy" Value.Util.to_text v in
+    let termsOfService = Value.Util.get_key_not_required_exn "termsOfService" Value.Util.to_text v in
     {privacyPolicy;termsOfService;})
 
 
@@ -42,7 +42,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_profileassociatedchat_of_value : app_bsky_actor_defs_profileassociatedchat Value.Util.conv = (fun v ->
-    let allowIncoming = Value.Util.get_key "allowIncoming" Value.Util.to_text v in
+    let allowIncoming = Value.Util.get_key_exn "allowIncoming" Value.Util.to_text v in
     {allowIncoming;})
 
 
@@ -64,11 +64,11 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_profileassociated_of_value : app_bsky_actor_defs_profileassociated Value.Util.conv = (fun v ->
-    let lists = Value.Util.get_key_not_required "lists" Value.Util.to_int v in
-    let feedgens = Value.Util.get_key_not_required "feedgens" Value.Util.to_int v in
-    let starterPacks = Value.Util.get_key_not_required "starterPacks" Value.Util.to_int v in
-    let labeler = Value.Util.get_key_not_required "labeler" Value.Util.to_bool v in
-    let chat = Value.Util.get_key_not_required "chat" app_bsky_actor_defs_profileassociatedchat_of_value v in
+    let lists = Value.Util.get_key_not_required_exn "lists" Value.Util.to_int v in
+    let feedgens = Value.Util.get_key_not_required_exn "feedgens" Value.Util.to_int v in
+    let starterPacks = Value.Util.get_key_not_required_exn "starterPacks" Value.Util.to_int v in
+    let labeler = Value.Util.get_key_not_required_exn "labeler" Value.Util.to_bool v in
+    let chat = Value.Util.get_key_not_required_exn "chat" app_bsky_actor_defs_profileassociatedchat_of_value v in
     {lists;feedgens;starterPacks;labeler;chat;})
 
 
@@ -108,15 +108,15 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_label_defs_label_of_value : com_atproto_label_defs_label Value.Util.conv = (fun v ->
-    let ver = Value.Util.get_key_not_required "ver" Value.Util.to_int v in
-    let src = Value.Util.get_key "src" Value.Util.to_text v in
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key_not_required "cid" Value.Util.to_text v in
-    let val_ = Value.Util.get_key "val" Value.Util.to_text v in
-    let neg = Value.Util.get_key_not_required "neg" Value.Util.to_bool v in
-    let cts = Value.Util.get_key "cts" Value.Util.to_text v in
-    let exp = Value.Util.get_key_not_required "exp" Value.Util.to_text v in
-    let sig_ = Value.Util.get_key_not_required "sig" Value.Util.to_bytes v in
+    let ver = Value.Util.get_key_not_required_exn "ver" Value.Util.to_int v in
+    let src = Value.Util.get_key_exn "src" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_not_required_exn "cid" Value.Util.to_text v in
+    let val_ = Value.Util.get_key_exn "val" Value.Util.to_text v in
+    let neg = Value.Util.get_key_not_required_exn "neg" Value.Util.to_bool v in
+    let cts = Value.Util.get_key_exn "cts" Value.Util.to_text v in
+    let exp = Value.Util.get_key_not_required_exn "exp" Value.Util.to_text v in
+    let sig_ = Value.Util.get_key_not_required_exn "sig" Value.Util.to_bytes v in
     {ver;src;uri;cid;val_;neg;cts;exp;sig_;})
 
 
@@ -143,8 +143,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_graph_defs_listviewerstate_of_value : app_bsky_graph_defs_listviewerstate Value.Util.conv = (fun v ->
-    let muted = Value.Util.get_key_not_required "muted" Value.Util.to_bool v in
-    let blocked = Value.Util.get_key_not_required "blocked" Value.Util.to_text v in
+    let muted = Value.Util.get_key_not_required_exn "muted" Value.Util.to_bool v in
+    let blocked = Value.Util.get_key_not_required_exn "blocked" Value.Util.to_text v in
     {muted;blocked;})
 
 
@@ -171,15 +171,15 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_graph_defs_listviewbasic_of_value : app_bsky_graph_defs_listviewbasic Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let name = Value.Util.get_key "name" Value.Util.to_text v in
-    let purpose = Value.Util.get_key "purpose" app_bsky_graph_defs_listpurpose_of_value v in
-    let avatar = Value.Util.get_key_not_required "avatar" Value.Util.to_text v in
-    let listItemCount = Value.Util.get_key_not_required "listItemCount" Value.Util.to_int v in
-    let labels = Value.Util.get_key_not_required "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
-    let viewer = Value.Util.get_key_not_required "viewer" app_bsky_graph_defs_listviewerstate_of_value v in
-    let indexedAt = Value.Util.get_key_not_required "indexedAt" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let name = Value.Util.get_key_exn "name" Value.Util.to_text v in
+    let purpose = Value.Util.get_key_exn "purpose" app_bsky_graph_defs_listpurpose_of_value v in
+    let avatar = Value.Util.get_key_not_required_exn "avatar" Value.Util.to_text v in
+    let listItemCount = Value.Util.get_key_not_required_exn "listItemCount" Value.Util.to_int v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" app_bsky_graph_defs_listviewerstate_of_value v in
+    let indexedAt = Value.Util.get_key_not_required_exn "indexedAt" Value.Util.to_text v in
     {uri;cid;name;purpose;avatar;listItemCount;labels;viewer;indexedAt;})
 
 
@@ -208,10 +208,10 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_verificationview_of_value : app_bsky_actor_defs_verificationview Value.Util.conv = (fun v ->
-    let issuer = Value.Util.get_key "issuer" Value.Util.to_text v in
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let isValid = Value.Util.get_key "isValid" Value.Util.to_bool v in
-    let createdAt = Value.Util.get_key "createdAt" Value.Util.to_text v in
+    let issuer = Value.Util.get_key_exn "issuer" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let isValid = Value.Util.get_key_exn "isValid" Value.Util.to_bool v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
     {issuer;uri;isValid;createdAt;})
 
 
@@ -234,9 +234,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_verificationstate_of_value : app_bsky_actor_defs_verificationstate Value.Util.conv = (fun v ->
-    let verifications = Value.Util.get_key "verifications" (Value.Util.to_array_of app_bsky_actor_defs_verificationview_of_value) v in
-    let verifiedStatus = Value.Util.get_key "verifiedStatus" Value.Util.to_text v in
-    let trustedVerifierStatus = Value.Util.get_key "trustedVerifierStatus" Value.Util.to_text v in
+    let verifications = Value.Util.get_key_exn "verifications" (Value.Util.to_array_of app_bsky_actor_defs_verificationview_of_value) v in
+    let verifiedStatus = Value.Util.get_key_exn "verifiedStatus" Value.Util.to_text v in
+    let trustedVerifierStatus = Value.Util.get_key_exn "trustedVerifierStatus" Value.Util.to_text v in
     {verifications;verifiedStatus;trustedVerifierStatus;})
 
 
@@ -259,10 +259,10 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_external_viewexternal_of_value : app_bsky_embed_external_viewexternal Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let title = Value.Util.get_key "title" Value.Util.to_text v in
-    let description = Value.Util.get_key "description" Value.Util.to_text v in
-    let thumb = Value.Util.get_key_not_required "thumb" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let title = Value.Util.get_key_exn "title" Value.Util.to_text v in
+    let description = Value.Util.get_key_exn "description" Value.Util.to_text v in
+    let thumb = Value.Util.get_key_not_required_exn "thumb" Value.Util.to_text v in
     {uri;title;description;thumb;})
 
 
@@ -283,7 +283,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_external_view_of_value : app_bsky_embed_external_view Value.Util.conv = (fun v ->
-    let external_ = Value.Util.get_key "external" app_bsky_embed_external_viewexternal_of_value v in
+    let external_ = Value.Util.get_key_exn "external" app_bsky_embed_external_viewexternal_of_value v in
     {external_;})
 
 
@@ -308,17 +308,17 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_statusview_of_value : app_bsky_actor_defs_statusview Value.Util.conv = (fun v ->
-    let status = Value.Util.get_key "status" Value.Util.to_text v in
-    let record = Value.Util.get_key "record" (fun v -> v (* immediate *)) v in
-    let embed = Value.Util.get_key_not_required "embed" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let status = Value.Util.get_key_exn "status" Value.Util.to_text v in
+    let record = Value.Util.get_key_exn "record" (fun v -> v (* immediate *)) v in
+    let embed = Value.Util.get_key_not_required_exn "embed" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#view" | "app.bsky.embed.external#view" ->
+    | "app.bsky.embed.external#view" ->
     `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
-    let expiresAt = Value.Util.get_key_not_required "expiresAt" Value.Util.to_text v in
-    let isActive = Value.Util.get_key_not_required "isActive" Value.Util.to_bool v in
+    let expiresAt = Value.Util.get_key_not_required_exn "expiresAt" Value.Util.to_text v in
+    let isActive = Value.Util.get_key_not_required_exn "isActive" Value.Util.to_bool v in
     {status;record;embed;expiresAt;isActive;})
 
 
@@ -371,30 +371,30 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_profileviewbasic_of_value : app_bsky_actor_defs_profileviewbasic Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let handle = Value.Util.get_key "handle" Value.Util.to_text v in
-    let displayName = Value.Util.get_key_not_required "displayName" Value.Util.to_text v in
-    let avatar = Value.Util.get_key_not_required "avatar" Value.Util.to_text v in
-    let associated = Value.Util.get_key_not_required "associated" app_bsky_actor_defs_profileassociated_of_value v in
-    let viewer = Value.Util.get_key_not_required "viewer" app_bsky_actor_defs_viewerstate_of_value v in
-    let labels = Value.Util.get_key_not_required "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
-    let createdAt = Value.Util.get_key_not_required "createdAt" Value.Util.to_text v in
-    let verification = Value.Util.get_key_not_required "verification" app_bsky_actor_defs_verificationstate_of_value v in
-    let status = Value.Util.get_key_not_required "status" app_bsky_actor_defs_statusview_of_value v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let handle = Value.Util.get_key_exn "handle" Value.Util.to_text v in
+    let displayName = Value.Util.get_key_not_required_exn "displayName" Value.Util.to_text v in
+    let avatar = Value.Util.get_key_not_required_exn "avatar" Value.Util.to_text v in
+    let associated = Value.Util.get_key_not_required_exn "associated" app_bsky_actor_defs_profileassociated_of_value v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" app_bsky_actor_defs_viewerstate_of_value v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
+    let createdAt = Value.Util.get_key_not_required_exn "createdAt" Value.Util.to_text v in
+    let verification = Value.Util.get_key_not_required_exn "verification" app_bsky_actor_defs_verificationstate_of_value v in
+    let status = Value.Util.get_key_not_required_exn "status" app_bsky_actor_defs_statusview_of_value v in
     {did;handle;displayName;avatar;associated;viewer;labels;createdAt;verification;status;})
   and app_bsky_actor_defs_viewerstate_of_value : app_bsky_actor_defs_viewerstate Value.Util.conv = (fun v ->
-    let muted = Value.Util.get_key_not_required "muted" Value.Util.to_bool v in
-    let mutedByList = Value.Util.get_key_not_required "mutedByList" app_bsky_graph_defs_listviewbasic_of_value v in
-    let blockedBy = Value.Util.get_key_not_required "blockedBy" Value.Util.to_bool v in
-    let blocking = Value.Util.get_key_not_required "blocking" Value.Util.to_text v in
-    let blockingByList = Value.Util.get_key_not_required "blockingByList" app_bsky_graph_defs_listviewbasic_of_value v in
-    let following = Value.Util.get_key_not_required "following" Value.Util.to_text v in
-    let followedBy = Value.Util.get_key_not_required "followedBy" Value.Util.to_text v in
-    let knownFollowers = Value.Util.get_key_not_required "knownFollowers" app_bsky_actor_defs_knownfollowers_of_value v in
+    let muted = Value.Util.get_key_not_required_exn "muted" Value.Util.to_bool v in
+    let mutedByList = Value.Util.get_key_not_required_exn "mutedByList" app_bsky_graph_defs_listviewbasic_of_value v in
+    let blockedBy = Value.Util.get_key_not_required_exn "blockedBy" Value.Util.to_bool v in
+    let blocking = Value.Util.get_key_not_required_exn "blocking" Value.Util.to_text v in
+    let blockingByList = Value.Util.get_key_not_required_exn "blockingByList" app_bsky_graph_defs_listviewbasic_of_value v in
+    let following = Value.Util.get_key_not_required_exn "following" Value.Util.to_text v in
+    let followedBy = Value.Util.get_key_not_required_exn "followedBy" Value.Util.to_text v in
+    let knownFollowers = Value.Util.get_key_not_required_exn "knownFollowers" app_bsky_actor_defs_knownfollowers_of_value v in
     {muted;mutedByList;blockedBy;blocking;blockingByList;following;followedBy;knownFollowers;})
   and app_bsky_actor_defs_knownfollowers_of_value : app_bsky_actor_defs_knownfollowers Value.Util.conv = (fun v ->
-    let count = Value.Util.get_key "count" Value.Util.to_int v in
-    let followers = Value.Util.get_key "followers" (Value.Util.to_array_of app_bsky_actor_defs_profileviewbasic_of_value) v in
+    let count = Value.Util.get_key_exn "count" Value.Util.to_int v in
+    let followers = Value.Util.get_key_exn "followers" (Value.Util.to_array_of app_bsky_actor_defs_profileviewbasic_of_value) v in
     {count;followers;})
 
 
@@ -447,15 +447,15 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_graph_defs_starterpackviewbasic_of_value : app_bsky_graph_defs_starterpackviewbasic Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let record = Value.Util.get_key "record" (fun v -> v (* immediate *)) v in
-    let creator = Value.Util.get_key "creator" app_bsky_actor_defs_profileviewbasic_of_value v in
-    let listItemCount = Value.Util.get_key_not_required "listItemCount" Value.Util.to_int v in
-    let joinedWeekCount = Value.Util.get_key_not_required "joinedWeekCount" Value.Util.to_int v in
-    let joinedAllTimeCount = Value.Util.get_key_not_required "joinedAllTimeCount" Value.Util.to_int v in
-    let labels = Value.Util.get_key_not_required "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
-    let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let record = Value.Util.get_key_exn "record" (fun v -> v (* immediate *)) v in
+    let creator = Value.Util.get_key_exn "creator" app_bsky_actor_defs_profileviewbasic_of_value v in
+    let listItemCount = Value.Util.get_key_not_required_exn "listItemCount" Value.Util.to_int v in
+    let joinedWeekCount = Value.Util.get_key_not_required_exn "joinedWeekCount" Value.Util.to_int v in
+    let joinedAllTimeCount = Value.Util.get_key_not_required_exn "joinedAllTimeCount" Value.Util.to_int v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
+    let indexedAt = Value.Util.get_key_exn "indexedAt" Value.Util.to_text v in
     {uri;cid;record;creator;listItemCount;joinedWeekCount;joinedAllTimeCount;labels;indexedAt;})
 
 
@@ -482,8 +482,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_repo_strongref_main_of_value : com_atproto_repo_strongref_main Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
     {uri;cid;})
 
 
@@ -519,24 +519,24 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_profileviewdetailed_of_value : app_bsky_actor_defs_profileviewdetailed Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let handle = Value.Util.get_key "handle" Value.Util.to_text v in
-    let displayName = Value.Util.get_key_not_required "displayName" Value.Util.to_text v in
-    let description = Value.Util.get_key_not_required "description" Value.Util.to_text v in
-    let avatar = Value.Util.get_key_not_required "avatar" Value.Util.to_text v in
-    let banner = Value.Util.get_key_not_required "banner" Value.Util.to_text v in
-    let followersCount = Value.Util.get_key_not_required "followersCount" Value.Util.to_int v in
-    let followsCount = Value.Util.get_key_not_required "followsCount" Value.Util.to_int v in
-    let postsCount = Value.Util.get_key_not_required "postsCount" Value.Util.to_int v in
-    let associated = Value.Util.get_key_not_required "associated" app_bsky_actor_defs_profileassociated_of_value v in
-    let joinedViaStarterPack = Value.Util.get_key_not_required "joinedViaStarterPack" app_bsky_graph_defs_starterpackviewbasic_of_value v in
-    let indexedAt = Value.Util.get_key_not_required "indexedAt" Value.Util.to_text v in
-    let createdAt = Value.Util.get_key_not_required "createdAt" Value.Util.to_text v in
-    let viewer = Value.Util.get_key_not_required "viewer" app_bsky_actor_defs_viewerstate_of_value v in
-    let labels = Value.Util.get_key_not_required "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
-    let pinnedPost = Value.Util.get_key_not_required "pinnedPost" com_atproto_repo_strongref_main_of_value v in
-    let verification = Value.Util.get_key_not_required "verification" app_bsky_actor_defs_verificationstate_of_value v in
-    let status = Value.Util.get_key_not_required "status" app_bsky_actor_defs_statusview_of_value v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let handle = Value.Util.get_key_exn "handle" Value.Util.to_text v in
+    let displayName = Value.Util.get_key_not_required_exn "displayName" Value.Util.to_text v in
+    let description = Value.Util.get_key_not_required_exn "description" Value.Util.to_text v in
+    let avatar = Value.Util.get_key_not_required_exn "avatar" Value.Util.to_text v in
+    let banner = Value.Util.get_key_not_required_exn "banner" Value.Util.to_text v in
+    let followersCount = Value.Util.get_key_not_required_exn "followersCount" Value.Util.to_int v in
+    let followsCount = Value.Util.get_key_not_required_exn "followsCount" Value.Util.to_int v in
+    let postsCount = Value.Util.get_key_not_required_exn "postsCount" Value.Util.to_int v in
+    let associated = Value.Util.get_key_not_required_exn "associated" app_bsky_actor_defs_profileassociated_of_value v in
+    let joinedViaStarterPack = Value.Util.get_key_not_required_exn "joinedViaStarterPack" app_bsky_graph_defs_starterpackviewbasic_of_value v in
+    let indexedAt = Value.Util.get_key_not_required_exn "indexedAt" Value.Util.to_text v in
+    let createdAt = Value.Util.get_key_not_required_exn "createdAt" Value.Util.to_text v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" app_bsky_actor_defs_viewerstate_of_value v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
+    let pinnedPost = Value.Util.get_key_not_required_exn "pinnedPost" com_atproto_repo_strongref_main_of_value v in
+    let verification = Value.Util.get_key_not_required_exn "verification" app_bsky_actor_defs_verificationstate_of_value v in
+    let status = Value.Util.get_key_not_required_exn "status" app_bsky_actor_defs_statusview_of_value v in
     {did;handle;displayName;description;avatar;banner;followersCount;followsCount;postsCount;associated;joinedViaStarterPack;indexedAt;createdAt;viewer;labels;pinnedPost;verification;status;})
 
 
@@ -582,18 +582,18 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_profileview_of_value : app_bsky_actor_defs_profileview Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let handle = Value.Util.get_key "handle" Value.Util.to_text v in
-    let displayName = Value.Util.get_key_not_required "displayName" Value.Util.to_text v in
-    let description = Value.Util.get_key_not_required "description" Value.Util.to_text v in
-    let avatar = Value.Util.get_key_not_required "avatar" Value.Util.to_text v in
-    let associated = Value.Util.get_key_not_required "associated" app_bsky_actor_defs_profileassociated_of_value v in
-    let indexedAt = Value.Util.get_key_not_required "indexedAt" Value.Util.to_text v in
-    let createdAt = Value.Util.get_key_not_required "createdAt" Value.Util.to_text v in
-    let viewer = Value.Util.get_key_not_required "viewer" app_bsky_actor_defs_viewerstate_of_value v in
-    let labels = Value.Util.get_key_not_required "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
-    let verification = Value.Util.get_key_not_required "verification" app_bsky_actor_defs_verificationstate_of_value v in
-    let status = Value.Util.get_key_not_required "status" app_bsky_actor_defs_statusview_of_value v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let handle = Value.Util.get_key_exn "handle" Value.Util.to_text v in
+    let displayName = Value.Util.get_key_not_required_exn "displayName" Value.Util.to_text v in
+    let description = Value.Util.get_key_not_required_exn "description" Value.Util.to_text v in
+    let avatar = Value.Util.get_key_not_required_exn "avatar" Value.Util.to_text v in
+    let associated = Value.Util.get_key_not_required_exn "associated" app_bsky_actor_defs_profileassociated_of_value v in
+    let indexedAt = Value.Util.get_key_not_required_exn "indexedAt" Value.Util.to_text v in
+    let createdAt = Value.Util.get_key_not_required_exn "createdAt" Value.Util.to_text v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" app_bsky_actor_defs_viewerstate_of_value v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
+    let verification = Value.Util.get_key_not_required_exn "verification" app_bsky_actor_defs_verificationstate_of_value v in
+    let status = Value.Util.get_key_not_required_exn "status" app_bsky_actor_defs_statusview_of_value v in
     {did;handle;displayName;description;avatar;associated;indexedAt;createdAt;viewer;labels;verification;status;})
 
 
@@ -623,8 +623,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_richtext_facet_byteslice_of_value : app_bsky_richtext_facet_byteslice Value.Util.conv = (fun v ->
-    let byteStart = Value.Util.get_key "byteStart" Value.Util.to_int v in
-    let byteEnd = Value.Util.get_key "byteEnd" Value.Util.to_int v in
+    let byteStart = Value.Util.get_key_exn "byteStart" Value.Util.to_int v in
+    let byteEnd = Value.Util.get_key_exn "byteEnd" Value.Util.to_int v in
     {byteStart;byteEnd;})
 
 
@@ -643,7 +643,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_richtext_facet_mention_of_value : app_bsky_richtext_facet_mention Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
     {did;})
 
 
@@ -661,7 +661,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_richtext_facet_link_of_value : app_bsky_richtext_facet_link Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
     {uri;})
 
 
@@ -679,7 +679,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_richtext_facet_tag_of_value : app_bsky_richtext_facet_tag Value.Util.conv = (fun v ->
-    let tag = Value.Util.get_key "tag" Value.Util.to_text v in
+    let tag = Value.Util.get_key_exn "tag" Value.Util.to_text v in
     {tag;})
 
 
@@ -703,15 +703,15 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_richtext_facet_main_of_value : app_bsky_richtext_facet_main Value.Util.conv = (fun v ->
-    let index = Value.Util.get_key "index" app_bsky_richtext_facet_byteslice_of_value v in
-    let features = Value.Util.get_key "features" (Value.Util.to_array_of (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let index = Value.Util.get_key_exn "index" app_bsky_richtext_facet_byteslice_of_value v in
+    let features = Value.Util.get_key_exn "features" (Value.Util.to_array_of (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#mention" | "app.bsky.richtext.facet#mention" ->
+    | "app.bsky.richtext.facet#mention" ->
     `App_bsky_richtext_facet_mention (app_bsky_richtext_facet_mention_of_value v)
-    | "#link" | "app.bsky.richtext.facet#link" ->
+    | "app.bsky.richtext.facet#link" ->
     `App_bsky_richtext_facet_link (app_bsky_richtext_facet_link_of_value v)
-    | "#tag" | "app.bsky.richtext.facet#tag" ->
+    | "app.bsky.richtext.facet#tag" ->
     `App_bsky_richtext_facet_tag (app_bsky_richtext_facet_tag_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
@@ -739,7 +739,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_defs_generatorviewerstate_of_value : app_bsky_feed_defs_generatorviewerstate Value.Util.conv = (fun v ->
-    let like = Value.Util.get_key_not_required "like" Value.Util.to_text v in
+    let like = Value.Util.get_key_not_required_exn "like" Value.Util.to_text v in
     {like;})
 
 
@@ -770,20 +770,20 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_defs_generatorview_of_value : app_bsky_feed_defs_generatorview Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let creator = Value.Util.get_key "creator" app_bsky_actor_defs_profileview_of_value v in
-    let displayName = Value.Util.get_key "displayName" Value.Util.to_text v in
-    let description = Value.Util.get_key_not_required "description" Value.Util.to_text v in
-    let descriptionFacets = Value.Util.get_key_not_required "descriptionFacets" (Value.Util.to_array_of app_bsky_richtext_facet_main_of_value) v in
-    let avatar = Value.Util.get_key_not_required "avatar" Value.Util.to_text v in
-    let likeCount = Value.Util.get_key_not_required "likeCount" Value.Util.to_int v in
-    let acceptsInteractions = Value.Util.get_key_not_required "acceptsInteractions" Value.Util.to_bool v in
-    let labels = Value.Util.get_key_not_required "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
-    let viewer = Value.Util.get_key_not_required "viewer" app_bsky_feed_defs_generatorviewerstate_of_value v in
-    let contentMode = Value.Util.get_key_not_required "contentMode" Value.Util.to_text v in
-    let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let creator = Value.Util.get_key_exn "creator" app_bsky_actor_defs_profileview_of_value v in
+    let displayName = Value.Util.get_key_exn "displayName" Value.Util.to_text v in
+    let description = Value.Util.get_key_not_required_exn "description" Value.Util.to_text v in
+    let descriptionFacets = Value.Util.get_key_not_required_exn "descriptionFacets" (Value.Util.to_array_of app_bsky_richtext_facet_main_of_value) v in
+    let avatar = Value.Util.get_key_not_required_exn "avatar" Value.Util.to_text v in
+    let likeCount = Value.Util.get_key_not_required_exn "likeCount" Value.Util.to_int v in
+    let acceptsInteractions = Value.Util.get_key_not_required_exn "acceptsInteractions" Value.Util.to_bool v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" app_bsky_feed_defs_generatorviewerstate_of_value v in
+    let contentMode = Value.Util.get_key_not_required_exn "contentMode" Value.Util.to_text v in
+    let indexedAt = Value.Util.get_key_exn "indexedAt" Value.Util.to_text v in
     {uri;cid;did;creator;displayName;description;descriptionFacets;avatar;likeCount;acceptsInteractions;labels;viewer;contentMode;indexedAt;})
 
 
@@ -815,8 +815,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_defs_aspectratio_of_value : app_bsky_embed_defs_aspectratio Value.Util.conv = (fun v ->
-    let width = Value.Util.get_key "width" Value.Util.to_int v in
-    let height = Value.Util.get_key "height" Value.Util.to_int v in
+    let width = Value.Util.get_key_exn "width" Value.Util.to_int v in
+    let height = Value.Util.get_key_exn "height" Value.Util.to_int v in
     {width;height;})
 
 
@@ -838,10 +838,10 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_images_viewimage_of_value : app_bsky_embed_images_viewimage Value.Util.conv = (fun v ->
-    let thumb = Value.Util.get_key "thumb" Value.Util.to_text v in
-    let fullsize = Value.Util.get_key "fullsize" Value.Util.to_text v in
-    let alt = Value.Util.get_key "alt" Value.Util.to_text v in
-    let aspectRatio = Value.Util.get_key_not_required "aspectRatio" app_bsky_embed_defs_aspectratio_of_value v in
+    let thumb = Value.Util.get_key_exn "thumb" Value.Util.to_text v in
+    let fullsize = Value.Util.get_key_exn "fullsize" Value.Util.to_text v in
+    let alt = Value.Util.get_key_exn "alt" Value.Util.to_text v in
+    let aspectRatio = Value.Util.get_key_not_required_exn "aspectRatio" app_bsky_embed_defs_aspectratio_of_value v in
     {thumb;fullsize;alt;aspectRatio;})
 
 
@@ -864,9 +864,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_repo_applywrites_create_of_value : com_atproto_repo_applywrites_create Value.Util.conv = (fun v ->
-    let collection = Value.Util.get_key "collection" Value.Util.to_text v in
-    let rkey = Value.Util.get_key_not_required "rkey" Value.Util.to_text v in
-    let value = Value.Util.get_key "value" (fun v -> v (* immediate *)) v in
+    let collection = Value.Util.get_key_exn "collection" Value.Util.to_text v in
+    let rkey = Value.Util.get_key_not_required_exn "rkey" Value.Util.to_text v in
+    let value = Value.Util.get_key_exn "value" (fun v -> v (* immediate *)) v in
     {collection;rkey;value;})
 
 
@@ -898,9 +898,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_images_image_of_value : app_bsky_embed_images_image Value.Util.conv = (fun v ->
-    let image = Value.Util.get_key "image" Blob.of_value_exn v in
-    let alt = Value.Util.get_key "alt" Value.Util.to_text v in
-    let aspectRatio = Value.Util.get_key_not_required "aspectRatio" app_bsky_embed_defs_aspectratio_of_value v in
+    let image = Value.Util.get_key_exn "image" Blob.of_value_exn v in
+    let alt = Value.Util.get_key_exn "alt" Value.Util.to_text v in
+    let aspectRatio = Value.Util.get_key_not_required_exn "aspectRatio" app_bsky_embed_defs_aspectratio_of_value v in
     {image;alt;aspectRatio;})
 
 
@@ -920,7 +920,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_images_main_of_value : app_bsky_embed_images_main Value.Util.conv = (fun v ->
-    let images = Value.Util.get_key "images" (Value.Util.to_array_of app_bsky_embed_images_image_of_value) v in
+    let images = Value.Util.get_key_exn "images" (Value.Util.to_array_of app_bsky_embed_images_image_of_value) v in
     {images;})
 
 
@@ -942,11 +942,11 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_sync_subscriberepos_account_of_value : com_atproto_sync_subscriberepos_account Value.Util.conv = (fun v ->
-    let seq = Value.Util.get_key "seq" Value.Util.to_int v in
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let time = Value.Util.get_key "time" Value.Util.to_text v in
-    let active = Value.Util.get_key "active" Value.Util.to_bool v in
-    let status = Value.Util.get_key_not_required "status" Value.Util.to_text v in
+    let seq = Value.Util.get_key_exn "seq" Value.Util.to_int v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let time = Value.Util.get_key_exn "time" Value.Util.to_text v in
+    let active = Value.Util.get_key_exn "active" Value.Util.to_bool v in
+    let status = Value.Util.get_key_not_required_exn "status" Value.Util.to_text v in
     {seq;did;time;active;status;})
 
 
@@ -968,7 +968,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_adultcontentpref_of_value : app_bsky_actor_defs_adultcontentpref Value.Util.conv = (fun v ->
-    let enabled = Value.Util.get_key "enabled" Value.Util.to_bool v in
+    let enabled = Value.Util.get_key_exn "enabled" Value.Util.to_bool v in
     {enabled;})
 
 
@@ -988,9 +988,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_contentlabelpref_of_value : app_bsky_actor_defs_contentlabelpref Value.Util.conv = (fun v ->
-    let labelerDid = Value.Util.get_key_not_required "labelerDid" Value.Util.to_text v in
-    let label = Value.Util.get_key "label" Value.Util.to_text v in
-    let visibility = Value.Util.get_key "visibility" Value.Util.to_text v in
+    let labelerDid = Value.Util.get_key_not_required_exn "labelerDid" Value.Util.to_text v in
+    let label = Value.Util.get_key_exn "label" Value.Util.to_text v in
+    let visibility = Value.Util.get_key_exn "visibility" Value.Util.to_text v in
     {labelerDid;label;visibility;})
 
 
@@ -1012,9 +1012,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_savedfeedspref_of_value : app_bsky_actor_defs_savedfeedspref Value.Util.conv = (fun v ->
-    let pinned = Value.Util.get_key "pinned" (Value.Util.to_array_of Value.Util.to_text) v in
-    let saved = Value.Util.get_key "saved" (Value.Util.to_array_of Value.Util.to_text) v in
-    let timelineIndex = Value.Util.get_key_not_required "timelineIndex" Value.Util.to_int v in
+    let pinned = Value.Util.get_key_exn "pinned" (Value.Util.to_array_of Value.Util.to_text) v in
+    let saved = Value.Util.get_key_exn "saved" (Value.Util.to_array_of Value.Util.to_text) v in
+    let timelineIndex = Value.Util.get_key_not_required_exn "timelineIndex" Value.Util.to_int v in
     {pinned;saved;timelineIndex;})
 
 
@@ -1037,10 +1037,10 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_savedfeed_of_value : app_bsky_actor_defs_savedfeed Value.Util.conv = (fun v ->
-    let id = Value.Util.get_key "id" Value.Util.to_text v in
-    let type_ = Value.Util.get_key "type" Value.Util.to_text v in
-    let value = Value.Util.get_key "value" Value.Util.to_text v in
-    let pinned = Value.Util.get_key "pinned" Value.Util.to_bool v in
+    let id = Value.Util.get_key_exn "id" Value.Util.to_text v in
+    let type_ = Value.Util.get_key_exn "type" Value.Util.to_text v in
+    let value = Value.Util.get_key_exn "value" Value.Util.to_text v in
+    let pinned = Value.Util.get_key_exn "pinned" Value.Util.to_bool v in
     {id;type_;value;pinned;})
 
 
@@ -1061,7 +1061,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_savedfeedsprefv2_of_value : app_bsky_actor_defs_savedfeedsprefv2 Value.Util.conv = (fun v ->
-    let items = Value.Util.get_key "items" (Value.Util.to_array_of app_bsky_actor_defs_savedfeed_of_value) v in
+    let items = Value.Util.get_key_exn "items" (Value.Util.to_array_of app_bsky_actor_defs_savedfeed_of_value) v in
     {items;})
 
 
@@ -1079,7 +1079,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_personaldetailspref_of_value : app_bsky_actor_defs_personaldetailspref Value.Util.conv = (fun v ->
-    let birthDate = Value.Util.get_key_not_required "birthDate" Value.Util.to_text v in
+    let birthDate = Value.Util.get_key_not_required_exn "birthDate" Value.Util.to_text v in
     {birthDate;})
 
 
@@ -1102,12 +1102,12 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_feedviewpref_of_value : app_bsky_actor_defs_feedviewpref Value.Util.conv = (fun v ->
-    let feed = Value.Util.get_key "feed" Value.Util.to_text v in
-    let hideReplies = Value.Util.get_key_not_required "hideReplies" Value.Util.to_bool v in
-    let hideRepliesByUnfollowed = Value.Util.get_key_not_required "hideRepliesByUnfollowed" Value.Util.to_bool v in
-    let hideRepliesByLikeCount = Value.Util.get_key_not_required "hideRepliesByLikeCount" Value.Util.to_int v in
-    let hideReposts = Value.Util.get_key_not_required "hideReposts" Value.Util.to_bool v in
-    let hideQuotePosts = Value.Util.get_key_not_required "hideQuotePosts" Value.Util.to_bool v in
+    let feed = Value.Util.get_key_exn "feed" Value.Util.to_text v in
+    let hideReplies = Value.Util.get_key_not_required_exn "hideReplies" Value.Util.to_bool v in
+    let hideRepliesByUnfollowed = Value.Util.get_key_not_required_exn "hideRepliesByUnfollowed" Value.Util.to_bool v in
+    let hideRepliesByLikeCount = Value.Util.get_key_not_required_exn "hideRepliesByLikeCount" Value.Util.to_int v in
+    let hideReposts = Value.Util.get_key_not_required_exn "hideReposts" Value.Util.to_bool v in
+    let hideQuotePosts = Value.Util.get_key_not_required_exn "hideQuotePosts" Value.Util.to_bool v in
     {feed;hideReplies;hideRepliesByUnfollowed;hideRepliesByLikeCount;hideReposts;hideQuotePosts;})
 
 
@@ -1131,8 +1131,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_threadviewpref_of_value : app_bsky_actor_defs_threadviewpref Value.Util.conv = (fun v ->
-    let sort = Value.Util.get_key_not_required "sort" Value.Util.to_text v in
-    let prioritizeFollowedUsers = Value.Util.get_key_not_required "prioritizeFollowedUsers" Value.Util.to_bool v in
+    let sort = Value.Util.get_key_not_required_exn "sort" Value.Util.to_text v in
+    let prioritizeFollowedUsers = Value.Util.get_key_not_required_exn "prioritizeFollowedUsers" Value.Util.to_bool v in
     {sort;prioritizeFollowedUsers;})
 
 
@@ -1151,7 +1151,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_interestspref_of_value : app_bsky_actor_defs_interestspref Value.Util.conv = (fun v ->
-    let tags = Value.Util.get_key "tags" (Value.Util.to_array_of Value.Util.to_text) v in
+    let tags = Value.Util.get_key_exn "tags" (Value.Util.to_array_of Value.Util.to_text) v in
     {tags;})
 
 
@@ -1183,11 +1183,11 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_mutedword_of_value : app_bsky_actor_defs_mutedword Value.Util.conv = (fun v ->
-    let id = Value.Util.get_key_not_required "id" Value.Util.to_text v in
-    let value = Value.Util.get_key "value" Value.Util.to_text v in
-    let targets = Value.Util.get_key "targets" (Value.Util.to_array_of app_bsky_actor_defs_mutedwordtarget_of_value) v in
-    let actorTarget = Value.Util.get_key_not_required "actorTarget" Value.Util.to_text v in
-    let expiresAt = Value.Util.get_key_not_required "expiresAt" Value.Util.to_text v in
+    let id = Value.Util.get_key_not_required_exn "id" Value.Util.to_text v in
+    let value = Value.Util.get_key_exn "value" Value.Util.to_text v in
+    let targets = Value.Util.get_key_exn "targets" (Value.Util.to_array_of app_bsky_actor_defs_mutedwordtarget_of_value) v in
+    let actorTarget = Value.Util.get_key_not_required_exn "actorTarget" Value.Util.to_text v in
+    let expiresAt = Value.Util.get_key_not_required_exn "expiresAt" Value.Util.to_text v in
     {id;value;targets;actorTarget;expiresAt;})
 
 
@@ -1209,7 +1209,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_mutedwordspref_of_value : app_bsky_actor_defs_mutedwordspref Value.Util.conv = (fun v ->
-    let items = Value.Util.get_key "items" (Value.Util.to_array_of app_bsky_actor_defs_mutedword_of_value) v in
+    let items = Value.Util.get_key_exn "items" (Value.Util.to_array_of app_bsky_actor_defs_mutedword_of_value) v in
     {items;})
 
 
@@ -1227,7 +1227,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_hiddenpostspref_of_value : app_bsky_actor_defs_hiddenpostspref Value.Util.conv = (fun v ->
-    let items = Value.Util.get_key "items" (Value.Util.to_array_of Value.Util.to_text) v in
+    let items = Value.Util.get_key_exn "items" (Value.Util.to_array_of Value.Util.to_text) v in
     {items;})
 
 
@@ -1245,7 +1245,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_bskyappprogressguide_of_value : app_bsky_actor_defs_bskyappprogressguide Value.Util.conv = (fun v ->
-    let guide = Value.Util.get_key "guide" Value.Util.to_text v in
+    let guide = Value.Util.get_key_exn "guide" Value.Util.to_text v in
     {guide;})
 
 
@@ -1266,10 +1266,10 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_nux_of_value : app_bsky_actor_defs_nux Value.Util.conv = (fun v ->
-    let id = Value.Util.get_key "id" Value.Util.to_text v in
-    let completed = Value.Util.get_key "completed" Value.Util.to_bool v in
-    let data = Value.Util.get_key_not_required "data" Value.Util.to_text v in
-    let expiresAt = Value.Util.get_key_not_required "expiresAt" Value.Util.to_text v in
+    let id = Value.Util.get_key_exn "id" Value.Util.to_text v in
+    let completed = Value.Util.get_key_exn "completed" Value.Util.to_bool v in
+    let data = Value.Util.get_key_not_required_exn "data" Value.Util.to_text v in
+    let expiresAt = Value.Util.get_key_not_required_exn "expiresAt" Value.Util.to_text v in
     {id;completed;data;expiresAt;})
 
 
@@ -1292,9 +1292,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_bskyappstatepref_of_value : app_bsky_actor_defs_bskyappstatepref Value.Util.conv = (fun v ->
-    let activeProgressGuide = Value.Util.get_key_not_required "activeProgressGuide" app_bsky_actor_defs_bskyappprogressguide_of_value v in
-    let queuedNudges = Value.Util.get_key_not_required "queuedNudges" (Value.Util.to_array_of Value.Util.to_text) v in
-    let nuxs = Value.Util.get_key_not_required "nuxs" (Value.Util.to_array_of app_bsky_actor_defs_nux_of_value) v in
+    let activeProgressGuide = Value.Util.get_key_not_required_exn "activeProgressGuide" app_bsky_actor_defs_bskyappprogressguide_of_value v in
+    let queuedNudges = Value.Util.get_key_not_required_exn "queuedNudges" (Value.Util.to_array_of Value.Util.to_text) v in
+    let nuxs = Value.Util.get_key_not_required_exn "nuxs" (Value.Util.to_array_of app_bsky_actor_defs_nux_of_value) v in
     {activeProgressGuide;queuedNudges;nuxs;})
 
 
@@ -1314,7 +1314,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_labelerprefitem_of_value : app_bsky_actor_defs_labelerprefitem Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
     {did;})
 
 
@@ -1332,7 +1332,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_labelerspref_of_value : app_bsky_actor_defs_labelerspref Value.Util.conv = (fun v ->
-    let labelers = Value.Util.get_key "labelers" (Value.Util.to_array_of app_bsky_actor_defs_labelerprefitem_of_value) v in
+    let labelers = Value.Util.get_key_exn "labelers" (Value.Util.to_array_of app_bsky_actor_defs_labelerprefitem_of_value) v in
     {labelers;})
 
 
@@ -1380,7 +1380,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_threadgate_listrule_of_value : app_bsky_feed_threadgate_listrule Value.Util.conv = (fun v ->
-    let list = Value.Util.get_key "list" Value.Util.to_text v in
+    let list = Value.Util.get_key_exn "list" Value.Util.to_text v in
     {list;})
 
 
@@ -1418,23 +1418,23 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_postinteractionsettingspref_of_value : app_bsky_actor_defs_postinteractionsettingspref Value.Util.conv = (fun v ->
-    let threadgateAllowRules = Value.Util.get_key_not_required "threadgateAllowRules" (Value.Util.to_array_of (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let threadgateAllowRules = Value.Util.get_key_not_required_exn "threadgateAllowRules" (Value.Util.to_array_of (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#mentionRule" | "app.bsky.feed.threadgate#mentionRule" ->
+    | "app.bsky.feed.threadgate#mentionRule" ->
     `App_bsky_feed_threadgate_mentionrule (app_bsky_feed_threadgate_mentionrule_of_value v)
-    | "#followerRule" | "app.bsky.feed.threadgate#followerRule" ->
+    | "app.bsky.feed.threadgate#followerRule" ->
     `App_bsky_feed_threadgate_followerrule (app_bsky_feed_threadgate_followerrule_of_value v)
-    | "#followingRule" | "app.bsky.feed.threadgate#followingRule" ->
+    | "app.bsky.feed.threadgate#followingRule" ->
     `App_bsky_feed_threadgate_followingrule (app_bsky_feed_threadgate_followingrule_of_value v)
-    | "#listRule" | "app.bsky.feed.threadgate#listRule" ->
+    | "app.bsky.feed.threadgate#listRule" ->
     `App_bsky_feed_threadgate_listrule (app_bsky_feed_threadgate_listrule_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
-    let postgateEmbeddingRules = Value.Util.get_key_not_required "postgateEmbeddingRules" (Value.Util.to_array_of (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let postgateEmbeddingRules = Value.Util.get_key_not_required_exn "postgateEmbeddingRules" (Value.Util.to_array_of (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#disableRule" | "app.bsky.feed.postgate#disableRule" ->
+    | "app.bsky.feed.postgate#disableRule" ->
     `App_bsky_feed_postgate_disablerule (app_bsky_feed_postgate_disablerule_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
@@ -1467,7 +1467,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_verificationprefs_of_value : app_bsky_actor_defs_verificationprefs Value.Util.conv = (fun v ->
-    let hideBadges = Value.Util.get_key_not_required "hideBadges" Value.Util.to_bool v in
+    let hideBadges = Value.Util.get_key_not_required_exn "hideBadges" Value.Util.to_bool v in
     {hideBadges;})
 
 
@@ -1499,35 +1499,35 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_actor_defs_preferences_of_value : app_bsky_actor_defs_preferences Value.Util.conv = (Value.Util.to_array_of (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#adultContentPref" | "app.bsky.actor.defs#adultContentPref" ->
+    | "app.bsky.actor.defs#adultContentPref" ->
     `App_bsky_actor_defs_adultcontentpref (app_bsky_actor_defs_adultcontentpref_of_value v)
-    | "#contentLabelPref" | "app.bsky.actor.defs#contentLabelPref" ->
+    | "app.bsky.actor.defs#contentLabelPref" ->
     `App_bsky_actor_defs_contentlabelpref (app_bsky_actor_defs_contentlabelpref_of_value v)
-    | "#savedFeedsPref" | "app.bsky.actor.defs#savedFeedsPref" ->
+    | "app.bsky.actor.defs#savedFeedsPref" ->
     `App_bsky_actor_defs_savedfeedspref (app_bsky_actor_defs_savedfeedspref_of_value v)
-    | "#savedFeedsPrefV2" | "app.bsky.actor.defs#savedFeedsPrefV2" ->
+    | "app.bsky.actor.defs#savedFeedsPrefV2" ->
     `App_bsky_actor_defs_savedfeedsprefv2 (app_bsky_actor_defs_savedfeedsprefv2_of_value v)
-    | "#personalDetailsPref" | "app.bsky.actor.defs#personalDetailsPref" ->
+    | "app.bsky.actor.defs#personalDetailsPref" ->
     `App_bsky_actor_defs_personaldetailspref (app_bsky_actor_defs_personaldetailspref_of_value v)
-    | "#feedViewPref" | "app.bsky.actor.defs#feedViewPref" ->
+    | "app.bsky.actor.defs#feedViewPref" ->
     `App_bsky_actor_defs_feedviewpref (app_bsky_actor_defs_feedviewpref_of_value v)
-    | "#threadViewPref" | "app.bsky.actor.defs#threadViewPref" ->
+    | "app.bsky.actor.defs#threadViewPref" ->
     `App_bsky_actor_defs_threadviewpref (app_bsky_actor_defs_threadviewpref_of_value v)
-    | "#interestsPref" | "app.bsky.actor.defs#interestsPref" ->
+    | "app.bsky.actor.defs#interestsPref" ->
     `App_bsky_actor_defs_interestspref (app_bsky_actor_defs_interestspref_of_value v)
-    | "#mutedWordsPref" | "app.bsky.actor.defs#mutedWordsPref" ->
+    | "app.bsky.actor.defs#mutedWordsPref" ->
     `App_bsky_actor_defs_mutedwordspref (app_bsky_actor_defs_mutedwordspref_of_value v)
-    | "#hiddenPostsPref" | "app.bsky.actor.defs#hiddenPostsPref" ->
+    | "app.bsky.actor.defs#hiddenPostsPref" ->
     `App_bsky_actor_defs_hiddenpostspref (app_bsky_actor_defs_hiddenpostspref_of_value v)
-    | "#bskyAppStatePref" | "app.bsky.actor.defs#bskyAppStatePref" ->
+    | "app.bsky.actor.defs#bskyAppStatePref" ->
     `App_bsky_actor_defs_bskyappstatepref (app_bsky_actor_defs_bskyappstatepref_of_value v)
-    | "#labelersPref" | "app.bsky.actor.defs#labelersPref" ->
+    | "app.bsky.actor.defs#labelersPref" ->
     `App_bsky_actor_defs_labelerspref (app_bsky_actor_defs_labelerspref_of_value v)
-    | "#postInteractionSettingsPref" | "app.bsky.actor.defs#postInteractionSettingsPref" ->
+    | "app.bsky.actor.defs#postInteractionSettingsPref" ->
     `App_bsky_actor_defs_postinteractionsettingspref (app_bsky_actor_defs_postinteractionsettingspref_of_value v)
-    | "#verificationPrefs" | "app.bsky.actor.defs#verificationPrefs" ->
+    | "app.bsky.actor.defs#verificationPrefs" ->
     `App_bsky_actor_defs_verificationprefs (app_bsky_actor_defs_verificationprefs_of_value v)
     | _ -> `Other v (* Non closed union *)
     )))
@@ -1586,7 +1586,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_images_view_of_value : app_bsky_embed_images_view Value.Util.conv = (fun v ->
-    let images = Value.Util.get_key "images" (Value.Util.to_array_of app_bsky_embed_images_viewimage_of_value) v in
+    let images = Value.Util.get_key_exn "images" (Value.Util.to_array_of app_bsky_embed_images_viewimage_of_value) v in
     {images;})
 
 
@@ -1608,11 +1608,11 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_video_view_of_value : app_bsky_embed_video_view Value.Util.conv = (fun v ->
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let playlist = Value.Util.get_key "playlist" Value.Util.to_text v in
-    let thumbnail = Value.Util.get_key_not_required "thumbnail" Value.Util.to_text v in
-    let alt = Value.Util.get_key_not_required "alt" Value.Util.to_text v in
-    let aspectRatio = Value.Util.get_key_not_required "aspectRatio" app_bsky_embed_defs_aspectratio_of_value v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let playlist = Value.Util.get_key_exn "playlist" Value.Util.to_text v in
+    let thumbnail = Value.Util.get_key_not_required_exn "thumbnail" Value.Util.to_text v in
+    let alt = Value.Util.get_key_not_required_exn "alt" Value.Util.to_text v in
+    let aspectRatio = Value.Util.get_key_not_required_exn "aspectRatio" app_bsky_embed_defs_aspectratio_of_value v in
     {cid;playlist;thumbnail;alt;aspectRatio;})
 
 
@@ -1635,8 +1635,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_record_viewnotfound_of_value : app_bsky_embed_record_viewnotfound Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let notFound = Value.Util.get_key "notFound" Value.Util.to_bool v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let notFound = Value.Util.get_key_exn "notFound" Value.Util.to_bool v in
     {uri;notFound;})
 
 
@@ -1656,8 +1656,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_defs_blockedauthor_of_value : app_bsky_feed_defs_blockedauthor Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let viewer = Value.Util.get_key_not_required "viewer" app_bsky_actor_defs_viewerstate_of_value v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" app_bsky_actor_defs_viewerstate_of_value v in
     {did;viewer;})
 
 
@@ -1678,9 +1678,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_record_viewblocked_of_value : app_bsky_embed_record_viewblocked Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let blocked = Value.Util.get_key "blocked" Value.Util.to_bool v in
-    let author = Value.Util.get_key "author" app_bsky_feed_defs_blockedauthor_of_value v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let blocked = Value.Util.get_key_exn "blocked" Value.Util.to_bool v in
+    let author = Value.Util.get_key_exn "author" app_bsky_feed_defs_blockedauthor_of_value v in
     {uri;blocked;author;})
 
 
@@ -1701,8 +1701,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_record_viewdetached_of_value : app_bsky_embed_record_viewdetached Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let detached = Value.Util.get_key "detached" Value.Util.to_bool v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let detached = Value.Util.get_key_exn "detached" Value.Util.to_bool v in
     {uri;detached;})
 
 
@@ -1732,18 +1732,18 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_graph_defs_listview_of_value : app_bsky_graph_defs_listview Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let creator = Value.Util.get_key "creator" app_bsky_actor_defs_profileview_of_value v in
-    let name = Value.Util.get_key "name" Value.Util.to_text v in
-    let purpose = Value.Util.get_key "purpose" app_bsky_graph_defs_listpurpose_of_value v in
-    let description = Value.Util.get_key_not_required "description" Value.Util.to_text v in
-    let descriptionFacets = Value.Util.get_key_not_required "descriptionFacets" (Value.Util.to_array_of app_bsky_richtext_facet_main_of_value) v in
-    let avatar = Value.Util.get_key_not_required "avatar" Value.Util.to_text v in
-    let listItemCount = Value.Util.get_key_not_required "listItemCount" Value.Util.to_int v in
-    let labels = Value.Util.get_key_not_required "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
-    let viewer = Value.Util.get_key_not_required "viewer" app_bsky_graph_defs_listviewerstate_of_value v in
-    let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let creator = Value.Util.get_key_exn "creator" app_bsky_actor_defs_profileview_of_value v in
+    let name = Value.Util.get_key_exn "name" Value.Util.to_text v in
+    let purpose = Value.Util.get_key_exn "purpose" app_bsky_graph_defs_listpurpose_of_value v in
+    let description = Value.Util.get_key_not_required_exn "description" Value.Util.to_text v in
+    let descriptionFacets = Value.Util.get_key_not_required_exn "descriptionFacets" (Value.Util.to_array_of app_bsky_richtext_facet_main_of_value) v in
+    let avatar = Value.Util.get_key_not_required_exn "avatar" Value.Util.to_text v in
+    let listItemCount = Value.Util.get_key_not_required_exn "listItemCount" Value.Util.to_int v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" app_bsky_graph_defs_listviewerstate_of_value v in
+    let indexedAt = Value.Util.get_key_exn "indexedAt" Value.Util.to_text v in
     {uri;cid;creator;name;purpose;description;descriptionFacets;avatar;listItemCount;labels;viewer;indexedAt;})
 
 
@@ -1772,7 +1772,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_labeler_defs_labelerviewerstate_of_value : app_bsky_labeler_defs_labelerviewerstate Value.Util.conv = (fun v ->
-    let like = Value.Util.get_key_not_required "like" Value.Util.to_text v in
+    let like = Value.Util.get_key_not_required_exn "like" Value.Util.to_text v in
     {like;})
 
 
@@ -1796,13 +1796,13 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_labeler_defs_labelerview_of_value : app_bsky_labeler_defs_labelerview Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let creator = Value.Util.get_key "creator" app_bsky_actor_defs_profileview_of_value v in
-    let likeCount = Value.Util.get_key_not_required "likeCount" Value.Util.to_int v in
-    let viewer = Value.Util.get_key_not_required "viewer" app_bsky_labeler_defs_labelerviewerstate_of_value v in
-    let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
-    let labels = Value.Util.get_key_not_required "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let creator = Value.Util.get_key_exn "creator" app_bsky_actor_defs_profileview_of_value v in
+    let likeCount = Value.Util.get_key_not_required_exn "likeCount" Value.Util.to_int v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" app_bsky_labeler_defs_labelerviewerstate_of_value v in
+    let indexedAt = Value.Util.get_key_exn "indexedAt" Value.Util.to_text v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
     {uri;cid;creator;likeCount;viewer;indexedAt;labels;})
 
 
@@ -1869,65 +1869,65 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_record_viewrecord_of_value : app_bsky_embed_record_viewrecord Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let author = Value.Util.get_key "author" app_bsky_actor_defs_profileviewbasic_of_value v in
-    let value = Value.Util.get_key "value" (fun v -> v (* immediate *)) v in
-    let labels = Value.Util.get_key_not_required "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
-    let replyCount = Value.Util.get_key_not_required "replyCount" Value.Util.to_int v in
-    let repostCount = Value.Util.get_key_not_required "repostCount" Value.Util.to_int v in
-    let likeCount = Value.Util.get_key_not_required "likeCount" Value.Util.to_int v in
-    let quoteCount = Value.Util.get_key_not_required "quoteCount" Value.Util.to_int v in
-    let embeds = Value.Util.get_key_not_required "embeds" (Value.Util.to_array_of (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let author = Value.Util.get_key_exn "author" app_bsky_actor_defs_profileviewbasic_of_value v in
+    let value = Value.Util.get_key_exn "value" (fun v -> v (* immediate *)) v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
+    let replyCount = Value.Util.get_key_not_required_exn "replyCount" Value.Util.to_int v in
+    let repostCount = Value.Util.get_key_not_required_exn "repostCount" Value.Util.to_int v in
+    let likeCount = Value.Util.get_key_not_required_exn "likeCount" Value.Util.to_int v in
+    let quoteCount = Value.Util.get_key_not_required_exn "quoteCount" Value.Util.to_int v in
+    let embeds = Value.Util.get_key_not_required_exn "embeds" (Value.Util.to_array_of (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#view" | "app.bsky.embed.images#view" ->
+    | "app.bsky.embed.images#view" ->
     `App_bsky_embed_images_view (app_bsky_embed_images_view_of_value v)
-    | "#view" | "app.bsky.embed.video#view" ->
+    | "app.bsky.embed.video#view" ->
     `App_bsky_embed_video_view (app_bsky_embed_video_view_of_value v)
-    | "#view" | "app.bsky.embed.external#view" ->
+    | "app.bsky.embed.external#view" ->
     `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
-    | "#view" | "app.bsky.embed.record#view" ->
+    | "app.bsky.embed.record#view" ->
     `App_bsky_embed_record_view (app_bsky_embed_record_view_of_value v)
-    | "#view" | "app.bsky.embed.recordWithMedia#view" ->
+    | "app.bsky.embed.recordWithMedia#view" ->
     `App_bsky_embed_recordwithmedia_view (app_bsky_embed_recordwithmedia_view_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
-    let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
+    let indexedAt = Value.Util.get_key_exn "indexedAt" Value.Util.to_text v in
     {uri;cid;author;value;labels;replyCount;repostCount;likeCount;quoteCount;embeds;indexedAt;})
   and app_bsky_embed_record_view_of_value : app_bsky_embed_record_view Value.Util.conv = (fun v ->
-    let record = Value.Util.get_key "record" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let record = Value.Util.get_key_exn "record" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#viewRecord" | "app.bsky.embed.record#viewRecord" ->
+    | "app.bsky.embed.record#viewRecord" ->
     `App_bsky_embed_record_viewrecord (app_bsky_embed_record_viewrecord_of_value v)
-    | "#viewNotFound" | "app.bsky.embed.record#viewNotFound" ->
+    | "app.bsky.embed.record#viewNotFound" ->
     `App_bsky_embed_record_viewnotfound (app_bsky_embed_record_viewnotfound_of_value v)
-    | "#viewBlocked" | "app.bsky.embed.record#viewBlocked" ->
+    | "app.bsky.embed.record#viewBlocked" ->
     `App_bsky_embed_record_viewblocked (app_bsky_embed_record_viewblocked_of_value v)
-    | "#viewDetached" | "app.bsky.embed.record#viewDetached" ->
+    | "app.bsky.embed.record#viewDetached" ->
     `App_bsky_embed_record_viewdetached (app_bsky_embed_record_viewdetached_of_value v)
-    | "#generatorView" | "app.bsky.feed.defs#generatorView" ->
+    | "app.bsky.feed.defs#generatorView" ->
     `App_bsky_feed_defs_generatorview (app_bsky_feed_defs_generatorview_of_value v)
-    | "#listView" | "app.bsky.graph.defs#listView" ->
+    | "app.bsky.graph.defs#listView" ->
     `App_bsky_graph_defs_listview (app_bsky_graph_defs_listview_of_value v)
-    | "#labelerView" | "app.bsky.labeler.defs#labelerView" ->
+    | "app.bsky.labeler.defs#labelerView" ->
     `App_bsky_labeler_defs_labelerview (app_bsky_labeler_defs_labelerview_of_value v)
-    | "#starterPackViewBasic" | "app.bsky.graph.defs#starterPackViewBasic" ->
+    | "app.bsky.graph.defs#starterPackViewBasic" ->
     `App_bsky_graph_defs_starterpackviewbasic (app_bsky_graph_defs_starterpackviewbasic_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
     {record;})
   and app_bsky_embed_recordwithmedia_view_of_value : app_bsky_embed_recordwithmedia_view Value.Util.conv = (fun v ->
-    let record = Value.Util.get_key "record" app_bsky_embed_record_view_of_value v in
-    let media = Value.Util.get_key "media" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let record = Value.Util.get_key_exn "record" app_bsky_embed_record_view_of_value v in
+    let media = Value.Util.get_key_exn "media" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#view" | "app.bsky.embed.images#view" ->
+    | "app.bsky.embed.images#view" ->
     `App_bsky_embed_images_view (app_bsky_embed_images_view_of_value v)
-    | "#view" | "app.bsky.embed.video#view" ->
+    | "app.bsky.embed.video#view" ->
     `App_bsky_embed_video_view (app_bsky_embed_video_view_of_value v)
-    | "#view" | "app.bsky.embed.external#view" ->
+    | "app.bsky.embed.external#view" ->
     `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
@@ -1999,12 +1999,12 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_defs_viewerstate_of_value : app_bsky_feed_defs_viewerstate Value.Util.conv = (fun v ->
-    let repost = Value.Util.get_key_not_required "repost" Value.Util.to_text v in
-    let like = Value.Util.get_key_not_required "like" Value.Util.to_text v in
-    let threadMuted = Value.Util.get_key_not_required "threadMuted" Value.Util.to_bool v in
-    let replyDisabled = Value.Util.get_key_not_required "replyDisabled" Value.Util.to_bool v in
-    let embeddingDisabled = Value.Util.get_key_not_required "embeddingDisabled" Value.Util.to_bool v in
-    let pinned = Value.Util.get_key_not_required "pinned" Value.Util.to_bool v in
+    let repost = Value.Util.get_key_not_required_exn "repost" Value.Util.to_text v in
+    let like = Value.Util.get_key_not_required_exn "like" Value.Util.to_text v in
+    let threadMuted = Value.Util.get_key_not_required_exn "threadMuted" Value.Util.to_bool v in
+    let replyDisabled = Value.Util.get_key_not_required_exn "replyDisabled" Value.Util.to_bool v in
+    let embeddingDisabled = Value.Util.get_key_not_required_exn "embeddingDisabled" Value.Util.to_bool v in
+    let pinned = Value.Util.get_key_not_required_exn "pinned" Value.Util.to_bool v in
     {repost;like;threadMuted;replyDisabled;embeddingDisabled;pinned;})
 
 
@@ -2030,10 +2030,10 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_defs_threadgateview_of_value : app_bsky_feed_defs_threadgateview Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key_not_required "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key_not_required "cid" Value.Util.to_text v in
-    let record = Value.Util.get_key_not_required "record" (fun v -> v (* immediate *)) v in
-    let lists = Value.Util.get_key_not_required "lists" (Value.Util.to_array_of app_bsky_graph_defs_listviewbasic_of_value) v in
+    let uri = Value.Util.get_key_not_required_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_not_required_exn "cid" Value.Util.to_text v in
+    let record = Value.Util.get_key_not_required_exn "record" (fun v -> v (* immediate *)) v in
+    let lists = Value.Util.get_key_not_required_exn "lists" (Value.Util.to_array_of app_bsky_graph_defs_listviewbasic_of_value) v in
     {uri;cid;record;lists;})
 
 
@@ -2073,33 +2073,33 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_defs_postview_of_value : app_bsky_feed_defs_postview Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let author = Value.Util.get_key "author" app_bsky_actor_defs_profileviewbasic_of_value v in
-    let record = Value.Util.get_key "record" (fun v -> v (* immediate *)) v in
-    let embed = Value.Util.get_key_not_required "embed" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let author = Value.Util.get_key_exn "author" app_bsky_actor_defs_profileviewbasic_of_value v in
+    let record = Value.Util.get_key_exn "record" (fun v -> v (* immediate *)) v in
+    let embed = Value.Util.get_key_not_required_exn "embed" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#view" | "app.bsky.embed.images#view" ->
+    | "app.bsky.embed.images#view" ->
     `App_bsky_embed_images_view (app_bsky_embed_images_view_of_value v)
-    | "#view" | "app.bsky.embed.video#view" ->
+    | "app.bsky.embed.video#view" ->
     `App_bsky_embed_video_view (app_bsky_embed_video_view_of_value v)
-    | "#view" | "app.bsky.embed.external#view" ->
+    | "app.bsky.embed.external#view" ->
     `App_bsky_embed_external_view (app_bsky_embed_external_view_of_value v)
-    | "#view" | "app.bsky.embed.record#view" ->
+    | "app.bsky.embed.record#view" ->
     `App_bsky_embed_record_view (app_bsky_embed_record_view_of_value v)
-    | "#view" | "app.bsky.embed.recordWithMedia#view" ->
+    | "app.bsky.embed.recordWithMedia#view" ->
     `App_bsky_embed_recordwithmedia_view (app_bsky_embed_recordwithmedia_view_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
-    let replyCount = Value.Util.get_key_not_required "replyCount" Value.Util.to_int v in
-    let repostCount = Value.Util.get_key_not_required "repostCount" Value.Util.to_int v in
-    let likeCount = Value.Util.get_key_not_required "likeCount" Value.Util.to_int v in
-    let quoteCount = Value.Util.get_key_not_required "quoteCount" Value.Util.to_int v in
-    let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
-    let viewer = Value.Util.get_key_not_required "viewer" app_bsky_feed_defs_viewerstate_of_value v in
-    let labels = Value.Util.get_key_not_required "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
-    let threadgate = Value.Util.get_key_not_required "threadgate" app_bsky_feed_defs_threadgateview_of_value v in
+    let replyCount = Value.Util.get_key_not_required_exn "replyCount" Value.Util.to_int v in
+    let repostCount = Value.Util.get_key_not_required_exn "repostCount" Value.Util.to_int v in
+    let likeCount = Value.Util.get_key_not_required_exn "likeCount" Value.Util.to_int v in
+    let quoteCount = Value.Util.get_key_not_required_exn "quoteCount" Value.Util.to_int v in
+    let indexedAt = Value.Util.get_key_exn "indexedAt" Value.Util.to_text v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" app_bsky_feed_defs_viewerstate_of_value v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
+    let threadgate = Value.Util.get_key_not_required_exn "threadgate" app_bsky_feed_defs_threadgateview_of_value v in
     {uri;cid;author;record;embed;replyCount;repostCount;likeCount;quoteCount;indexedAt;viewer;labels;threadgate;})
 
 
@@ -2142,12 +2142,12 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_unspecced_defs_threaditempost_of_value : app_bsky_unspecced_defs_threaditempost Value.Util.conv = (fun v ->
-    let post = Value.Util.get_key "post" app_bsky_feed_defs_postview_of_value v in
-    let moreParents = Value.Util.get_key "moreParents" Value.Util.to_bool v in
-    let moreReplies = Value.Util.get_key "moreReplies" Value.Util.to_int v in
-    let opThread = Value.Util.get_key "opThread" Value.Util.to_bool v in
-    let hiddenByThreadgate = Value.Util.get_key "hiddenByThreadgate" Value.Util.to_bool v in
-    let mutedByViewer = Value.Util.get_key "mutedByViewer" Value.Util.to_bool v in
+    let post = Value.Util.get_key_exn "post" app_bsky_feed_defs_postview_of_value v in
+    let moreParents = Value.Util.get_key_exn "moreParents" Value.Util.to_bool v in
+    let moreReplies = Value.Util.get_key_exn "moreReplies" Value.Util.to_int v in
+    let opThread = Value.Util.get_key_exn "opThread" Value.Util.to_bool v in
+    let hiddenByThreadgate = Value.Util.get_key_exn "hiddenByThreadgate" Value.Util.to_bool v in
+    let mutedByViewer = Value.Util.get_key_exn "mutedByViewer" Value.Util.to_bool v in
     {post;moreParents;moreReplies;opThread;hiddenByThreadgate;mutedByViewer;})
 
 
@@ -2191,8 +2191,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_repo_applywrites_delete_of_value : com_atproto_repo_applywrites_delete Value.Util.conv = (fun v ->
-    let collection = Value.Util.get_key "collection" Value.Util.to_text v in
-    let rkey = Value.Util.get_key "rkey" Value.Util.to_text v in
+    let collection = Value.Util.get_key_exn "collection" Value.Util.to_text v in
+    let rkey = Value.Util.get_key_exn "rkey" Value.Util.to_text v in
     {collection;rkey;})
 
 
@@ -2212,8 +2212,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_repo_defs_commitmeta_of_value : com_atproto_repo_defs_commitmeta Value.Util.conv = (fun v ->
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let rev = Value.Util.get_key "rev" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let rev = Value.Util.get_key_exn "rev" Value.Util.to_text v in
     {cid;rev;})
 
 
@@ -2233,8 +2233,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_server_describeserver_links_of_value : com_atproto_server_describeserver_links Value.Util.conv = (fun v ->
-    let privacyPolicy = Value.Util.get_key_not_required "privacyPolicy" Value.Util.to_text v in
-    let termsOfService = Value.Util.get_key_not_required "termsOfService" Value.Util.to_text v in
+    let privacyPolicy = Value.Util.get_key_not_required_exn "privacyPolicy" Value.Util.to_text v in
+    let termsOfService = Value.Util.get_key_not_required_exn "termsOfService" Value.Util.to_text v in
     {privacyPolicy;termsOfService;})
 
 
@@ -2254,8 +2254,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_label_subscribelabels_info_of_value : com_atproto_label_subscribelabels_info Value.Util.conv = (fun v ->
-    let name = Value.Util.get_key "name" Value.Util.to_text v in
-    let message = Value.Util.get_key_not_required "message" Value.Util.to_text v in
+    let name = Value.Util.get_key_exn "name" Value.Util.to_text v in
+    let message = Value.Util.get_key_not_required_exn "message" Value.Util.to_text v in
     {name;message;})
 
 
@@ -2275,8 +2275,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_video_caption_of_value : app_bsky_embed_video_caption Value.Util.conv = (fun v ->
-    let lang = Value.Util.get_key "lang" Value.Util.to_text v in
-    let file = Value.Util.get_key "file" Blob.of_value_exn v in
+    let lang = Value.Util.get_key_exn "lang" Value.Util.to_text v in
+    let file = Value.Util.get_key_exn "file" Blob.of_value_exn v in
     {lang;file;})
 
 
@@ -2298,10 +2298,10 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_video_main_of_value : app_bsky_embed_video_main Value.Util.conv = (fun v ->
-    let video = Value.Util.get_key "video" Blob.of_value_exn v in
-    let captions = Value.Util.get_key_not_required "captions" (Value.Util.to_array_of app_bsky_embed_video_caption_of_value) v in
-    let alt = Value.Util.get_key_not_required "alt" Value.Util.to_text v in
-    let aspectRatio = Value.Util.get_key_not_required "aspectRatio" app_bsky_embed_defs_aspectratio_of_value v in
+    let video = Value.Util.get_key_exn "video" Blob.of_value_exn v in
+    let captions = Value.Util.get_key_not_required_exn "captions" (Value.Util.to_array_of app_bsky_embed_video_caption_of_value) v in
+    let alt = Value.Util.get_key_not_required_exn "alt" Value.Util.to_text v in
+    let aspectRatio = Value.Util.get_key_not_required_exn "aspectRatio" app_bsky_embed_defs_aspectratio_of_value v in
     {video;captions;alt;aspectRatio;})
 
 
@@ -2322,7 +2322,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_describefeedgenerator_feed_of_value : app_bsky_feed_describefeedgenerator_feed Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
     {uri;})
 
 
@@ -2356,13 +2356,13 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_video_defs_jobstatus_of_value : app_bsky_video_defs_jobstatus Value.Util.conv = (fun v ->
-    let jobId = Value.Util.get_key "jobId" Value.Util.to_text v in
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let state = Value.Util.get_key "state" Value.Util.to_text v in
-    let progress = Value.Util.get_key_not_required "progress" Value.Util.to_int v in
-    let blob = Value.Util.get_key_not_required "blob" Blob.of_value_exn v in
-    let error = Value.Util.get_key_not_required "error" Value.Util.to_text v in
-    let message = Value.Util.get_key_not_required "message" Value.Util.to_text v in
+    let jobId = Value.Util.get_key_exn "jobId" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let state = Value.Util.get_key_exn "state" Value.Util.to_text v in
+    let progress = Value.Util.get_key_not_required_exn "progress" Value.Util.to_int v in
+    let blob = Value.Util.get_key_not_required_exn "blob" Blob.of_value_exn v in
+    let error = Value.Util.get_key_not_required_exn "error" Value.Util.to_text v in
+    let message = Value.Util.get_key_not_required_exn "message" Value.Util.to_text v in
     {jobId;did;state;progress;blob;error;message;})
 
 
@@ -2418,9 +2418,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_unspecced_gettaggedsuggestions_suggestion_of_value : app_bsky_unspecced_gettaggedsuggestions_suggestion Value.Util.conv = (fun v ->
-    let tag = Value.Util.get_key "tag" Value.Util.to_text v in
-    let subjectType = Value.Util.get_key "subjectType" Value.Util.to_text v in
-    let subject = Value.Util.get_key "subject" Value.Util.to_text v in
+    let tag = Value.Util.get_key_exn "tag" Value.Util.to_text v in
+    let subjectType = Value.Util.get_key_exn "subjectType" Value.Util.to_text v in
+    let subject = Value.Util.get_key_exn "subject" Value.Util.to_text v in
     {tag;subjectType;subject;})
 
 
@@ -2450,7 +2450,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_admin_defs_reporef_of_value : com_atproto_admin_defs_reporef Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
     {did;})
 
 
@@ -2469,8 +2469,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_server_defs_invitecodeuse_of_value : com_atproto_server_defs_invitecodeuse Value.Util.conv = (fun v ->
-    let usedBy = Value.Util.get_key "usedBy" Value.Util.to_text v in
-    let usedAt = Value.Util.get_key "usedAt" Value.Util.to_text v in
+    let usedBy = Value.Util.get_key_exn "usedBy" Value.Util.to_text v in
+    let usedAt = Value.Util.get_key_exn "usedAt" Value.Util.to_text v in
     {usedBy;usedAt;})
 
 
@@ -2491,9 +2491,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_getlikes_like_of_value : app_bsky_feed_getlikes_like Value.Util.conv = (fun v ->
-    let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
-    let createdAt = Value.Util.get_key "createdAt" Value.Util.to_text v in
-    let actor = Value.Util.get_key "actor" app_bsky_actor_defs_profileview_of_value v in
+    let indexedAt = Value.Util.get_key_exn "indexedAt" Value.Util.to_text v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    let actor = Value.Util.get_key_exn "actor" app_bsky_actor_defs_profileview_of_value v in
     {indexedAt;createdAt;actor;})
 
 
@@ -2516,10 +2516,10 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_external_external_of_value : app_bsky_embed_external_external Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let title = Value.Util.get_key "title" Value.Util.to_text v in
-    let description = Value.Util.get_key "description" Value.Util.to_text v in
-    let thumb = Value.Util.get_key_not_required "thumb" Blob.of_value_exn v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let title = Value.Util.get_key_exn "title" Value.Util.to_text v in
+    let description = Value.Util.get_key_exn "description" Value.Util.to_text v in
+    let thumb = Value.Util.get_key_not_required_exn "thumb" Blob.of_value_exn v in
     {uri;title;description;thumb;})
 
 
@@ -2542,9 +2542,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_label_defs_labelvaluedefinitionstrings_of_value : com_atproto_label_defs_labelvaluedefinitionstrings Value.Util.conv = (fun v ->
-    let lang = Value.Util.get_key "lang" Value.Util.to_text v in
-    let name = Value.Util.get_key "name" Value.Util.to_text v in
-    let description = Value.Util.get_key "description" Value.Util.to_text v in
+    let lang = Value.Util.get_key_exn "lang" Value.Util.to_text v in
+    let name = Value.Util.get_key_exn "name" Value.Util.to_text v in
+    let description = Value.Util.get_key_exn "description" Value.Util.to_text v in
     {lang;name;description;})
 
 
@@ -2569,12 +2569,12 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_label_defs_labelvaluedefinition_of_value : com_atproto_label_defs_labelvaluedefinition Value.Util.conv = (fun v ->
-    let identifier = Value.Util.get_key "identifier" Value.Util.to_text v in
-    let severity = Value.Util.get_key "severity" Value.Util.to_text v in
-    let blurs = Value.Util.get_key "blurs" Value.Util.to_text v in
-    let defaultSetting = Value.Util.get_key_not_required "defaultSetting" Value.Util.to_text v in
-    let adultOnly = Value.Util.get_key_not_required "adultOnly" Value.Util.to_bool v in
-    let locales = Value.Util.get_key "locales" (Value.Util.to_array_of com_atproto_label_defs_labelvaluedefinitionstrings_of_value) v in
+    let identifier = Value.Util.get_key_exn "identifier" Value.Util.to_text v in
+    let severity = Value.Util.get_key_exn "severity" Value.Util.to_text v in
+    let blurs = Value.Util.get_key_exn "blurs" Value.Util.to_text v in
+    let defaultSetting = Value.Util.get_key_not_required_exn "defaultSetting" Value.Util.to_text v in
+    let adultOnly = Value.Util.get_key_not_required_exn "adultOnly" Value.Util.to_bool v in
+    let locales = Value.Util.get_key_exn "locales" (Value.Util.to_array_of com_atproto_label_defs_labelvaluedefinitionstrings_of_value) v in
     {identifier;severity;blurs;defaultSetting;adultOnly;locales;})
 
 
@@ -2598,8 +2598,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_post_textslice_of_value : app_bsky_feed_post_textslice Value.Util.conv = (fun v ->
-    let start = Value.Util.get_key "start" Value.Util.to_int v in
-    let end_ = Value.Util.get_key "end" Value.Util.to_int v in
+    let start = Value.Util.get_key_exn "start" Value.Util.to_int v in
+    let end_ = Value.Util.get_key_exn "end" Value.Util.to_int v in
     {start;end_;})
 
 
@@ -2639,8 +2639,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_graph_defs_listitemview_of_value : app_bsky_graph_defs_listitemview Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let subject = Value.Util.get_key "subject" app_bsky_actor_defs_profileview_of_value v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let subject = Value.Util.get_key_exn "subject" app_bsky_actor_defs_profileview_of_value v in
     {uri;subject;})
 
 
@@ -2660,8 +2660,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_admin_defs_threatsignature_of_value : com_atproto_admin_defs_threatsignature Value.Util.conv = (fun v ->
-    let property = Value.Util.get_key "property" Value.Util.to_text v in
-    let value = Value.Util.get_key "value" Value.Util.to_text v in
+    let property = Value.Util.get_key_exn "property" Value.Util.to_text v in
+    let value = Value.Util.get_key_exn "value" Value.Util.to_text v in
     {property;value;})
 
 
@@ -2680,7 +2680,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_defs_skeletonreasonrepost_of_value : app_bsky_feed_defs_skeletonreasonrepost Value.Util.conv = (fun v ->
-    let repost = Value.Util.get_key "repost" Value.Util.to_text v in
+    let repost = Value.Util.get_key_exn "repost" Value.Util.to_text v in
     {repost;})
 
 
@@ -2718,7 +2718,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_unspecced_defs_threaditemblocked_of_value : app_bsky_unspecced_defs_threaditemblocked Value.Util.conv = (fun v ->
-    let author = Value.Util.get_key "author" app_bsky_feed_defs_blockedauthor_of_value v in
+    let author = Value.Util.get_key_exn "author" app_bsky_feed_defs_blockedauthor_of_value v in
     {author;})
 
 
@@ -2744,18 +2744,18 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_unspecced_getpostthreadv2_threaditem_of_value : app_bsky_unspecced_getpostthreadv2_threaditem Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let depth = Value.Util.get_key "depth" Value.Util.to_int v in
-    let value = Value.Util.get_key "value" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let depth = Value.Util.get_key_exn "depth" Value.Util.to_int v in
+    let value = Value.Util.get_key_exn "value" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#threadItemPost" | "app.bsky.unspecced.defs#threadItemPost" ->
+    | "app.bsky.unspecced.defs#threadItemPost" ->
     `App_bsky_unspecced_defs_threaditempost (app_bsky_unspecced_defs_threaditempost_of_value v)
-    | "#threadItemNoUnauthenticated" | "app.bsky.unspecced.defs#threadItemNoUnauthenticated" ->
+    | "app.bsky.unspecced.defs#threadItemNoUnauthenticated" ->
     `App_bsky_unspecced_defs_threaditemnounauthenticated (app_bsky_unspecced_defs_threaditemnounauthenticated_of_value v)
-    | "#threadItemNotFound" | "app.bsky.unspecced.defs#threadItemNotFound" ->
+    | "app.bsky.unspecced.defs#threadItemNotFound" ->
     `App_bsky_unspecced_defs_threaditemnotfound (app_bsky_unspecced_defs_threaditemnotfound_of_value v)
-    | "#threadItemBlocked" | "app.bsky.unspecced.defs#threadItemBlocked" ->
+    | "app.bsky.unspecced.defs#threadItemBlocked" ->
     `App_bsky_unspecced_defs_threaditemblocked (app_bsky_unspecced_defs_threaditemblocked_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
@@ -2788,10 +2788,10 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_defs_interaction_of_value : app_bsky_feed_defs_interaction Value.Util.conv = (fun v ->
-    let item = Value.Util.get_key_not_required "item" Value.Util.to_text v in
-    let event = Value.Util.get_key_not_required "event" Value.Util.to_text v in
-    let feedContext = Value.Util.get_key_not_required "feedContext" Value.Util.to_text v in
-    let reqId = Value.Util.get_key_not_required "reqId" Value.Util.to_text v in
+    let item = Value.Util.get_key_not_required_exn "item" Value.Util.to_text v in
+    let event = Value.Util.get_key_not_required_exn "event" Value.Util.to_text v in
+    let feedContext = Value.Util.get_key_not_required_exn "feedContext" Value.Util.to_text v in
+    let reqId = Value.Util.get_key_not_required_exn "reqId" Value.Util.to_text v in
     {item;event;feedContext;reqId;})
 
 
@@ -2825,10 +2825,10 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_sync_subscriberepos_repoop_of_value : com_atproto_sync_subscriberepos_repoop Value.Util.conv = (fun v ->
-    let action = Value.Util.get_key "action" Value.Util.to_text v in
-    let path = Value.Util.get_key "path" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" (Value.Util.to_option_of Value.Util.to_cid) v in
-    let prev = Value.Util.get_key_not_required "prev" Value.Util.to_cid v in
+    let action = Value.Util.get_key_exn "action" Value.Util.to_text v in
+    let path = Value.Util.get_key_exn "path" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" (Value.Util.to_option_of Value.Util.to_cid) v in
+    let prev = Value.Util.get_key_not_required_exn "prev" Value.Util.to_cid v in
     {action;path;cid;prev;})
 
 
@@ -2860,18 +2860,18 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_sync_subscriberepos_commit_of_value : com_atproto_sync_subscriberepos_commit Value.Util.conv = (fun v ->
-    let seq = Value.Util.get_key "seq" Value.Util.to_int v in
-    let rebase = Value.Util.get_key "rebase" Value.Util.to_bool v in
-    let tooBig = Value.Util.get_key "tooBig" Value.Util.to_bool v in
-    let repo = Value.Util.get_key "repo" Value.Util.to_text v in
-    let commit = Value.Util.get_key "commit" Value.Util.to_cid v in
-    let rev = Value.Util.get_key "rev" Value.Util.to_text v in
-    let since = Value.Util.get_key "since" (Value.Util.to_option_of Value.Util.to_text) v in
-    let blocks = Value.Util.get_key "blocks" Value.Util.to_bytes v in
-    let ops = Value.Util.get_key "ops" (Value.Util.to_array_of com_atproto_sync_subscriberepos_repoop_of_value) v in
-    let blobs = Value.Util.get_key "blobs" (Value.Util.to_array_of Value.Util.to_cid) v in
-    let prevData = Value.Util.get_key_not_required "prevData" Value.Util.to_cid v in
-    let time = Value.Util.get_key "time" Value.Util.to_text v in
+    let seq = Value.Util.get_key_exn "seq" Value.Util.to_int v in
+    let rebase = Value.Util.get_key_exn "rebase" Value.Util.to_bool v in
+    let tooBig = Value.Util.get_key_exn "tooBig" Value.Util.to_bool v in
+    let repo = Value.Util.get_key_exn "repo" Value.Util.to_text v in
+    let commit = Value.Util.get_key_exn "commit" Value.Util.to_cid v in
+    let rev = Value.Util.get_key_exn "rev" Value.Util.to_text v in
+    let since = Value.Util.get_key_exn "since" (Value.Util.to_option_of Value.Util.to_text) v in
+    let blocks = Value.Util.get_key_exn "blocks" Value.Util.to_bytes v in
+    let ops = Value.Util.get_key_exn "ops" (Value.Util.to_array_of com_atproto_sync_subscriberepos_repoop_of_value) v in
+    let blobs = Value.Util.get_key_exn "blobs" (Value.Util.to_array_of Value.Util.to_cid) v in
+    let prevData = Value.Util.get_key_not_required_exn "prevData" Value.Util.to_cid v in
+    let time = Value.Util.get_key_exn "time" Value.Util.to_text v in
     {seq;rebase;tooBig;repo;commit;rev;since;blocks;ops;blobs;prevData;time;})
 
 
@@ -2911,8 +2911,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_defs_notfoundpost_of_value : app_bsky_feed_defs_notfoundpost Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let notFound = Value.Util.get_key "notFound" Value.Util.to_bool v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let notFound = Value.Util.get_key_exn "notFound" Value.Util.to_bool v in
     {uri;notFound;})
 
 
@@ -2933,9 +2933,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_defs_blockedpost_of_value : app_bsky_feed_defs_blockedpost Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let blocked = Value.Util.get_key "blocked" Value.Util.to_bool v in
-    let author = Value.Util.get_key "author" app_bsky_feed_defs_blockedauthor_of_value v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let blocked = Value.Util.get_key_exn "blocked" Value.Util.to_bool v in
+    let author = Value.Util.get_key_exn "author" app_bsky_feed_defs_blockedauthor_of_value v in
     {uri;blocked;author;})
 
 
@@ -2967,29 +2967,29 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_defs_replyref_of_value : app_bsky_feed_defs_replyref Value.Util.conv = (fun v ->
-    let root = Value.Util.get_key "root" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let root = Value.Util.get_key_exn "root" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#postView" | "app.bsky.feed.defs#postView" ->
+    | "app.bsky.feed.defs#postView" ->
     `App_bsky_feed_defs_postview (app_bsky_feed_defs_postview_of_value v)
-    | "#notFoundPost" | "app.bsky.feed.defs#notFoundPost" ->
+    | "app.bsky.feed.defs#notFoundPost" ->
     `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
-    | "#blockedPost" | "app.bsky.feed.defs#blockedPost" ->
+    | "app.bsky.feed.defs#blockedPost" ->
     `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
-    let parent = Value.Util.get_key "parent" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let parent = Value.Util.get_key_exn "parent" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#postView" | "app.bsky.feed.defs#postView" ->
+    | "app.bsky.feed.defs#postView" ->
     `App_bsky_feed_defs_postview (app_bsky_feed_defs_postview_of_value v)
-    | "#notFoundPost" | "app.bsky.feed.defs#notFoundPost" ->
+    | "app.bsky.feed.defs#notFoundPost" ->
     `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
-    | "#blockedPost" | "app.bsky.feed.defs#blockedPost" ->
+    | "app.bsky.feed.defs#blockedPost" ->
     `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
-    let grandparentAuthor = Value.Util.get_key_not_required "grandparentAuthor" app_bsky_actor_defs_profileviewbasic_of_value v in
+    let grandparentAuthor = Value.Util.get_key_not_required_exn "grandparentAuthor" app_bsky_actor_defs_profileviewbasic_of_value v in
     {root;parent;grandparentAuthor;})
 
 
@@ -3024,10 +3024,10 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_defs_reasonrepost_of_value : app_bsky_feed_defs_reasonrepost Value.Util.conv = (fun v ->
-    let by = Value.Util.get_key "by" app_bsky_actor_defs_profileviewbasic_of_value v in
-    let uri = Value.Util.get_key_not_required "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key_not_required "cid" Value.Util.to_text v in
-    let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
+    let by = Value.Util.get_key_exn "by" app_bsky_actor_defs_profileviewbasic_of_value v in
+    let uri = Value.Util.get_key_not_required_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_not_required_exn "cid" Value.Util.to_text v in
+    let indexedAt = Value.Util.get_key_exn "indexedAt" Value.Util.to_text v in
     {by;uri;cid;indexedAt;})
 
 
@@ -3056,19 +3056,19 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_defs_feedviewpost_of_value : app_bsky_feed_defs_feedviewpost Value.Util.conv = (fun v ->
-    let post = Value.Util.get_key "post" app_bsky_feed_defs_postview_of_value v in
-    let reply = Value.Util.get_key_not_required "reply" app_bsky_feed_defs_replyref_of_value v in
-    let reason = Value.Util.get_key_not_required "reason" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let post = Value.Util.get_key_exn "post" app_bsky_feed_defs_postview_of_value v in
+    let reply = Value.Util.get_key_not_required_exn "reply" app_bsky_feed_defs_replyref_of_value v in
+    let reason = Value.Util.get_key_not_required_exn "reason" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#reasonRepost" | "app.bsky.feed.defs#reasonRepost" ->
+    | "app.bsky.feed.defs#reasonRepost" ->
     `App_bsky_feed_defs_reasonrepost (app_bsky_feed_defs_reasonrepost_of_value v)
-    | "#reasonPin" | "app.bsky.feed.defs#reasonPin" ->
+    | "app.bsky.feed.defs#reasonPin" ->
     `App_bsky_feed_defs_reasonpin (app_bsky_feed_defs_reasonpin_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
-    let feedContext = Value.Util.get_key_not_required "feedContext" Value.Util.to_text v in
-    let reqId = Value.Util.get_key_not_required "reqId" Value.Util.to_text v in
+    let feedContext = Value.Util.get_key_not_required_exn "feedContext" Value.Util.to_text v in
+    let reqId = Value.Util.get_key_not_required_exn "reqId" Value.Util.to_text v in
     {post;reply;reason;feedContext;reqId;})
 
 
@@ -3097,9 +3097,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_repo_applywrites_createresult_of_value : com_atproto_repo_applywrites_createresult Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let validationStatus = Value.Util.get_key_not_required "validationStatus" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let validationStatus = Value.Util.get_key_not_required_exn "validationStatus" Value.Util.to_text v in
     {uri;cid;validationStatus;})
 
 
@@ -3122,10 +3122,10 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_sync_subscriberepos_identity_of_value : com_atproto_sync_subscriberepos_identity Value.Util.conv = (fun v ->
-    let seq = Value.Util.get_key "seq" Value.Util.to_int v in
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let time = Value.Util.get_key "time" Value.Util.to_text v in
-    let handle = Value.Util.get_key_not_required "handle" Value.Util.to_text v in
+    let seq = Value.Util.get_key_exn "seq" Value.Util.to_int v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let time = Value.Util.get_key_exn "time" Value.Util.to_text v in
+    let handle = Value.Util.get_key_not_required_exn "handle" Value.Util.to_text v in
     {seq;did;time;handle;})
 
 
@@ -3147,8 +3147,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_admin_defs_statusattr_of_value : com_atproto_admin_defs_statusattr Value.Util.conv = (fun v ->
-    let applied = Value.Util.get_key "applied" Value.Util.to_bool v in
-    let ref = Value.Util.get_key_not_required "ref" Value.Util.to_text v in
+    let applied = Value.Util.get_key_exn "applied" Value.Util.to_bool v in
+    let ref = Value.Util.get_key_not_required_exn "ref" Value.Util.to_text v in
     {applied;ref;})
 
 
@@ -3170,10 +3170,10 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_server_createapppassword_apppassword_of_value : com_atproto_server_createapppassword_apppassword Value.Util.conv = (fun v ->
-    let name = Value.Util.get_key "name" Value.Util.to_text v in
-    let password = Value.Util.get_key "password" Value.Util.to_text v in
-    let createdAt = Value.Util.get_key "createdAt" Value.Util.to_text v in
-    let privileged = Value.Util.get_key_not_required "privileged" Value.Util.to_bool v in
+    let name = Value.Util.get_key_exn "name" Value.Util.to_text v in
+    let password = Value.Util.get_key_exn "password" Value.Util.to_text v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    let privileged = Value.Util.get_key_not_required_exn "privileged" Value.Util.to_bool v in
     {name;password;createdAt;privileged;})
 
 
@@ -3195,8 +3195,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_unspecced_getconfig_livenowconfig_of_value : app_bsky_unspecced_getconfig_livenowconfig Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let domains = Value.Util.get_key "domains" (Value.Util.to_array_of Value.Util.to_text) v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let domains = Value.Util.get_key_exn "domains" (Value.Util.to_array_of Value.Util.to_text) v in
     {did;domains;})
 
 
@@ -3220,12 +3220,12 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_unspecced_getpostthreadhiddenv2_threadhiddenitem_of_value : app_bsky_unspecced_getpostthreadhiddenv2_threadhiddenitem Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let depth = Value.Util.get_key "depth" Value.Util.to_int v in
-    let value = Value.Util.get_key "value" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let depth = Value.Util.get_key_exn "depth" Value.Util.to_int v in
+    let value = Value.Util.get_key_exn "value" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#threadItemPost" | "app.bsky.unspecced.defs#threadItemPost" ->
+    | "app.bsky.unspecced.defs#threadItemPost" ->
     `App_bsky_unspecced_defs_threaditempost (app_bsky_unspecced_defs_threaditempost_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
@@ -3254,9 +3254,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_repo_applywrites_update_of_value : com_atproto_repo_applywrites_update Value.Util.conv = (fun v ->
-    let collection = Value.Util.get_key "collection" Value.Util.to_text v in
-    let rkey = Value.Util.get_key "rkey" Value.Util.to_text v in
-    let value = Value.Util.get_key "value" (fun v -> v (* immediate *)) v in
+    let collection = Value.Util.get_key_exn "collection" Value.Util.to_text v in
+    let rkey = Value.Util.get_key_exn "rkey" Value.Util.to_text v in
+    let value = Value.Util.get_key_exn "value" (fun v -> v (* immediate *)) v in
     {collection;rkey;value;})
 
 
@@ -3297,8 +3297,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_labeler_defs_labelerpolicies_of_value : app_bsky_labeler_defs_labelerpolicies Value.Util.conv = (fun v ->
-    let labelValues = Value.Util.get_key "labelValues" (Value.Util.to_array_of com_atproto_label_defs_labelvalue_of_value) v in
-    let labelValueDefinitions = Value.Util.get_key_not_required "labelValueDefinitions" (Value.Util.to_array_of com_atproto_label_defs_labelvaluedefinition_of_value) v in
+    let labelValues = Value.Util.get_key_exn "labelValues" (Value.Util.to_array_of com_atproto_label_defs_labelvalue_of_value) v in
+    let labelValueDefinitions = Value.Util.get_key_not_required_exn "labelValueDefinitions" (Value.Util.to_array_of com_atproto_label_defs_labelvaluedefinition_of_value) v in
     {labelValues;labelValueDefinitions;})
 
 
@@ -3337,17 +3337,17 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_labeler_defs_labelerviewdetailed_of_value : app_bsky_labeler_defs_labelerviewdetailed Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let creator = Value.Util.get_key "creator" app_bsky_actor_defs_profileview_of_value v in
-    let policies = Value.Util.get_key "policies" app_bsky_labeler_defs_labelerpolicies_of_value v in
-    let likeCount = Value.Util.get_key_not_required "likeCount" Value.Util.to_int v in
-    let viewer = Value.Util.get_key_not_required "viewer" app_bsky_labeler_defs_labelerviewerstate_of_value v in
-    let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
-    let labels = Value.Util.get_key_not_required "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
-    let reasonTypes = Value.Util.get_key_not_required "reasonTypes" (Value.Util.to_array_of com_atproto_moderation_defs_reasontype_of_value) v in
-    let subjectTypes = Value.Util.get_key_not_required "subjectTypes" (Value.Util.to_array_of com_atproto_moderation_defs_subjecttype_of_value) v in
-    let subjectCollections = Value.Util.get_key_not_required "subjectCollections" (Value.Util.to_array_of Value.Util.to_text) v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let creator = Value.Util.get_key_exn "creator" app_bsky_actor_defs_profileview_of_value v in
+    let policies = Value.Util.get_key_exn "policies" app_bsky_labeler_defs_labelerpolicies_of_value v in
+    let likeCount = Value.Util.get_key_not_required_exn "likeCount" Value.Util.to_int v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" app_bsky_labeler_defs_labelerviewerstate_of_value v in
+    let indexedAt = Value.Util.get_key_exn "indexedAt" Value.Util.to_text v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
+    let reasonTypes = Value.Util.get_key_not_required_exn "reasonTypes" (Value.Util.to_array_of com_atproto_moderation_defs_reasontype_of_value) v in
+    let subjectTypes = Value.Util.get_key_not_required_exn "subjectTypes" (Value.Util.to_array_of com_atproto_moderation_defs_subjecttype_of_value) v in
+    let subjectCollections = Value.Util.get_key_not_required_exn "subjectCollections" (Value.Util.to_array_of Value.Util.to_text) v in
     {uri;cid;creator;policies;likeCount;viewer;indexedAt;labels;reasonTypes;subjectTypes;subjectCollections;})
 
 
@@ -3375,7 +3375,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_record_main_of_value : app_bsky_embed_record_main Value.Util.conv = (fun v ->
-    let record = Value.Util.get_key "record" com_atproto_repo_strongref_main_of_value v in
+    let record = Value.Util.get_key_exn "record" com_atproto_repo_strongref_main_of_value v in
     {record;})
 
 
@@ -3393,7 +3393,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_unspecced_defs_skeletonsearchactor_of_value : app_bsky_unspecced_defs_skeletonsearchactor Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
     {did;})
 
 
@@ -3413,9 +3413,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_identity_defs_identityinfo_of_value : com_atproto_identity_defs_identityinfo Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let handle = Value.Util.get_key "handle" Value.Util.to_text v in
-    let didDoc = Value.Util.get_key "didDoc" (fun v -> v (* immediate *)) v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let handle = Value.Util.get_key_exn "handle" Value.Util.to_text v in
+    let didDoc = Value.Util.get_key_exn "didDoc" (fun v -> v (* immediate *)) v in
     {did;handle;didDoc;})
 
 
@@ -3446,8 +3446,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_post_replyref_of_value : app_bsky_feed_post_replyref Value.Util.conv = (fun v ->
-    let root = Value.Util.get_key "root" com_atproto_repo_strongref_main_of_value v in
-    let parent = Value.Util.get_key "parent" com_atproto_repo_strongref_main_of_value v in
+    let root = Value.Util.get_key_exn "root" com_atproto_repo_strongref_main_of_value v in
+    let parent = Value.Util.get_key_exn "parent" com_atproto_repo_strongref_main_of_value v in
     {root;parent;})
 
 
@@ -3466,7 +3466,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_server_describeserver_contact_of_value : com_atproto_server_describeserver_contact Value.Util.conv = (fun v ->
-    let email = Value.Util.get_key_not_required "email" Value.Util.to_text v in
+    let email = Value.Util.get_key_not_required_exn "email" Value.Util.to_text v in
     {email;})
 
 
@@ -3491,14 +3491,14 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_unspecced_defs_skeletontrend_of_value : app_bsky_unspecced_defs_skeletontrend Value.Util.conv = (fun v ->
-    let topic = Value.Util.get_key "topic" Value.Util.to_text v in
-    let displayName = Value.Util.get_key "displayName" Value.Util.to_text v in
-    let link = Value.Util.get_key "link" Value.Util.to_text v in
-    let startedAt = Value.Util.get_key "startedAt" Value.Util.to_text v in
-    let postCount = Value.Util.get_key "postCount" Value.Util.to_int v in
-    let status = Value.Util.get_key_not_required "status" Value.Util.to_text v in
-    let category = Value.Util.get_key_not_required "category" Value.Util.to_text v in
-    let dids = Value.Util.get_key "dids" (Value.Util.to_array_of Value.Util.to_text) v in
+    let topic = Value.Util.get_key_exn "topic" Value.Util.to_text v in
+    let displayName = Value.Util.get_key_exn "displayName" Value.Util.to_text v in
+    let link = Value.Util.get_key_exn "link" Value.Util.to_text v in
+    let startedAt = Value.Util.get_key_exn "startedAt" Value.Util.to_text v in
+    let postCount = Value.Util.get_key_exn "postCount" Value.Util.to_int v in
+    let status = Value.Util.get_key_not_required_exn "status" Value.Util.to_text v in
+    let category = Value.Util.get_key_not_required_exn "category" Value.Util.to_text v in
+    let dids = Value.Util.get_key_exn "dids" (Value.Util.to_array_of Value.Util.to_text) v in
     {topic;displayName;link;startedAt;postCount;status;category;dids;})
 
 
@@ -3523,7 +3523,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_sync_listreposbycollection_repo_of_value : com_atproto_sync_listreposbycollection_repo Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
     {did;})
 
 
@@ -3543,9 +3543,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_repo_listrecords_record_of_value : com_atproto_repo_listrecords_record Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let value = Value.Util.get_key "value" (fun v -> v (* immediate *)) v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let value = Value.Util.get_key_exn "value" (fun v -> v (* immediate *)) v in
     {uri;cid;value;})
 
 
@@ -3597,9 +3597,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_graph_defs_relationship_of_value : app_bsky_graph_defs_relationship Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let following = Value.Util.get_key_not_required "following" Value.Util.to_text v in
-    let followedBy = Value.Util.get_key_not_required "followedBy" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let following = Value.Util.get_key_not_required_exn "following" Value.Util.to_text v in
+    let followedBy = Value.Util.get_key_not_required_exn "followedBy" Value.Util.to_text v in
     {did;following;followedBy;})
 
 
@@ -3620,8 +3620,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_graph_defs_notfoundactor_of_value : app_bsky_graph_defs_notfoundactor Value.Util.conv = (fun v ->
-    let actor = Value.Util.get_key "actor" Value.Util.to_text v in
-    let notFound = Value.Util.get_key "notFound" Value.Util.to_bool v in
+    let actor = Value.Util.get_key_exn "actor" Value.Util.to_text v in
+    let notFound = Value.Util.get_key_exn "notFound" Value.Util.to_bool v in
     {actor;notFound;})
 
 
@@ -3641,8 +3641,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_repo_listmissingblobs_recordblob_of_value : com_atproto_repo_listmissingblobs_recordblob Value.Util.conv = (fun v ->
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let recordUri = Value.Util.get_key "recordUri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let recordUri = Value.Util.get_key_exn "recordUri" Value.Util.to_text v in
     {cid;recordUri;})
 
 
@@ -3661,7 +3661,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_label_defs_selflabel_of_value : com_atproto_label_defs_selflabel Value.Util.conv = (fun v ->
-    let val_ = Value.Util.get_key "val" Value.Util.to_text v in
+    let val_ = Value.Util.get_key_exn "val" Value.Util.to_text v in
     {val_;})
 
 
@@ -3681,9 +3681,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_admin_defs_repoblobref_of_value : com_atproto_admin_defs_repoblobref Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let recordUri = Value.Util.get_key_not_required "recordUri" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let recordUri = Value.Util.get_key_not_required_exn "recordUri" Value.Util.to_text v in
     {did;cid;recordUri;})
 
 
@@ -3717,11 +3717,11 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_sync_subscriberepos_sync_of_value : com_atproto_sync_subscriberepos_sync Value.Util.conv = (fun v ->
-    let seq = Value.Util.get_key "seq" Value.Util.to_int v in
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let blocks = Value.Util.get_key "blocks" Value.Util.to_bytes v in
-    let rev = Value.Util.get_key "rev" Value.Util.to_text v in
-    let time = Value.Util.get_key "time" Value.Util.to_text v in
+    let seq = Value.Util.get_key_exn "seq" Value.Util.to_int v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let blocks = Value.Util.get_key_exn "blocks" Value.Util.to_bytes v in
+    let rev = Value.Util.get_key_exn "rev" Value.Util.to_text v in
+    let time = Value.Util.get_key_exn "time" Value.Util.to_text v in
     {seq;did;blocks;rev;time;})
 
 
@@ -3753,17 +3753,17 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_graph_defs_starterpackview_of_value : app_bsky_graph_defs_starterpackview Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let record = Value.Util.get_key "record" (fun v -> v (* immediate *)) v in
-    let creator = Value.Util.get_key "creator" app_bsky_actor_defs_profileviewbasic_of_value v in
-    let list = Value.Util.get_key_not_required "list" app_bsky_graph_defs_listviewbasic_of_value v in
-    let listItemsSample = Value.Util.get_key_not_required "listItemsSample" (Value.Util.to_array_of app_bsky_graph_defs_listitemview_of_value) v in
-    let feeds = Value.Util.get_key_not_required "feeds" (Value.Util.to_array_of app_bsky_feed_defs_generatorview_of_value) v in
-    let joinedWeekCount = Value.Util.get_key_not_required "joinedWeekCount" Value.Util.to_int v in
-    let joinedAllTimeCount = Value.Util.get_key_not_required "joinedAllTimeCount" Value.Util.to_int v in
-    let labels = Value.Util.get_key_not_required "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
-    let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let record = Value.Util.get_key_exn "record" (fun v -> v (* immediate *)) v in
+    let creator = Value.Util.get_key_exn "creator" app_bsky_actor_defs_profileviewbasic_of_value v in
+    let list = Value.Util.get_key_not_required_exn "list" app_bsky_graph_defs_listviewbasic_of_value v in
+    let listItemsSample = Value.Util.get_key_not_required_exn "listItemsSample" (Value.Util.to_array_of app_bsky_graph_defs_listitemview_of_value) v in
+    let feeds = Value.Util.get_key_not_required_exn "feeds" (Value.Util.to_array_of app_bsky_feed_defs_generatorview_of_value) v in
+    let joinedWeekCount = Value.Util.get_key_not_required_exn "joinedWeekCount" Value.Util.to_int v in
+    let joinedAllTimeCount = Value.Util.get_key_not_required_exn "joinedAllTimeCount" Value.Util.to_int v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
+    let indexedAt = Value.Util.get_key_exn "indexedAt" Value.Util.to_text v in
     {uri;cid;record;creator;list;listItemsSample;feeds;joinedWeekCount;joinedAllTimeCount;labels;indexedAt;})
 
 
@@ -3813,9 +3813,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_repo_applywrites_updateresult_of_value : com_atproto_repo_applywrites_updateresult Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let validationStatus = Value.Util.get_key_not_required "validationStatus" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let validationStatus = Value.Util.get_key_not_required_exn "validationStatus" Value.Util.to_text v in
     {uri;cid;validationStatus;})
 
 
@@ -3842,14 +3842,14 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_unspecced_defs_trendview_of_value : app_bsky_unspecced_defs_trendview Value.Util.conv = (fun v ->
-    let topic = Value.Util.get_key "topic" Value.Util.to_text v in
-    let displayName = Value.Util.get_key "displayName" Value.Util.to_text v in
-    let link = Value.Util.get_key "link" Value.Util.to_text v in
-    let startedAt = Value.Util.get_key "startedAt" Value.Util.to_text v in
-    let postCount = Value.Util.get_key "postCount" Value.Util.to_int v in
-    let status = Value.Util.get_key_not_required "status" Value.Util.to_text v in
-    let category = Value.Util.get_key_not_required "category" Value.Util.to_text v in
-    let actors = Value.Util.get_key "actors" (Value.Util.to_array_of app_bsky_actor_defs_profileviewbasic_of_value) v in
+    let topic = Value.Util.get_key_exn "topic" Value.Util.to_text v in
+    let displayName = Value.Util.get_key_exn "displayName" Value.Util.to_text v in
+    let link = Value.Util.get_key_exn "link" Value.Util.to_text v in
+    let startedAt = Value.Util.get_key_exn "startedAt" Value.Util.to_text v in
+    let postCount = Value.Util.get_key_exn "postCount" Value.Util.to_int v in
+    let status = Value.Util.get_key_not_required_exn "status" Value.Util.to_text v in
+    let category = Value.Util.get_key_not_required_exn "category" Value.Util.to_text v in
+    let actors = Value.Util.get_key_exn "actors" (Value.Util.to_array_of app_bsky_actor_defs_profileviewbasic_of_value) v in
     {topic;displayName;link;startedAt;postCount;status;category;actors;})
 
 
@@ -3884,7 +3884,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_graph_starterpack_feeditem_of_value : app_bsky_graph_starterpack_feeditem Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
     {uri;})
 
 
@@ -3902,7 +3902,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_unspecced_defs_skeletonsearchpost_of_value : app_bsky_unspecced_defs_skeletonsearchpost Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
     {uri;})
 
 
@@ -3920,7 +3920,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_external_main_of_value : app_bsky_embed_external_main Value.Util.conv = (fun v ->
-    let external_ = Value.Util.get_key "external" app_bsky_embed_external_external_of_value v in
+    let external_ = Value.Util.get_key_exn "external" app_bsky_embed_external_external_of_value v in
     {external_;})
 
 
@@ -3946,15 +3946,15 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_notification_listnotifications_notification_of_value : app_bsky_notification_listnotifications_notification Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let author = Value.Util.get_key "author" app_bsky_actor_defs_profileview_of_value v in
-    let reason = Value.Util.get_key "reason" Value.Util.to_text v in
-    let reasonSubject = Value.Util.get_key_not_required "reasonSubject" Value.Util.to_text v in
-    let record = Value.Util.get_key "record" (fun v -> v (* immediate *)) v in
-    let isRead = Value.Util.get_key "isRead" Value.Util.to_bool v in
-    let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
-    let labels = Value.Util.get_key_not_required "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let author = Value.Util.get_key_exn "author" app_bsky_actor_defs_profileview_of_value v in
+    let reason = Value.Util.get_key_exn "reason" Value.Util.to_text v in
+    let reasonSubject = Value.Util.get_key_not_required_exn "reasonSubject" Value.Util.to_text v in
+    let record = Value.Util.get_key_exn "record" (fun v -> v (* immediate *)) v in
+    let isRead = Value.Util.get_key_exn "isRead" Value.Util.to_bool v in
+    let indexedAt = Value.Util.get_key_exn "indexedAt" Value.Util.to_text v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
     {uri;cid;author;reason;reasonSubject;record;isRead;indexedAt;labels;})
 
 
@@ -3980,7 +3980,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_defs_threadcontext_of_value : app_bsky_feed_defs_threadcontext Value.Util.conv = (fun v ->
-    let rootAuthorLike = Value.Util.get_key_not_required "rootAuthorLike" Value.Util.to_text v in
+    let rootAuthorLike = Value.Util.get_key_not_required_exn "rootAuthorLike" Value.Util.to_text v in
     {rootAuthorLike;})
 
 
@@ -3998,7 +3998,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_unspecced_defs_skeletonsearchstarterpack_of_value : app_bsky_unspecced_defs_skeletonsearchstarterpack Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
     {uri;})
 
 
@@ -4017,8 +4017,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_sync_subscriberepos_info_of_value : com_atproto_sync_subscriberepos_info Value.Util.conv = (fun v ->
-    let name = Value.Util.get_key "name" Value.Util.to_text v in
-    let message = Value.Util.get_key_not_required "message" Value.Util.to_text v in
+    let name = Value.Util.get_key_exn "name" Value.Util.to_text v in
+    let message = Value.Util.get_key_not_required_exn "message" Value.Util.to_text v in
     {name;message;})
 
 
@@ -4048,8 +4048,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_server_createinvitecodes_accountcodes_of_value : com_atproto_server_createinvitecodes_accountcodes Value.Util.conv = (fun v ->
-    let account = Value.Util.get_key "account" Value.Util.to_text v in
-    let codes = Value.Util.get_key "codes" (Value.Util.to_array_of Value.Util.to_text) v in
+    let account = Value.Util.get_key_exn "account" Value.Util.to_text v in
+    let codes = Value.Util.get_key_exn "codes" (Value.Util.to_array_of Value.Util.to_text) v in
     {account;codes;})
 
 
@@ -4074,13 +4074,13 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_server_defs_invitecode_of_value : com_atproto_server_defs_invitecode Value.Util.conv = (fun v ->
-    let code = Value.Util.get_key "code" Value.Util.to_text v in
-    let available = Value.Util.get_key "available" Value.Util.to_int v in
-    let disabled = Value.Util.get_key "disabled" Value.Util.to_bool v in
-    let forAccount = Value.Util.get_key "forAccount" Value.Util.to_text v in
-    let createdBy = Value.Util.get_key "createdBy" Value.Util.to_text v in
-    let createdAt = Value.Util.get_key "createdAt" Value.Util.to_text v in
-    let uses = Value.Util.get_key "uses" (Value.Util.to_array_of com_atproto_server_defs_invitecodeuse_of_value) v in
+    let code = Value.Util.get_key_exn "code" Value.Util.to_text v in
+    let available = Value.Util.get_key_exn "available" Value.Util.to_int v in
+    let disabled = Value.Util.get_key_exn "disabled" Value.Util.to_bool v in
+    let forAccount = Value.Util.get_key_exn "forAccount" Value.Util.to_text v in
+    let createdBy = Value.Util.get_key_exn "createdBy" Value.Util.to_text v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    let uses = Value.Util.get_key_exn "uses" (Value.Util.to_array_of com_atproto_server_defs_invitecodeuse_of_value) v in
     {code;available;disabled;forAccount;createdBy;createdAt;uses;})
 
 
@@ -4115,18 +4115,18 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_admin_defs_accountview_of_value : com_atproto_admin_defs_accountview Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let handle = Value.Util.get_key "handle" Value.Util.to_text v in
-    let email = Value.Util.get_key_not_required "email" Value.Util.to_text v in
-    let relatedRecords = Value.Util.get_key_not_required "relatedRecords" (Value.Util.to_array_of (fun v -> v (* immediate *))) v in
-    let indexedAt = Value.Util.get_key "indexedAt" Value.Util.to_text v in
-    let invitedBy = Value.Util.get_key_not_required "invitedBy" com_atproto_server_defs_invitecode_of_value v in
-    let invites = Value.Util.get_key_not_required "invites" (Value.Util.to_array_of com_atproto_server_defs_invitecode_of_value) v in
-    let invitesDisabled = Value.Util.get_key_not_required "invitesDisabled" Value.Util.to_bool v in
-    let emailConfirmedAt = Value.Util.get_key_not_required "emailConfirmedAt" Value.Util.to_text v in
-    let inviteNote = Value.Util.get_key_not_required "inviteNote" Value.Util.to_text v in
-    let deactivatedAt = Value.Util.get_key_not_required "deactivatedAt" Value.Util.to_text v in
-    let threatSignatures = Value.Util.get_key_not_required "threatSignatures" (Value.Util.to_array_of com_atproto_admin_defs_threatsignature_of_value) v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let handle = Value.Util.get_key_exn "handle" Value.Util.to_text v in
+    let email = Value.Util.get_key_not_required_exn "email" Value.Util.to_text v in
+    let relatedRecords = Value.Util.get_key_not_required_exn "relatedRecords" (Value.Util.to_array_of (fun v -> v (* immediate *))) v in
+    let indexedAt = Value.Util.get_key_exn "indexedAt" Value.Util.to_text v in
+    let invitedBy = Value.Util.get_key_not_required_exn "invitedBy" com_atproto_server_defs_invitecode_of_value v in
+    let invites = Value.Util.get_key_not_required_exn "invites" (Value.Util.to_array_of com_atproto_server_defs_invitecode_of_value) v in
+    let invitesDisabled = Value.Util.get_key_not_required_exn "invitesDisabled" Value.Util.to_bool v in
+    let emailConfirmedAt = Value.Util.get_key_not_required_exn "emailConfirmedAt" Value.Util.to_text v in
+    let inviteNote = Value.Util.get_key_not_required_exn "inviteNote" Value.Util.to_text v in
+    let deactivatedAt = Value.Util.get_key_not_required_exn "deactivatedAt" Value.Util.to_text v in
+    let threatSignatures = Value.Util.get_key_not_required_exn "threatSignatures" (Value.Util.to_array_of com_atproto_admin_defs_threatsignature_of_value) v in
     {did;handle;email;relatedRecords;indexedAt;invitedBy;invites;invitesDisabled;emailConfirmedAt;inviteNote;deactivatedAt;threatSignatures;})
 
 
@@ -4178,10 +4178,10 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_unspecced_defs_trendingtopic_of_value : app_bsky_unspecced_defs_trendingtopic Value.Util.conv = (fun v ->
-    let topic = Value.Util.get_key "topic" Value.Util.to_text v in
-    let displayName = Value.Util.get_key_not_required "displayName" Value.Util.to_text v in
-    let description = Value.Util.get_key_not_required "description" Value.Util.to_text v in
-    let link = Value.Util.get_key "link" Value.Util.to_text v in
+    let topic = Value.Util.get_key_exn "topic" Value.Util.to_text v in
+    let displayName = Value.Util.get_key_not_required_exn "displayName" Value.Util.to_text v in
+    let description = Value.Util.get_key_not_required_exn "description" Value.Util.to_text v in
+    let link = Value.Util.get_key_exn "link" Value.Util.to_text v in
     {topic;displayName;description;link;})
 
 
@@ -4212,7 +4212,7 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_label_defs_selflabels_of_value : com_atproto_label_defs_selflabels Value.Util.conv = (fun v ->
-    let values = Value.Util.get_key "values" (Value.Util.to_array_of com_atproto_label_defs_selflabel_of_value) v in
+    let values = Value.Util.get_key_exn "values" (Value.Util.to_array_of com_atproto_label_defs_selflabel_of_value) v in
     {values;})
 
 
@@ -4236,17 +4236,17 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_defs_skeletonfeedpost_of_value : app_bsky_feed_defs_skeletonfeedpost Value.Util.conv = (fun v ->
-    let post = Value.Util.get_key "post" Value.Util.to_text v in
-    let reason = Value.Util.get_key_not_required "reason" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let post = Value.Util.get_key_exn "post" Value.Util.to_text v in
+    let reason = Value.Util.get_key_not_required_exn "reason" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#skeletonReasonRepost" | "app.bsky.feed.defs#skeletonReasonRepost" ->
+    | "app.bsky.feed.defs#skeletonReasonRepost" ->
     `App_bsky_feed_defs_skeletonreasonrepost (app_bsky_feed_defs_skeletonreasonrepost_of_value v)
-    | "#skeletonReasonPin" | "app.bsky.feed.defs#skeletonReasonPin" ->
+    | "app.bsky.feed.defs#skeletonReasonPin" ->
     `App_bsky_feed_defs_skeletonreasonpin (app_bsky_feed_defs_skeletonreasonpin_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
-    let feedContext = Value.Util.get_key_not_required "feedContext" Value.Util.to_text v in
+    let feedContext = Value.Util.get_key_not_required_exn "feedContext" Value.Util.to_text v in
     {post;reason;feedContext;})
 
 
@@ -4284,30 +4284,30 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_defs_threadviewpost_of_value : app_bsky_feed_defs_threadviewpost Value.Util.conv = (fun v ->
-    let post = Value.Util.get_key "post" app_bsky_feed_defs_postview_of_value v in
-    let parent = Value.Util.get_key_not_required "parent" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let post = Value.Util.get_key_exn "post" app_bsky_feed_defs_postview_of_value v in
+    let parent = Value.Util.get_key_not_required_exn "parent" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#threadViewPost" | "app.bsky.feed.defs#threadViewPost" ->
+    | "app.bsky.feed.defs#threadViewPost" ->
     `App_bsky_feed_defs_threadviewpost (app_bsky_feed_defs_threadviewpost_of_value v)
-    | "#notFoundPost" | "app.bsky.feed.defs#notFoundPost" ->
+    | "app.bsky.feed.defs#notFoundPost" ->
     `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
-    | "#blockedPost" | "app.bsky.feed.defs#blockedPost" ->
+    | "app.bsky.feed.defs#blockedPost" ->
     `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
-    let replies = Value.Util.get_key_not_required "replies" (Value.Util.to_array_of (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let replies = Value.Util.get_key_not_required_exn "replies" (Value.Util.to_array_of (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#threadViewPost" | "app.bsky.feed.defs#threadViewPost" ->
+    | "app.bsky.feed.defs#threadViewPost" ->
     `App_bsky_feed_defs_threadviewpost (app_bsky_feed_defs_threadviewpost_of_value v)
-    | "#notFoundPost" | "app.bsky.feed.defs#notFoundPost" ->
+    | "app.bsky.feed.defs#notFoundPost" ->
     `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
-    | "#blockedPost" | "app.bsky.feed.defs#blockedPost" ->
+    | "app.bsky.feed.defs#blockedPost" ->
     `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
-    let threadContext = Value.Util.get_key_not_required "threadContext" app_bsky_feed_defs_threadcontext_of_value v in
+    let threadContext = Value.Util.get_key_not_required_exn "threadContext" app_bsky_feed_defs_threadcontext_of_value v in
     {post;parent;replies;threadContext;})
 
 
@@ -4352,9 +4352,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_feed_post_entity_of_value : app_bsky_feed_post_entity Value.Util.conv = (fun v ->
-    let index = Value.Util.get_key "index" app_bsky_feed_post_textslice_of_value v in
-    let type_ = Value.Util.get_key "type" Value.Util.to_text v in
-    let value = Value.Util.get_key "value" Value.Util.to_text v in
+    let index = Value.Util.get_key_exn "index" app_bsky_feed_post_textslice_of_value v in
+    let type_ = Value.Util.get_key_exn "type" Value.Util.to_text v in
+    let value = Value.Util.get_key_exn "value" Value.Util.to_text v in
     {index;type_;value;})
 
 
@@ -4378,11 +4378,11 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_sync_listrepos_repo_of_value : com_atproto_sync_listrepos_repo Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let head = Value.Util.get_key "head" Value.Util.to_text v in
-    let rev = Value.Util.get_key "rev" Value.Util.to_text v in
-    let active = Value.Util.get_key_not_required "active" Value.Util.to_bool v in
-    let status = Value.Util.get_key_not_required "status" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let head = Value.Util.get_key_exn "head" Value.Util.to_text v in
+    let rev = Value.Util.get_key_exn "rev" Value.Util.to_text v in
+    let active = Value.Util.get_key_not_required_exn "active" Value.Util.to_bool v in
+    let status = Value.Util.get_key_not_required_exn "status" Value.Util.to_text v in
     {did;head;rev;active;status;})
 
 
@@ -4406,9 +4406,9 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_server_listapppasswords_apppassword_of_value : com_atproto_server_listapppasswords_apppassword Value.Util.conv = (fun v ->
-    let name = Value.Util.get_key "name" Value.Util.to_text v in
-    let createdAt = Value.Util.get_key "createdAt" Value.Util.to_text v in
-    let privileged = Value.Util.get_key_not_required "privileged" Value.Util.to_bool v in
+    let name = Value.Util.get_key_exn "name" Value.Util.to_text v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    let privileged = Value.Util.get_key_not_required_exn "privileged" Value.Util.to_bool v in
     {name;createdAt;privileged;})
 
 
@@ -4441,10 +4441,10 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_sync_listhosts_host_of_value : com_atproto_sync_listhosts_host Value.Util.conv = (fun v ->
-    let hostname = Value.Util.get_key "hostname" Value.Util.to_text v in
-    let seq = Value.Util.get_key_not_required "seq" Value.Util.to_int v in
-    let accountCount = Value.Util.get_key_not_required "accountCount" Value.Util.to_int v in
-    let status = Value.Util.get_key_not_required "status" com_atproto_sync_defs_hoststatus_of_value v in
+    let hostname = Value.Util.get_key_exn "hostname" Value.Util.to_text v in
+    let seq = Value.Util.get_key_not_required_exn "seq" Value.Util.to_int v in
+    let accountCount = Value.Util.get_key_not_required_exn "accountCount" Value.Util.to_int v in
+    let status = Value.Util.get_key_not_required_exn "status" com_atproto_sync_defs_hoststatus_of_value v in
     {hostname;seq;accountCount;status;})
 
 
@@ -4481,15 +4481,15 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec app_bsky_embed_recordwithmedia_main_of_value : app_bsky_embed_recordwithmedia_main Value.Util.conv = (fun v ->
-    let record = Value.Util.get_key "record" app_bsky_embed_record_main_of_value v in
-    let media = Value.Util.get_key "media" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let record = Value.Util.get_key_exn "record" app_bsky_embed_record_main_of_value v in
+    let media = Value.Util.get_key_exn "media" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#main" | "app.bsky.embed.images" ->
+    | "app.bsky.embed.images" ->
     `App_bsky_embed_images_main (app_bsky_embed_images_main_of_value v)
-    | "#main" | "app.bsky.embed.video" ->
+    | "app.bsky.embed.video" ->
     `App_bsky_embed_video_main (app_bsky_embed_video_main_of_value v)
-    | "#main" | "app.bsky.embed.external" ->
+    | "app.bsky.embed.external" ->
     `App_bsky_embed_external_main (app_bsky_embed_external_main_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
@@ -4528,8 +4528,8 @@ module Types = struct
   [@@deriving show {with_path=false}]
 
   let rec com_atproto_label_subscribelabels_labels_of_value : com_atproto_label_subscribelabels_labels Value.Util.conv = (fun v ->
-    let seq = Value.Util.get_key "seq" Value.Util.to_int v in
-    let labels = Value.Util.get_key "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
+    let seq = Value.Util.get_key_exn "seq" Value.Util.to_int v in
+    let labels = Value.Util.get_key_exn "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
     {seq;labels;})
 
 
@@ -4568,7 +4568,7 @@ module Com_Atproto_Temp_RequestPhoneVerification = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let phoneNumber = Value.Util.get_key "phoneNumber" Value.Util.to_text v in
+    let phoneNumber = Value.Util.get_key_exn "phoneNumber" Value.Util.to_text v in
     {phoneNumber;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -4597,8 +4597,8 @@ module Com_Atproto_Temp_FetchLabels = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let since = Value.Util.get_key_not_required "since" Value.Util.to_int v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
+    let since = Value.Util.get_key_not_required_exn "since" Value.Util.to_int v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
     {since;limit;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -4612,7 +4612,7 @@ module Com_Atproto_Temp_FetchLabels = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let labels = Value.Util.get_key "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
+    let labels = Value.Util.get_key_exn "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
     {labels;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -4646,9 +4646,9 @@ module Com_Atproto_Temp_CheckSignupQueue = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let activated = Value.Util.get_key "activated" Value.Util.to_bool v in
-    let placeInQueue = Value.Util.get_key_not_required "placeInQueue" Value.Util.to_int v in
-    let estimatedTimeMs = Value.Util.get_key_not_required "estimatedTimeMs" Value.Util.to_int v in
+    let activated = Value.Util.get_key_exn "activated" Value.Util.to_bool v in
+    let placeInQueue = Value.Util.get_key_not_required_exn "placeInQueue" Value.Util.to_int v in
+    let estimatedTimeMs = Value.Util.get_key_not_required_exn "estimatedTimeMs" Value.Util.to_int v in
     {activated;placeInQueue;estimatedTimeMs;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -4678,7 +4678,7 @@ module Com_Atproto_Temp_AddReservedHandle = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let handle = Value.Util.get_key "handle" Value.Util.to_text v in
+    let handle = Value.Util.get_key_exn "handle" Value.Util.to_text v in
     {handle;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -4720,20 +4720,24 @@ module Com_Atproto_Sync_SubscribeRepos = struct
     ]
   [@@deriving show {with_path=false}]
 
+  (** Turn a fragment (in header) into a full nsid *)
+  let main_msg_nsid_of_fragment (fragment:string) : string = "com.atproto.sync.subscribeRepos" ^ fragment
+
   let main_msg_of_value ~(type_tag:string) : main_msg Value.Util.conv = (fun v ->
     (match type_tag with
-    | "#commit" | "com.atproto.sync.subscribeRepos#commit" ->
+    | "com.atproto.sync.subscribeRepos#commit" ->
     `Com_atproto_sync_subscriberepos_commit (com_atproto_sync_subscriberepos_commit_of_value v)
-    | "#sync" | "com.atproto.sync.subscribeRepos#sync" ->
+    | "com.atproto.sync.subscribeRepos#sync" ->
     `Com_atproto_sync_subscriberepos_sync (com_atproto_sync_subscriberepos_sync_of_value v)
-    | "#identity" | "com.atproto.sync.subscribeRepos#identity" ->
+    | "com.atproto.sync.subscribeRepos#identity" ->
     `Com_atproto_sync_subscriberepos_identity (com_atproto_sync_subscriberepos_identity_of_value v)
-    | "#account" | "com.atproto.sync.subscribeRepos#account" ->
+    | "com.atproto.sync.subscribeRepos#account" ->
     `Com_atproto_sync_subscriberepos_account (com_atproto_sync_subscriberepos_account_of_value v)
-    | "#info" | "com.atproto.sync.subscribeRepos#info" ->
+    | "com.atproto.sync.subscribeRepos#info" ->
     `Com_atproto_sync_subscriberepos_info (com_atproto_sync_subscriberepos_info_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))
+
   let main_msg_to_value : main_msg -> Value.t = (fun v ->
     (match v with
     | `Com_atproto_sync_subscriberepos_commit v -> (com_atproto_sync_subscriberepos_commit_to_value v)
@@ -4750,7 +4754,7 @@ module Com_Atproto_Sync_SubscribeRepos = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_int v in
     {cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -4768,6 +4772,7 @@ module Com_Atproto_Sync_SubscribeRepos = struct
     pp=pp_main_params}) ~message:{
     to_value=main_msg_to_value;
     of_value=main_msg_of_value;
+    nsid_of_fragment=main_msg_nsid_of_fragment;
     pp=pp_main_msg} 
     ~errors:(Errors {pp=pp_main_error})
 
@@ -4788,7 +4793,9 @@ module Com_Atproto_Sync_SubscribeRepos = struct
     time: string;
   }
   let pp_commit = pp_com_atproto_sync_subscriberepos_commit
+
   let commit_of_value = com_atproto_sync_subscriberepos_commit_of_value
+
   let commit_to_value = com_atproto_sync_subscriberepos_commit_to_value
 
 
@@ -4802,7 +4809,9 @@ module Com_Atproto_Sync_SubscribeRepos = struct
     time: string;
   }
   let pp_sync = pp_com_atproto_sync_subscriberepos_sync
+
   let sync_of_value = com_atproto_sync_subscriberepos_sync_of_value
+
   let sync_to_value = com_atproto_sync_subscriberepos_sync_to_value
 
 
@@ -4815,7 +4824,9 @@ module Com_Atproto_Sync_SubscribeRepos = struct
     handle: string option;
   }
   let pp_identity = pp_com_atproto_sync_subscriberepos_identity
+
   let identity_of_value = com_atproto_sync_subscriberepos_identity_of_value
+
   let identity_to_value = com_atproto_sync_subscriberepos_identity_to_value
 
 
@@ -4829,7 +4840,9 @@ module Com_Atproto_Sync_SubscribeRepos = struct
     status: string option;
   }
   let pp_account = pp_com_atproto_sync_subscriberepos_account
+
   let account_of_value = com_atproto_sync_subscriberepos_account_of_value
+
   let account_to_value = com_atproto_sync_subscriberepos_account_to_value
 
 
@@ -4840,7 +4853,9 @@ module Com_Atproto_Sync_SubscribeRepos = struct
     message: string option;
   }
   let pp_info = pp_com_atproto_sync_subscriberepos_info
+
   let info_of_value = com_atproto_sync_subscriberepos_info_of_value
+
   let info_to_value = com_atproto_sync_subscriberepos_info_to_value
 
 
@@ -4853,7 +4868,9 @@ module Com_Atproto_Sync_SubscribeRepos = struct
     prev: Cid.t option;
   }
   let pp_repoop = pp_com_atproto_sync_subscriberepos_repoop
+
   let repoop_of_value = com_atproto_sync_subscriberepos_repoop_of_value
+
   let repoop_to_value = com_atproto_sync_subscriberepos_repoop_to_value
 
 
@@ -4871,7 +4888,7 @@ module Com_Atproto_Sync_RequestCrawl = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let hostname = Value.Util.get_key "hostname" Value.Util.to_text v in
+    let hostname = Value.Util.get_key_exn "hostname" Value.Util.to_text v in
     {hostname;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -4903,7 +4920,7 @@ module Com_Atproto_Sync_NotifyOfUpdate = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let hostname = Value.Util.get_key "hostname" Value.Util.to_text v in
+    let hostname = Value.Util.get_key_exn "hostname" Value.Util.to_text v in
     {hostname;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -4933,9 +4950,9 @@ module Com_Atproto_Sync_ListReposByCollection = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let collection = Value.Util.get_key "collection" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let collection = Value.Util.get_key_exn "collection" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {collection;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -4951,8 +4968,8 @@ module Com_Atproto_Sync_ListReposByCollection = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let repos = Value.Util.get_key "repos" (Value.Util.to_array_of com_atproto_sync_listreposbycollection_repo_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let repos = Value.Util.get_key_exn "repos" (Value.Util.to_array_of com_atproto_sync_listreposbycollection_repo_of_value) v in
     {cursor;repos;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -4977,7 +4994,9 @@ module Com_Atproto_Sync_ListReposByCollection = struct
     did: string;
   }
   let pp_repo = pp_com_atproto_sync_listreposbycollection_repo
+
   let repo_of_value = com_atproto_sync_listreposbycollection_repo_of_value
+
   let repo_to_value = com_atproto_sync_listreposbycollection_repo_to_value
 
 
@@ -4996,8 +5015,8 @@ module Com_Atproto_Sync_ListRepos = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -5012,8 +5031,8 @@ module Com_Atproto_Sync_ListRepos = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let repos = Value.Util.get_key "repos" (Value.Util.to_array_of com_atproto_sync_listrepos_repo_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let repos = Value.Util.get_key_exn "repos" (Value.Util.to_array_of com_atproto_sync_listrepos_repo_of_value) v in
     {cursor;repos;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -5042,7 +5061,9 @@ module Com_Atproto_Sync_ListRepos = struct
     status: string option;
   }
   let pp_repo = pp_com_atproto_sync_listrepos_repo
+
   let repo_of_value = com_atproto_sync_listrepos_repo_of_value
+
   let repo_to_value = com_atproto_sync_listrepos_repo_to_value
 
 
@@ -5061,8 +5082,8 @@ module Com_Atproto_Sync_ListHosts = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -5077,8 +5098,8 @@ module Com_Atproto_Sync_ListHosts = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let hosts = Value.Util.get_key "hosts" (Value.Util.to_array_of com_atproto_sync_listhosts_host_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let hosts = Value.Util.get_key_exn "hosts" (Value.Util.to_array_of com_atproto_sync_listhosts_host_of_value) v in
     {cursor;hosts;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -5106,7 +5127,9 @@ module Com_Atproto_Sync_ListHosts = struct
     status: com_atproto_sync_defs_hoststatus option;
   }
   let pp_host = pp_com_atproto_sync_listhosts_host
+
   let host_of_value = com_atproto_sync_listhosts_host_of_value
+
   let host_to_value = com_atproto_sync_listhosts_host_to_value
 
 
@@ -5127,10 +5150,10 @@ module Com_Atproto_Sync_ListBlobs = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let since = Value.Util.get_key_not_required "since" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let since = Value.Util.get_key_not_required_exn "since" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {did;since;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -5147,8 +5170,8 @@ module Com_Atproto_Sync_ListBlobs = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let cids = Value.Util.get_key "cids" (Value.Util.to_array_of Value.Util.to_text) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let cids = Value.Util.get_key_exn "cids" (Value.Util.to_array_of Value.Util.to_text) v in
     {cursor;cids;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -5185,7 +5208,7 @@ module Com_Atproto_Sync_GetRepoStatus = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
     {did;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -5201,10 +5224,10 @@ module Com_Atproto_Sync_GetRepoStatus = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let active = Value.Util.get_key "active" Value.Util.to_bool v in
-    let status = Value.Util.get_key_not_required "status" Value.Util.to_text v in
-    let rev = Value.Util.get_key_not_required "rev" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let active = Value.Util.get_key_exn "active" Value.Util.to_bool v in
+    let status = Value.Util.get_key_not_required_exn "status" Value.Util.to_text v in
+    let rev = Value.Util.get_key_not_required_exn "rev" Value.Util.to_text v in
     {did;active;status;rev;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -5244,8 +5267,8 @@ module Com_Atproto_Sync_GetRepo = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let since = Value.Util.get_key_not_required "since" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let since = Value.Util.get_key_not_required_exn "since" Value.Util.to_text v in
     {did;since;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -5281,9 +5304,9 @@ module Com_Atproto_Sync_GetRecord = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let collection = Value.Util.get_key "collection" Value.Util.to_text v in
-    let rkey = Value.Util.get_key "rkey" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let collection = Value.Util.get_key_exn "collection" Value.Util.to_text v in
+    let rkey = Value.Util.get_key_exn "rkey" Value.Util.to_text v in
     {did;collection;rkey;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -5318,7 +5341,7 @@ module Com_Atproto_Sync_GetLatestCommit = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
     {did;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -5332,8 +5355,8 @@ module Com_Atproto_Sync_GetLatestCommit = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let rev = Value.Util.get_key "rev" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let rev = Value.Util.get_key_exn "rev" Value.Util.to_text v in
     {cid;rev;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -5370,7 +5393,7 @@ module Com_Atproto_Sync_GetHostStatus = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let hostname = Value.Util.get_key "hostname" Value.Util.to_text v in
+    let hostname = Value.Util.get_key_exn "hostname" Value.Util.to_text v in
     {hostname;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -5386,10 +5409,10 @@ module Com_Atproto_Sync_GetHostStatus = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let hostname = Value.Util.get_key "hostname" Value.Util.to_text v in
-    let seq = Value.Util.get_key_not_required "seq" Value.Util.to_int v in
-    let accountCount = Value.Util.get_key_not_required "accountCount" Value.Util.to_int v in
-    let status = Value.Util.get_key_not_required "status" com_atproto_sync_defs_hoststatus_of_value v in
+    let hostname = Value.Util.get_key_exn "hostname" Value.Util.to_text v in
+    let seq = Value.Util.get_key_not_required_exn "seq" Value.Util.to_int v in
+    let accountCount = Value.Util.get_key_not_required_exn "accountCount" Value.Util.to_int v in
+    let status = Value.Util.get_key_not_required_exn "status" com_atproto_sync_defs_hoststatus_of_value v in
     {hostname;seq;accountCount;status;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -5428,7 +5451,7 @@ module Com_Atproto_Sync_GetHead = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
     {did;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -5441,7 +5464,7 @@ module Com_Atproto_Sync_GetHead = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let root = Value.Util.get_key "root" Value.Util.to_text v in
+    let root = Value.Util.get_key_exn "root" Value.Util.to_text v in
     {root;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -5477,7 +5500,7 @@ module Com_Atproto_Sync_GetCheckout = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
     {did;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -5507,8 +5530,8 @@ module Com_Atproto_Sync_GetBlocks = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let cids = Value.Util.get_key "cids" (Value.Util.to_array_of Value.Util.to_text) v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let cids = Value.Util.get_key_exn "cids" (Value.Util.to_array_of Value.Util.to_text) v in
     {did;cids;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -5543,8 +5566,8 @@ module Com_Atproto_Sync_GetBlob = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
     {did;cid;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -5574,7 +5597,9 @@ module Com_Atproto_Sync_Defs = struct
 
   type nonrec hoststatus = com_atproto_sync_defs_hoststatus
   let pp_hoststatus = pp_com_atproto_sync_defs_hoststatus
+
   let hoststatus_of_value = com_atproto_sync_defs_hoststatus_of_value
+
   let hoststatus_to_value = com_atproto_sync_defs_hoststatus_to_value
 
 
@@ -5594,9 +5619,9 @@ module Com_Atproto_Server_UpdateEmail = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let email = Value.Util.get_key "email" Value.Util.to_text v in
-    let emailAuthFactor = Value.Util.get_key_not_required "emailAuthFactor" Value.Util.to_bool v in
-    let token = Value.Util.get_key_not_required "token" Value.Util.to_text v in
+    let email = Value.Util.get_key_exn "email" Value.Util.to_text v in
+    let emailAuthFactor = Value.Util.get_key_not_required_exn "emailAuthFactor" Value.Util.to_bool v in
+    let token = Value.Util.get_key_not_required_exn "token" Value.Util.to_text v in
     {email;emailAuthFactor;token;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -5630,7 +5655,7 @@ module Com_Atproto_Server_RevokeAppPassword = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let name = Value.Util.get_key "name" Value.Util.to_text v in
+    let name = Value.Util.get_key_exn "name" Value.Util.to_text v in
     {name;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -5659,8 +5684,8 @@ module Com_Atproto_Server_ResetPassword = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let token = Value.Util.get_key "token" Value.Util.to_text v in
-    let password = Value.Util.get_key "password" Value.Util.to_text v in
+    let token = Value.Util.get_key_exn "token" Value.Util.to_text v in
+    let password = Value.Util.get_key_exn "password" Value.Util.to_text v in
     {token;password;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -5693,7 +5718,7 @@ module Com_Atproto_Server_ReserveSigningKey = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key_not_required "did" Value.Util.to_text v in
+    let did = Value.Util.get_key_not_required_exn "did" Value.Util.to_text v in
     {did;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -5706,7 +5731,7 @@ module Com_Atproto_Server_ReserveSigningKey = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let signingKey = Value.Util.get_key "signingKey" Value.Util.to_text v in
+    let signingKey = Value.Util.get_key_exn "signingKey" Value.Util.to_text v in
     {signingKey;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -5738,7 +5763,7 @@ module Com_Atproto_Server_RequestPasswordReset = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let email = Value.Util.get_key "email" Value.Util.to_text v in
+    let email = Value.Util.get_key_exn "email" Value.Util.to_text v in
     {email;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -5766,7 +5791,7 @@ module Com_Atproto_Server_RequestEmailUpdate = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let tokenRequired = Value.Util.get_key "tokenRequired" Value.Util.to_bool v in
+    let tokenRequired = Value.Util.get_key_exn "tokenRequired" Value.Util.to_bool v in
     {tokenRequired;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -5822,13 +5847,13 @@ module Com_Atproto_Server_RefreshSession = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let accessJwt = Value.Util.get_key "accessJwt" Value.Util.to_text v in
-    let refreshJwt = Value.Util.get_key "refreshJwt" Value.Util.to_text v in
-    let handle = Value.Util.get_key "handle" Value.Util.to_text v in
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let didDoc = Value.Util.get_key_not_required "didDoc" (fun v -> v (* immediate *)) v in
-    let active = Value.Util.get_key_not_required "active" Value.Util.to_bool v in
-    let status = Value.Util.get_key_not_required "status" Value.Util.to_text v in
+    let accessJwt = Value.Util.get_key_exn "accessJwt" Value.Util.to_text v in
+    let refreshJwt = Value.Util.get_key_exn "refreshJwt" Value.Util.to_text v in
+    let handle = Value.Util.get_key_exn "handle" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let didDoc = Value.Util.get_key_not_required_exn "didDoc" (fun v -> v (* immediate *)) v in
+    let active = Value.Util.get_key_not_required_exn "active" Value.Util.to_bool v in
+    let status = Value.Util.get_key_not_required_exn "status" Value.Util.to_text v in
     {accessJwt;refreshJwt;handle;did;didDoc;active;status;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -5866,7 +5891,7 @@ module Com_Atproto_Server_ListAppPasswords = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let passwords = Value.Util.get_key "passwords" (Value.Util.to_array_of com_atproto_server_listapppasswords_apppassword_of_value) v in
+    let passwords = Value.Util.get_key_exn "passwords" (Value.Util.to_array_of com_atproto_server_listapppasswords_apppassword_of_value) v in
     {passwords;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -5892,7 +5917,9 @@ module Com_Atproto_Server_ListAppPasswords = struct
     privileged: bool option;
   }
   let pp_apppassword = pp_com_atproto_server_listapppasswords_apppassword
+
   let apppassword_of_value = com_atproto_server_listapppasswords_apppassword_of_value
+
   let apppassword_to_value = com_atproto_server_listapppasswords_apppassword_to_value
 
 
@@ -5917,14 +5944,14 @@ module Com_Atproto_Server_GetSession = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let handle = Value.Util.get_key "handle" Value.Util.to_text v in
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let email = Value.Util.get_key_not_required "email" Value.Util.to_text v in
-    let emailConfirmed = Value.Util.get_key_not_required "emailConfirmed" Value.Util.to_bool v in
-    let emailAuthFactor = Value.Util.get_key_not_required "emailAuthFactor" Value.Util.to_bool v in
-    let didDoc = Value.Util.get_key_not_required "didDoc" (fun v -> v (* immediate *)) v in
-    let active = Value.Util.get_key_not_required "active" Value.Util.to_bool v in
-    let status = Value.Util.get_key_not_required "status" Value.Util.to_text v in
+    let handle = Value.Util.get_key_exn "handle" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let email = Value.Util.get_key_not_required_exn "email" Value.Util.to_text v in
+    let emailConfirmed = Value.Util.get_key_not_required_exn "emailConfirmed" Value.Util.to_bool v in
+    let emailAuthFactor = Value.Util.get_key_not_required_exn "emailAuthFactor" Value.Util.to_bool v in
+    let didDoc = Value.Util.get_key_not_required_exn "didDoc" (fun v -> v (* immediate *)) v in
+    let active = Value.Util.get_key_not_required_exn "active" Value.Util.to_bool v in
+    let status = Value.Util.get_key_not_required_exn "status" Value.Util.to_text v in
     {handle;did;email;emailConfirmed;emailAuthFactor;didDoc;active;status;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -5961,9 +5988,9 @@ module Com_Atproto_Server_GetServiceAuth = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let aud = Value.Util.get_key "aud" Value.Util.to_text v in
-    let exp = Value.Util.get_key_not_required "exp" Value.Util.to_int v in
-    let lxm = Value.Util.get_key_not_required "lxm" Value.Util.to_text v in
+    let aud = Value.Util.get_key_exn "aud" Value.Util.to_text v in
+    let exp = Value.Util.get_key_not_required_exn "exp" Value.Util.to_int v in
+    let lxm = Value.Util.get_key_not_required_exn "lxm" Value.Util.to_text v in
     {aud;exp;lxm;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -5978,7 +6005,7 @@ module Com_Atproto_Server_GetServiceAuth = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let token = Value.Util.get_key "token" Value.Util.to_text v in
+    let token = Value.Util.get_key_exn "token" Value.Util.to_text v in
     {token;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -6015,8 +6042,8 @@ module Com_Atproto_Server_GetAccountInviteCodes = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let includeUsed = Value.Util.get_key_not_required "includeUsed" Value.Util.to_bool v in
-    let createAvailable = Value.Util.get_key_not_required "createAvailable" Value.Util.to_bool v in
+    let includeUsed = Value.Util.get_key_not_required_exn "includeUsed" Value.Util.to_bool v in
+    let createAvailable = Value.Util.get_key_not_required_exn "createAvailable" Value.Util.to_bool v in
     {includeUsed;createAvailable;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -6030,7 +6057,7 @@ module Com_Atproto_Server_GetAccountInviteCodes = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let codes = Value.Util.get_key "codes" (Value.Util.to_array_of com_atproto_server_defs_invitecode_of_value) v in
+    let codes = Value.Util.get_key_exn "codes" (Value.Util.to_array_of com_atproto_server_defs_invitecode_of_value) v in
     {codes;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -6071,12 +6098,12 @@ module Com_Atproto_Server_DescribeServer = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let inviteCodeRequired = Value.Util.get_key_not_required "inviteCodeRequired" Value.Util.to_bool v in
-    let phoneVerificationRequired = Value.Util.get_key_not_required "phoneVerificationRequired" Value.Util.to_bool v in
-    let availableUserDomains = Value.Util.get_key "availableUserDomains" (Value.Util.to_array_of Value.Util.to_text) v in
-    let links = Value.Util.get_key_not_required "links" com_atproto_server_describeserver_links_of_value v in
-    let contact = Value.Util.get_key_not_required "contact" com_atproto_server_describeserver_contact_of_value v in
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
+    let inviteCodeRequired = Value.Util.get_key_not_required_exn "inviteCodeRequired" Value.Util.to_bool v in
+    let phoneVerificationRequired = Value.Util.get_key_not_required_exn "phoneVerificationRequired" Value.Util.to_bool v in
+    let availableUserDomains = Value.Util.get_key_exn "availableUserDomains" (Value.Util.to_array_of Value.Util.to_text) v in
+    let links = Value.Util.get_key_not_required_exn "links" com_atproto_server_describeserver_links_of_value v in
+    let contact = Value.Util.get_key_not_required_exn "contact" com_atproto_server_describeserver_contact_of_value v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
     {inviteCodeRequired;phoneVerificationRequired;availableUserDomains;links;contact;did;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -6102,7 +6129,9 @@ module Com_Atproto_Server_DescribeServer = struct
     termsOfService: string option;
   }
   let pp_links = pp_com_atproto_server_describeserver_links
+
   let links_of_value = com_atproto_server_describeserver_links_of_value
+
   let links_to_value = com_atproto_server_describeserver_links_to_value
 
 
@@ -6112,7 +6141,9 @@ module Com_Atproto_Server_DescribeServer = struct
     email: string option;
   }
   let pp_contact = pp_com_atproto_server_describeserver_contact
+
   let contact_of_value = com_atproto_server_describeserver_contact_of_value
+
   let contact_to_value = com_atproto_server_describeserver_contact_to_value
 
 
@@ -6143,9 +6174,9 @@ module Com_Atproto_Server_DeleteAccount = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let password = Value.Util.get_key "password" Value.Util.to_text v in
-    let token = Value.Util.get_key "token" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let password = Value.Util.get_key_exn "password" Value.Util.to_text v in
+    let token = Value.Util.get_key_exn "token" Value.Util.to_text v in
     {did;password;token;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -6179,7 +6210,7 @@ module Com_Atproto_Server_DeactivateAccount = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let deleteAfter = Value.Util.get_key_not_required "deleteAfter" Value.Util.to_text v in
+    let deleteAfter = Value.Util.get_key_not_required_exn "deleteAfter" Value.Util.to_text v in
     {deleteAfter;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -6210,10 +6241,10 @@ module Com_Atproto_Server_CreateSession = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let identifier = Value.Util.get_key "identifier" Value.Util.to_text v in
-    let password = Value.Util.get_key "password" Value.Util.to_text v in
-    let authFactorToken = Value.Util.get_key_not_required "authFactorToken" Value.Util.to_text v in
-    let allowTakendown = Value.Util.get_key_not_required "allowTakendown" Value.Util.to_bool v in
+    let identifier = Value.Util.get_key_exn "identifier" Value.Util.to_text v in
+    let password = Value.Util.get_key_exn "password" Value.Util.to_text v in
+    let authFactorToken = Value.Util.get_key_not_required_exn "authFactorToken" Value.Util.to_text v in
+    let allowTakendown = Value.Util.get_key_not_required_exn "allowTakendown" Value.Util.to_bool v in
     {identifier;password;authFactorToken;allowTakendown;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -6238,16 +6269,16 @@ module Com_Atproto_Server_CreateSession = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let accessJwt = Value.Util.get_key "accessJwt" Value.Util.to_text v in
-    let refreshJwt = Value.Util.get_key "refreshJwt" Value.Util.to_text v in
-    let handle = Value.Util.get_key "handle" Value.Util.to_text v in
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let didDoc = Value.Util.get_key_not_required "didDoc" (fun v -> v (* immediate *)) v in
-    let email = Value.Util.get_key_not_required "email" Value.Util.to_text v in
-    let emailConfirmed = Value.Util.get_key_not_required "emailConfirmed" Value.Util.to_bool v in
-    let emailAuthFactor = Value.Util.get_key_not_required "emailAuthFactor" Value.Util.to_bool v in
-    let active = Value.Util.get_key_not_required "active" Value.Util.to_bool v in
-    let status = Value.Util.get_key_not_required "status" Value.Util.to_text v in
+    let accessJwt = Value.Util.get_key_exn "accessJwt" Value.Util.to_text v in
+    let refreshJwt = Value.Util.get_key_exn "refreshJwt" Value.Util.to_text v in
+    let handle = Value.Util.get_key_exn "handle" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let didDoc = Value.Util.get_key_not_required_exn "didDoc" (fun v -> v (* immediate *)) v in
+    let email = Value.Util.get_key_not_required_exn "email" Value.Util.to_text v in
+    let emailConfirmed = Value.Util.get_key_not_required_exn "emailConfirmed" Value.Util.to_bool v in
+    let emailAuthFactor = Value.Util.get_key_not_required_exn "emailAuthFactor" Value.Util.to_bool v in
+    let active = Value.Util.get_key_not_required_exn "active" Value.Util.to_bool v in
+    let status = Value.Util.get_key_not_required_exn "status" Value.Util.to_text v in
     {accessJwt;refreshJwt;handle;did;didDoc;email;emailConfirmed;emailAuthFactor;active;status;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -6294,9 +6325,9 @@ module Com_Atproto_Server_CreateInviteCodes = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let codeCount = Value.Util.get_key "codeCount" Value.Util.to_int v in
-    let useCount = Value.Util.get_key "useCount" Value.Util.to_int v in
-    let forAccounts = Value.Util.get_key_not_required "forAccounts" (Value.Util.to_array_of Value.Util.to_text) v in
+    let codeCount = Value.Util.get_key_exn "codeCount" Value.Util.to_int v in
+    let useCount = Value.Util.get_key_exn "useCount" Value.Util.to_int v in
+    let forAccounts = Value.Util.get_key_not_required_exn "forAccounts" (Value.Util.to_array_of Value.Util.to_text) v in
     {codeCount;useCount;forAccounts;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -6311,7 +6342,7 @@ module Com_Atproto_Server_CreateInviteCodes = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let codes = Value.Util.get_key "codes" (Value.Util.to_array_of com_atproto_server_createinvitecodes_accountcodes_of_value) v in
+    let codes = Value.Util.get_key_exn "codes" (Value.Util.to_array_of com_atproto_server_createinvitecodes_accountcodes_of_value) v in
     {codes;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -6336,7 +6367,9 @@ module Com_Atproto_Server_CreateInviteCodes = struct
     codes: string list;
   }
   let pp_accountcodes = pp_com_atproto_server_createinvitecodes_accountcodes
+
   let accountcodes_of_value = com_atproto_server_createinvitecodes_accountcodes_of_value
+
   let accountcodes_to_value = com_atproto_server_createinvitecodes_accountcodes_to_value
 
 
@@ -6355,8 +6388,8 @@ module Com_Atproto_Server_CreateInviteCode = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let useCount = Value.Util.get_key "useCount" Value.Util.to_int v in
-    let forAccount = Value.Util.get_key_not_required "forAccount" Value.Util.to_text v in
+    let useCount = Value.Util.get_key_exn "useCount" Value.Util.to_int v in
+    let forAccount = Value.Util.get_key_not_required_exn "forAccount" Value.Util.to_text v in
     {useCount;forAccount;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -6370,7 +6403,7 @@ module Com_Atproto_Server_CreateInviteCode = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let code = Value.Util.get_key "code" Value.Util.to_text v in
+    let code = Value.Util.get_key_exn "code" Value.Util.to_text v in
     {code;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -6403,8 +6436,8 @@ module Com_Atproto_Server_CreateAppPassword = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let name = Value.Util.get_key "name" Value.Util.to_text v in
-    let privileged = Value.Util.get_key_not_required "privileged" Value.Util.to_bool v in
+    let name = Value.Util.get_key_exn "name" Value.Util.to_text v in
+    let privileged = Value.Util.get_key_not_required_exn "privileged" Value.Util.to_bool v in
     {name;privileged;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -6442,7 +6475,9 @@ module Com_Atproto_Server_CreateAppPassword = struct
     privileged: bool option;
   }
   let pp_apppassword = pp_com_atproto_server_createapppassword_apppassword
+
   let apppassword_of_value = com_atproto_server_createapppassword_apppassword_of_value
+
   let apppassword_to_value = com_atproto_server_createapppassword_apppassword_to_value
 
 
@@ -6468,15 +6503,15 @@ module Com_Atproto_Server_CreateAccount = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let email = Value.Util.get_key_not_required "email" Value.Util.to_text v in
-    let handle = Value.Util.get_key "handle" Value.Util.to_text v in
-    let did = Value.Util.get_key_not_required "did" Value.Util.to_text v in
-    let inviteCode = Value.Util.get_key_not_required "inviteCode" Value.Util.to_text v in
-    let verificationCode = Value.Util.get_key_not_required "verificationCode" Value.Util.to_text v in
-    let verificationPhone = Value.Util.get_key_not_required "verificationPhone" Value.Util.to_text v in
-    let password = Value.Util.get_key_not_required "password" Value.Util.to_text v in
-    let recoveryKey = Value.Util.get_key_not_required "recoveryKey" Value.Util.to_text v in
-    let plcOp = Value.Util.get_key_not_required "plcOp" (fun v -> v (* immediate *)) v in
+    let email = Value.Util.get_key_not_required_exn "email" Value.Util.to_text v in
+    let handle = Value.Util.get_key_exn "handle" Value.Util.to_text v in
+    let did = Value.Util.get_key_not_required_exn "did" Value.Util.to_text v in
+    let inviteCode = Value.Util.get_key_not_required_exn "inviteCode" Value.Util.to_text v in
+    let verificationCode = Value.Util.get_key_not_required_exn "verificationCode" Value.Util.to_text v in
+    let verificationPhone = Value.Util.get_key_not_required_exn "verificationPhone" Value.Util.to_text v in
+    let password = Value.Util.get_key_not_required_exn "password" Value.Util.to_text v in
+    let recoveryKey = Value.Util.get_key_not_required_exn "recoveryKey" Value.Util.to_text v in
+    let plcOp = Value.Util.get_key_not_required_exn "plcOp" (fun v -> v (* immediate *)) v in
     {email;handle;did;inviteCode;verificationCode;verificationPhone;password;recoveryKey;plcOp;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -6501,11 +6536,11 @@ module Com_Atproto_Server_CreateAccount = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let accessJwt = Value.Util.get_key "accessJwt" Value.Util.to_text v in
-    let refreshJwt = Value.Util.get_key "refreshJwt" Value.Util.to_text v in
-    let handle = Value.Util.get_key "handle" Value.Util.to_text v in
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let didDoc = Value.Util.get_key_not_required "didDoc" (fun v -> v (* immediate *)) v in
+    let accessJwt = Value.Util.get_key_exn "accessJwt" Value.Util.to_text v in
+    let refreshJwt = Value.Util.get_key_exn "refreshJwt" Value.Util.to_text v in
+    let handle = Value.Util.get_key_exn "handle" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let didDoc = Value.Util.get_key_not_required_exn "didDoc" (fun v -> v (* immediate *)) v in
     {accessJwt;refreshJwt;handle;did;didDoc;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -6546,8 +6581,8 @@ module Com_Atproto_Server_ConfirmEmail = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let email = Value.Util.get_key "email" Value.Util.to_text v in
-    let token = Value.Util.get_key "token" Value.Util.to_text v in
+    let email = Value.Util.get_key_exn "email" Value.Util.to_text v in
+    let token = Value.Util.get_key_exn "token" Value.Util.to_text v in
     {email;token;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -6588,15 +6623,15 @@ module Com_Atproto_Server_CheckAccountStatus = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let activated = Value.Util.get_key "activated" Value.Util.to_bool v in
-    let validDid = Value.Util.get_key "validDid" Value.Util.to_bool v in
-    let repoCommit = Value.Util.get_key "repoCommit" Value.Util.to_text v in
-    let repoRev = Value.Util.get_key "repoRev" Value.Util.to_text v in
-    let repoBlocks = Value.Util.get_key "repoBlocks" Value.Util.to_int v in
-    let indexedRecords = Value.Util.get_key "indexedRecords" Value.Util.to_int v in
-    let privateStateValues = Value.Util.get_key "privateStateValues" Value.Util.to_int v in
-    let expectedBlobs = Value.Util.get_key "expectedBlobs" Value.Util.to_int v in
-    let importedBlobs = Value.Util.get_key "importedBlobs" Value.Util.to_int v in
+    let activated = Value.Util.get_key_exn "activated" Value.Util.to_bool v in
+    let validDid = Value.Util.get_key_exn "validDid" Value.Util.to_bool v in
+    let repoCommit = Value.Util.get_key_exn "repoCommit" Value.Util.to_text v in
+    let repoRev = Value.Util.get_key_exn "repoRev" Value.Util.to_text v in
+    let repoBlocks = Value.Util.get_key_exn "repoBlocks" Value.Util.to_int v in
+    let indexedRecords = Value.Util.get_key_exn "indexedRecords" Value.Util.to_int v in
+    let privateStateValues = Value.Util.get_key_exn "privateStateValues" Value.Util.to_int v in
+    let expectedBlobs = Value.Util.get_key_exn "expectedBlobs" Value.Util.to_int v in
+    let importedBlobs = Value.Util.get_key_exn "importedBlobs" Value.Util.to_int v in
     {activated;validDid;repoCommit;repoRev;repoBlocks;indexedRecords;privateStateValues;expectedBlobs;importedBlobs;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -6643,7 +6678,7 @@ module Com_Atproto_Repo_UploadBlob = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let blob = Value.Util.get_key "blob" Blob.of_value_exn v in
+    let blob = Value.Util.get_key_exn "blob" Blob.of_value_exn v in
     {blob;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -6678,13 +6713,13 @@ module Com_Atproto_Repo_PutRecord = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let repo = Value.Util.get_key "repo" Value.Util.to_text v in
-    let collection = Value.Util.get_key "collection" Value.Util.to_text v in
-    let rkey = Value.Util.get_key "rkey" Value.Util.to_text v in
-    let validate = Value.Util.get_key_not_required "validate" Value.Util.to_bool v in
-    let record = Value.Util.get_key "record" (fun v -> v (* immediate *)) v in
-    let swapRecord = Value.Util.get_key_not_required "swapRecord" (Value.Util.to_option_of Value.Util.to_text) v in
-    let swapCommit = Value.Util.get_key_not_required "swapCommit" Value.Util.to_text v in
+    let repo = Value.Util.get_key_exn "repo" Value.Util.to_text v in
+    let collection = Value.Util.get_key_exn "collection" Value.Util.to_text v in
+    let rkey = Value.Util.get_key_exn "rkey" Value.Util.to_text v in
+    let validate = Value.Util.get_key_not_required_exn "validate" Value.Util.to_bool v in
+    let record = Value.Util.get_key_exn "record" (fun v -> v (* immediate *)) v in
+    let swapRecord = Value.Util.get_key_not_required_exn "swapRecord" (Value.Util.to_option_of Value.Util.to_text) v in
+    let swapCommit = Value.Util.get_key_not_required_exn "swapCommit" Value.Util.to_text v in
     {repo;collection;rkey;validate;record;swapRecord;swapCommit;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -6706,10 +6741,10 @@ module Com_Atproto_Repo_PutRecord = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let commit = Value.Util.get_key_not_required "commit" com_atproto_repo_defs_commitmeta_of_value v in
-    let validationStatus = Value.Util.get_key_not_required "validationStatus" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let commit = Value.Util.get_key_not_required_exn "commit" com_atproto_repo_defs_commitmeta_of_value v in
+    let validationStatus = Value.Util.get_key_not_required_exn "validationStatus" Value.Util.to_text v in
     {uri;cid;commit;validationStatus;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -6752,11 +6787,11 @@ module Com_Atproto_Repo_ListRecords = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let repo = Value.Util.get_key "repo" Value.Util.to_text v in
-    let collection = Value.Util.get_key "collection" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let reverse = Value.Util.get_key_not_required "reverse" Value.Util.to_bool v in
+    let repo = Value.Util.get_key_exn "repo" Value.Util.to_text v in
+    let collection = Value.Util.get_key_exn "collection" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let reverse = Value.Util.get_key_not_required_exn "reverse" Value.Util.to_bool v in
     {repo;collection;limit;cursor;reverse;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -6774,8 +6809,8 @@ module Com_Atproto_Repo_ListRecords = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let records = Value.Util.get_key "records" (Value.Util.to_array_of com_atproto_repo_listrecords_record_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let records = Value.Util.get_key_exn "records" (Value.Util.to_array_of com_atproto_repo_listrecords_record_of_value) v in
     {cursor;records;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -6802,7 +6837,9 @@ module Com_Atproto_Repo_ListRecords = struct
     value: Value.t (* unknown *);
   }
   let pp_record = pp_com_atproto_repo_listrecords_record
+
   let record_of_value = com_atproto_repo_listrecords_record_of_value
+
   let record_to_value = com_atproto_repo_listrecords_record_to_value
 
 
@@ -6821,8 +6858,8 @@ module Com_Atproto_Repo_ListMissingBlobs = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -6837,8 +6874,8 @@ module Com_Atproto_Repo_ListMissingBlobs = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let blobs = Value.Util.get_key "blobs" (Value.Util.to_array_of com_atproto_repo_listmissingblobs_recordblob_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let blobs = Value.Util.get_key_exn "blobs" (Value.Util.to_array_of com_atproto_repo_listmissingblobs_recordblob_of_value) v in
     {cursor;blobs;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -6864,7 +6901,9 @@ module Com_Atproto_Repo_ListMissingBlobs = struct
     recordUri: string;
   }
   let pp_recordblob = pp_com_atproto_repo_listmissingblobs_recordblob
+
   let recordblob_of_value = com_atproto_repo_listmissingblobs_recordblob_of_value
+
   let recordblob_to_value = com_atproto_repo_listmissingblobs_recordblob_to_value
 
 
@@ -6897,10 +6936,10 @@ module Com_Atproto_Repo_GetRecord = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let repo = Value.Util.get_key "repo" Value.Util.to_text v in
-    let collection = Value.Util.get_key "collection" Value.Util.to_text v in
-    let rkey = Value.Util.get_key "rkey" Value.Util.to_text v in
-    let cid = Value.Util.get_key_not_required "cid" Value.Util.to_text v in
+    let repo = Value.Util.get_key_exn "repo" Value.Util.to_text v in
+    let collection = Value.Util.get_key_exn "collection" Value.Util.to_text v in
+    let rkey = Value.Util.get_key_exn "rkey" Value.Util.to_text v in
+    let cid = Value.Util.get_key_not_required_exn "cid" Value.Util.to_text v in
     {repo;collection;rkey;cid;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -6918,9 +6957,9 @@ module Com_Atproto_Repo_GetRecord = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key_not_required "cid" Value.Util.to_text v in
-    let value = Value.Util.get_key "value" (fun v -> v (* immediate *)) v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_not_required_exn "cid" Value.Util.to_text v in
+    let value = Value.Util.get_key_exn "value" (fun v -> v (* immediate *)) v in
     {uri;cid;value;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -6958,7 +6997,7 @@ module Com_Atproto_Repo_DescribeRepo = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let repo = Value.Util.get_key "repo" Value.Util.to_text v in
+    let repo = Value.Util.get_key_exn "repo" Value.Util.to_text v in
     {repo;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -6975,11 +7014,11 @@ module Com_Atproto_Repo_DescribeRepo = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let handle = Value.Util.get_key "handle" Value.Util.to_text v in
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let didDoc = Value.Util.get_key "didDoc" (fun v -> v (* immediate *)) v in
-    let collections = Value.Util.get_key "collections" (Value.Util.to_array_of Value.Util.to_text) v in
-    let handleIsCorrect = Value.Util.get_key "handleIsCorrect" Value.Util.to_bool v in
+    let handle = Value.Util.get_key_exn "handle" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let didDoc = Value.Util.get_key_exn "didDoc" (fun v -> v (* immediate *)) v in
+    let collections = Value.Util.get_key_exn "collections" (Value.Util.to_array_of Value.Util.to_text) v in
+    let handleIsCorrect = Value.Util.get_key_exn "handleIsCorrect" Value.Util.to_bool v in
     {handle;did;didDoc;collections;handleIsCorrect;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -7019,11 +7058,11 @@ module Com_Atproto_Repo_DeleteRecord = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let repo = Value.Util.get_key "repo" Value.Util.to_text v in
-    let collection = Value.Util.get_key "collection" Value.Util.to_text v in
-    let rkey = Value.Util.get_key "rkey" Value.Util.to_text v in
-    let swapRecord = Value.Util.get_key_not_required "swapRecord" Value.Util.to_text v in
-    let swapCommit = Value.Util.get_key_not_required "swapCommit" Value.Util.to_text v in
+    let repo = Value.Util.get_key_exn "repo" Value.Util.to_text v in
+    let collection = Value.Util.get_key_exn "collection" Value.Util.to_text v in
+    let rkey = Value.Util.get_key_exn "rkey" Value.Util.to_text v in
+    let swapRecord = Value.Util.get_key_not_required_exn "swapRecord" Value.Util.to_text v in
+    let swapCommit = Value.Util.get_key_not_required_exn "swapCommit" Value.Util.to_text v in
     {repo;collection;rkey;swapRecord;swapCommit;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -7040,7 +7079,7 @@ module Com_Atproto_Repo_DeleteRecord = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let commit = Value.Util.get_key_not_required "commit" com_atproto_repo_defs_commitmeta_of_value v in
+    let commit = Value.Util.get_key_not_required_exn "commit" com_atproto_repo_defs_commitmeta_of_value v in
     {commit;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -7081,12 +7120,12 @@ module Com_Atproto_Repo_CreateRecord = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let repo = Value.Util.get_key "repo" Value.Util.to_text v in
-    let collection = Value.Util.get_key "collection" Value.Util.to_text v in
-    let rkey = Value.Util.get_key_not_required "rkey" Value.Util.to_text v in
-    let validate = Value.Util.get_key_not_required "validate" Value.Util.to_bool v in
-    let record = Value.Util.get_key "record" (fun v -> v (* immediate *)) v in
-    let swapCommit = Value.Util.get_key_not_required "swapCommit" Value.Util.to_text v in
+    let repo = Value.Util.get_key_exn "repo" Value.Util.to_text v in
+    let collection = Value.Util.get_key_exn "collection" Value.Util.to_text v in
+    let rkey = Value.Util.get_key_not_required_exn "rkey" Value.Util.to_text v in
+    let validate = Value.Util.get_key_not_required_exn "validate" Value.Util.to_bool v in
+    let record = Value.Util.get_key_exn "record" (fun v -> v (* immediate *)) v in
+    let swapCommit = Value.Util.get_key_not_required_exn "swapCommit" Value.Util.to_text v in
     {repo;collection;rkey;validate;record;swapCommit;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -7107,10 +7146,10 @@ module Com_Atproto_Repo_CreateRecord = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key "cid" Value.Util.to_text v in
-    let commit = Value.Util.get_key_not_required "commit" com_atproto_repo_defs_commitmeta_of_value v in
-    let validationStatus = Value.Util.get_key_not_required "validationStatus" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_exn "cid" Value.Util.to_text v in
+    let commit = Value.Util.get_key_not_required_exn "commit" com_atproto_repo_defs_commitmeta_of_value v in
+    let validationStatus = Value.Util.get_key_not_required_exn "validationStatus" Value.Util.to_text v in
     {uri;cid;commit;validationStatus;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -7156,19 +7195,19 @@ module Com_Atproto_Repo_ApplyWrites = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let repo = Value.Util.get_key "repo" Value.Util.to_text v in
-    let validate = Value.Util.get_key_not_required "validate" Value.Util.to_bool v in
-    let writes = Value.Util.get_key "writes" (Value.Util.to_array_of (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let repo = Value.Util.get_key_exn "repo" Value.Util.to_text v in
+    let validate = Value.Util.get_key_not_required_exn "validate" Value.Util.to_bool v in
+    let writes = Value.Util.get_key_exn "writes" (Value.Util.to_array_of (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#create" | "com.atproto.repo.applyWrites#create" ->
+    | "com.atproto.repo.applyWrites#create" ->
     `Com_atproto_repo_applywrites_create (com_atproto_repo_applywrites_create_of_value v)
-    | "#update" | "com.atproto.repo.applyWrites#update" ->
+    | "com.atproto.repo.applyWrites#update" ->
     `Com_atproto_repo_applywrites_update (com_atproto_repo_applywrites_update_of_value v)
-    | "#delete" | "com.atproto.repo.applyWrites#delete" ->
+    | "com.atproto.repo.applyWrites#delete" ->
     `Com_atproto_repo_applywrites_delete (com_atproto_repo_applywrites_delete_of_value v)
     | _txt -> Value.Util.conv_error {msg="expected `main_input`"; value=v; path=[]}    ))) v in
-    let swapCommit = Value.Util.get_key_not_required "swapCommit" Value.Util.to_text v in
+    let swapCommit = Value.Util.get_key_not_required_exn "swapCommit" Value.Util.to_text v in
     {repo;validate;writes;swapCommit;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -7193,15 +7232,15 @@ module Com_Atproto_Repo_ApplyWrites = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let commit = Value.Util.get_key_not_required "commit" com_atproto_repo_defs_commitmeta_of_value v in
-    let results = Value.Util.get_key_not_required "results" (Value.Util.to_array_of (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let commit = Value.Util.get_key_not_required_exn "commit" com_atproto_repo_defs_commitmeta_of_value v in
+    let results = Value.Util.get_key_not_required_exn "results" (Value.Util.to_array_of (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#createResult" | "com.atproto.repo.applyWrites#createResult" ->
+    | "com.atproto.repo.applyWrites#createResult" ->
     `Com_atproto_repo_applywrites_createresult (com_atproto_repo_applywrites_createresult_of_value v)
-    | "#updateResult" | "com.atproto.repo.applyWrites#updateResult" ->
+    | "com.atproto.repo.applyWrites#updateResult" ->
     `Com_atproto_repo_applywrites_updateresult (com_atproto_repo_applywrites_updateresult_of_value v)
-    | "#deleteResult" | "com.atproto.repo.applyWrites#deleteResult" ->
+    | "com.atproto.repo.applyWrites#deleteResult" ->
     `Com_atproto_repo_applywrites_deleteresult (com_atproto_repo_applywrites_deleteresult_of_value v)
     | _txt -> Value.Util.conv_error {msg="expected `main_output`"; value=v; path=[]}    ))) v in
     {commit;results;})
@@ -7238,7 +7277,9 @@ module Com_Atproto_Repo_ApplyWrites = struct
     value: Value.t (* unknown *);
   }
   let pp_create = pp_com_atproto_repo_applywrites_create
+
   let create_of_value = com_atproto_repo_applywrites_create_of_value
+
   let create_to_value = com_atproto_repo_applywrites_create_to_value
 
 
@@ -7250,7 +7291,9 @@ module Com_Atproto_Repo_ApplyWrites = struct
     value: Value.t (* unknown *);
   }
   let pp_update = pp_com_atproto_repo_applywrites_update
+
   let update_of_value = com_atproto_repo_applywrites_update_of_value
+
   let update_to_value = com_atproto_repo_applywrites_update_to_value
 
 
@@ -7261,7 +7304,9 @@ module Com_Atproto_Repo_ApplyWrites = struct
     rkey: string;
   }
   let pp_delete = pp_com_atproto_repo_applywrites_delete
+
   let delete_of_value = com_atproto_repo_applywrites_delete_of_value
+
   let delete_to_value = com_atproto_repo_applywrites_delete_to_value
 
 
@@ -7273,7 +7318,9 @@ module Com_Atproto_Repo_ApplyWrites = struct
     validationStatus: string option;
   }
   let pp_createresult = pp_com_atproto_repo_applywrites_createresult
+
   let createresult_of_value = com_atproto_repo_applywrites_createresult_of_value
+
   let createresult_to_value = com_atproto_repo_applywrites_createresult_to_value
 
 
@@ -7285,7 +7332,9 @@ module Com_Atproto_Repo_ApplyWrites = struct
     validationStatus: string option;
   }
   let pp_updateresult = pp_com_atproto_repo_applywrites_updateresult
+
   let updateresult_of_value = com_atproto_repo_applywrites_updateresult_of_value
+
   let updateresult_to_value = com_atproto_repo_applywrites_updateresult_to_value
 
 
@@ -7293,7 +7342,9 @@ module Com_Atproto_Repo_ApplyWrites = struct
 
   type nonrec deleteresult = com_atproto_repo_applywrites_deleteresult
   let pp_deleteresult = pp_com_atproto_repo_applywrites_deleteresult
+
   let deleteresult_of_value = com_atproto_repo_applywrites_deleteresult_of_value
+
   let deleteresult_to_value = com_atproto_repo_applywrites_deleteresult_to_value
 
 
@@ -7310,7 +7361,9 @@ module Com_Atproto_Repo_Defs = struct
     rev: string;
   }
   let pp_commitmeta = pp_com_atproto_repo_defs_commitmeta
+
   let commitmeta_of_value = com_atproto_repo_defs_commitmeta_of_value
+
   let commitmeta_to_value = com_atproto_repo_defs_commitmeta_to_value
 
 
@@ -7334,14 +7387,14 @@ module Com_Atproto_Moderation_CreateReport = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let reasonType = Value.Util.get_key "reasonType" com_atproto_moderation_defs_reasontype_of_value v in
-    let reason = Value.Util.get_key_not_required "reason" Value.Util.to_text v in
-    let subject = Value.Util.get_key "subject" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let reasonType = Value.Util.get_key_exn "reasonType" com_atproto_moderation_defs_reasontype_of_value v in
+    let reason = Value.Util.get_key_not_required_exn "reason" Value.Util.to_text v in
+    let subject = Value.Util.get_key_exn "subject" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#repoRef" | "com.atproto.admin.defs#repoRef" ->
+    | "com.atproto.admin.defs#repoRef" ->
     `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
-    | "#main" | "com.atproto.repo.strongRef" ->
+    | "com.atproto.repo.strongRef" ->
     `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
@@ -7373,20 +7426,20 @@ module Com_Atproto_Moderation_CreateReport = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let id = Value.Util.get_key "id" Value.Util.to_int v in
-    let reasonType = Value.Util.get_key "reasonType" com_atproto_moderation_defs_reasontype_of_value v in
-    let reason = Value.Util.get_key_not_required "reason" Value.Util.to_text v in
-    let subject = Value.Util.get_key "subject" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let id = Value.Util.get_key_exn "id" Value.Util.to_int v in
+    let reasonType = Value.Util.get_key_exn "reasonType" com_atproto_moderation_defs_reasontype_of_value v in
+    let reason = Value.Util.get_key_not_required_exn "reason" Value.Util.to_text v in
+    let subject = Value.Util.get_key_exn "subject" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#repoRef" | "com.atproto.admin.defs#repoRef" ->
+    | "com.atproto.admin.defs#repoRef" ->
     `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
-    | "#main" | "com.atproto.repo.strongRef" ->
+    | "com.atproto.repo.strongRef" ->
     `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
-    let reportedBy = Value.Util.get_key "reportedBy" Value.Util.to_text v in
-    let createdAt = Value.Util.get_key "createdAt" Value.Util.to_text v in
+    let reportedBy = Value.Util.get_key_exn "reportedBy" Value.Util.to_text v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
     {id;reasonType;reason;subject;reportedBy;createdAt;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -7427,6 +7480,16 @@ module Com_Atproto_Lexicon_Schema = struct
     lexicon: int64;
   }  [@@deriving show {with_path=false}, make]
 
+  let main_of_value : main Value.Util.conv = fun v ->
+    let lexicon = Value.Util.get_key_exn "lexicon" Value.Util.to_int v in
+    {lexicon;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "com.atproto.lexicon.schema") :: l in
+    let l = ("lexicon", Value.Util.int self.lexicon) :: l in
+    Value.Util.map l
+
 
 
 end
@@ -7444,14 +7507,18 @@ module Com_Atproto_Label_SubscribeLabels = struct
     ]
   [@@deriving show {with_path=false}]
 
+  (** Turn a fragment (in header) into a full nsid *)
+  let main_msg_nsid_of_fragment (fragment:string) : string = "com.atproto.label.subscribeLabels" ^ fragment
+
   let main_msg_of_value ~(type_tag:string) : main_msg Value.Util.conv = (fun v ->
     (match type_tag with
-    | "#labels" | "com.atproto.label.subscribeLabels#labels" ->
+    | "com.atproto.label.subscribeLabels#labels" ->
     `Com_atproto_label_subscribelabels_labels (com_atproto_label_subscribelabels_labels_of_value v)
-    | "#info" | "com.atproto.label.subscribeLabels#info" ->
+    | "com.atproto.label.subscribeLabels#info" ->
     `Com_atproto_label_subscribelabels_info (com_atproto_label_subscribelabels_info_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))
+
   let main_msg_to_value : main_msg -> Value.t = (fun v ->
     (match v with
     | `Com_atproto_label_subscribelabels_labels v -> (com_atproto_label_subscribelabels_labels_to_value v)
@@ -7465,7 +7532,7 @@ module Com_Atproto_Label_SubscribeLabels = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_int v in
     {cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -7483,6 +7550,7 @@ module Com_Atproto_Label_SubscribeLabels = struct
     pp=pp_main_params}) ~message:{
     to_value=main_msg_to_value;
     of_value=main_msg_of_value;
+    nsid_of_fragment=main_msg_nsid_of_fragment;
     pp=pp_main_msg} 
     ~errors:(Errors {pp=pp_main_error})
 
@@ -7493,7 +7561,9 @@ module Com_Atproto_Label_SubscribeLabels = struct
     labels: com_atproto_label_defs_label list;
   }
   let pp_labels = pp_com_atproto_label_subscribelabels_labels
+
   let labels_of_value = com_atproto_label_subscribelabels_labels_of_value
+
   let labels_to_value = com_atproto_label_subscribelabels_labels_to_value
 
 
@@ -7504,7 +7574,9 @@ module Com_Atproto_Label_SubscribeLabels = struct
     message: string option;
   }
   let pp_info = pp_com_atproto_label_subscribelabels_info
+
   let info_of_value = com_atproto_label_subscribelabels_info_of_value
+
   let info_to_value = com_atproto_label_subscribelabels_info_to_value
 
 
@@ -7525,10 +7597,10 @@ module Com_Atproto_Label_QueryLabels = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let uriPatterns = Value.Util.get_key "uriPatterns" (Value.Util.to_array_of Value.Util.to_text) v in
-    let sources = Value.Util.get_key_not_required "sources" (Value.Util.to_array_of Value.Util.to_text) v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let uriPatterns = Value.Util.get_key_exn "uriPatterns" (Value.Util.to_array_of Value.Util.to_text) v in
+    let sources = Value.Util.get_key_not_required_exn "sources" (Value.Util.to_array_of Value.Util.to_text) v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {uriPatterns;sources;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -7545,8 +7617,8 @@ module Com_Atproto_Label_QueryLabels = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let labels = Value.Util.get_key "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let labels = Value.Util.get_key_exn "labels" (Value.Util.to_array_of com_atproto_label_defs_label_of_value) v in
     {cursor;labels;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -7579,7 +7651,7 @@ module Com_Atproto_Identity_UpdateHandle = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let handle = Value.Util.get_key "handle" Value.Util.to_text v in
+    let handle = Value.Util.get_key_exn "handle" Value.Util.to_text v in
     {handle;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -7607,7 +7679,7 @@ module Com_Atproto_Identity_SubmitPlcOperation = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let operation = Value.Util.get_key "operation" (fun v -> v (* immediate *)) v in
+    let operation = Value.Util.get_key_exn "operation" (fun v -> v (* immediate *)) v in
     {operation;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -7639,11 +7711,11 @@ module Com_Atproto_Identity_SignPlcOperation = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let token = Value.Util.get_key_not_required "token" Value.Util.to_text v in
-    let rotationKeys = Value.Util.get_key_not_required "rotationKeys" (Value.Util.to_array_of Value.Util.to_text) v in
-    let alsoKnownAs = Value.Util.get_key_not_required "alsoKnownAs" (Value.Util.to_array_of Value.Util.to_text) v in
-    let verificationMethods = Value.Util.get_key_not_required "verificationMethods" (fun v -> v (* immediate *)) v in
-    let services = Value.Util.get_key_not_required "services" (fun v -> v (* immediate *)) v in
+    let token = Value.Util.get_key_not_required_exn "token" Value.Util.to_text v in
+    let rotationKeys = Value.Util.get_key_not_required_exn "rotationKeys" (Value.Util.to_array_of Value.Util.to_text) v in
+    let alsoKnownAs = Value.Util.get_key_not_required_exn "alsoKnownAs" (Value.Util.to_array_of Value.Util.to_text) v in
+    let verificationMethods = Value.Util.get_key_not_required_exn "verificationMethods" (fun v -> v (* immediate *)) v in
+    let services = Value.Util.get_key_not_required_exn "services" (fun v -> v (* immediate *)) v in
     {token;rotationKeys;alsoKnownAs;verificationMethods;services;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -7660,7 +7732,7 @@ module Com_Atproto_Identity_SignPlcOperation = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let operation = Value.Util.get_key "operation" (fun v -> v (* immediate *)) v in
+    let operation = Value.Util.get_key_exn "operation" (fun v -> v (* immediate *)) v in
     {operation;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -7692,7 +7764,7 @@ module Com_Atproto_Identity_ResolveIdentity = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let identifier = Value.Util.get_key "identifier" Value.Util.to_text v in
+    let identifier = Value.Util.get_key_exn "identifier" Value.Util.to_text v in
     {identifier;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -7734,7 +7806,7 @@ module Com_Atproto_Identity_ResolveHandle = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let handle = Value.Util.get_key "handle" Value.Util.to_text v in
+    let handle = Value.Util.get_key_exn "handle" Value.Util.to_text v in
     {handle;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -7747,7 +7819,7 @@ module Com_Atproto_Identity_ResolveHandle = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
     {did;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -7783,7 +7855,7 @@ module Com_Atproto_Identity_ResolveDid = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
     {did;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -7796,7 +7868,7 @@ module Com_Atproto_Identity_ResolveDid = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let didDoc = Value.Util.get_key "didDoc" (fun v -> v (* immediate *)) v in
+    let didDoc = Value.Util.get_key_exn "didDoc" (fun v -> v (* immediate *)) v in
     {didDoc;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -7843,7 +7915,7 @@ module Com_Atproto_Identity_RefreshIdentity = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let identifier = Value.Util.get_key "identifier" Value.Util.to_text v in
+    let identifier = Value.Util.get_key_exn "identifier" Value.Util.to_text v in
     {identifier;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -7888,10 +7960,10 @@ module Com_Atproto_Identity_GetRecommendedDidCredentials = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let rotationKeys = Value.Util.get_key_not_required "rotationKeys" (Value.Util.to_array_of Value.Util.to_text) v in
-    let alsoKnownAs = Value.Util.get_key_not_required "alsoKnownAs" (Value.Util.to_array_of Value.Util.to_text) v in
-    let verificationMethods = Value.Util.get_key_not_required "verificationMethods" (fun v -> v (* immediate *)) v in
-    let services = Value.Util.get_key_not_required "services" (fun v -> v (* immediate *)) v in
+    let rotationKeys = Value.Util.get_key_not_required_exn "rotationKeys" (Value.Util.to_array_of Value.Util.to_text) v in
+    let alsoKnownAs = Value.Util.get_key_not_required_exn "alsoKnownAs" (Value.Util.to_array_of Value.Util.to_text) v in
+    let verificationMethods = Value.Util.get_key_not_required_exn "verificationMethods" (fun v -> v (* immediate *)) v in
+    let services = Value.Util.get_key_not_required_exn "services" (fun v -> v (* immediate *)) v in
     {rotationKeys;alsoKnownAs;verificationMethods;services;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -7922,7 +7994,9 @@ module Com_Atproto_Identity_Defs = struct
     didDoc: Value.t (* unknown *);
   }
   let pp_identityinfo = pp_com_atproto_identity_defs_identityinfo
+
   let identityinfo_of_value = com_atproto_identity_defs_identityinfo_of_value
+
   let identityinfo_to_value = com_atproto_identity_defs_identityinfo_to_value
 
 
@@ -7947,19 +8021,19 @@ module Com_Atproto_Admin_UpdateSubjectStatus = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let subject = Value.Util.get_key "subject" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let subject = Value.Util.get_key_exn "subject" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#repoRef" | "com.atproto.admin.defs#repoRef" ->
+    | "com.atproto.admin.defs#repoRef" ->
     `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
-    | "#main" | "com.atproto.repo.strongRef" ->
+    | "com.atproto.repo.strongRef" ->
     `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
-    | "#repoBlobRef" | "com.atproto.admin.defs#repoBlobRef" ->
+    | "com.atproto.admin.defs#repoBlobRef" ->
     `Com_atproto_admin_defs_repoblobref (com_atproto_admin_defs_repoblobref_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
-    let takedown = Value.Util.get_key_not_required "takedown" com_atproto_admin_defs_statusattr_of_value v in
-    let deactivated = Value.Util.get_key_not_required "deactivated" com_atproto_admin_defs_statusattr_of_value v in
+    let takedown = Value.Util.get_key_not_required_exn "takedown" com_atproto_admin_defs_statusattr_of_value v in
+    let deactivated = Value.Util.get_key_not_required_exn "deactivated" com_atproto_admin_defs_statusattr_of_value v in
     {subject;takedown;deactivated;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -7986,18 +8060,18 @@ module Com_Atproto_Admin_UpdateSubjectStatus = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let subject = Value.Util.get_key "subject" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let subject = Value.Util.get_key_exn "subject" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#repoRef" | "com.atproto.admin.defs#repoRef" ->
+    | "com.atproto.admin.defs#repoRef" ->
     `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
-    | "#main" | "com.atproto.repo.strongRef" ->
+    | "com.atproto.repo.strongRef" ->
     `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
-    | "#repoBlobRef" | "com.atproto.admin.defs#repoBlobRef" ->
+    | "com.atproto.admin.defs#repoBlobRef" ->
     `Com_atproto_admin_defs_repoblobref (com_atproto_admin_defs_repoblobref_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
-    let takedown = Value.Util.get_key_not_required "takedown" com_atproto_admin_defs_statusattr_of_value v in
+    let takedown = Value.Util.get_key_not_required_exn "takedown" com_atproto_admin_defs_statusattr_of_value v in
     {subject;takedown;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -8037,8 +8111,8 @@ module Com_Atproto_Admin_UpdateAccountSigningKey = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let signingKey = Value.Util.get_key "signingKey" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let signingKey = Value.Util.get_key_exn "signingKey" Value.Util.to_text v in
     {did;signingKey;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -8068,8 +8142,8 @@ module Com_Atproto_Admin_UpdateAccountPassword = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let password = Value.Util.get_key "password" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let password = Value.Util.get_key_exn "password" Value.Util.to_text v in
     {did;password;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -8099,8 +8173,8 @@ module Com_Atproto_Admin_UpdateAccountHandle = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let handle = Value.Util.get_key "handle" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let handle = Value.Util.get_key_exn "handle" Value.Util.to_text v in
     {did;handle;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -8130,8 +8204,8 @@ module Com_Atproto_Admin_UpdateAccountEmail = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let account = Value.Util.get_key "account" Value.Util.to_text v in
-    let email = Value.Util.get_key "email" Value.Util.to_text v in
+    let account = Value.Util.get_key_exn "account" Value.Util.to_text v in
+    let email = Value.Util.get_key_exn "email" Value.Util.to_text v in
     {account;email;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -8164,11 +8238,11 @@ module Com_Atproto_Admin_SendEmail = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let recipientDid = Value.Util.get_key "recipientDid" Value.Util.to_text v in
-    let content = Value.Util.get_key "content" Value.Util.to_text v in
-    let subject = Value.Util.get_key_not_required "subject" Value.Util.to_text v in
-    let senderDid = Value.Util.get_key "senderDid" Value.Util.to_text v in
-    let comment = Value.Util.get_key_not_required "comment" Value.Util.to_text v in
+    let recipientDid = Value.Util.get_key_exn "recipientDid" Value.Util.to_text v in
+    let content = Value.Util.get_key_exn "content" Value.Util.to_text v in
+    let subject = Value.Util.get_key_not_required_exn "subject" Value.Util.to_text v in
+    let senderDid = Value.Util.get_key_exn "senderDid" Value.Util.to_text v in
+    let comment = Value.Util.get_key_not_required_exn "comment" Value.Util.to_text v in
     {recipientDid;content;subject;senderDid;comment;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -8185,7 +8259,7 @@ module Com_Atproto_Admin_SendEmail = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let sent = Value.Util.get_key "sent" Value.Util.to_bool v in
+    let sent = Value.Util.get_key_exn "sent" Value.Util.to_bool v in
     {sent;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -8219,9 +8293,9 @@ module Com_Atproto_Admin_SearchAccounts = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let email = Value.Util.get_key_not_required "email" Value.Util.to_text v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
+    let email = Value.Util.get_key_not_required_exn "email" Value.Util.to_text v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
     {email;cursor;limit;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -8237,8 +8311,8 @@ module Com_Atproto_Admin_SearchAccounts = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let accounts = Value.Util.get_key "accounts" (Value.Util.to_array_of com_atproto_admin_defs_accountview_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let accounts = Value.Util.get_key_exn "accounts" (Value.Util.to_array_of com_atproto_admin_defs_accountview_of_value) v in
     {cursor;accounts;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -8273,9 +8347,9 @@ module Com_Atproto_Admin_GetSubjectStatus = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let did = Value.Util.get_key_not_required "did" Value.Util.to_text v in
-    let uri = Value.Util.get_key_not_required "uri" Value.Util.to_text v in
-    let blob = Value.Util.get_key_not_required "blob" Value.Util.to_text v in
+    let did = Value.Util.get_key_not_required_exn "did" Value.Util.to_text v in
+    let uri = Value.Util.get_key_not_required_exn "uri" Value.Util.to_text v in
+    let blob = Value.Util.get_key_not_required_exn "blob" Value.Util.to_text v in
     {did;uri;blob;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -8297,19 +8371,19 @@ module Com_Atproto_Admin_GetSubjectStatus = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let subject = Value.Util.get_key "subject" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let subject = Value.Util.get_key_exn "subject" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#repoRef" | "com.atproto.admin.defs#repoRef" ->
+    | "com.atproto.admin.defs#repoRef" ->
     `Com_atproto_admin_defs_reporef (com_atproto_admin_defs_reporef_of_value v)
-    | "#main" | "com.atproto.repo.strongRef" ->
+    | "com.atproto.repo.strongRef" ->
     `Com_atproto_repo_strongref_main (com_atproto_repo_strongref_main_of_value v)
-    | "#repoBlobRef" | "com.atproto.admin.defs#repoBlobRef" ->
+    | "com.atproto.admin.defs#repoBlobRef" ->
     `Com_atproto_admin_defs_repoblobref (com_atproto_admin_defs_repoblobref_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
-    let takedown = Value.Util.get_key_not_required "takedown" com_atproto_admin_defs_statusattr_of_value v in
-    let deactivated = Value.Util.get_key_not_required "deactivated" com_atproto_admin_defs_statusattr_of_value v in
+    let takedown = Value.Util.get_key_not_required_exn "takedown" com_atproto_admin_defs_statusattr_of_value v in
+    let deactivated = Value.Util.get_key_not_required_exn "deactivated" com_atproto_admin_defs_statusattr_of_value v in
     {subject;takedown;deactivated;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -8351,9 +8425,9 @@ module Com_Atproto_Admin_GetInviteCodes = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let sort = Value.Util.get_key_not_required "sort" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let sort = Value.Util.get_key_not_required_exn "sort" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {sort;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -8369,8 +8443,8 @@ module Com_Atproto_Admin_GetInviteCodes = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let codes = Value.Util.get_key "codes" (Value.Util.to_array_of com_atproto_server_defs_invitecode_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let codes = Value.Util.get_key_exn "codes" (Value.Util.to_array_of com_atproto_server_defs_invitecode_of_value) v in
     {cursor;codes;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -8403,7 +8477,7 @@ module Com_Atproto_Admin_GetAccountInfos = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let dids = Value.Util.get_key "dids" (Value.Util.to_array_of Value.Util.to_text) v in
+    let dids = Value.Util.get_key_exn "dids" (Value.Util.to_array_of Value.Util.to_text) v in
     {dids;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -8416,7 +8490,7 @@ module Com_Atproto_Admin_GetAccountInfos = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let infos = Value.Util.get_key "infos" (Value.Util.to_array_of com_atproto_admin_defs_accountview_of_value) v in
+    let infos = Value.Util.get_key_exn "infos" (Value.Util.to_array_of com_atproto_admin_defs_accountview_of_value) v in
     {infos;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -8448,7 +8522,7 @@ module Com_Atproto_Admin_GetAccountInfo = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
     {did;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -8487,8 +8561,8 @@ module Com_Atproto_Admin_EnableAccountInvites = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let account = Value.Util.get_key "account" Value.Util.to_text v in
-    let note = Value.Util.get_key_not_required "note" Value.Util.to_text v in
+    let account = Value.Util.get_key_exn "account" Value.Util.to_text v in
+    let note = Value.Util.get_key_not_required_exn "note" Value.Util.to_text v in
     {account;note;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -8518,8 +8592,8 @@ module Com_Atproto_Admin_DisableInviteCodes = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let codes = Value.Util.get_key_not_required "codes" (Value.Util.to_array_of Value.Util.to_text) v in
-    let accounts = Value.Util.get_key_not_required "accounts" (Value.Util.to_array_of Value.Util.to_text) v in
+    let codes = Value.Util.get_key_not_required_exn "codes" (Value.Util.to_array_of Value.Util.to_text) v in
+    let accounts = Value.Util.get_key_not_required_exn "accounts" (Value.Util.to_array_of Value.Util.to_text) v in
     {codes;accounts;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -8549,8 +8623,8 @@ module Com_Atproto_Admin_DisableAccountInvites = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let account = Value.Util.get_key "account" Value.Util.to_text v in
-    let note = Value.Util.get_key_not_required "note" Value.Util.to_text v in
+    let account = Value.Util.get_key_exn "account" Value.Util.to_text v in
+    let note = Value.Util.get_key_not_required_exn "note" Value.Util.to_text v in
     {account;note;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -8579,7 +8653,7 @@ module Com_Atproto_Admin_DeleteAccount = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
     {did;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -8606,7 +8680,9 @@ module Com_Atproto_Admin_Defs = struct
     ref: string option;
   }
   let pp_statusattr = pp_com_atproto_admin_defs_statusattr
+
   let statusattr_of_value = com_atproto_admin_defs_statusattr_of_value
+
   let statusattr_to_value = com_atproto_admin_defs_statusattr_to_value
 
 
@@ -8627,7 +8703,9 @@ module Com_Atproto_Admin_Defs = struct
     threatSignatures: com_atproto_admin_defs_threatsignature list option;
   }
   let pp_accountview = pp_com_atproto_admin_defs_accountview
+
   let accountview_of_value = com_atproto_admin_defs_accountview_of_value
+
   let accountview_to_value = com_atproto_admin_defs_accountview_to_value
 
 
@@ -8637,7 +8715,9 @@ module Com_Atproto_Admin_Defs = struct
     did: string;
   }
   let pp_reporef = pp_com_atproto_admin_defs_reporef
+
   let reporef_of_value = com_atproto_admin_defs_reporef_of_value
+
   let reporef_to_value = com_atproto_admin_defs_reporef_to_value
 
 
@@ -8649,7 +8729,9 @@ module Com_Atproto_Admin_Defs = struct
     recordUri: string option;
   }
   let pp_repoblobref = pp_com_atproto_admin_defs_repoblobref
+
   let repoblobref_of_value = com_atproto_admin_defs_repoblobref_of_value
+
   let repoblobref_to_value = com_atproto_admin_defs_repoblobref_to_value
 
 
@@ -8660,7 +8742,9 @@ module Com_Atproto_Admin_Defs = struct
     value: string;
   }
   let pp_threatsignature = pp_com_atproto_admin_defs_threatsignature
+
   let threatsignature_of_value = com_atproto_admin_defs_threatsignature_of_value
+
   let threatsignature_to_value = com_atproto_admin_defs_threatsignature_to_value
 
 
@@ -8682,7 +8766,9 @@ module Com_Atproto_Server_Defs = struct
     uses: com_atproto_server_defs_invitecodeuse list;
   }
   let pp_invitecode = pp_com_atproto_server_defs_invitecode
+
   let invitecode_of_value = com_atproto_server_defs_invitecode_of_value
+
   let invitecode_to_value = com_atproto_server_defs_invitecode_to_value
 
 
@@ -8693,7 +8779,9 @@ module Com_Atproto_Server_Defs = struct
     usedAt: string;
   }
   let pp_invitecodeuse = pp_com_atproto_server_defs_invitecodeuse
+
   let invitecodeuse_of_value = com_atproto_server_defs_invitecodeuse_of_value
+
   let invitecodeuse_to_value = com_atproto_server_defs_invitecodeuse_to_value
 
 
@@ -8711,7 +8799,7 @@ module App_Bsky_Video_UploadVideo = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let jobStatus = Value.Util.get_key "jobStatus" app_bsky_video_defs_jobstatus_of_value v in
+    let jobStatus = Value.Util.get_key_exn "jobStatus" app_bsky_video_defs_jobstatus_of_value v in
     {jobStatus;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -8744,11 +8832,11 @@ module App_Bsky_Video_GetUploadLimits = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let canUpload = Value.Util.get_key "canUpload" Value.Util.to_bool v in
-    let remainingDailyVideos = Value.Util.get_key_not_required "remainingDailyVideos" Value.Util.to_int v in
-    let remainingDailyBytes = Value.Util.get_key_not_required "remainingDailyBytes" Value.Util.to_int v in
-    let message = Value.Util.get_key_not_required "message" Value.Util.to_text v in
-    let error = Value.Util.get_key_not_required "error" Value.Util.to_text v in
+    let canUpload = Value.Util.get_key_exn "canUpload" Value.Util.to_bool v in
+    let remainingDailyVideos = Value.Util.get_key_not_required_exn "remainingDailyVideos" Value.Util.to_int v in
+    let remainingDailyBytes = Value.Util.get_key_not_required_exn "remainingDailyBytes" Value.Util.to_int v in
+    let message = Value.Util.get_key_not_required_exn "message" Value.Util.to_text v in
+    let error = Value.Util.get_key_not_required_exn "error" Value.Util.to_text v in
     {canUpload;remainingDailyVideos;remainingDailyBytes;message;error;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -8780,7 +8868,7 @@ module App_Bsky_Video_GetJobStatus = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let jobId = Value.Util.get_key "jobId" Value.Util.to_text v in
+    let jobId = Value.Util.get_key_exn "jobId" Value.Util.to_text v in
     {jobId;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -8793,7 +8881,7 @@ module App_Bsky_Video_GetJobStatus = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let jobStatus = Value.Util.get_key "jobStatus" app_bsky_video_defs_jobstatus_of_value v in
+    let jobStatus = Value.Util.get_key_exn "jobStatus" app_bsky_video_defs_jobstatus_of_value v in
     {jobStatus;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -8829,7 +8917,9 @@ module App_Bsky_Video_Defs = struct
     message: string option;
   }
   let pp_jobstatus = pp_app_bsky_video_defs_jobstatus
+
   let jobstatus_of_value = app_bsky_video_defs_jobstatus_of_value
+
   let jobstatus_to_value = app_bsky_video_defs_jobstatus_to_value
 
 
@@ -8850,10 +8940,10 @@ module App_Bsky_Unspecced_SearchStarterPacksSkeleton = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let q = Value.Util.get_key "q" Value.Util.to_text v in
-    let viewer = Value.Util.get_key_not_required "viewer" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let q = Value.Util.get_key_exn "q" Value.Util.to_text v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {q;viewer;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -8871,9 +8961,9 @@ module App_Bsky_Unspecced_SearchStarterPacksSkeleton = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let hitsTotal = Value.Util.get_key_not_required "hitsTotal" Value.Util.to_int v in
-    let starterPacks = Value.Util.get_key "starterPacks" (Value.Util.to_array_of app_bsky_unspecced_defs_skeletonsearchstarterpack_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let hitsTotal = Value.Util.get_key_not_required_exn "hitsTotal" Value.Util.to_int v in
+    let starterPacks = Value.Util.get_key_exn "starterPacks" (Value.Util.to_array_of app_bsky_unspecced_defs_skeletonsearchstarterpack_of_value) v in
     {cursor;hitsTotal;starterPacks;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -8923,19 +9013,19 @@ module App_Bsky_Unspecced_SearchPostsSkeleton = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let q = Value.Util.get_key "q" Value.Util.to_text v in
-    let sort = Value.Util.get_key_not_required "sort" Value.Util.to_text v in
-    let since = Value.Util.get_key_not_required "since" Value.Util.to_text v in
-    let until = Value.Util.get_key_not_required "until" Value.Util.to_text v in
-    let mentions = Value.Util.get_key_not_required "mentions" Value.Util.to_text v in
-    let author = Value.Util.get_key_not_required "author" Value.Util.to_text v in
-    let lang = Value.Util.get_key_not_required "lang" Value.Util.to_text v in
-    let domain = Value.Util.get_key_not_required "domain" Value.Util.to_text v in
-    let url = Value.Util.get_key_not_required "url" Value.Util.to_text v in
-    let tag = Value.Util.get_key_not_required "tag" (Value.Util.to_array_of Value.Util.to_text) v in
-    let viewer = Value.Util.get_key_not_required "viewer" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let q = Value.Util.get_key_exn "q" Value.Util.to_text v in
+    let sort = Value.Util.get_key_not_required_exn "sort" Value.Util.to_text v in
+    let since = Value.Util.get_key_not_required_exn "since" Value.Util.to_text v in
+    let until = Value.Util.get_key_not_required_exn "until" Value.Util.to_text v in
+    let mentions = Value.Util.get_key_not_required_exn "mentions" Value.Util.to_text v in
+    let author = Value.Util.get_key_not_required_exn "author" Value.Util.to_text v in
+    let lang = Value.Util.get_key_not_required_exn "lang" Value.Util.to_text v in
+    let domain = Value.Util.get_key_not_required_exn "domain" Value.Util.to_text v in
+    let url = Value.Util.get_key_not_required_exn "url" Value.Util.to_text v in
+    let tag = Value.Util.get_key_not_required_exn "tag" (Value.Util.to_array_of Value.Util.to_text) v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {q;sort;since;until;mentions;author;lang;domain;url;tag;viewer;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -8962,9 +9052,9 @@ module App_Bsky_Unspecced_SearchPostsSkeleton = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let hitsTotal = Value.Util.get_key_not_required "hitsTotal" Value.Util.to_int v in
-    let posts = Value.Util.get_key "posts" (Value.Util.to_array_of app_bsky_unspecced_defs_skeletonsearchpost_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let hitsTotal = Value.Util.get_key_not_required_exn "hitsTotal" Value.Util.to_int v in
+    let posts = Value.Util.get_key_exn "posts" (Value.Util.to_array_of app_bsky_unspecced_defs_skeletonsearchpost_of_value) v in
     {cursor;hitsTotal;posts;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9006,11 +9096,11 @@ module App_Bsky_Unspecced_SearchActorsSkeleton = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let q = Value.Util.get_key "q" Value.Util.to_text v in
-    let viewer = Value.Util.get_key_not_required "viewer" Value.Util.to_text v in
-    let typeahead = Value.Util.get_key_not_required "typeahead" Value.Util.to_bool v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let q = Value.Util.get_key_exn "q" Value.Util.to_text v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" Value.Util.to_text v in
+    let typeahead = Value.Util.get_key_not_required_exn "typeahead" Value.Util.to_bool v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {q;viewer;typeahead;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -9029,9 +9119,9 @@ module App_Bsky_Unspecced_SearchActorsSkeleton = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let hitsTotal = Value.Util.get_key_not_required "hitsTotal" Value.Util.to_int v in
-    let actors = Value.Util.get_key "actors" (Value.Util.to_array_of app_bsky_unspecced_defs_skeletonsearchactor_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let hitsTotal = Value.Util.get_key_not_required_exn "hitsTotal" Value.Util.to_int v in
+    let actors = Value.Util.get_key_exn "actors" (Value.Util.to_array_of app_bsky_unspecced_defs_skeletonsearchactor_of_value) v in
     {cursor;hitsTotal;actors;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9070,8 +9160,8 @@ module App_Bsky_Unspecced_GetTrendsSkeleton = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let viewer = Value.Util.get_key_not_required "viewer" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
     {viewer;limit;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -9085,7 +9175,7 @@ module App_Bsky_Unspecced_GetTrendsSkeleton = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let trends = Value.Util.get_key "trends" (Value.Util.to_array_of app_bsky_unspecced_defs_skeletontrend_of_value) v in
+    let trends = Value.Util.get_key_exn "trends" (Value.Util.to_array_of app_bsky_unspecced_defs_skeletontrend_of_value) v in
     {trends;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9117,7 +9207,7 @@ module App_Bsky_Unspecced_GetTrends = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
     {limit;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -9130,7 +9220,7 @@ module App_Bsky_Unspecced_GetTrends = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let trends = Value.Util.get_key "trends" (Value.Util.to_array_of app_bsky_unspecced_defs_trendview_of_value) v in
+    let trends = Value.Util.get_key_exn "trends" (Value.Util.to_array_of app_bsky_unspecced_defs_trendview_of_value) v in
     {trends;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9163,8 +9253,8 @@ module App_Bsky_Unspecced_GetTrendingTopics = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let viewer = Value.Util.get_key_not_required "viewer" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
     {viewer;limit;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -9179,8 +9269,8 @@ module App_Bsky_Unspecced_GetTrendingTopics = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let topics = Value.Util.get_key "topics" (Value.Util.to_array_of app_bsky_unspecced_defs_trendingtopic_of_value) v in
-    let suggested = Value.Util.get_key "suggested" (Value.Util.to_array_of app_bsky_unspecced_defs_trendingtopic_of_value) v in
+    let topics = Value.Util.get_key_exn "topics" (Value.Util.to_array_of app_bsky_unspecced_defs_trendingtopic_of_value) v in
+    let suggested = Value.Util.get_key_exn "suggested" (Value.Util.to_array_of app_bsky_unspecced_defs_trendingtopic_of_value) v in
     {topics;suggested;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9213,7 +9303,7 @@ module App_Bsky_Unspecced_GetTaggedSuggestions = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let suggestions = Value.Util.get_key "suggestions" (Value.Util.to_array_of app_bsky_unspecced_gettaggedsuggestions_suggestion_of_value) v in
+    let suggestions = Value.Util.get_key_exn "suggestions" (Value.Util.to_array_of app_bsky_unspecced_gettaggedsuggestions_suggestion_of_value) v in
     {suggestions;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9235,7 +9325,9 @@ module App_Bsky_Unspecced_GetTaggedSuggestions = struct
     subject: string;
   }
   let pp_suggestion = pp_app_bsky_unspecced_gettaggedsuggestions_suggestion
+
   let suggestion_of_value = app_bsky_unspecced_gettaggedsuggestions_suggestion_of_value
+
   let suggestion_to_value = app_bsky_unspecced_gettaggedsuggestions_suggestion_to_value
 
 
@@ -9256,10 +9348,10 @@ module App_Bsky_Unspecced_GetSuggestionsSkeleton = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let viewer = Value.Util.get_key_not_required "viewer" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let relativeToDid = Value.Util.get_key_not_required "relativeToDid" Value.Util.to_text v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let relativeToDid = Value.Util.get_key_not_required_exn "relativeToDid" Value.Util.to_text v in
     {viewer;limit;cursor;relativeToDid;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -9278,10 +9370,10 @@ module App_Bsky_Unspecced_GetSuggestionsSkeleton = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let actors = Value.Util.get_key "actors" (Value.Util.to_array_of app_bsky_unspecced_defs_skeletonsearchactor_of_value) v in
-    let relativeToDid = Value.Util.get_key_not_required "relativeToDid" Value.Util.to_text v in
-    let recId = Value.Util.get_key_not_required "recId" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let actors = Value.Util.get_key_exn "actors" (Value.Util.to_array_of app_bsky_unspecced_defs_skeletonsearchactor_of_value) v in
+    let relativeToDid = Value.Util.get_key_not_required_exn "relativeToDid" Value.Util.to_text v in
+    let recId = Value.Util.get_key_not_required_exn "recId" Value.Util.to_int v in
     {cursor;actors;relativeToDid;recId;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9318,9 +9410,9 @@ module App_Bsky_Unspecced_GetSuggestedUsersSkeleton = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let viewer = Value.Util.get_key_not_required "viewer" Value.Util.to_text v in
-    let category = Value.Util.get_key_not_required "category" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" Value.Util.to_text v in
+    let category = Value.Util.get_key_not_required_exn "category" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
     {viewer;category;limit;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -9335,7 +9427,7 @@ module App_Bsky_Unspecced_GetSuggestedUsersSkeleton = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let dids = Value.Util.get_key "dids" (Value.Util.to_array_of Value.Util.to_text) v in
+    let dids = Value.Util.get_key_exn "dids" (Value.Util.to_array_of Value.Util.to_text) v in
     {dids;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9368,8 +9460,8 @@ module App_Bsky_Unspecced_GetSuggestedUsers = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let category = Value.Util.get_key_not_required "category" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
+    let category = Value.Util.get_key_not_required_exn "category" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
     {category;limit;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -9383,7 +9475,7 @@ module App_Bsky_Unspecced_GetSuggestedUsers = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let actors = Value.Util.get_key "actors" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
+    let actors = Value.Util.get_key_exn "actors" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
     {actors;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9416,8 +9508,8 @@ module App_Bsky_Unspecced_GetSuggestedStarterPacksSkeleton = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let viewer = Value.Util.get_key_not_required "viewer" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
     {viewer;limit;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -9431,7 +9523,7 @@ module App_Bsky_Unspecced_GetSuggestedStarterPacksSkeleton = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let starterPacks = Value.Util.get_key "starterPacks" (Value.Util.to_array_of Value.Util.to_text) v in
+    let starterPacks = Value.Util.get_key_exn "starterPacks" (Value.Util.to_array_of Value.Util.to_text) v in
     {starterPacks;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9463,7 +9555,7 @@ module App_Bsky_Unspecced_GetSuggestedStarterPacks = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
     {limit;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -9476,7 +9568,7 @@ module App_Bsky_Unspecced_GetSuggestedStarterPacks = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let starterPacks = Value.Util.get_key "starterPacks" (Value.Util.to_array_of app_bsky_graph_defs_starterpackview_of_value) v in
+    let starterPacks = Value.Util.get_key_exn "starterPacks" (Value.Util.to_array_of app_bsky_graph_defs_starterpackview_of_value) v in
     {starterPacks;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9509,8 +9601,8 @@ module App_Bsky_Unspecced_GetSuggestedFeedsSkeleton = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let viewer = Value.Util.get_key_not_required "viewer" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
+    let viewer = Value.Util.get_key_not_required_exn "viewer" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
     {viewer;limit;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -9524,7 +9616,7 @@ module App_Bsky_Unspecced_GetSuggestedFeedsSkeleton = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let feeds = Value.Util.get_key "feeds" (Value.Util.to_array_of Value.Util.to_text) v in
+    let feeds = Value.Util.get_key_exn "feeds" (Value.Util.to_array_of Value.Util.to_text) v in
     {feeds;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9556,7 +9648,7 @@ module App_Bsky_Unspecced_GetSuggestedFeeds = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
     {limit;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -9569,7 +9661,7 @@ module App_Bsky_Unspecced_GetSuggestedFeeds = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let feeds = Value.Util.get_key "feeds" (Value.Util.to_array_of app_bsky_feed_defs_generatorview_of_value) v in
+    let feeds = Value.Util.get_key_exn "feeds" (Value.Util.to_array_of app_bsky_feed_defs_generatorview_of_value) v in
     {feeds;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9606,12 +9698,12 @@ module App_Bsky_Unspecced_GetPostThreadV2 = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let anchor = Value.Util.get_key "anchor" Value.Util.to_text v in
-    let above = Value.Util.get_key_not_required "above" Value.Util.to_bool v in
-    let below = Value.Util.get_key_not_required "below" Value.Util.to_int v in
-    let branchingFactor = Value.Util.get_key_not_required "branchingFactor" Value.Util.to_int v in
-    let prioritizeFollowedUsers = Value.Util.get_key_not_required "prioritizeFollowedUsers" Value.Util.to_bool v in
-    let sort = Value.Util.get_key_not_required "sort" Value.Util.to_text v in
+    let anchor = Value.Util.get_key_exn "anchor" Value.Util.to_text v in
+    let above = Value.Util.get_key_not_required_exn "above" Value.Util.to_bool v in
+    let below = Value.Util.get_key_not_required_exn "below" Value.Util.to_int v in
+    let branchingFactor = Value.Util.get_key_not_required_exn "branchingFactor" Value.Util.to_int v in
+    let prioritizeFollowedUsers = Value.Util.get_key_not_required_exn "prioritizeFollowedUsers" Value.Util.to_bool v in
+    let sort = Value.Util.get_key_not_required_exn "sort" Value.Util.to_text v in
     {anchor;above;below;branchingFactor;prioritizeFollowedUsers;sort;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -9631,9 +9723,9 @@ module App_Bsky_Unspecced_GetPostThreadV2 = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let thread = Value.Util.get_key "thread" (Value.Util.to_array_of app_bsky_unspecced_getpostthreadv2_threaditem_of_value) v in
-    let threadgate = Value.Util.get_key_not_required "threadgate" app_bsky_feed_defs_threadgateview_of_value v in
-    let hasHiddenReplies = Value.Util.get_key "hasHiddenReplies" Value.Util.to_bool v in
+    let thread = Value.Util.get_key_exn "thread" (Value.Util.to_array_of app_bsky_unspecced_getpostthreadv2_threaditem_of_value) v in
+    let threadgate = Value.Util.get_key_not_required_exn "threadgate" app_bsky_feed_defs_threadgateview_of_value v in
+    let hasHiddenReplies = Value.Util.get_key_exn "hasHiddenReplies" Value.Util.to_bool v in
     {thread;threadgate;hasHiddenReplies;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9667,7 +9759,9 @@ module App_Bsky_Unspecced_GetPostThreadV2 = struct
     ];
   }
   let pp_threaditem = pp_app_bsky_unspecced_getpostthreadv2_threaditem
+
   let threaditem_of_value = app_bsky_unspecced_getpostthreadv2_threaditem_of_value
+
   let threaditem_to_value = app_bsky_unspecced_getpostthreadv2_threaditem_to_value
 
 
@@ -9686,8 +9780,8 @@ module App_Bsky_Unspecced_GetPostThreadHiddenV2 = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let anchor = Value.Util.get_key "anchor" Value.Util.to_text v in
-    let prioritizeFollowedUsers = Value.Util.get_key_not_required "prioritizeFollowedUsers" Value.Util.to_bool v in
+    let anchor = Value.Util.get_key_exn "anchor" Value.Util.to_text v in
+    let prioritizeFollowedUsers = Value.Util.get_key_not_required_exn "prioritizeFollowedUsers" Value.Util.to_bool v in
     {anchor;prioritizeFollowedUsers;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -9701,7 +9795,7 @@ module App_Bsky_Unspecced_GetPostThreadHiddenV2 = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let thread = Value.Util.get_key "thread" (Value.Util.to_array_of app_bsky_unspecced_getpostthreadhiddenv2_threadhiddenitem_of_value) v in
+    let thread = Value.Util.get_key_exn "thread" (Value.Util.to_array_of app_bsky_unspecced_getpostthreadhiddenv2_threadhiddenitem_of_value) v in
     {thread;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9730,7 +9824,9 @@ module App_Bsky_Unspecced_GetPostThreadHiddenV2 = struct
     ];
   }
   let pp_threadhiddenitem = pp_app_bsky_unspecced_getpostthreadhiddenv2_threadhiddenitem
+
   let threadhiddenitem_of_value = app_bsky_unspecced_getpostthreadhiddenv2_threadhiddenitem_of_value
+
   let threadhiddenitem_to_value = app_bsky_unspecced_getpostthreadhiddenv2_threadhiddenitem_to_value
 
 
@@ -9750,9 +9846,9 @@ module App_Bsky_Unspecced_GetPopularFeedGenerators = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let query = Value.Util.get_key_not_required "query" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let query = Value.Util.get_key_not_required_exn "query" Value.Util.to_text v in
     {limit;cursor;query;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -9768,8 +9864,8 @@ module App_Bsky_Unspecced_GetPopularFeedGenerators = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let feeds = Value.Util.get_key "feeds" (Value.Util.to_array_of app_bsky_feed_defs_generatorview_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let feeds = Value.Util.get_key_exn "feeds" (Value.Util.to_array_of app_bsky_feed_defs_generatorview_of_value) v in
     {cursor;feeds;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9803,8 +9899,8 @@ module App_Bsky_Unspecced_GetConfig = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let checkEmailConfirmed = Value.Util.get_key_not_required "checkEmailConfirmed" Value.Util.to_bool v in
-    let liveNow = Value.Util.get_key_not_required "liveNow" (Value.Util.to_array_of app_bsky_unspecced_getconfig_livenowconfig_of_value) v in
+    let checkEmailConfirmed = Value.Util.get_key_not_required_exn "checkEmailConfirmed" Value.Util.to_bool v in
+    let liveNow = Value.Util.get_key_not_required_exn "liveNow" (Value.Util.to_array_of app_bsky_unspecced_getconfig_livenowconfig_of_value) v in
     {checkEmailConfirmed;liveNow;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -9826,7 +9922,9 @@ module App_Bsky_Unspecced_GetConfig = struct
     domains: string list;
   }
   let pp_livenowconfig = pp_app_bsky_unspecced_getconfig_livenowconfig
+
   let livenowconfig_of_value = app_bsky_unspecced_getconfig_livenowconfig_of_value
+
   let livenowconfig_to_value = app_bsky_unspecced_getconfig_livenowconfig_to_value
 
 
@@ -9842,7 +9940,9 @@ module App_Bsky_Unspecced_Defs = struct
     uri: string;
   }
   let pp_skeletonsearchpost = pp_app_bsky_unspecced_defs_skeletonsearchpost
+
   let skeletonsearchpost_of_value = app_bsky_unspecced_defs_skeletonsearchpost_of_value
+
   let skeletonsearchpost_to_value = app_bsky_unspecced_defs_skeletonsearchpost_to_value
 
 
@@ -9852,7 +9952,9 @@ module App_Bsky_Unspecced_Defs = struct
     did: string;
   }
   let pp_skeletonsearchactor = pp_app_bsky_unspecced_defs_skeletonsearchactor
+
   let skeletonsearchactor_of_value = app_bsky_unspecced_defs_skeletonsearchactor_of_value
+
   let skeletonsearchactor_to_value = app_bsky_unspecced_defs_skeletonsearchactor_to_value
 
 
@@ -9862,7 +9964,9 @@ module App_Bsky_Unspecced_Defs = struct
     uri: string;
   }
   let pp_skeletonsearchstarterpack = pp_app_bsky_unspecced_defs_skeletonsearchstarterpack
+
   let skeletonsearchstarterpack_of_value = app_bsky_unspecced_defs_skeletonsearchstarterpack_of_value
+
   let skeletonsearchstarterpack_to_value = app_bsky_unspecced_defs_skeletonsearchstarterpack_to_value
 
 
@@ -9875,7 +9979,9 @@ module App_Bsky_Unspecced_Defs = struct
     link: string;
   }
   let pp_trendingtopic = pp_app_bsky_unspecced_defs_trendingtopic
+
   let trendingtopic_of_value = app_bsky_unspecced_defs_trendingtopic_of_value
+
   let trendingtopic_to_value = app_bsky_unspecced_defs_trendingtopic_to_value
 
 
@@ -9892,7 +9998,9 @@ module App_Bsky_Unspecced_Defs = struct
     dids: string list;
   }
   let pp_skeletontrend = pp_app_bsky_unspecced_defs_skeletontrend
+
   let skeletontrend_of_value = app_bsky_unspecced_defs_skeletontrend_of_value
+
   let skeletontrend_to_value = app_bsky_unspecced_defs_skeletontrend_to_value
 
 
@@ -9909,7 +10017,9 @@ module App_Bsky_Unspecced_Defs = struct
     actors: app_bsky_actor_defs_profileviewbasic list;
   }
   let pp_trendview = pp_app_bsky_unspecced_defs_trendview
+
   let trendview_of_value = app_bsky_unspecced_defs_trendview_of_value
+
   let trendview_to_value = app_bsky_unspecced_defs_trendview_to_value
 
 
@@ -9924,7 +10034,9 @@ module App_Bsky_Unspecced_Defs = struct
     mutedByViewer: bool;
   }
   let pp_threaditempost = pp_app_bsky_unspecced_defs_threaditempost
+
   let threaditempost_of_value = app_bsky_unspecced_defs_threaditempost_of_value
+
   let threaditempost_to_value = app_bsky_unspecced_defs_threaditempost_to_value
 
 
@@ -9932,7 +10044,9 @@ module App_Bsky_Unspecced_Defs = struct
 
   type nonrec threaditemnounauthenticated = app_bsky_unspecced_defs_threaditemnounauthenticated
   let pp_threaditemnounauthenticated = pp_app_bsky_unspecced_defs_threaditemnounauthenticated
+
   let threaditemnounauthenticated_of_value = app_bsky_unspecced_defs_threaditemnounauthenticated_of_value
+
   let threaditemnounauthenticated_to_value = app_bsky_unspecced_defs_threaditemnounauthenticated_to_value
 
 
@@ -9940,7 +10054,9 @@ module App_Bsky_Unspecced_Defs = struct
 
   type nonrec threaditemnotfound = app_bsky_unspecced_defs_threaditemnotfound
   let pp_threaditemnotfound = pp_app_bsky_unspecced_defs_threaditemnotfound
+
   let threaditemnotfound_of_value = app_bsky_unspecced_defs_threaditemnotfound_of_value
+
   let threaditemnotfound_to_value = app_bsky_unspecced_defs_threaditemnotfound_to_value
 
 
@@ -9950,7 +10066,9 @@ module App_Bsky_Unspecced_Defs = struct
     author: app_bsky_feed_defs_blockedauthor;
   }
   let pp_threaditemblocked = pp_app_bsky_unspecced_defs_threaditemblocked
+
   let threaditemblocked_of_value = app_bsky_unspecced_defs_threaditemblocked_of_value
+
   let threaditemblocked_to_value = app_bsky_unspecced_defs_threaditemblocked_to_value
 
 
@@ -9968,7 +10086,7 @@ module App_Bsky_Notification_UpdateSeen = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let seenAt = Value.Util.get_key "seenAt" Value.Util.to_text v in
+    let seenAt = Value.Util.get_key_exn "seenAt" Value.Util.to_text v in
     {seenAt;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -9999,10 +10117,10 @@ module App_Bsky_Notification_RegisterPush = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let serviceDid = Value.Util.get_key "serviceDid" Value.Util.to_text v in
-    let token = Value.Util.get_key "token" Value.Util.to_text v in
-    let platform = Value.Util.get_key "platform" Value.Util.to_text v in
-    let appId = Value.Util.get_key "appId" Value.Util.to_text v in
+    let serviceDid = Value.Util.get_key_exn "serviceDid" Value.Util.to_text v in
+    let token = Value.Util.get_key_exn "token" Value.Util.to_text v in
+    let platform = Value.Util.get_key_exn "platform" Value.Util.to_text v in
+    let appId = Value.Util.get_key_exn "appId" Value.Util.to_text v in
     {serviceDid;token;platform;appId;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -10033,7 +10151,7 @@ module App_Bsky_Notification_PutPreferences = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let priority = Value.Util.get_key "priority" Value.Util.to_bool v in
+    let priority = Value.Util.get_key_exn "priority" Value.Util.to_bool v in
     {priority;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -10065,11 +10183,11 @@ module App_Bsky_Notification_ListNotifications = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let reasons = Value.Util.get_key_not_required "reasons" (Value.Util.to_array_of Value.Util.to_text) v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let priority = Value.Util.get_key_not_required "priority" Value.Util.to_bool v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let seenAt = Value.Util.get_key_not_required "seenAt" Value.Util.to_text v in
+    let reasons = Value.Util.get_key_not_required_exn "reasons" (Value.Util.to_array_of Value.Util.to_text) v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let priority = Value.Util.get_key_not_required_exn "priority" Value.Util.to_bool v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let seenAt = Value.Util.get_key_not_required_exn "seenAt" Value.Util.to_text v in
     {reasons;limit;priority;cursor;seenAt;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -10089,10 +10207,10 @@ module App_Bsky_Notification_ListNotifications = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let notifications = Value.Util.get_key "notifications" (Value.Util.to_array_of app_bsky_notification_listnotifications_notification_of_value) v in
-    let priority = Value.Util.get_key_not_required "priority" Value.Util.to_bool v in
-    let seenAt = Value.Util.get_key_not_required "seenAt" Value.Util.to_text v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let notifications = Value.Util.get_key_exn "notifications" (Value.Util.to_array_of app_bsky_notification_listnotifications_notification_of_value) v in
+    let priority = Value.Util.get_key_not_required_exn "priority" Value.Util.to_bool v in
+    let seenAt = Value.Util.get_key_not_required_exn "seenAt" Value.Util.to_text v in
     {cursor;notifications;priority;seenAt;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -10127,7 +10245,9 @@ module App_Bsky_Notification_ListNotifications = struct
     labels: com_atproto_label_defs_label list option;
   }
   let pp_notification = pp_app_bsky_notification_listnotifications_notification
+
   let notification_of_value = app_bsky_notification_listnotifications_notification_of_value
+
   let notification_to_value = app_bsky_notification_listnotifications_notification_to_value
 
 
@@ -10146,8 +10266,8 @@ module App_Bsky_Notification_GetUnreadCount = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let priority = Value.Util.get_key_not_required "priority" Value.Util.to_bool v in
-    let seenAt = Value.Util.get_key_not_required "seenAt" Value.Util.to_text v in
+    let priority = Value.Util.get_key_not_required_exn "priority" Value.Util.to_bool v in
+    let seenAt = Value.Util.get_key_not_required_exn "seenAt" Value.Util.to_text v in
     {priority;seenAt;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -10161,7 +10281,7 @@ module App_Bsky_Notification_GetUnreadCount = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let count = Value.Util.get_key "count" Value.Util.to_int v in
+    let count = Value.Util.get_key_exn "count" Value.Util.to_int v in
     {count;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -10189,7 +10309,9 @@ module App_Bsky_Notification_Defs = struct
 
   type nonrec recorddeleted = app_bsky_notification_defs_recorddeleted
   let pp_recorddeleted = pp_app_bsky_notification_defs_recorddeleted
+
   let recorddeleted_of_value = app_bsky_notification_defs_recorddeleted_of_value
+
   let recorddeleted_to_value = app_bsky_notification_defs_recorddeleted_to_value
 
 
@@ -10214,6 +10336,36 @@ module App_Bsky_Labeler_Service = struct
     subjectCollections: string list option;
   }  [@@deriving show {with_path=false}, make]
 
+  let main_of_value : main Value.Util.conv = fun v ->
+    let policies = Value.Util.get_key_exn "policies" app_bsky_labeler_defs_labelerpolicies_of_value v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
+    (match type_tag with
+    | "com.atproto.label.defs#selfLabels" ->
+    `Com_atproto_label_defs_selflabels (com_atproto_label_defs_selflabels_of_value v)
+    | _ -> `Other v (* Non closed union *)
+    )) v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    let reasonTypes = Value.Util.get_key_not_required_exn "reasonTypes" (Value.Util.to_array_of com_atproto_moderation_defs_reasontype_of_value) v in
+    let subjectTypes = Value.Util.get_key_not_required_exn "subjectTypes" (Value.Util.to_array_of com_atproto_moderation_defs_subjecttype_of_value) v in
+    let subjectCollections = Value.Util.get_key_not_required_exn "subjectCollections" (Value.Util.to_array_of Value.Util.to_text) v in
+    {policies;labels;createdAt;reasonTypes;subjectTypes;subjectCollections;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "app.bsky.labeler.service") :: l in
+    let l = ("policies", app_bsky_labeler_defs_labelerpolicies_to_value self.policies) :: l in
+    let l = add_opt_key_value (fun v ->
+    (match v with
+    | `Com_atproto_label_defs_selflabels v -> (com_atproto_label_defs_selflabels_to_value v)
+    | `Other v -> v (* Non closed union *)
+    )) "labels" self.labels l in
+    let l = ("createdAt", Value.Util.text self.createdAt) :: l in
+    let l = add_opt_key_value (Value.Util.array_of com_atproto_moderation_defs_reasontype_to_value) "reasonTypes" self.reasonTypes l in
+    let l = add_opt_key_value (Value.Util.array_of com_atproto_moderation_defs_subjecttype_to_value) "subjectTypes" self.subjectTypes l in
+    let l = add_opt_key_value (Value.Util.array_of Value.Util.text) "subjectCollections" self.subjectCollections l in
+    Value.Util.map l
+
 
 
 end
@@ -10231,8 +10383,8 @@ module App_Bsky_Labeler_GetServices = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let dids = Value.Util.get_key "dids" (Value.Util.to_array_of Value.Util.to_text) v in
-    let detailed = Value.Util.get_key_not_required "detailed" Value.Util.to_bool v in
+    let dids = Value.Util.get_key_exn "dids" (Value.Util.to_array_of Value.Util.to_text) v in
+    let detailed = Value.Util.get_key_not_required_exn "detailed" Value.Util.to_bool v in
     {dids;detailed;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -10250,12 +10402,12 @@ module App_Bsky_Labeler_GetServices = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let views = Value.Util.get_key "views" (Value.Util.to_array_of (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let views = Value.Util.get_key_exn "views" (Value.Util.to_array_of (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#labelerView" | "app.bsky.labeler.defs#labelerView" ->
+    | "app.bsky.labeler.defs#labelerView" ->
     `App_bsky_labeler_defs_labelerview (app_bsky_labeler_defs_labelerview_of_value v)
-    | "#labelerViewDetailed" | "app.bsky.labeler.defs#labelerViewDetailed" ->
+    | "app.bsky.labeler.defs#labelerViewDetailed" ->
     `App_bsky_labeler_defs_labelerviewdetailed (app_bsky_labeler_defs_labelerviewdetailed_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
@@ -10297,6 +10449,22 @@ module App_Bsky_Graph_Verification = struct
     createdAt: string;
   }  [@@deriving show {with_path=false}, make]
 
+  let main_of_value : main Value.Util.conv = fun v ->
+    let subject = Value.Util.get_key_exn "subject" Value.Util.to_text v in
+    let handle = Value.Util.get_key_exn "handle" Value.Util.to_text v in
+    let displayName = Value.Util.get_key_exn "displayName" Value.Util.to_text v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    {subject;handle;displayName;createdAt;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "app.bsky.graph.verification") :: l in
+    let l = ("subject", Value.Util.text self.subject) :: l in
+    let l = ("handle", Value.Util.text self.handle) :: l in
+    let l = ("displayName", Value.Util.text self.displayName) :: l in
+    let l = ("createdAt", Value.Util.text self.createdAt) :: l in
+    Value.Util.map l
+
 
 
 end
@@ -10313,7 +10481,7 @@ module App_Bsky_Graph_UnmuteThread = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let root = Value.Util.get_key "root" Value.Util.to_text v in
+    let root = Value.Util.get_key_exn "root" Value.Util.to_text v in
     {root;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -10341,7 +10509,7 @@ module App_Bsky_Graph_UnmuteActorList = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let list = Value.Util.get_key "list" Value.Util.to_text v in
+    let list = Value.Util.get_key_exn "list" Value.Util.to_text v in
     {list;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -10369,7 +10537,7 @@ module App_Bsky_Graph_UnmuteActor = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let actor = Value.Util.get_key "actor" Value.Util.to_text v in
+    let actor = Value.Util.get_key_exn "actor" Value.Util.to_text v in
     {actor;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -10401,6 +10569,26 @@ module App_Bsky_Graph_Starterpack = struct
     createdAt: string;
   }  [@@deriving show {with_path=false}, make]
 
+  let main_of_value : main Value.Util.conv = fun v ->
+    let name = Value.Util.get_key_exn "name" Value.Util.to_text v in
+    let description = Value.Util.get_key_not_required_exn "description" Value.Util.to_text v in
+    let descriptionFacets = Value.Util.get_key_not_required_exn "descriptionFacets" (Value.Util.to_array_of app_bsky_richtext_facet_main_of_value) v in
+    let list = Value.Util.get_key_exn "list" Value.Util.to_text v in
+    let feeds = Value.Util.get_key_not_required_exn "feeds" (Value.Util.to_array_of app_bsky_graph_starterpack_feeditem_of_value) v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    {name;description;descriptionFacets;list;feeds;createdAt;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "app.bsky.graph.starterpack") :: l in
+    let l = ("name", Value.Util.text self.name) :: l in
+    let l = add_opt_key_value Value.Util.text "description" self.description l in
+    let l = add_opt_key_value (Value.Util.array_of app_bsky_richtext_facet_main_to_value) "descriptionFacets" self.descriptionFacets l in
+    let l = ("list", Value.Util.text self.list) :: l in
+    let l = add_opt_key_value (Value.Util.array_of app_bsky_graph_starterpack_feeditem_to_value) "feeds" self.feeds l in
+    let l = ("createdAt", Value.Util.text self.createdAt) :: l in
+    Value.Util.map l
+
 
 
   (** {2 def feedItem} *)
@@ -10409,7 +10597,9 @@ module App_Bsky_Graph_Starterpack = struct
     uri: string;
   }
   let pp_feeditem = pp_app_bsky_graph_starterpack_feeditem
+
   let feeditem_of_value = app_bsky_graph_starterpack_feeditem_of_value
+
   let feeditem_to_value = app_bsky_graph_starterpack_feeditem_to_value
 
 
@@ -10429,9 +10619,9 @@ module App_Bsky_Graph_SearchStarterPacks = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let q = Value.Util.get_key "q" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let q = Value.Util.get_key_exn "q" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {q;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -10447,8 +10637,8 @@ module App_Bsky_Graph_SearchStarterPacks = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let starterPacks = Value.Util.get_key "starterPacks" (Value.Util.to_array_of app_bsky_graph_defs_starterpackviewbasic_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let starterPacks = Value.Util.get_key_exn "starterPacks" (Value.Util.to_array_of app_bsky_graph_defs_starterpackviewbasic_of_value) v in
     {cursor;starterPacks;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -10481,7 +10671,7 @@ module App_Bsky_Graph_MuteThread = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let root = Value.Util.get_key "root" Value.Util.to_text v in
+    let root = Value.Util.get_key_exn "root" Value.Util.to_text v in
     {root;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -10509,7 +10699,7 @@ module App_Bsky_Graph_MuteActorList = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let list = Value.Util.get_key "list" Value.Util.to_text v in
+    let list = Value.Util.get_key_exn "list" Value.Util.to_text v in
     {list;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -10537,7 +10727,7 @@ module App_Bsky_Graph_MuteActor = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let actor = Value.Util.get_key "actor" Value.Util.to_text v in
+    let actor = Value.Util.get_key_exn "actor" Value.Util.to_text v in
     {actor;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -10566,6 +10756,20 @@ module App_Bsky_Graph_Listitem = struct
     createdAt: string;
   }  [@@deriving show {with_path=false}, make]
 
+  let main_of_value : main Value.Util.conv = fun v ->
+    let subject = Value.Util.get_key_exn "subject" Value.Util.to_text v in
+    let list = Value.Util.get_key_exn "list" Value.Util.to_text v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    {subject;list;createdAt;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "app.bsky.graph.listitem") :: l in
+    let l = ("subject", Value.Util.text self.subject) :: l in
+    let l = ("list", Value.Util.text self.list) :: l in
+    let l = ("createdAt", Value.Util.text self.createdAt) :: l in
+    Value.Util.map l
+
 
 
 end
@@ -10581,6 +10785,18 @@ module App_Bsky_Graph_Listblock = struct
     subject: string;
     createdAt: string;
   }  [@@deriving show {with_path=false}, make]
+
+  let main_of_value : main Value.Util.conv = fun v ->
+    let subject = Value.Util.get_key_exn "subject" Value.Util.to_text v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    {subject;createdAt;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "app.bsky.graph.listblock") :: l in
+    let l = ("subject", Value.Util.text self.subject) :: l in
+    let l = ("createdAt", Value.Util.text self.createdAt) :: l in
+    Value.Util.map l
 
 
 
@@ -10606,6 +10822,38 @@ module App_Bsky_Graph_List = struct
     createdAt: string;
   }  [@@deriving show {with_path=false}, make]
 
+  let main_of_value : main Value.Util.conv = fun v ->
+    let purpose = Value.Util.get_key_exn "purpose" app_bsky_graph_defs_listpurpose_of_value v in
+    let name = Value.Util.get_key_exn "name" Value.Util.to_text v in
+    let description = Value.Util.get_key_not_required_exn "description" Value.Util.to_text v in
+    let descriptionFacets = Value.Util.get_key_not_required_exn "descriptionFacets" (Value.Util.to_array_of app_bsky_richtext_facet_main_of_value) v in
+    let avatar = Value.Util.get_key_not_required_exn "avatar" Blob.of_value_exn v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
+    (match type_tag with
+    | "com.atproto.label.defs#selfLabels" ->
+    `Com_atproto_label_defs_selflabels (com_atproto_label_defs_selflabels_of_value v)
+    | _ -> `Other v (* Non closed union *)
+    )) v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    {purpose;name;description;descriptionFacets;avatar;labels;createdAt;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "app.bsky.graph.list") :: l in
+    let l = ("purpose", app_bsky_graph_defs_listpurpose_to_value self.purpose) :: l in
+    let l = ("name", Value.Util.text self.name) :: l in
+    let l = add_opt_key_value Value.Util.text "description" self.description l in
+    let l = add_opt_key_value (Value.Util.array_of app_bsky_richtext_facet_main_to_value) "descriptionFacets" self.descriptionFacets l in
+    let l = add_opt_key_value Blob.to_value "avatar" self.avatar l in
+    let l = add_opt_key_value (fun v ->
+    (match v with
+    | `Com_atproto_label_defs_selflabels v -> (com_atproto_label_defs_selflabels_to_value v)
+    | `Other v -> v (* Non closed union *)
+    )) "labels" self.labels l in
+    let l = ("createdAt", Value.Util.text self.createdAt) :: l in
+    Value.Util.map l
+
 
 
 end
@@ -10622,7 +10870,7 @@ module App_Bsky_Graph_GetSuggestedFollowsByActor = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let actor = Value.Util.get_key "actor" Value.Util.to_text v in
+    let actor = Value.Util.get_key_exn "actor" Value.Util.to_text v in
     {actor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -10637,9 +10885,9 @@ module App_Bsky_Graph_GetSuggestedFollowsByActor = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let suggestions = Value.Util.get_key "suggestions" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
-    let isFallback = Value.Util.get_key_not_required "isFallback" Value.Util.to_bool v in
-    let recId = Value.Util.get_key_not_required "recId" Value.Util.to_int v in
+    let suggestions = Value.Util.get_key_exn "suggestions" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
+    let isFallback = Value.Util.get_key_not_required_exn "isFallback" Value.Util.to_bool v in
+    let recId = Value.Util.get_key_not_required_exn "recId" Value.Util.to_int v in
     {suggestions;isFallback;recId;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -10673,7 +10921,7 @@ module App_Bsky_Graph_GetStarterPacks = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let uris = Value.Util.get_key "uris" (Value.Util.to_array_of Value.Util.to_text) v in
+    let uris = Value.Util.get_key_exn "uris" (Value.Util.to_array_of Value.Util.to_text) v in
     {uris;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -10686,7 +10934,7 @@ module App_Bsky_Graph_GetStarterPacks = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let starterPacks = Value.Util.get_key "starterPacks" (Value.Util.to_array_of app_bsky_graph_defs_starterpackviewbasic_of_value) v in
+    let starterPacks = Value.Util.get_key_exn "starterPacks" (Value.Util.to_array_of app_bsky_graph_defs_starterpackviewbasic_of_value) v in
     {starterPacks;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -10718,7 +10966,7 @@ module App_Bsky_Graph_GetStarterPack = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let starterPack = Value.Util.get_key "starterPack" Value.Util.to_text v in
+    let starterPack = Value.Util.get_key_exn "starterPack" Value.Util.to_text v in
     {starterPack;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -10731,7 +10979,7 @@ module App_Bsky_Graph_GetStarterPack = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let starterPack = Value.Util.get_key "starterPack" app_bsky_graph_defs_starterpackview_of_value v in
+    let starterPack = Value.Util.get_key_exn "starterPack" app_bsky_graph_defs_starterpackview_of_value v in
     {starterPack;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -10764,8 +11012,8 @@ module App_Bsky_Graph_GetRelationships = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let actor = Value.Util.get_key "actor" Value.Util.to_text v in
-    let others = Value.Util.get_key_not_required "others" (Value.Util.to_array_of Value.Util.to_text) v in
+    let actor = Value.Util.get_key_exn "actor" Value.Util.to_text v in
+    let others = Value.Util.get_key_not_required_exn "others" (Value.Util.to_array_of Value.Util.to_text) v in
     {actor;others;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -10784,13 +11032,13 @@ module App_Bsky_Graph_GetRelationships = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let actor = Value.Util.get_key_not_required "actor" Value.Util.to_text v in
-    let relationships = Value.Util.get_key "relationships" (Value.Util.to_array_of (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let actor = Value.Util.get_key_not_required_exn "actor" Value.Util.to_text v in
+    let relationships = Value.Util.get_key_exn "relationships" (Value.Util.to_array_of (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#relationship" | "app.bsky.graph.defs#relationship" ->
+    | "app.bsky.graph.defs#relationship" ->
     `App_bsky_graph_defs_relationship (app_bsky_graph_defs_relationship_of_value v)
-    | "#notFoundActor" | "app.bsky.graph.defs#notFoundActor" ->
+    | "app.bsky.graph.defs#notFoundActor" ->
     `App_bsky_graph_defs_notfoundactor (app_bsky_graph_defs_notfoundactor_of_value v)
     | _ -> `Other v (* Non closed union *)
     ))) v in
@@ -10836,8 +11084,8 @@ module App_Bsky_Graph_GetMutes = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -10852,8 +11100,8 @@ module App_Bsky_Graph_GetMutes = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let mutes = Value.Util.get_key "mutes" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let mutes = Value.Util.get_key_exn "mutes" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
     {cursor;mutes;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -10888,9 +11136,9 @@ module App_Bsky_Graph_GetLists = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let actor = Value.Util.get_key "actor" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let actor = Value.Util.get_key_exn "actor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {actor;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -10906,8 +11154,8 @@ module App_Bsky_Graph_GetLists = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let lists = Value.Util.get_key "lists" (Value.Util.to_array_of app_bsky_graph_defs_listview_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let lists = Value.Util.get_key_exn "lists" (Value.Util.to_array_of app_bsky_graph_defs_listview_of_value) v in
     {cursor;lists;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -10941,8 +11189,8 @@ module App_Bsky_Graph_GetListMutes = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -10957,8 +11205,8 @@ module App_Bsky_Graph_GetListMutes = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let lists = Value.Util.get_key "lists" (Value.Util.to_array_of app_bsky_graph_defs_listview_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let lists = Value.Util.get_key_exn "lists" (Value.Util.to_array_of app_bsky_graph_defs_listview_of_value) v in
     {cursor;lists;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -10992,8 +11240,8 @@ module App_Bsky_Graph_GetListBlocks = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -11008,8 +11256,8 @@ module App_Bsky_Graph_GetListBlocks = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let lists = Value.Util.get_key "lists" (Value.Util.to_array_of app_bsky_graph_defs_listview_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let lists = Value.Util.get_key_exn "lists" (Value.Util.to_array_of app_bsky_graph_defs_listview_of_value) v in
     {cursor;lists;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -11044,9 +11292,9 @@ module App_Bsky_Graph_GetList = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let list = Value.Util.get_key "list" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let list = Value.Util.get_key_exn "list" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {list;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -11063,9 +11311,9 @@ module App_Bsky_Graph_GetList = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let list = Value.Util.get_key "list" app_bsky_graph_defs_listview_of_value v in
-    let items = Value.Util.get_key "items" (Value.Util.to_array_of app_bsky_graph_defs_listitemview_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let list = Value.Util.get_key_exn "list" app_bsky_graph_defs_listview_of_value v in
+    let items = Value.Util.get_key_exn "items" (Value.Util.to_array_of app_bsky_graph_defs_listitemview_of_value) v in
     {cursor;list;items;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -11101,9 +11349,9 @@ module App_Bsky_Graph_GetKnownFollowers = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let actor = Value.Util.get_key "actor" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let actor = Value.Util.get_key_exn "actor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {actor;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -11120,9 +11368,9 @@ module App_Bsky_Graph_GetKnownFollowers = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let subject = Value.Util.get_key "subject" app_bsky_actor_defs_profileview_of_value v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let followers = Value.Util.get_key "followers" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
+    let subject = Value.Util.get_key_exn "subject" app_bsky_actor_defs_profileview_of_value v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let followers = Value.Util.get_key_exn "followers" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
     {subject;cursor;followers;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -11158,9 +11406,9 @@ module App_Bsky_Graph_GetFollows = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let actor = Value.Util.get_key "actor" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let actor = Value.Util.get_key_exn "actor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {actor;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -11177,9 +11425,9 @@ module App_Bsky_Graph_GetFollows = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let subject = Value.Util.get_key "subject" app_bsky_actor_defs_profileview_of_value v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let follows = Value.Util.get_key "follows" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
+    let subject = Value.Util.get_key_exn "subject" app_bsky_actor_defs_profileview_of_value v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let follows = Value.Util.get_key_exn "follows" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
     {subject;cursor;follows;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -11215,9 +11463,9 @@ module App_Bsky_Graph_GetFollowers = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let actor = Value.Util.get_key "actor" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let actor = Value.Util.get_key_exn "actor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {actor;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -11234,9 +11482,9 @@ module App_Bsky_Graph_GetFollowers = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let subject = Value.Util.get_key "subject" app_bsky_actor_defs_profileview_of_value v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let followers = Value.Util.get_key "followers" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
+    let subject = Value.Util.get_key_exn "subject" app_bsky_actor_defs_profileview_of_value v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let followers = Value.Util.get_key_exn "followers" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
     {subject;cursor;followers;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -11271,8 +11519,8 @@ module App_Bsky_Graph_GetBlocks = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -11287,8 +11535,8 @@ module App_Bsky_Graph_GetBlocks = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let blocks = Value.Util.get_key "blocks" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let blocks = Value.Util.get_key_exn "blocks" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
     {cursor;blocks;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -11323,9 +11571,9 @@ module App_Bsky_Graph_GetActorStarterPacks = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let actor = Value.Util.get_key "actor" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let actor = Value.Util.get_key_exn "actor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {actor;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -11341,8 +11589,8 @@ module App_Bsky_Graph_GetActorStarterPacks = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let starterPacks = Value.Util.get_key "starterPacks" (Value.Util.to_array_of app_bsky_graph_defs_starterpackviewbasic_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let starterPacks = Value.Util.get_key_exn "starterPacks" (Value.Util.to_array_of app_bsky_graph_defs_starterpackviewbasic_of_value) v in
     {cursor;starterPacks;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -11375,6 +11623,18 @@ module App_Bsky_Graph_Follow = struct
     createdAt: string;
   }  [@@deriving show {with_path=false}, make]
 
+  let main_of_value : main Value.Util.conv = fun v ->
+    let subject = Value.Util.get_key_exn "subject" Value.Util.to_text v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    {subject;createdAt;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "app.bsky.graph.follow") :: l in
+    let l = ("subject", Value.Util.text self.subject) :: l in
+    let l = ("createdAt", Value.Util.text self.createdAt) :: l in
+    Value.Util.map l
+
 
 
 end
@@ -11390,6 +11650,18 @@ module App_Bsky_Graph_Block = struct
     subject: string;
     createdAt: string;
   }  [@@deriving show {with_path=false}, make]
+
+  let main_of_value : main Value.Util.conv = fun v ->
+    let subject = Value.Util.get_key_exn "subject" Value.Util.to_text v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    {subject;createdAt;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "app.bsky.graph.block") :: l in
+    let l = ("subject", Value.Util.text self.subject) :: l in
+    let l = ("createdAt", Value.Util.text self.createdAt) :: l in
+    Value.Util.map l
 
 
 
@@ -11407,7 +11679,7 @@ module App_Bsky_Feed_SendInteractions = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let interactions = Value.Util.get_key "interactions" (Value.Util.to_array_of app_bsky_feed_defs_interaction_of_value) v in
+    let interactions = Value.Util.get_key_exn "interactions" (Value.Util.to_array_of app_bsky_feed_defs_interaction_of_value) v in
     {interactions;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -11456,18 +11728,18 @@ module App_Bsky_Feed_SearchPosts = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let q = Value.Util.get_key "q" Value.Util.to_text v in
-    let sort = Value.Util.get_key_not_required "sort" Value.Util.to_text v in
-    let since = Value.Util.get_key_not_required "since" Value.Util.to_text v in
-    let until = Value.Util.get_key_not_required "until" Value.Util.to_text v in
-    let mentions = Value.Util.get_key_not_required "mentions" Value.Util.to_text v in
-    let author = Value.Util.get_key_not_required "author" Value.Util.to_text v in
-    let lang = Value.Util.get_key_not_required "lang" Value.Util.to_text v in
-    let domain = Value.Util.get_key_not_required "domain" Value.Util.to_text v in
-    let url = Value.Util.get_key_not_required "url" Value.Util.to_text v in
-    let tag = Value.Util.get_key_not_required "tag" (Value.Util.to_array_of Value.Util.to_text) v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let q = Value.Util.get_key_exn "q" Value.Util.to_text v in
+    let sort = Value.Util.get_key_not_required_exn "sort" Value.Util.to_text v in
+    let since = Value.Util.get_key_not_required_exn "since" Value.Util.to_text v in
+    let until = Value.Util.get_key_not_required_exn "until" Value.Util.to_text v in
+    let mentions = Value.Util.get_key_not_required_exn "mentions" Value.Util.to_text v in
+    let author = Value.Util.get_key_not_required_exn "author" Value.Util.to_text v in
+    let lang = Value.Util.get_key_not_required_exn "lang" Value.Util.to_text v in
+    let domain = Value.Util.get_key_not_required_exn "domain" Value.Util.to_text v in
+    let url = Value.Util.get_key_not_required_exn "url" Value.Util.to_text v in
+    let tag = Value.Util.get_key_not_required_exn "tag" (Value.Util.to_array_of Value.Util.to_text) v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {q;sort;since;until;mentions;author;lang;domain;url;tag;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -11493,9 +11765,9 @@ module App_Bsky_Feed_SearchPosts = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let hitsTotal = Value.Util.get_key_not_required "hitsTotal" Value.Util.to_int v in
-    let posts = Value.Util.get_key "posts" (Value.Util.to_array_of app_bsky_feed_defs_postview_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let hitsTotal = Value.Util.get_key_not_required_exn "hitsTotal" Value.Util.to_int v in
+    let posts = Value.Util.get_key_exn "posts" (Value.Util.to_array_of app_bsky_feed_defs_postview_of_value) v in
     {cursor;hitsTotal;posts;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -11534,6 +11806,20 @@ module App_Bsky_Feed_Repost = struct
     via: com_atproto_repo_strongref_main option;
   }  [@@deriving show {with_path=false}, make]
 
+  let main_of_value : main Value.Util.conv = fun v ->
+    let subject = Value.Util.get_key_exn "subject" com_atproto_repo_strongref_main_of_value v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    let via = Value.Util.get_key_not_required_exn "via" com_atproto_repo_strongref_main_of_value v in
+    {subject;createdAt;via;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "app.bsky.feed.repost") :: l in
+    let l = ("subject", com_atproto_repo_strongref_main_to_value self.subject) :: l in
+    let l = ("createdAt", Value.Util.text self.createdAt) :: l in
+    let l = add_opt_key_value com_atproto_repo_strongref_main_to_value "via" self.via l in
+    Value.Util.map l
+
 
 
 end
@@ -11567,6 +11853,64 @@ module App_Bsky_Feed_Post = struct
     createdAt: string;
   }  [@@deriving show {with_path=false}, make]
 
+  let main_of_value : main Value.Util.conv = fun v ->
+    let text = Value.Util.get_key_exn "text" Value.Util.to_text v in
+    let entities = Value.Util.get_key_not_required_exn "entities" (Value.Util.to_array_of app_bsky_feed_post_entity_of_value) v in
+    let facets = Value.Util.get_key_not_required_exn "facets" (Value.Util.to_array_of app_bsky_richtext_facet_main_of_value) v in
+    let reply = Value.Util.get_key_not_required_exn "reply" app_bsky_feed_post_replyref_of_value v in
+    let embed = Value.Util.get_key_not_required_exn "embed" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
+    (match type_tag with
+    | "app.bsky.embed.images" ->
+    `App_bsky_embed_images_main (app_bsky_embed_images_main_of_value v)
+    | "app.bsky.embed.video" ->
+    `App_bsky_embed_video_main (app_bsky_embed_video_main_of_value v)
+    | "app.bsky.embed.external" ->
+    `App_bsky_embed_external_main (app_bsky_embed_external_main_of_value v)
+    | "app.bsky.embed.record" ->
+    `App_bsky_embed_record_main (app_bsky_embed_record_main_of_value v)
+    | "app.bsky.embed.recordWithMedia" ->
+    `App_bsky_embed_recordwithmedia_main (app_bsky_embed_recordwithmedia_main_of_value v)
+    | _ -> `Other v (* Non closed union *)
+    )) v in
+    let langs = Value.Util.get_key_not_required_exn "langs" (Value.Util.to_array_of Value.Util.to_text) v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
+    (match type_tag with
+    | "com.atproto.label.defs#selfLabels" ->
+    `Com_atproto_label_defs_selflabels (com_atproto_label_defs_selflabels_of_value v)
+    | _ -> `Other v (* Non closed union *)
+    )) v in
+    let tags = Value.Util.get_key_not_required_exn "tags" (Value.Util.to_array_of Value.Util.to_text) v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    {text;entities;facets;reply;embed;langs;labels;tags;createdAt;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "app.bsky.feed.post") :: l in
+    let l = ("text", Value.Util.text self.text) :: l in
+    let l = add_opt_key_value (Value.Util.array_of app_bsky_feed_post_entity_to_value) "entities" self.entities l in
+    let l = add_opt_key_value (Value.Util.array_of app_bsky_richtext_facet_main_to_value) "facets" self.facets l in
+    let l = add_opt_key_value app_bsky_feed_post_replyref_to_value "reply" self.reply l in
+    let l = add_opt_key_value (fun v ->
+    (match v with
+    | `App_bsky_embed_images_main v -> (app_bsky_embed_images_main_to_value v)
+    | `App_bsky_embed_video_main v -> (app_bsky_embed_video_main_to_value v)
+    | `App_bsky_embed_external_main v -> (app_bsky_embed_external_main_to_value v)
+    | `App_bsky_embed_record_main v -> (app_bsky_embed_record_main_to_value v)
+    | `App_bsky_embed_recordwithmedia_main v -> (app_bsky_embed_recordwithmedia_main_to_value v)
+    | `Other v -> v (* Non closed union *)
+    )) "embed" self.embed l in
+    let l = add_opt_key_value (Value.Util.array_of Value.Util.text) "langs" self.langs l in
+    let l = add_opt_key_value (fun v ->
+    (match v with
+    | `Com_atproto_label_defs_selflabels v -> (com_atproto_label_defs_selflabels_to_value v)
+    | `Other v -> v (* Non closed union *)
+    )) "labels" self.labels l in
+    let l = add_opt_key_value (Value.Util.array_of Value.Util.text) "tags" self.tags l in
+    let l = ("createdAt", Value.Util.text self.createdAt) :: l in
+    Value.Util.map l
+
 
 
   (** {2 def replyRef} *)
@@ -11576,7 +11920,9 @@ module App_Bsky_Feed_Post = struct
     parent: com_atproto_repo_strongref_main;
   }
   let pp_replyref = pp_app_bsky_feed_post_replyref
+
   let replyref_of_value = app_bsky_feed_post_replyref_of_value
+
   let replyref_to_value = app_bsky_feed_post_replyref_to_value
 
 
@@ -11588,7 +11934,9 @@ module App_Bsky_Feed_Post = struct
     value: string;
   }
   let pp_entity = pp_app_bsky_feed_post_entity
+
   let entity_of_value = app_bsky_feed_post_entity_of_value
+
   let entity_to_value = app_bsky_feed_post_entity_to_value
 
 
@@ -11599,7 +11947,9 @@ module App_Bsky_Feed_Post = struct
     end_: int64;
   }
   let pp_textslice = pp_app_bsky_feed_post_textslice
+
   let textslice_of_value = app_bsky_feed_post_textslice_of_value
+
   let textslice_to_value = app_bsky_feed_post_textslice_to_value
 
 
@@ -11617,6 +11967,20 @@ module App_Bsky_Feed_Like = struct
     createdAt: string;
     via: com_atproto_repo_strongref_main option;
   }  [@@deriving show {with_path=false}, make]
+
+  let main_of_value : main Value.Util.conv = fun v ->
+    let subject = Value.Util.get_key_exn "subject" com_atproto_repo_strongref_main_of_value v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    let via = Value.Util.get_key_not_required_exn "via" com_atproto_repo_strongref_main_of_value v in
+    {subject;createdAt;via;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "app.bsky.feed.like") :: l in
+    let l = ("subject", com_atproto_repo_strongref_main_to_value self.subject) :: l in
+    let l = ("createdAt", Value.Util.text self.createdAt) :: l in
+    let l = add_opt_key_value com_atproto_repo_strongref_main_to_value "via" self.via l in
+    Value.Util.map l
 
 
 
@@ -11636,9 +12000,9 @@ module App_Bsky_Feed_GetTimeline = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let algorithm = Value.Util.get_key_not_required "algorithm" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let algorithm = Value.Util.get_key_not_required_exn "algorithm" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {algorithm;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -11654,8 +12018,8 @@ module App_Bsky_Feed_GetTimeline = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let feed = Value.Util.get_key "feed" (Value.Util.to_array_of app_bsky_feed_defs_feedviewpost_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let feed = Value.Util.get_key_exn "feed" (Value.Util.to_array_of app_bsky_feed_defs_feedviewpost_of_value) v in
     {cursor;feed;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -11689,8 +12053,8 @@ module App_Bsky_Feed_GetSuggestedFeeds = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -11705,8 +12069,8 @@ module App_Bsky_Feed_GetSuggestedFeeds = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let feeds = Value.Util.get_key "feeds" (Value.Util.to_array_of app_bsky_feed_defs_generatorview_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let feeds = Value.Util.get_key_exn "feeds" (Value.Util.to_array_of app_bsky_feed_defs_generatorview_of_value) v in
     {cursor;feeds;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -11742,10 +12106,10 @@ module App_Bsky_Feed_GetRepostedBy = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key_not_required "cid" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_not_required_exn "cid" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {uri;cid;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -11764,10 +12128,10 @@ module App_Bsky_Feed_GetRepostedBy = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key_not_required "cid" Value.Util.to_text v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let repostedBy = Value.Util.get_key "repostedBy" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_not_required_exn "cid" Value.Util.to_text v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let repostedBy = Value.Util.get_key_exn "repostedBy" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
     {uri;cid;cursor;repostedBy;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -11805,10 +12169,10 @@ module App_Bsky_Feed_GetQuotes = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key_not_required "cid" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_not_required_exn "cid" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {uri;cid;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -11827,10 +12191,10 @@ module App_Bsky_Feed_GetQuotes = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key_not_required "cid" Value.Util.to_text v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let posts = Value.Util.get_key "posts" (Value.Util.to_array_of app_bsky_feed_defs_postview_of_value) v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_not_required_exn "cid" Value.Util.to_text v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let posts = Value.Util.get_key_exn "posts" (Value.Util.to_array_of app_bsky_feed_defs_postview_of_value) v in
     {uri;cid;cursor;posts;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -11865,7 +12229,7 @@ module App_Bsky_Feed_GetPosts = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let uris = Value.Util.get_key "uris" (Value.Util.to_array_of Value.Util.to_text) v in
+    let uris = Value.Util.get_key_exn "uris" (Value.Util.to_array_of Value.Util.to_text) v in
     {uris;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -11878,7 +12242,7 @@ module App_Bsky_Feed_GetPosts = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let posts = Value.Util.get_key "posts" (Value.Util.to_array_of app_bsky_feed_defs_postview_of_value) v in
+    let posts = Value.Util.get_key_exn "posts" (Value.Util.to_array_of app_bsky_feed_defs_postview_of_value) v in
     {posts;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -11912,9 +12276,9 @@ module App_Bsky_Feed_GetPostThread = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let depth = Value.Util.get_key_not_required "depth" Value.Util.to_int v in
-    let parentHeight = Value.Util.get_key_not_required "parentHeight" Value.Util.to_int v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let depth = Value.Util.get_key_not_required_exn "depth" Value.Util.to_int v in
+    let parentHeight = Value.Util.get_key_not_required_exn "parentHeight" Value.Util.to_int v in
     {uri;depth;parentHeight;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -11935,18 +12299,18 @@ module App_Bsky_Feed_GetPostThread = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let thread = Value.Util.get_key "thread" (fun v ->
-    let type_tag = Value.Util.get_type_key v in
+    let thread = Value.Util.get_key_exn "thread" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
     (match type_tag with
-    | "#threadViewPost" | "app.bsky.feed.defs#threadViewPost" ->
+    | "app.bsky.feed.defs#threadViewPost" ->
     `App_bsky_feed_defs_threadviewpost (app_bsky_feed_defs_threadviewpost_of_value v)
-    | "#notFoundPost" | "app.bsky.feed.defs#notFoundPost" ->
+    | "app.bsky.feed.defs#notFoundPost" ->
     `App_bsky_feed_defs_notfoundpost (app_bsky_feed_defs_notfoundpost_of_value v)
-    | "#blockedPost" | "app.bsky.feed.defs#blockedPost" ->
+    | "app.bsky.feed.defs#blockedPost" ->
     `App_bsky_feed_defs_blockedpost (app_bsky_feed_defs_blockedpost_of_value v)
     | _ -> `Other v (* Non closed union *)
     )) v in
-    let threadgate = Value.Util.get_key_not_required "threadgate" app_bsky_feed_defs_threadgateview_of_value v in
+    let threadgate = Value.Util.get_key_not_required_exn "threadgate" app_bsky_feed_defs_threadgateview_of_value v in
     {thread;threadgate;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -11991,9 +12355,9 @@ module App_Bsky_Feed_GetListFeed = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let list = Value.Util.get_key "list" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let list = Value.Util.get_key_exn "list" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {list;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -12009,8 +12373,8 @@ module App_Bsky_Feed_GetListFeed = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let feed = Value.Util.get_key "feed" (Value.Util.to_array_of app_bsky_feed_defs_feedviewpost_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let feed = Value.Util.get_key_exn "feed" (Value.Util.to_array_of app_bsky_feed_defs_feedviewpost_of_value) v in
     {cursor;feed;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -12050,10 +12414,10 @@ module App_Bsky_Feed_GetLikes = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key_not_required "cid" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_not_required_exn "cid" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {uri;cid;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -12072,10 +12436,10 @@ module App_Bsky_Feed_GetLikes = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let uri = Value.Util.get_key "uri" Value.Util.to_text v in
-    let cid = Value.Util.get_key_not_required "cid" Value.Util.to_text v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let likes = Value.Util.get_key "likes" (Value.Util.to_array_of app_bsky_feed_getlikes_like_of_value) v in
+    let uri = Value.Util.get_key_exn "uri" Value.Util.to_text v in
+    let cid = Value.Util.get_key_not_required_exn "cid" Value.Util.to_text v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let likes = Value.Util.get_key_exn "likes" (Value.Util.to_array_of app_bsky_feed_getlikes_like_of_value) v in
     {uri;cid;cursor;likes;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -12104,7 +12468,9 @@ module App_Bsky_Feed_GetLikes = struct
     actor: app_bsky_actor_defs_profileview;
   }
   let pp_like = pp_app_bsky_feed_getlikes_like
+
   let like_of_value = app_bsky_feed_getlikes_like_of_value
+
   let like_to_value = app_bsky_feed_getlikes_like_to_value
 
 
@@ -12124,9 +12490,9 @@ module App_Bsky_Feed_GetFeedSkeleton = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let feed = Value.Util.get_key "feed" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let feed = Value.Util.get_key_exn "feed" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {feed;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -12143,9 +12509,9 @@ module App_Bsky_Feed_GetFeedSkeleton = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let feed = Value.Util.get_key "feed" (Value.Util.to_array_of app_bsky_feed_defs_skeletonfeedpost_of_value) v in
-    let reqId = Value.Util.get_key_not_required "reqId" Value.Util.to_text v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let feed = Value.Util.get_key_exn "feed" (Value.Util.to_array_of app_bsky_feed_defs_skeletonfeedpost_of_value) v in
+    let reqId = Value.Util.get_key_not_required_exn "reqId" Value.Util.to_text v in
     {cursor;feed;reqId;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -12183,7 +12549,7 @@ module App_Bsky_Feed_GetFeedGenerators = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let feeds = Value.Util.get_key "feeds" (Value.Util.to_array_of Value.Util.to_text) v in
+    let feeds = Value.Util.get_key_exn "feeds" (Value.Util.to_array_of Value.Util.to_text) v in
     {feeds;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -12196,7 +12562,7 @@ module App_Bsky_Feed_GetFeedGenerators = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let feeds = Value.Util.get_key "feeds" (Value.Util.to_array_of app_bsky_feed_defs_generatorview_of_value) v in
+    let feeds = Value.Util.get_key_exn "feeds" (Value.Util.to_array_of app_bsky_feed_defs_generatorview_of_value) v in
     {feeds;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -12228,7 +12594,7 @@ module App_Bsky_Feed_GetFeedGenerator = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let feed = Value.Util.get_key "feed" Value.Util.to_text v in
+    let feed = Value.Util.get_key_exn "feed" Value.Util.to_text v in
     {feed;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -12243,9 +12609,9 @@ module App_Bsky_Feed_GetFeedGenerator = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let view = Value.Util.get_key "view" app_bsky_feed_defs_generatorview_of_value v in
-    let isOnline = Value.Util.get_key "isOnline" Value.Util.to_bool v in
-    let isValid = Value.Util.get_key "isValid" Value.Util.to_bool v in
+    let view = Value.Util.get_key_exn "view" app_bsky_feed_defs_generatorview_of_value v in
+    let isOnline = Value.Util.get_key_exn "isOnline" Value.Util.to_bool v in
+    let isValid = Value.Util.get_key_exn "isValid" Value.Util.to_bool v in
     {view;isOnline;isValid;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -12281,9 +12647,9 @@ module App_Bsky_Feed_GetFeed = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let feed = Value.Util.get_key "feed" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let feed = Value.Util.get_key_exn "feed" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {feed;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -12299,8 +12665,8 @@ module App_Bsky_Feed_GetFeed = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let feed = Value.Util.get_key "feed" (Value.Util.to_array_of app_bsky_feed_defs_feedviewpost_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let feed = Value.Util.get_key_exn "feed" (Value.Util.to_array_of app_bsky_feed_defs_feedviewpost_of_value) v in
     {cursor;feed;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -12341,11 +12707,11 @@ module App_Bsky_Feed_GetAuthorFeed = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let actor = Value.Util.get_key "actor" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let filter = Value.Util.get_key_not_required "filter" Value.Util.to_text v in
-    let includePins = Value.Util.get_key_not_required "includePins" Value.Util.to_bool v in
+    let actor = Value.Util.get_key_exn "actor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let filter = Value.Util.get_key_not_required_exn "filter" Value.Util.to_text v in
+    let includePins = Value.Util.get_key_not_required_exn "includePins" Value.Util.to_bool v in
     {actor;limit;cursor;filter;includePins;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -12363,8 +12729,8 @@ module App_Bsky_Feed_GetAuthorFeed = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let feed = Value.Util.get_key "feed" (Value.Util.to_array_of app_bsky_feed_defs_feedviewpost_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let feed = Value.Util.get_key_exn "feed" (Value.Util.to_array_of app_bsky_feed_defs_feedviewpost_of_value) v in
     {cursor;feed;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -12403,9 +12769,9 @@ module App_Bsky_Feed_GetActorLikes = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let actor = Value.Util.get_key "actor" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let actor = Value.Util.get_key_exn "actor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {actor;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -12421,8 +12787,8 @@ module App_Bsky_Feed_GetActorLikes = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let feed = Value.Util.get_key "feed" (Value.Util.to_array_of app_bsky_feed_defs_feedviewpost_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let feed = Value.Util.get_key_exn "feed" (Value.Util.to_array_of app_bsky_feed_defs_feedviewpost_of_value) v in
     {cursor;feed;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -12461,9 +12827,9 @@ module App_Bsky_Feed_GetActorFeeds = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let actor = Value.Util.get_key "actor" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let actor = Value.Util.get_key_exn "actor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {actor;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -12479,8 +12845,8 @@ module App_Bsky_Feed_GetActorFeeds = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let feeds = Value.Util.get_key "feeds" (Value.Util.to_array_of app_bsky_feed_defs_generatorview_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let feeds = Value.Util.get_key_exn "feeds" (Value.Util.to_array_of app_bsky_feed_defs_generatorview_of_value) v in
     {cursor;feeds;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -12523,6 +12889,42 @@ module App_Bsky_Feed_Generator = struct
     createdAt: string;
   }  [@@deriving show {with_path=false}, make]
 
+  let main_of_value : main Value.Util.conv = fun v ->
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let displayName = Value.Util.get_key_exn "displayName" Value.Util.to_text v in
+    let description = Value.Util.get_key_not_required_exn "description" Value.Util.to_text v in
+    let descriptionFacets = Value.Util.get_key_not_required_exn "descriptionFacets" (Value.Util.to_array_of app_bsky_richtext_facet_main_of_value) v in
+    let avatar = Value.Util.get_key_not_required_exn "avatar" Blob.of_value_exn v in
+    let acceptsInteractions = Value.Util.get_key_not_required_exn "acceptsInteractions" Value.Util.to_bool v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
+    (match type_tag with
+    | "com.atproto.label.defs#selfLabels" ->
+    `Com_atproto_label_defs_selflabels (com_atproto_label_defs_selflabels_of_value v)
+    | _ -> `Other v (* Non closed union *)
+    )) v in
+    let contentMode = Value.Util.get_key_not_required_exn "contentMode" Value.Util.to_text v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    {did;displayName;description;descriptionFacets;avatar;acceptsInteractions;labels;contentMode;createdAt;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "app.bsky.feed.generator") :: l in
+    let l = ("did", Value.Util.text self.did) :: l in
+    let l = ("displayName", Value.Util.text self.displayName) :: l in
+    let l = add_opt_key_value Value.Util.text "description" self.description l in
+    let l = add_opt_key_value (Value.Util.array_of app_bsky_richtext_facet_main_to_value) "descriptionFacets" self.descriptionFacets l in
+    let l = add_opt_key_value Blob.to_value "avatar" self.avatar l in
+    let l = add_opt_key_value Value.Util.bool "acceptsInteractions" self.acceptsInteractions l in
+    let l = add_opt_key_value (fun v ->
+    (match v with
+    | `Com_atproto_label_defs_selflabels v -> (com_atproto_label_defs_selflabels_to_value v)
+    | `Other v -> v (* Non closed union *)
+    )) "labels" self.labels l in
+    let l = add_opt_key_value Value.Util.text "contentMode" self.contentMode l in
+    let l = ("createdAt", Value.Util.text self.createdAt) :: l in
+    Value.Util.map l
+
 
 
 end
@@ -12541,9 +12943,9 @@ module App_Bsky_Feed_DescribeFeedGenerator = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let did = Value.Util.get_key "did" Value.Util.to_text v in
-    let feeds = Value.Util.get_key "feeds" (Value.Util.to_array_of app_bsky_feed_describefeedgenerator_feed_of_value) v in
-    let links = Value.Util.get_key_not_required "links" app_bsky_feed_describefeedgenerator_links_of_value v in
+    let did = Value.Util.get_key_exn "did" Value.Util.to_text v in
+    let feeds = Value.Util.get_key_exn "feeds" (Value.Util.to_array_of app_bsky_feed_describefeedgenerator_feed_of_value) v in
+    let links = Value.Util.get_key_not_required_exn "links" app_bsky_feed_describefeedgenerator_links_of_value v in
     {did;feeds;links;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -12565,7 +12967,9 @@ module App_Bsky_Feed_DescribeFeedGenerator = struct
     uri: string;
   }
   let pp_feed = pp_app_bsky_feed_describefeedgenerator_feed
+
   let feed_of_value = app_bsky_feed_describefeedgenerator_feed_of_value
+
   let feed_to_value = app_bsky_feed_describefeedgenerator_feed_to_value
 
 
@@ -12576,7 +12980,9 @@ module App_Bsky_Feed_DescribeFeedGenerator = struct
     termsOfService: string option;
   }
   let pp_links = pp_app_bsky_feed_describefeedgenerator_links
+
   let links_of_value = app_bsky_feed_describefeedgenerator_links_of_value
+
   let links_to_value = app_bsky_feed_describefeedgenerator_links_to_value
 
 
@@ -12599,13 +13005,41 @@ module App_Bsky_Actor_Status = struct
     createdAt: string;
   }  [@@deriving show {with_path=false}, make]
 
+  let main_of_value : main Value.Util.conv = fun v ->
+    let status = Value.Util.get_key_exn "status" Value.Util.to_text v in
+    let embed = Value.Util.get_key_not_required_exn "embed" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
+    (match type_tag with
+    | "app.bsky.embed.external" ->
+    `App_bsky_embed_external_main (app_bsky_embed_external_main_of_value v)
+    | _ -> `Other v (* Non closed union *)
+    )) v in
+    let durationMinutes = Value.Util.get_key_not_required_exn "durationMinutes" Value.Util.to_int v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    {status;embed;durationMinutes;createdAt;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "app.bsky.actor.status") :: l in
+    let l = ("status", Value.Util.text self.status) :: l in
+    let l = add_opt_key_value (fun v ->
+    (match v with
+    | `App_bsky_embed_external_main v -> (app_bsky_embed_external_main_to_value v)
+    | `Other v -> v (* Non closed union *)
+    )) "embed" self.embed l in
+    let l = add_opt_key_value Value.Util.int "durationMinutes" self.durationMinutes l in
+    let l = ("createdAt", Value.Util.text self.createdAt) :: l in
+    Value.Util.map l
+
 
 
   (** {2 def live} *)
 
   type nonrec live = app_bsky_actor_status_live
   let pp_live = pp_app_bsky_actor_status_live
+
   let live_of_value = app_bsky_actor_status_live_of_value
+
   let live_to_value = app_bsky_actor_status_live_to_value
 
 
@@ -12625,9 +13059,9 @@ module App_Bsky_Actor_SearchActorsTypeahead = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let term = Value.Util.get_key_not_required "term" Value.Util.to_text v in
-    let q = Value.Util.get_key_not_required "q" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
+    let term = Value.Util.get_key_not_required_exn "term" Value.Util.to_text v in
+    let q = Value.Util.get_key_not_required_exn "q" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
     {term;q;limit;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -12642,7 +13076,7 @@ module App_Bsky_Actor_SearchActorsTypeahead = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let actors = Value.Util.get_key "actors" (Value.Util.to_array_of app_bsky_actor_defs_profileviewbasic_of_value) v in
+    let actors = Value.Util.get_key_exn "actors" (Value.Util.to_array_of app_bsky_actor_defs_profileviewbasic_of_value) v in
     {actors;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -12677,10 +13111,10 @@ module App_Bsky_Actor_SearchActors = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let term = Value.Util.get_key_not_required "term" Value.Util.to_text v in
-    let q = Value.Util.get_key_not_required "q" Value.Util.to_text v in
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let term = Value.Util.get_key_not_required_exn "term" Value.Util.to_text v in
+    let q = Value.Util.get_key_not_required_exn "q" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {term;q;limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -12697,8 +13131,8 @@ module App_Bsky_Actor_SearchActors = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let actors = Value.Util.get_key "actors" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let actors = Value.Util.get_key_exn "actors" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
     {cursor;actors;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -12731,7 +13165,7 @@ module App_Bsky_Actor_PutPreferences = struct
   [@@deriving show {with_path=false}]
 
   let main_input_of_value : main_input Value.Util.conv = (fun v ->
-    let preferences = Value.Util.get_key "preferences" app_bsky_actor_defs_preferences_of_value v in
+    let preferences = Value.Util.get_key_exn "preferences" app_bsky_actor_defs_preferences_of_value v in
     {preferences;})
   let main_input_to_value : main_input -> Value.t = (fun v ->
     let l = [] in
@@ -12768,6 +13202,40 @@ module App_Bsky_Actor_Profile = struct
     createdAt: string option;
   }  [@@deriving show {with_path=false}, make]
 
+  let main_of_value : main Value.Util.conv = fun v ->
+    let displayName = Value.Util.get_key_not_required_exn "displayName" Value.Util.to_text v in
+    let description = Value.Util.get_key_not_required_exn "description" Value.Util.to_text v in
+    let avatar = Value.Util.get_key_not_required_exn "avatar" Blob.of_value_exn v in
+    let banner = Value.Util.get_key_not_required_exn "banner" Blob.of_value_exn v in
+    let labels = Value.Util.get_key_not_required_exn "labels" (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
+    (match type_tag with
+    | "com.atproto.label.defs#selfLabels" ->
+    `Com_atproto_label_defs_selflabels (com_atproto_label_defs_selflabels_of_value v)
+    | _ -> `Other v (* Non closed union *)
+    )) v in
+    let joinedViaStarterPack = Value.Util.get_key_not_required_exn "joinedViaStarterPack" com_atproto_repo_strongref_main_of_value v in
+    let pinnedPost = Value.Util.get_key_not_required_exn "pinnedPost" com_atproto_repo_strongref_main_of_value v in
+    let createdAt = Value.Util.get_key_not_required_exn "createdAt" Value.Util.to_text v in
+    {displayName;description;avatar;banner;labels;joinedViaStarterPack;pinnedPost;createdAt;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "app.bsky.actor.profile") :: l in
+    let l = add_opt_key_value Value.Util.text "displayName" self.displayName l in
+    let l = add_opt_key_value Value.Util.text "description" self.description l in
+    let l = add_opt_key_value Blob.to_value "avatar" self.avatar l in
+    let l = add_opt_key_value Blob.to_value "banner" self.banner l in
+    let l = add_opt_key_value (fun v ->
+    (match v with
+    | `Com_atproto_label_defs_selflabels v -> (com_atproto_label_defs_selflabels_to_value v)
+    | `Other v -> v (* Non closed union *)
+    )) "labels" self.labels l in
+    let l = add_opt_key_value com_atproto_repo_strongref_main_to_value "joinedViaStarterPack" self.joinedViaStarterPack l in
+    let l = add_opt_key_value com_atproto_repo_strongref_main_to_value "pinnedPost" self.pinnedPost l in
+    let l = add_opt_key_value Value.Util.text "createdAt" self.createdAt l in
+    Value.Util.map l
+
 
 
 end
@@ -12785,8 +13253,8 @@ module App_Bsky_Actor_GetSuggestions = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let limit = Value.Util.get_key_not_required "limit" Value.Util.to_int v in
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
+    let limit = Value.Util.get_key_not_required_exn "limit" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
     {limit;cursor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -12802,9 +13270,9 @@ module App_Bsky_Actor_GetSuggestions = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let cursor = Value.Util.get_key_not_required "cursor" Value.Util.to_text v in
-    let actors = Value.Util.get_key "actors" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
-    let recId = Value.Util.get_key_not_required "recId" Value.Util.to_int v in
+    let cursor = Value.Util.get_key_not_required_exn "cursor" Value.Util.to_text v in
+    let actors = Value.Util.get_key_exn "actors" (Value.Util.to_array_of app_bsky_actor_defs_profileview_of_value) v in
+    let recId = Value.Util.get_key_not_required_exn "recId" Value.Util.to_int v in
     {cursor;actors;recId;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -12838,7 +13306,7 @@ module App_Bsky_Actor_GetProfiles = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let actors = Value.Util.get_key "actors" (Value.Util.to_array_of Value.Util.to_text) v in
+    let actors = Value.Util.get_key_exn "actors" (Value.Util.to_array_of Value.Util.to_text) v in
     {actors;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -12851,7 +13319,7 @@ module App_Bsky_Actor_GetProfiles = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let profiles = Value.Util.get_key "profiles" (Value.Util.to_array_of app_bsky_actor_defs_profileviewdetailed_of_value) v in
+    let profiles = Value.Util.get_key_exn "profiles" (Value.Util.to_array_of app_bsky_actor_defs_profileviewdetailed_of_value) v in
     {profiles;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -12883,7 +13351,7 @@ module App_Bsky_Actor_GetProfile = struct
   [@@deriving show {with_path=false}, make]
 
   let main_params_of_value : main_params Value.Util.conv = fun v ->
-    let actor = Value.Util.get_key "actor" Value.Util.to_text v in
+    let actor = Value.Util.get_key_exn "actor" Value.Util.to_text v in
     {actor;}
   let main_params_to_value (self:main_params) : Value.t =
     let l = [] in
@@ -12921,7 +13389,7 @@ module App_Bsky_Actor_GetPreferences = struct
   [@@deriving show {with_path=false}]
 
   let main_output_of_value : main_output Value.Util.conv = (fun v ->
-    let preferences = Value.Util.get_key "preferences" app_bsky_actor_defs_preferences_of_value v in
+    let preferences = Value.Util.get_key_exn "preferences" app_bsky_actor_defs_preferences_of_value v in
     {preferences;})
   let main_output_to_value : main_output -> Value.t = (fun v ->
     let l = [] in
@@ -12956,7 +13424,9 @@ module App_Bsky_Actor_Defs = struct
     status: app_bsky_actor_defs_statusview option;
   }
   let pp_profileviewbasic = pp_app_bsky_actor_defs_profileviewbasic
+
   let profileviewbasic_of_value = app_bsky_actor_defs_profileviewbasic_of_value
+
   let profileviewbasic_to_value = app_bsky_actor_defs_profileviewbasic_to_value
 
 
@@ -12977,7 +13447,9 @@ module App_Bsky_Actor_Defs = struct
     status: app_bsky_actor_defs_statusview option;
   }
   let pp_profileview = pp_app_bsky_actor_defs_profileview
+
   let profileview_of_value = app_bsky_actor_defs_profileview_of_value
+
   let profileview_to_value = app_bsky_actor_defs_profileview_to_value
 
 
@@ -13004,7 +13476,9 @@ module App_Bsky_Actor_Defs = struct
     status: app_bsky_actor_defs_statusview option;
   }
   let pp_profileviewdetailed = pp_app_bsky_actor_defs_profileviewdetailed
+
   let profileviewdetailed_of_value = app_bsky_actor_defs_profileviewdetailed_of_value
+
   let profileviewdetailed_to_value = app_bsky_actor_defs_profileviewdetailed_to_value
 
 
@@ -13018,7 +13492,9 @@ module App_Bsky_Actor_Defs = struct
     chat: app_bsky_actor_defs_profileassociatedchat option;
   }
   let pp_profileassociated = pp_app_bsky_actor_defs_profileassociated
+
   let profileassociated_of_value = app_bsky_actor_defs_profileassociated_of_value
+
   let profileassociated_to_value = app_bsky_actor_defs_profileassociated_to_value
 
 
@@ -13028,7 +13504,9 @@ module App_Bsky_Actor_Defs = struct
     allowIncoming: string;
   }
   let pp_profileassociatedchat = pp_app_bsky_actor_defs_profileassociatedchat
+
   let profileassociatedchat_of_value = app_bsky_actor_defs_profileassociatedchat_of_value
+
   let profileassociatedchat_to_value = app_bsky_actor_defs_profileassociatedchat_to_value
 
 
@@ -13045,7 +13523,9 @@ module App_Bsky_Actor_Defs = struct
     knownFollowers: app_bsky_actor_defs_knownfollowers option;
   }
   let pp_viewerstate = pp_app_bsky_actor_defs_viewerstate
+
   let viewerstate_of_value = app_bsky_actor_defs_viewerstate_of_value
+
   let viewerstate_to_value = app_bsky_actor_defs_viewerstate_to_value
 
 
@@ -13056,7 +13536,9 @@ module App_Bsky_Actor_Defs = struct
     followers: app_bsky_actor_defs_profileviewbasic list;
   }
   let pp_knownfollowers = pp_app_bsky_actor_defs_knownfollowers
+
   let knownfollowers_of_value = app_bsky_actor_defs_knownfollowers_of_value
+
   let knownfollowers_to_value = app_bsky_actor_defs_knownfollowers_to_value
 
 
@@ -13068,7 +13550,9 @@ module App_Bsky_Actor_Defs = struct
     trustedVerifierStatus: string;
   }
   let pp_verificationstate = pp_app_bsky_actor_defs_verificationstate
+
   let verificationstate_of_value = app_bsky_actor_defs_verificationstate_of_value
+
   let verificationstate_to_value = app_bsky_actor_defs_verificationstate_to_value
 
 
@@ -13081,7 +13565,9 @@ module App_Bsky_Actor_Defs = struct
     createdAt: string;
   }
   let pp_verificationview = pp_app_bsky_actor_defs_verificationview
+
   let verificationview_of_value = app_bsky_actor_defs_verificationview_of_value
+
   let verificationview_to_value = app_bsky_actor_defs_verificationview_to_value
 
 
@@ -13089,7 +13575,9 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec preferences = app_bsky_actor_defs_preferences
   let pp_preferences = pp_app_bsky_actor_defs_preferences
+
   let preferences_of_value = app_bsky_actor_defs_preferences_of_value
+
   let preferences_to_value = app_bsky_actor_defs_preferences_to_value
 
 
@@ -13099,7 +13587,9 @@ module App_Bsky_Actor_Defs = struct
     enabled: bool;
   }
   let pp_adultcontentpref = pp_app_bsky_actor_defs_adultcontentpref
+
   let adultcontentpref_of_value = app_bsky_actor_defs_adultcontentpref_of_value
+
   let adultcontentpref_to_value = app_bsky_actor_defs_adultcontentpref_to_value
 
 
@@ -13111,7 +13601,9 @@ module App_Bsky_Actor_Defs = struct
     visibility: string;
   }
   let pp_contentlabelpref = pp_app_bsky_actor_defs_contentlabelpref
+
   let contentlabelpref_of_value = app_bsky_actor_defs_contentlabelpref_of_value
+
   let contentlabelpref_to_value = app_bsky_actor_defs_contentlabelpref_to_value
 
 
@@ -13124,7 +13616,9 @@ module App_Bsky_Actor_Defs = struct
     pinned: bool;
   }
   let pp_savedfeed = pp_app_bsky_actor_defs_savedfeed
+
   let savedfeed_of_value = app_bsky_actor_defs_savedfeed_of_value
+
   let savedfeed_to_value = app_bsky_actor_defs_savedfeed_to_value
 
 
@@ -13134,7 +13628,9 @@ module App_Bsky_Actor_Defs = struct
     items: app_bsky_actor_defs_savedfeed list;
   }
   let pp_savedfeedsprefv2 = pp_app_bsky_actor_defs_savedfeedsprefv2
+
   let savedfeedsprefv2_of_value = app_bsky_actor_defs_savedfeedsprefv2_of_value
+
   let savedfeedsprefv2_to_value = app_bsky_actor_defs_savedfeedsprefv2_to_value
 
 
@@ -13146,7 +13642,9 @@ module App_Bsky_Actor_Defs = struct
     timelineIndex: int64 option;
   }
   let pp_savedfeedspref = pp_app_bsky_actor_defs_savedfeedspref
+
   let savedfeedspref_of_value = app_bsky_actor_defs_savedfeedspref_of_value
+
   let savedfeedspref_to_value = app_bsky_actor_defs_savedfeedspref_to_value
 
 
@@ -13156,7 +13654,9 @@ module App_Bsky_Actor_Defs = struct
     birthDate: string option;
   }
   let pp_personaldetailspref = pp_app_bsky_actor_defs_personaldetailspref
+
   let personaldetailspref_of_value = app_bsky_actor_defs_personaldetailspref_of_value
+
   let personaldetailspref_to_value = app_bsky_actor_defs_personaldetailspref_to_value
 
 
@@ -13171,7 +13671,9 @@ module App_Bsky_Actor_Defs = struct
     hideQuotePosts: bool option;
   }
   let pp_feedviewpref = pp_app_bsky_actor_defs_feedviewpref
+
   let feedviewpref_of_value = app_bsky_actor_defs_feedviewpref_of_value
+
   let feedviewpref_to_value = app_bsky_actor_defs_feedviewpref_to_value
 
 
@@ -13182,7 +13684,9 @@ module App_Bsky_Actor_Defs = struct
     prioritizeFollowedUsers: bool option;
   }
   let pp_threadviewpref = pp_app_bsky_actor_defs_threadviewpref
+
   let threadviewpref_of_value = app_bsky_actor_defs_threadviewpref_of_value
+
   let threadviewpref_to_value = app_bsky_actor_defs_threadviewpref_to_value
 
 
@@ -13192,7 +13696,9 @@ module App_Bsky_Actor_Defs = struct
     tags: string list;
   }
   let pp_interestspref = pp_app_bsky_actor_defs_interestspref
+
   let interestspref_of_value = app_bsky_actor_defs_interestspref_of_value
+
   let interestspref_to_value = app_bsky_actor_defs_interestspref_to_value
 
 
@@ -13200,7 +13706,9 @@ module App_Bsky_Actor_Defs = struct
 
   type nonrec mutedwordtarget = app_bsky_actor_defs_mutedwordtarget
   let pp_mutedwordtarget = pp_app_bsky_actor_defs_mutedwordtarget
+
   let mutedwordtarget_of_value = app_bsky_actor_defs_mutedwordtarget_of_value
+
   let mutedwordtarget_to_value = app_bsky_actor_defs_mutedwordtarget_to_value
 
 
@@ -13214,7 +13722,9 @@ module App_Bsky_Actor_Defs = struct
     expiresAt: string option;
   }
   let pp_mutedword = pp_app_bsky_actor_defs_mutedword
+
   let mutedword_of_value = app_bsky_actor_defs_mutedword_of_value
+
   let mutedword_to_value = app_bsky_actor_defs_mutedword_to_value
 
 
@@ -13224,7 +13734,9 @@ module App_Bsky_Actor_Defs = struct
     items: app_bsky_actor_defs_mutedword list;
   }
   let pp_mutedwordspref = pp_app_bsky_actor_defs_mutedwordspref
+
   let mutedwordspref_of_value = app_bsky_actor_defs_mutedwordspref_of_value
+
   let mutedwordspref_to_value = app_bsky_actor_defs_mutedwordspref_to_value
 
 
@@ -13234,7 +13746,9 @@ module App_Bsky_Actor_Defs = struct
     items: string list;
   }
   let pp_hiddenpostspref = pp_app_bsky_actor_defs_hiddenpostspref
+
   let hiddenpostspref_of_value = app_bsky_actor_defs_hiddenpostspref_of_value
+
   let hiddenpostspref_to_value = app_bsky_actor_defs_hiddenpostspref_to_value
 
 
@@ -13244,7 +13758,9 @@ module App_Bsky_Actor_Defs = struct
     labelers: app_bsky_actor_defs_labelerprefitem list;
   }
   let pp_labelerspref = pp_app_bsky_actor_defs_labelerspref
+
   let labelerspref_of_value = app_bsky_actor_defs_labelerspref_of_value
+
   let labelerspref_to_value = app_bsky_actor_defs_labelerspref_to_value
 
 
@@ -13254,7 +13770,9 @@ module App_Bsky_Actor_Defs = struct
     did: string;
   }
   let pp_labelerprefitem = pp_app_bsky_actor_defs_labelerprefitem
+
   let labelerprefitem_of_value = app_bsky_actor_defs_labelerprefitem_of_value
+
   let labelerprefitem_to_value = app_bsky_actor_defs_labelerprefitem_to_value
 
 
@@ -13266,7 +13784,9 @@ module App_Bsky_Actor_Defs = struct
     nuxs: app_bsky_actor_defs_nux list option;
   }
   let pp_bskyappstatepref = pp_app_bsky_actor_defs_bskyappstatepref
+
   let bskyappstatepref_of_value = app_bsky_actor_defs_bskyappstatepref_of_value
+
   let bskyappstatepref_to_value = app_bsky_actor_defs_bskyappstatepref_to_value
 
 
@@ -13276,7 +13796,9 @@ module App_Bsky_Actor_Defs = struct
     guide: string;
   }
   let pp_bskyappprogressguide = pp_app_bsky_actor_defs_bskyappprogressguide
+
   let bskyappprogressguide_of_value = app_bsky_actor_defs_bskyappprogressguide_of_value
+
   let bskyappprogressguide_to_value = app_bsky_actor_defs_bskyappprogressguide_to_value
 
 
@@ -13289,7 +13811,9 @@ module App_Bsky_Actor_Defs = struct
     expiresAt: string option;
   }
   let pp_nux = pp_app_bsky_actor_defs_nux
+
   let nux_of_value = app_bsky_actor_defs_nux_of_value
+
   let nux_to_value = app_bsky_actor_defs_nux_to_value
 
 
@@ -13299,7 +13823,9 @@ module App_Bsky_Actor_Defs = struct
     hideBadges: bool option;
   }
   let pp_verificationprefs = pp_app_bsky_actor_defs_verificationprefs
+
   let verificationprefs_of_value = app_bsky_actor_defs_verificationprefs_of_value
+
   let verificationprefs_to_value = app_bsky_actor_defs_verificationprefs_to_value
 
 
@@ -13319,7 +13845,9 @@ module App_Bsky_Actor_Defs = struct
     ] list option;
   }
   let pp_postinteractionsettingspref = pp_app_bsky_actor_defs_postinteractionsettingspref
+
   let postinteractionsettingspref_of_value = app_bsky_actor_defs_postinteractionsettingspref_of_value
+
   let postinteractionsettingspref_to_value = app_bsky_actor_defs_postinteractionsettingspref_to_value
 
 
@@ -13336,7 +13864,9 @@ module App_Bsky_Actor_Defs = struct
     isActive: bool option;
   }
   let pp_statusview = pp_app_bsky_actor_defs_statusview
+
   let statusview_of_value = app_bsky_actor_defs_statusview_of_value
+
   let statusview_to_value = app_bsky_actor_defs_statusview_to_value
 
 
@@ -13360,7 +13890,9 @@ module App_Bsky_Graph_Defs = struct
     indexedAt: string option;
   }
   let pp_listviewbasic = pp_app_bsky_graph_defs_listviewbasic
+
   let listviewbasic_of_value = app_bsky_graph_defs_listviewbasic_of_value
+
   let listviewbasic_to_value = app_bsky_graph_defs_listviewbasic_to_value
 
 
@@ -13381,7 +13913,9 @@ module App_Bsky_Graph_Defs = struct
     indexedAt: string;
   }
   let pp_listview = pp_app_bsky_graph_defs_listview
+
   let listview_of_value = app_bsky_graph_defs_listview_of_value
+
   let listview_to_value = app_bsky_graph_defs_listview_to_value
 
 
@@ -13392,7 +13926,9 @@ module App_Bsky_Graph_Defs = struct
     subject: app_bsky_actor_defs_profileview;
   }
   let pp_listitemview = pp_app_bsky_graph_defs_listitemview
+
   let listitemview_of_value = app_bsky_graph_defs_listitemview_of_value
+
   let listitemview_to_value = app_bsky_graph_defs_listitemview_to_value
 
 
@@ -13412,7 +13948,9 @@ module App_Bsky_Graph_Defs = struct
     indexedAt: string;
   }
   let pp_starterpackview = pp_app_bsky_graph_defs_starterpackview
+
   let starterpackview_of_value = app_bsky_graph_defs_starterpackview_of_value
+
   let starterpackview_to_value = app_bsky_graph_defs_starterpackview_to_value
 
 
@@ -13430,7 +13968,9 @@ module App_Bsky_Graph_Defs = struct
     indexedAt: string;
   }
   let pp_starterpackviewbasic = pp_app_bsky_graph_defs_starterpackviewbasic
+
   let starterpackviewbasic_of_value = app_bsky_graph_defs_starterpackviewbasic_of_value
+
   let starterpackviewbasic_to_value = app_bsky_graph_defs_starterpackviewbasic_to_value
 
 
@@ -13438,7 +13978,9 @@ module App_Bsky_Graph_Defs = struct
 
   type nonrec listpurpose = app_bsky_graph_defs_listpurpose
   let pp_listpurpose = pp_app_bsky_graph_defs_listpurpose
+
   let listpurpose_of_value = app_bsky_graph_defs_listpurpose_of_value
+
   let listpurpose_to_value = app_bsky_graph_defs_listpurpose_to_value
 
 
@@ -13446,7 +13988,9 @@ module App_Bsky_Graph_Defs = struct
 
   type nonrec modlist = app_bsky_graph_defs_modlist
   let pp_modlist = pp_app_bsky_graph_defs_modlist
+
   let modlist_of_value = app_bsky_graph_defs_modlist_of_value
+
   let modlist_to_value = app_bsky_graph_defs_modlist_to_value
 
 
@@ -13454,7 +13998,9 @@ module App_Bsky_Graph_Defs = struct
 
   type nonrec curatelist = app_bsky_graph_defs_curatelist
   let pp_curatelist = pp_app_bsky_graph_defs_curatelist
+
   let curatelist_of_value = app_bsky_graph_defs_curatelist_of_value
+
   let curatelist_to_value = app_bsky_graph_defs_curatelist_to_value
 
 
@@ -13462,7 +14008,9 @@ module App_Bsky_Graph_Defs = struct
 
   type nonrec referencelist = app_bsky_graph_defs_referencelist
   let pp_referencelist = pp_app_bsky_graph_defs_referencelist
+
   let referencelist_of_value = app_bsky_graph_defs_referencelist_of_value
+
   let referencelist_to_value = app_bsky_graph_defs_referencelist_to_value
 
 
@@ -13473,7 +14021,9 @@ module App_Bsky_Graph_Defs = struct
     blocked: string option;
   }
   let pp_listviewerstate = pp_app_bsky_graph_defs_listviewerstate
+
   let listviewerstate_of_value = app_bsky_graph_defs_listviewerstate_of_value
+
   let listviewerstate_to_value = app_bsky_graph_defs_listviewerstate_to_value
 
 
@@ -13484,7 +14034,9 @@ module App_Bsky_Graph_Defs = struct
     notFound: bool;
   }
   let pp_notfoundactor = pp_app_bsky_graph_defs_notfoundactor
+
   let notfoundactor_of_value = app_bsky_graph_defs_notfoundactor_of_value
+
   let notfoundactor_to_value = app_bsky_graph_defs_notfoundactor_to_value
 
 
@@ -13496,7 +14048,9 @@ module App_Bsky_Graph_Defs = struct
     followedBy: string option;
   }
   let pp_relationship = pp_app_bsky_graph_defs_relationship
+
   let relationship_of_value = app_bsky_graph_defs_relationship_of_value
+
   let relationship_to_value = app_bsky_graph_defs_relationship_to_value
 
 
@@ -13531,7 +14085,9 @@ module App_Bsky_Feed_Defs = struct
     threadgate: app_bsky_feed_defs_threadgateview option;
   }
   let pp_postview = pp_app_bsky_feed_defs_postview
+
   let postview_of_value = app_bsky_feed_defs_postview_of_value
+
   let postview_to_value = app_bsky_feed_defs_postview_to_value
 
 
@@ -13546,7 +14102,9 @@ module App_Bsky_Feed_Defs = struct
     pinned: bool option;
   }
   let pp_viewerstate = pp_app_bsky_feed_defs_viewerstate
+
   let viewerstate_of_value = app_bsky_feed_defs_viewerstate_of_value
+
   let viewerstate_to_value = app_bsky_feed_defs_viewerstate_to_value
 
 
@@ -13556,7 +14114,9 @@ module App_Bsky_Feed_Defs = struct
     rootAuthorLike: string option;
   }
   let pp_threadcontext = pp_app_bsky_feed_defs_threadcontext
+
   let threadcontext_of_value = app_bsky_feed_defs_threadcontext_of_value
+
   let threadcontext_to_value = app_bsky_feed_defs_threadcontext_to_value
 
 
@@ -13574,7 +14134,9 @@ module App_Bsky_Feed_Defs = struct
     reqId: string option;
   }
   let pp_feedviewpost = pp_app_bsky_feed_defs_feedviewpost
+
   let feedviewpost_of_value = app_bsky_feed_defs_feedviewpost_of_value
+
   let feedviewpost_to_value = app_bsky_feed_defs_feedviewpost_to_value
 
 
@@ -13596,7 +14158,9 @@ module App_Bsky_Feed_Defs = struct
     grandparentAuthor: app_bsky_actor_defs_profileviewbasic option;
   }
   let pp_replyref = pp_app_bsky_feed_defs_replyref
+
   let replyref_of_value = app_bsky_feed_defs_replyref_of_value
+
   let replyref_to_value = app_bsky_feed_defs_replyref_to_value
 
 
@@ -13609,7 +14173,9 @@ module App_Bsky_Feed_Defs = struct
     indexedAt: string;
   }
   let pp_reasonrepost = pp_app_bsky_feed_defs_reasonrepost
+
   let reasonrepost_of_value = app_bsky_feed_defs_reasonrepost_of_value
+
   let reasonrepost_to_value = app_bsky_feed_defs_reasonrepost_to_value
 
 
@@ -13617,7 +14183,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec reasonpin = app_bsky_feed_defs_reasonpin
   let pp_reasonpin = pp_app_bsky_feed_defs_reasonpin
+
   let reasonpin_of_value = app_bsky_feed_defs_reasonpin_of_value
+
   let reasonpin_to_value = app_bsky_feed_defs_reasonpin_to_value
 
 
@@ -13640,7 +14208,9 @@ module App_Bsky_Feed_Defs = struct
     threadContext: app_bsky_feed_defs_threadcontext option;
   }
   let pp_threadviewpost = pp_app_bsky_feed_defs_threadviewpost
+
   let threadviewpost_of_value = app_bsky_feed_defs_threadviewpost_of_value
+
   let threadviewpost_to_value = app_bsky_feed_defs_threadviewpost_to_value
 
 
@@ -13651,7 +14221,9 @@ module App_Bsky_Feed_Defs = struct
     notFound: bool;
   }
   let pp_notfoundpost = pp_app_bsky_feed_defs_notfoundpost
+
   let notfoundpost_of_value = app_bsky_feed_defs_notfoundpost_of_value
+
   let notfoundpost_to_value = app_bsky_feed_defs_notfoundpost_to_value
 
 
@@ -13663,7 +14235,9 @@ module App_Bsky_Feed_Defs = struct
     author: app_bsky_feed_defs_blockedauthor;
   }
   let pp_blockedpost = pp_app_bsky_feed_defs_blockedpost
+
   let blockedpost_of_value = app_bsky_feed_defs_blockedpost_of_value
+
   let blockedpost_to_value = app_bsky_feed_defs_blockedpost_to_value
 
 
@@ -13674,7 +14248,9 @@ module App_Bsky_Feed_Defs = struct
     viewer: app_bsky_actor_defs_viewerstate option;
   }
   let pp_blockedauthor = pp_app_bsky_feed_defs_blockedauthor
+
   let blockedauthor_of_value = app_bsky_feed_defs_blockedauthor_of_value
+
   let blockedauthor_to_value = app_bsky_feed_defs_blockedauthor_to_value
 
 
@@ -13697,7 +14273,9 @@ module App_Bsky_Feed_Defs = struct
     indexedAt: string;
   }
   let pp_generatorview = pp_app_bsky_feed_defs_generatorview
+
   let generatorview_of_value = app_bsky_feed_defs_generatorview_of_value
+
   let generatorview_to_value = app_bsky_feed_defs_generatorview_to_value
 
 
@@ -13707,7 +14285,9 @@ module App_Bsky_Feed_Defs = struct
     like: string option;
   }
   let pp_generatorviewerstate = pp_app_bsky_feed_defs_generatorviewerstate
+
   let generatorviewerstate_of_value = app_bsky_feed_defs_generatorviewerstate_of_value
+
   let generatorviewerstate_to_value = app_bsky_feed_defs_generatorviewerstate_to_value
 
 
@@ -13723,7 +14303,9 @@ module App_Bsky_Feed_Defs = struct
     feedContext: string option;
   }
   let pp_skeletonfeedpost = pp_app_bsky_feed_defs_skeletonfeedpost
+
   let skeletonfeedpost_of_value = app_bsky_feed_defs_skeletonfeedpost_of_value
+
   let skeletonfeedpost_to_value = app_bsky_feed_defs_skeletonfeedpost_to_value
 
 
@@ -13733,7 +14315,9 @@ module App_Bsky_Feed_Defs = struct
     repost: string;
   }
   let pp_skeletonreasonrepost = pp_app_bsky_feed_defs_skeletonreasonrepost
+
   let skeletonreasonrepost_of_value = app_bsky_feed_defs_skeletonreasonrepost_of_value
+
   let skeletonreasonrepost_to_value = app_bsky_feed_defs_skeletonreasonrepost_to_value
 
 
@@ -13741,7 +14325,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec skeletonreasonpin = app_bsky_feed_defs_skeletonreasonpin
   let pp_skeletonreasonpin = pp_app_bsky_feed_defs_skeletonreasonpin
+
   let skeletonreasonpin_of_value = app_bsky_feed_defs_skeletonreasonpin_of_value
+
   let skeletonreasonpin_to_value = app_bsky_feed_defs_skeletonreasonpin_to_value
 
 
@@ -13754,7 +14340,9 @@ module App_Bsky_Feed_Defs = struct
     lists: app_bsky_graph_defs_listviewbasic list option;
   }
   let pp_threadgateview = pp_app_bsky_feed_defs_threadgateview
+
   let threadgateview_of_value = app_bsky_feed_defs_threadgateview_of_value
+
   let threadgateview_to_value = app_bsky_feed_defs_threadgateview_to_value
 
 
@@ -13767,7 +14355,9 @@ module App_Bsky_Feed_Defs = struct
     reqId: string option;
   }
   let pp_interaction = pp_app_bsky_feed_defs_interaction
+
   let interaction_of_value = app_bsky_feed_defs_interaction_of_value
+
   let interaction_to_value = app_bsky_feed_defs_interaction_to_value
 
 
@@ -13775,7 +14365,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec requestless = app_bsky_feed_defs_requestless
   let pp_requestless = pp_app_bsky_feed_defs_requestless
+
   let requestless_of_value = app_bsky_feed_defs_requestless_of_value
+
   let requestless_to_value = app_bsky_feed_defs_requestless_to_value
 
 
@@ -13783,7 +14375,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec requestmore = app_bsky_feed_defs_requestmore
   let pp_requestmore = pp_app_bsky_feed_defs_requestmore
+
   let requestmore_of_value = app_bsky_feed_defs_requestmore_of_value
+
   let requestmore_to_value = app_bsky_feed_defs_requestmore_to_value
 
 
@@ -13791,7 +14385,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec clickthroughitem = app_bsky_feed_defs_clickthroughitem
   let pp_clickthroughitem = pp_app_bsky_feed_defs_clickthroughitem
+
   let clickthroughitem_of_value = app_bsky_feed_defs_clickthroughitem_of_value
+
   let clickthroughitem_to_value = app_bsky_feed_defs_clickthroughitem_to_value
 
 
@@ -13799,7 +14395,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec clickthroughauthor = app_bsky_feed_defs_clickthroughauthor
   let pp_clickthroughauthor = pp_app_bsky_feed_defs_clickthroughauthor
+
   let clickthroughauthor_of_value = app_bsky_feed_defs_clickthroughauthor_of_value
+
   let clickthroughauthor_to_value = app_bsky_feed_defs_clickthroughauthor_to_value
 
 
@@ -13807,7 +14405,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec clickthroughreposter = app_bsky_feed_defs_clickthroughreposter
   let pp_clickthroughreposter = pp_app_bsky_feed_defs_clickthroughreposter
+
   let clickthroughreposter_of_value = app_bsky_feed_defs_clickthroughreposter_of_value
+
   let clickthroughreposter_to_value = app_bsky_feed_defs_clickthroughreposter_to_value
 
 
@@ -13815,7 +14415,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec clickthroughembed = app_bsky_feed_defs_clickthroughembed
   let pp_clickthroughembed = pp_app_bsky_feed_defs_clickthroughembed
+
   let clickthroughembed_of_value = app_bsky_feed_defs_clickthroughembed_of_value
+
   let clickthroughembed_to_value = app_bsky_feed_defs_clickthroughembed_to_value
 
 
@@ -13823,7 +14425,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec contentmodeunspecified = app_bsky_feed_defs_contentmodeunspecified
   let pp_contentmodeunspecified = pp_app_bsky_feed_defs_contentmodeunspecified
+
   let contentmodeunspecified_of_value = app_bsky_feed_defs_contentmodeunspecified_of_value
+
   let contentmodeunspecified_to_value = app_bsky_feed_defs_contentmodeunspecified_to_value
 
 
@@ -13831,7 +14435,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec contentmodevideo = app_bsky_feed_defs_contentmodevideo
   let pp_contentmodevideo = pp_app_bsky_feed_defs_contentmodevideo
+
   let contentmodevideo_of_value = app_bsky_feed_defs_contentmodevideo_of_value
+
   let contentmodevideo_to_value = app_bsky_feed_defs_contentmodevideo_to_value
 
 
@@ -13839,7 +14445,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec interactionseen = app_bsky_feed_defs_interactionseen
   let pp_interactionseen = pp_app_bsky_feed_defs_interactionseen
+
   let interactionseen_of_value = app_bsky_feed_defs_interactionseen_of_value
+
   let interactionseen_to_value = app_bsky_feed_defs_interactionseen_to_value
 
 
@@ -13847,7 +14455,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec interactionlike = app_bsky_feed_defs_interactionlike
   let pp_interactionlike = pp_app_bsky_feed_defs_interactionlike
+
   let interactionlike_of_value = app_bsky_feed_defs_interactionlike_of_value
+
   let interactionlike_to_value = app_bsky_feed_defs_interactionlike_to_value
 
 
@@ -13855,7 +14465,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec interactionrepost = app_bsky_feed_defs_interactionrepost
   let pp_interactionrepost = pp_app_bsky_feed_defs_interactionrepost
+
   let interactionrepost_of_value = app_bsky_feed_defs_interactionrepost_of_value
+
   let interactionrepost_to_value = app_bsky_feed_defs_interactionrepost_to_value
 
 
@@ -13863,7 +14475,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec interactionreply = app_bsky_feed_defs_interactionreply
   let pp_interactionreply = pp_app_bsky_feed_defs_interactionreply
+
   let interactionreply_of_value = app_bsky_feed_defs_interactionreply_of_value
+
   let interactionreply_to_value = app_bsky_feed_defs_interactionreply_to_value
 
 
@@ -13871,7 +14485,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec interactionquote = app_bsky_feed_defs_interactionquote
   let pp_interactionquote = pp_app_bsky_feed_defs_interactionquote
+
   let interactionquote_of_value = app_bsky_feed_defs_interactionquote_of_value
+
   let interactionquote_to_value = app_bsky_feed_defs_interactionquote_to_value
 
 
@@ -13879,7 +14495,9 @@ module App_Bsky_Feed_Defs = struct
 
   type nonrec interactionshare = app_bsky_feed_defs_interactionshare
   let pp_interactionshare = pp_app_bsky_feed_defs_interactionshare
+
   let interactionshare_of_value = app_bsky_feed_defs_interactionshare_of_value
+
   let interactionshare_to_value = app_bsky_feed_defs_interactionshare_to_value
 
 
@@ -13902,7 +14520,9 @@ module App_Bsky_Embed_RecordWithMedia = struct
     ];
   }
   let pp_main = pp_app_bsky_embed_recordwithmedia_main
+
   let main_of_value = app_bsky_embed_recordwithmedia_main_of_value
+
   let main_to_value = app_bsky_embed_recordwithmedia_main_to_value
 
 
@@ -13918,7 +14538,9 @@ module App_Bsky_Embed_RecordWithMedia = struct
     ];
   }
   let pp_view = pp_app_bsky_embed_recordwithmedia_view
+
   let view_of_value = app_bsky_embed_recordwithmedia_view_of_value
+
   let view_to_value = app_bsky_embed_recordwithmedia_view_to_value
 
 
@@ -13935,7 +14557,9 @@ module App_Bsky_Embed_Record = struct
     record: com_atproto_repo_strongref_main;
   }
   let pp_main = pp_app_bsky_embed_record_main
+
   let main_of_value = app_bsky_embed_record_main_of_value
+
   let main_to_value = app_bsky_embed_record_main_to_value
 
 
@@ -13955,7 +14579,9 @@ module App_Bsky_Embed_Record = struct
     ];
   }
   let pp_view = pp_app_bsky_embed_record_view
+
   let view_of_value = app_bsky_embed_record_view_of_value
+
   let view_to_value = app_bsky_embed_record_view_to_value
 
 
@@ -13982,7 +14608,9 @@ module App_Bsky_Embed_Record = struct
     indexedAt: string;
   }
   let pp_viewrecord = pp_app_bsky_embed_record_viewrecord
+
   let viewrecord_of_value = app_bsky_embed_record_viewrecord_of_value
+
   let viewrecord_to_value = app_bsky_embed_record_viewrecord_to_value
 
 
@@ -13993,7 +14621,9 @@ module App_Bsky_Embed_Record = struct
     notFound: bool;
   }
   let pp_viewnotfound = pp_app_bsky_embed_record_viewnotfound
+
   let viewnotfound_of_value = app_bsky_embed_record_viewnotfound_of_value
+
   let viewnotfound_to_value = app_bsky_embed_record_viewnotfound_to_value
 
 
@@ -14005,7 +14635,9 @@ module App_Bsky_Embed_Record = struct
     author: app_bsky_feed_defs_blockedauthor;
   }
   let pp_viewblocked = pp_app_bsky_embed_record_viewblocked
+
   let viewblocked_of_value = app_bsky_embed_record_viewblocked_of_value
+
   let viewblocked_to_value = app_bsky_embed_record_viewblocked_to_value
 
 
@@ -14016,7 +14648,9 @@ module App_Bsky_Embed_Record = struct
     detached: bool;
   }
   let pp_viewdetached = pp_app_bsky_embed_record_viewdetached
+
   let viewdetached_of_value = app_bsky_embed_record_viewdetached_of_value
+
   let viewdetached_to_value = app_bsky_embed_record_viewdetached_to_value
 
 
@@ -14038,7 +14672,9 @@ module App_Bsky_Labeler_Defs = struct
     labels: com_atproto_label_defs_label list option;
   }
   let pp_labelerview = pp_app_bsky_labeler_defs_labelerview
+
   let labelerview_of_value = app_bsky_labeler_defs_labelerview_of_value
+
   let labelerview_to_value = app_bsky_labeler_defs_labelerview_to_value
 
 
@@ -14058,7 +14694,9 @@ module App_Bsky_Labeler_Defs = struct
     subjectCollections: string list option;
   }
   let pp_labelerviewdetailed = pp_app_bsky_labeler_defs_labelerviewdetailed
+
   let labelerviewdetailed_of_value = app_bsky_labeler_defs_labelerviewdetailed_of_value
+
   let labelerviewdetailed_to_value = app_bsky_labeler_defs_labelerviewdetailed_to_value
 
 
@@ -14068,7 +14706,9 @@ module App_Bsky_Labeler_Defs = struct
     like: string option;
   }
   let pp_labelerviewerstate = pp_app_bsky_labeler_defs_labelerviewerstate
+
   let labelerviewerstate_of_value = app_bsky_labeler_defs_labelerviewerstate_of_value
+
   let labelerviewerstate_to_value = app_bsky_labeler_defs_labelerviewerstate_to_value
 
 
@@ -14079,7 +14719,9 @@ module App_Bsky_Labeler_Defs = struct
     labelValueDefinitions: com_atproto_label_defs_labelvaluedefinition list option;
   }
   let pp_labelerpolicies = pp_app_bsky_labeler_defs_labelerpolicies
+
   let labelerpolicies_of_value = app_bsky_labeler_defs_labelerpolicies_of_value
+
   let labelerpolicies_to_value = app_bsky_labeler_defs_labelerpolicies_to_value
 
 
@@ -14097,7 +14739,9 @@ module Com_Atproto_Repo_StrongRef = struct
     cid: string;
   }
   let pp_main = pp_com_atproto_repo_strongref_main
+
   let main_of_value = com_atproto_repo_strongref_main_of_value
+
   let main_to_value = com_atproto_repo_strongref_main_to_value
 
 
@@ -14111,7 +14755,9 @@ module Com_Atproto_Moderation_Defs = struct
 
   type nonrec reasontype = com_atproto_moderation_defs_reasontype
   let pp_reasontype = pp_com_atproto_moderation_defs_reasontype
+
   let reasontype_of_value = com_atproto_moderation_defs_reasontype_of_value
+
   let reasontype_to_value = com_atproto_moderation_defs_reasontype_to_value
 
 
@@ -14119,7 +14765,9 @@ module Com_Atproto_Moderation_Defs = struct
 
   type nonrec reasonspam = com_atproto_moderation_defs_reasonspam
   let pp_reasonspam = pp_com_atproto_moderation_defs_reasonspam
+
   let reasonspam_of_value = com_atproto_moderation_defs_reasonspam_of_value
+
   let reasonspam_to_value = com_atproto_moderation_defs_reasonspam_to_value
 
 
@@ -14127,7 +14775,9 @@ module Com_Atproto_Moderation_Defs = struct
 
   type nonrec reasonviolation = com_atproto_moderation_defs_reasonviolation
   let pp_reasonviolation = pp_com_atproto_moderation_defs_reasonviolation
+
   let reasonviolation_of_value = com_atproto_moderation_defs_reasonviolation_of_value
+
   let reasonviolation_to_value = com_atproto_moderation_defs_reasonviolation_to_value
 
 
@@ -14135,7 +14785,9 @@ module Com_Atproto_Moderation_Defs = struct
 
   type nonrec reasonmisleading = com_atproto_moderation_defs_reasonmisleading
   let pp_reasonmisleading = pp_com_atproto_moderation_defs_reasonmisleading
+
   let reasonmisleading_of_value = com_atproto_moderation_defs_reasonmisleading_of_value
+
   let reasonmisleading_to_value = com_atproto_moderation_defs_reasonmisleading_to_value
 
 
@@ -14143,7 +14795,9 @@ module Com_Atproto_Moderation_Defs = struct
 
   type nonrec reasonsexual = com_atproto_moderation_defs_reasonsexual
   let pp_reasonsexual = pp_com_atproto_moderation_defs_reasonsexual
+
   let reasonsexual_of_value = com_atproto_moderation_defs_reasonsexual_of_value
+
   let reasonsexual_to_value = com_atproto_moderation_defs_reasonsexual_to_value
 
 
@@ -14151,7 +14805,9 @@ module Com_Atproto_Moderation_Defs = struct
 
   type nonrec reasonrude = com_atproto_moderation_defs_reasonrude
   let pp_reasonrude = pp_com_atproto_moderation_defs_reasonrude
+
   let reasonrude_of_value = com_atproto_moderation_defs_reasonrude_of_value
+
   let reasonrude_to_value = com_atproto_moderation_defs_reasonrude_to_value
 
 
@@ -14159,7 +14815,9 @@ module Com_Atproto_Moderation_Defs = struct
 
   type nonrec reasonother = com_atproto_moderation_defs_reasonother
   let pp_reasonother = pp_com_atproto_moderation_defs_reasonother
+
   let reasonother_of_value = com_atproto_moderation_defs_reasonother_of_value
+
   let reasonother_to_value = com_atproto_moderation_defs_reasonother_to_value
 
 
@@ -14167,7 +14825,9 @@ module Com_Atproto_Moderation_Defs = struct
 
   type nonrec reasonappeal = com_atproto_moderation_defs_reasonappeal
   let pp_reasonappeal = pp_com_atproto_moderation_defs_reasonappeal
+
   let reasonappeal_of_value = com_atproto_moderation_defs_reasonappeal_of_value
+
   let reasonappeal_to_value = com_atproto_moderation_defs_reasonappeal_to_value
 
 
@@ -14175,7 +14835,9 @@ module Com_Atproto_Moderation_Defs = struct
 
   type nonrec subjecttype = com_atproto_moderation_defs_subjecttype
   let pp_subjecttype = pp_com_atproto_moderation_defs_subjecttype
+
   let subjecttype_of_value = com_atproto_moderation_defs_subjecttype_of_value
+
   let subjecttype_to_value = com_atproto_moderation_defs_subjecttype_to_value
 
 
@@ -14192,7 +14854,9 @@ module App_Bsky_Embed_Images = struct
     images: app_bsky_embed_images_image list;
   }
   let pp_main = pp_app_bsky_embed_images_main
+
   let main_of_value = app_bsky_embed_images_main_of_value
+
   let main_to_value = app_bsky_embed_images_main_to_value
 
 
@@ -14204,7 +14868,9 @@ module App_Bsky_Embed_Images = struct
     aspectRatio: app_bsky_embed_defs_aspectratio option;
   }
   let pp_image = pp_app_bsky_embed_images_image
+
   let image_of_value = app_bsky_embed_images_image_of_value
+
   let image_to_value = app_bsky_embed_images_image_to_value
 
 
@@ -14214,7 +14880,9 @@ module App_Bsky_Embed_Images = struct
     images: app_bsky_embed_images_viewimage list;
   }
   let pp_view = pp_app_bsky_embed_images_view
+
   let view_of_value = app_bsky_embed_images_view_of_value
+
   let view_to_value = app_bsky_embed_images_view_to_value
 
 
@@ -14227,7 +14895,9 @@ module App_Bsky_Embed_Images = struct
     aspectRatio: app_bsky_embed_defs_aspectratio option;
   }
   let pp_viewimage = pp_app_bsky_embed_images_viewimage
+
   let viewimage_of_value = app_bsky_embed_images_viewimage_of_value
+
   let viewimage_to_value = app_bsky_embed_images_viewimage_to_value
 
 
@@ -14247,7 +14917,9 @@ module App_Bsky_Embed_Video = struct
     aspectRatio: app_bsky_embed_defs_aspectratio option;
   }
   let pp_main = pp_app_bsky_embed_video_main
+
   let main_of_value = app_bsky_embed_video_main_of_value
+
   let main_to_value = app_bsky_embed_video_main_to_value
 
 
@@ -14258,7 +14930,9 @@ module App_Bsky_Embed_Video = struct
     file: Blob.t;
   }
   let pp_caption = pp_app_bsky_embed_video_caption
+
   let caption_of_value = app_bsky_embed_video_caption_of_value
+
   let caption_to_value = app_bsky_embed_video_caption_to_value
 
 
@@ -14272,7 +14946,9 @@ module App_Bsky_Embed_Video = struct
     aspectRatio: app_bsky_embed_defs_aspectratio option;
   }
   let pp_view = pp_app_bsky_embed_video_view
+
   let view_of_value = app_bsky_embed_video_view_of_value
+
   let view_to_value = app_bsky_embed_video_view_to_value
 
 
@@ -14289,7 +14965,9 @@ module App_Bsky_Embed_Defs = struct
     height: int64;
   }
   let pp_aspectratio = pp_app_bsky_embed_defs_aspectratio
+
   let aspectratio_of_value = app_bsky_embed_defs_aspectratio_of_value
+
   let aspectratio_to_value = app_bsky_embed_defs_aspectratio_to_value
 
 
@@ -14311,7 +14989,9 @@ module App_Bsky_Richtext_Facet = struct
     ] list;
   }
   let pp_main = pp_app_bsky_richtext_facet_main
+
   let main_of_value = app_bsky_richtext_facet_main_of_value
+
   let main_to_value = app_bsky_richtext_facet_main_to_value
 
 
@@ -14321,7 +15001,9 @@ module App_Bsky_Richtext_Facet = struct
     did: string;
   }
   let pp_mention = pp_app_bsky_richtext_facet_mention
+
   let mention_of_value = app_bsky_richtext_facet_mention_of_value
+
   let mention_to_value = app_bsky_richtext_facet_mention_to_value
 
 
@@ -14331,7 +15013,9 @@ module App_Bsky_Richtext_Facet = struct
     uri: string;
   }
   let pp_link = pp_app_bsky_richtext_facet_link
+
   let link_of_value = app_bsky_richtext_facet_link_of_value
+
   let link_to_value = app_bsky_richtext_facet_link_to_value
 
 
@@ -14341,7 +15025,9 @@ module App_Bsky_Richtext_Facet = struct
     tag: string;
   }
   let pp_tag = pp_app_bsky_richtext_facet_tag
+
   let tag_of_value = app_bsky_richtext_facet_tag_of_value
+
   let tag_to_value = app_bsky_richtext_facet_tag_to_value
 
 
@@ -14352,7 +15038,9 @@ module App_Bsky_Richtext_Facet = struct
     byteEnd: int64;
   }
   let pp_byteslice = pp_app_bsky_richtext_facet_byteslice
+
   let byteslice_of_value = app_bsky_richtext_facet_byteslice_of_value
+
   let byteslice_to_value = app_bsky_richtext_facet_byteslice_to_value
 
 
@@ -14376,7 +15064,9 @@ module Com_Atproto_Label_Defs = struct
     sig_: (bytes [@printer pp_bytes_len]) option;
   }
   let pp_label = pp_com_atproto_label_defs_label
+
   let label_of_value = com_atproto_label_defs_label_of_value
+
   let label_to_value = com_atproto_label_defs_label_to_value
 
 
@@ -14386,7 +15076,9 @@ module Com_Atproto_Label_Defs = struct
     values: com_atproto_label_defs_selflabel list;
   }
   let pp_selflabels = pp_com_atproto_label_defs_selflabels
+
   let selflabels_of_value = com_atproto_label_defs_selflabels_of_value
+
   let selflabels_to_value = com_atproto_label_defs_selflabels_to_value
 
 
@@ -14396,7 +15088,9 @@ module Com_Atproto_Label_Defs = struct
     val_: string;
   }
   let pp_selflabel = pp_com_atproto_label_defs_selflabel
+
   let selflabel_of_value = com_atproto_label_defs_selflabel_of_value
+
   let selflabel_to_value = com_atproto_label_defs_selflabel_to_value
 
 
@@ -14411,7 +15105,9 @@ module Com_Atproto_Label_Defs = struct
     locales: com_atproto_label_defs_labelvaluedefinitionstrings list;
   }
   let pp_labelvaluedefinition = pp_com_atproto_label_defs_labelvaluedefinition
+
   let labelvaluedefinition_of_value = com_atproto_label_defs_labelvaluedefinition_of_value
+
   let labelvaluedefinition_to_value = com_atproto_label_defs_labelvaluedefinition_to_value
 
 
@@ -14423,7 +15119,9 @@ module Com_Atproto_Label_Defs = struct
     description: string;
   }
   let pp_labelvaluedefinitionstrings = pp_com_atproto_label_defs_labelvaluedefinitionstrings
+
   let labelvaluedefinitionstrings_of_value = com_atproto_label_defs_labelvaluedefinitionstrings_of_value
+
   let labelvaluedefinitionstrings_to_value = com_atproto_label_defs_labelvaluedefinitionstrings_to_value
 
 
@@ -14431,7 +15129,9 @@ module Com_Atproto_Label_Defs = struct
 
   type nonrec labelvalue = com_atproto_label_defs_labelvalue
   let pp_labelvalue = pp_com_atproto_label_defs_labelvalue
+
   let labelvalue_of_value = com_atproto_label_defs_labelvalue_of_value
+
   let labelvalue_to_value = com_atproto_label_defs_labelvalue_to_value
 
 
@@ -14457,13 +15157,50 @@ module App_Bsky_Feed_Threadgate = struct
     hiddenReplies: string list option;
   }  [@@deriving show {with_path=false}, make]
 
+  let main_of_value : main Value.Util.conv = fun v ->
+    let post = Value.Util.get_key_exn "post" Value.Util.to_text v in
+    let allow = Value.Util.get_key_not_required_exn "allow" (Value.Util.to_array_of (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
+    (match type_tag with
+    | "app.bsky.feed.threadgate#mentionRule" ->
+    `App_bsky_feed_threadgate_mentionrule (app_bsky_feed_threadgate_mentionrule_of_value v)
+    | "app.bsky.feed.threadgate#followerRule" ->
+    `App_bsky_feed_threadgate_followerrule (app_bsky_feed_threadgate_followerrule_of_value v)
+    | "app.bsky.feed.threadgate#followingRule" ->
+    `App_bsky_feed_threadgate_followingrule (app_bsky_feed_threadgate_followingrule_of_value v)
+    | "app.bsky.feed.threadgate#listRule" ->
+    `App_bsky_feed_threadgate_listrule (app_bsky_feed_threadgate_listrule_of_value v)
+    | _ -> `Other v (* Non closed union *)
+    ))) v in
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    let hiddenReplies = Value.Util.get_key_not_required_exn "hiddenReplies" (Value.Util.to_array_of Value.Util.to_text) v in
+    {post;allow;createdAt;hiddenReplies;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "app.bsky.feed.threadgate") :: l in
+    let l = ("post", Value.Util.text self.post) :: l in
+    let l = add_opt_key_value (Value.Util.array_of (fun v ->
+    (match v with
+    | `App_bsky_feed_threadgate_mentionrule v -> (app_bsky_feed_threadgate_mentionrule_to_value v)
+    | `App_bsky_feed_threadgate_followerrule v -> (app_bsky_feed_threadgate_followerrule_to_value v)
+    | `App_bsky_feed_threadgate_followingrule v -> (app_bsky_feed_threadgate_followingrule_to_value v)
+    | `App_bsky_feed_threadgate_listrule v -> (app_bsky_feed_threadgate_listrule_to_value v)
+    | `Other v -> v (* Non closed union *)
+    ))) "allow" self.allow l in
+    let l = ("createdAt", Value.Util.text self.createdAt) :: l in
+    let l = add_opt_key_value (Value.Util.array_of Value.Util.text) "hiddenReplies" self.hiddenReplies l in
+    Value.Util.map l
+
 
 
   (** {2 def mentionRule} *)
 
   type nonrec mentionrule = app_bsky_feed_threadgate_mentionrule
   let pp_mentionrule = pp_app_bsky_feed_threadgate_mentionrule
+
   let mentionrule_of_value = app_bsky_feed_threadgate_mentionrule_of_value
+
   let mentionrule_to_value = app_bsky_feed_threadgate_mentionrule_to_value
 
 
@@ -14471,7 +15208,9 @@ module App_Bsky_Feed_Threadgate = struct
 
   type nonrec followerrule = app_bsky_feed_threadgate_followerrule
   let pp_followerrule = pp_app_bsky_feed_threadgate_followerrule
+
   let followerrule_of_value = app_bsky_feed_threadgate_followerrule_of_value
+
   let followerrule_to_value = app_bsky_feed_threadgate_followerrule_to_value
 
 
@@ -14479,7 +15218,9 @@ module App_Bsky_Feed_Threadgate = struct
 
   type nonrec followingrule = app_bsky_feed_threadgate_followingrule
   let pp_followingrule = pp_app_bsky_feed_threadgate_followingrule
+
   let followingrule_of_value = app_bsky_feed_threadgate_followingrule_of_value
+
   let followingrule_to_value = app_bsky_feed_threadgate_followingrule_to_value
 
 
@@ -14489,7 +15230,9 @@ module App_Bsky_Feed_Threadgate = struct
     list: string;
   }
   let pp_listrule = pp_app_bsky_feed_threadgate_listrule
+
   let listrule_of_value = app_bsky_feed_threadgate_listrule_of_value
+
   let listrule_to_value = app_bsky_feed_threadgate_listrule_to_value
 
 
@@ -14512,13 +15255,41 @@ module App_Bsky_Feed_Postgate = struct
     ] list option;
   }  [@@deriving show {with_path=false}, make]
 
+  let main_of_value : main Value.Util.conv = fun v ->
+    let createdAt = Value.Util.get_key_exn "createdAt" Value.Util.to_text v in
+    let post = Value.Util.get_key_exn "post" Value.Util.to_text v in
+    let detachedEmbeddingUris = Value.Util.get_key_not_required_exn "detachedEmbeddingUris" (Value.Util.to_array_of Value.Util.to_text) v in
+    let embeddingRules = Value.Util.get_key_not_required_exn "embeddingRules" (Value.Util.to_array_of (fun v ->
+    let type_tag = Value.Util.get_type_key_exn v in
+    (match type_tag with
+    | "app.bsky.feed.postgate#disableRule" ->
+    `App_bsky_feed_postgate_disablerule (app_bsky_feed_postgate_disablerule_of_value v)
+    | _ -> `Other v (* Non closed union *)
+    ))) v in
+    {createdAt;post;detachedEmbeddingUris;embeddingRules;}
+
+  let main_to_value : main -> Value.t = fun self ->
+    let l = [] in
+    let l = ("$type", Value.Util.text "app.bsky.feed.postgate") :: l in
+    let l = ("createdAt", Value.Util.text self.createdAt) :: l in
+    let l = ("post", Value.Util.text self.post) :: l in
+    let l = add_opt_key_value (Value.Util.array_of Value.Util.text) "detachedEmbeddingUris" self.detachedEmbeddingUris l in
+    let l = add_opt_key_value (Value.Util.array_of (fun v ->
+    (match v with
+    | `App_bsky_feed_postgate_disablerule v -> (app_bsky_feed_postgate_disablerule_to_value v)
+    | `Other v -> v (* Non closed union *)
+    ))) "embeddingRules" self.embeddingRules l in
+    Value.Util.map l
+
 
 
   (** {2 def disableRule} *)
 
   type nonrec disablerule = app_bsky_feed_postgate_disablerule
   let pp_disablerule = pp_app_bsky_feed_postgate_disablerule
+
   let disablerule_of_value = app_bsky_feed_postgate_disablerule_of_value
+
   let disablerule_to_value = app_bsky_feed_postgate_disablerule_to_value
 
 
@@ -14534,7 +15305,9 @@ module App_Bsky_Embed_External = struct
     external_: app_bsky_embed_external_external;
   }
   let pp_main = pp_app_bsky_embed_external_main
+
   let main_of_value = app_bsky_embed_external_main_of_value
+
   let main_to_value = app_bsky_embed_external_main_to_value
 
 
@@ -14547,7 +15320,9 @@ module App_Bsky_Embed_External = struct
     thumb: Blob.t option;
   }
   let pp_external_ = pp_app_bsky_embed_external_external
+
   let external__of_value = app_bsky_embed_external_external_of_value
+
   let external__to_value = app_bsky_embed_external_external_to_value
 
 
@@ -14557,7 +15332,9 @@ module App_Bsky_Embed_External = struct
     external_: app_bsky_embed_external_viewexternal;
   }
   let pp_view = pp_app_bsky_embed_external_view
+
   let view_of_value = app_bsky_embed_external_view_of_value
+
   let view_to_value = app_bsky_embed_external_view_to_value
 
 
@@ -14570,7 +15347,9 @@ module App_Bsky_Embed_External = struct
     thumb: string option;
   }
   let pp_viewexternal = pp_app_bsky_embed_external_viewexternal
+
   let viewexternal_of_value = app_bsky_embed_external_viewexternal_of_value
+
   let viewexternal_to_value = app_bsky_embed_external_viewexternal_to_value
 
 

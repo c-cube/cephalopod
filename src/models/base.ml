@@ -45,6 +45,7 @@ type 'e message = {
   pp: 'e pp;
   to_value: 'e -> Cephalopod_dasl.Value.t;
   of_value: type_tag:string -> Cephalopod_dasl.Value.t -> 'e;
+  nsid_of_fragment: string -> string;
 }
 
 type 'a input_or_output =
@@ -84,3 +85,27 @@ type 'ty record = {
   record: 'ty encodable;
 }
 [@@deriving make]
+
+module Decode_message = struct
+  open Cephalopod_common
+
+  type error =
+    [ `Msg of string
+    | `Missing_type_tag
+    | `Decode_error of Cephalopod_dasl.Value.Util.conv_error
+    ]
+  [@@deriving show { with_path = false }]
+
+  let decode (msg : 'a message) (ev : Cephalopod_dasl.Stream_event.t) :
+      ('a, [> error ]) result =
+    let@ ectx = Error.try_with in
+    let fragment =
+      Cephalopod_dasl.Stream_event.type_tag ev
+      |> Error.unwrap_with ectx (fun _ -> `Missing_type_tag)
+    in
+
+    let nsid = msg.nsid_of_fragment fragment in
+    (let@ () = Cephalopod_dasl.Value.Util.try_with in
+     msg.of_value ~type_tag:nsid ev.value)
+    |> Error.unwrap_with ectx (fun e -> `Decode_error e)
+end
