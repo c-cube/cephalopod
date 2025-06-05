@@ -32,18 +32,37 @@ let dump_file (st : st) file : unit =
       if st.decode then
         let module M = Cephalopod_models.Models in
         (match
-           let type_tag = Cephalopod_dasl.Stream_event.type_tag v in
-           M.Com_Atproto_Sync_SubscribeRepos.main_msg_of_value ~type_tag v.value
+           Cephalopod_models.Base.Decode_message.decode
+             M.Com_Atproto_Sync_SubscribeRepos.main.message v
          with
-        | msg ->
+        | Ok msg ->
           Log.app (fun k ->
               k "got firehose message:@ %a"
-                M.Com_Atproto_Sync_SubscribeRepos.pp_main_msg msg)
-        | exception Cephalopod_dasl.Value.Util.Conv_error err ->
+                M.Com_Atproto_Sync_SubscribeRepos.pp_main_msg msg);
+
+          (match msg with
+          | `Com_atproto_sync_subscriberepos_commit c ->
+            (match
+               Cephalopod_dasl.Car.decode_byte_slice
+               @@ Byte_slice.create c.blocks
+             with
+            | Ok car ->
+              Log.app (fun k -> k "decoded CAR: %a" Cephalopod_dasl.Car.pp car)
+            | Error err ->
+              incr st.stats.n_decode_errors;
+              Log.err (fun k ->
+                  k "could not decode CAR: %a"
+                    Cephalopod_dasl.Car.pp_error_decode err))
+          | `Other _ | `Com_atproto_sync_subscriberepos_sync _
+          | `Com_atproto_sync_subscriberepos_account _
+          | `Com_atproto_sync_subscriberepos_identity _
+          | `Com_atproto_sync_subscriberepos_info _ ->
+            ())
+        | Error err ->
           incr st.stats.n_decode_errors;
           Log.err (fun k ->
               k "failed to decode firehose message:@ %a"
-                Cephalopod_dasl.Value.Util.pp_conv_error err)
+                Cephalopod_models.Base.Decode_message.pp_error err)
         | exception exn ->
           incr st.stats.n_decode_errors;
           Log.err (fun k ->

@@ -63,19 +63,19 @@ let () =
             if !decode then
               let module M = Cephalopod_models.Models in
               (match
-                 let type_tag = Cephalopod_dasl.Stream_event.type_tag ev in
-                 M.Com_Atproto_Sync_SubscribeRepos.main_msg_of_value ~type_tag
-                   ev.value
+                 Cephalopod_models.Base.Decode_message.decode
+                   M.Com_Atproto_Sync_SubscribeRepos.main.message ev
                with
-              | msg ->
+              | Ok msg ->
                 Log.app (fun k ->
                     k "got firehose message:@ %a"
                       M.Com_Atproto_Sync_SubscribeRepos.pp_main_msg msg)
-              | exception Cephalopod_dasl.Value.Util.Conv_error err ->
+              | Error err ->
                 incr n_decode_errors;
                 Log.err (fun k ->
                     k "failed to decode firehose message:@ %a"
-                      Cephalopod_dasl.Value.Util.pp_conv_error err)
+                      Cephalopod_firehose_client.Client.Decode_event_stream
+                      .pp_error err)
               | exception exn ->
                 incr n_decode_errors;
                 Log.err (fun k ->
