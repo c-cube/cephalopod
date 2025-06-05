@@ -62,8 +62,6 @@
  (depends
   (cephalopod
    (= :version))
-  (cephalopod-models
-   (= :version))
   eio
   piaf
   logs

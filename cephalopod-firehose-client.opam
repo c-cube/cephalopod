@@ -10,7 +10,6 @@ bug-reports: "https://github.com/c-cube/cephalopod/issues"
 depends: [
   "dune" {>= "3.0"}
   "cephalopod" {= version}
-  "cephalopod-models" {= version}
   "eio"
   "piaf"
   "logs"
