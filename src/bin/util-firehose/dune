@@ -1,5 +1,4 @@
-
 (library
-  (name util_firehose)
-  (flags :standard -open Cephalopod_common)
-  (libraries cephalopod.common cephalopod-models))
+ (name util_firehose)
+ (flags :standard -open Cephalopod_common)
+ (libraries cephalopod.common cephalopod-models))
