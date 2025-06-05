@@ -8,7 +8,7 @@ type t = {
 
 type decode_error = Value.error_of_cbor [@@deriving show]
 
-let decode (data : Byte_slice.t) : (t, decode_error) result =
+let decode (data : Byte_slice.t) : (t, [> decode_error ]) result =
   let@ ectx = Error.try_with in
   let dec = Cbor.Decoder.create data in
   let header = Value.of_cbor dec |> Error.unwrap ectx in
