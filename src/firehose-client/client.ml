@@ -17,7 +17,7 @@ type inner = {
   ws_uri: Uri.t;
   sw: Eio.Switch.t; [@opaque]
   client: Piaf.Client.t; [@opaque]
-  on_event: event -> unit;
+  on_event: event Observer.t; [@opaque]
 }
 [@@deriving show { with_path = false }]
 
@@ -43,7 +43,7 @@ let read_loop (self : inner) () : unit =
   let emit_current_frame_if_any () =
     if Byte_buffer.length buf > 0 then (
       Log.debug (fun k -> k "got buffer of len=%d" (Byte_buffer.length buf));
-      self.on_event (E_received buf);
+      Observer.emit self.on_event (E_received buf);
       Byte_buffer.clear buf
     )
   in
@@ -55,7 +55,7 @@ let read_loop (self : inner) () : unit =
     | None ->
       emit_current_frame_if_any ();
       Atomic.set self.connected false;
-      self.on_event E_closed
+      Observer.emit self.on_event E_closed
     | Some (`Binary, iovec) ->
       emit_current_frame_if_any ();
       add_iovec_to_buf buf iovec
@@ -66,7 +66,7 @@ let read_loop (self : inner) () : unit =
   done;
   ()
 
-let create ~sw ~stdenv ~ws_uri ~on_event () : (t, connect_error) result =
+let create ~sw ~stdenv ~ws_uri () : (t, connect_error) result =
   let stdenv = (stdenv :> Eio_unix.Stdenv.base) in
   let@ ectx = Error.try_with in
 
@@ -91,12 +91,56 @@ let create ~sw ~stdenv ~ws_uri ~on_event () : (t, connect_error) result =
   in
 
   let inner =
-    { ws_uri; ws_conn; sw; connected = Atomic.make true; client; on_event }
+    {
+      ws_uri;
+      ws_conn;
+      sw;
+      connected = Atomic.make true;
+      client;
+      on_event = Observer.create ();
+    }
   in
   let fiber = Eio.Fiber.fork_promise ~sw (read_loop inner) in
   let st = { inner; fiber } in
 
   st
 
-let await (self : t) = Eio.Promise.await_exn self.fiber
-let shutdown (self : t) : unit = Piaf.Client.shutdown self.inner.client
+let[@inline] on_event self = self.inner.on_event
+let[@inline] await (self : t) = Eio.Promise.await_exn self.fiber
+let[@inline] shutdown (self : t) : unit = Piaf.Client.shutdown self.inner.client
+
+module Msg_event = struct
+  type error = Cephalopod_xrpc.Decode_msg.error [@@deriving show]
+
+  type 'a t =
+    | E_msg of 'a
+    | E_closed
+    | E_error of error
+  [@@deriving show]
+
+  let of_event ~msg (ev : event) : _ t =
+    match ev with
+    | E_closed -> E_closed
+    | E_received buf ->
+      (match
+         Cephalopod_xrpc.Decode_msg.decode_bytes msg (Byte_buffer.to_slice buf)
+       with
+      | Ok msg -> E_msg msg
+      | Error err -> E_error err)
+end
+
+module Subscribe = struct
+  type handle = Observer.handle
+
+  let unsubscribe (self : t) handle =
+    Observer.unsubscribe self.inner.on_event handle
+
+  let subscribe ~(msg : _ Cephalopod_xrpc.Base.message) ~on_msg_event (self : t)
+      : handle =
+    let on_event_cb ev =
+      let msg_ev = Msg_event.of_event ~msg ev in
+      on_msg_event msg_ev
+    in
+    let handle = Observer.subscribe self.inner.on_event on_event_cb in
+    handle
+end

@@ -73,7 +73,9 @@ module Dep_graph_for_types = struct
         List.iter
           (fun ref2 ->
             yield
-              (try RefTbl.find self.nodes ref2 with Not_found -> assert false))
+              (try RefTbl.find self.nodes ref2
+               with Not_found ->
+                 failwith (spf "Cannot find node for ref %s" (A.show_ref ref2))))
           n.deps_on)
       ~nodes ()
     |> List.rev_map (List.map (fun n -> n.ref, n.def))
@@ -110,8 +112,12 @@ module Sort_lexicons = struct
 end
 
 let codegen_prelude =
-  {|(* geherated by Cephalopod_lexicon's codegen tool, do not modify *)
+  {|(** Models generated from lexicons *)
+
+(* geherated by Cephalopod_lexicon's codegen tool, do not modify *)
+
 open Cephalopod_dasl
+module Base = Cephalopod_xrpc.Base
 [@@@ocaml.warning "-39-41"]
 
 open struct
@@ -122,6 +128,8 @@ open struct
     | None -> l
     | Some v -> (key, enc v) :: l
 end
+
+let all_records : (string,Base.any_record) Hashtbl.t = Hashtbl.create 8
 |}
 
 module Codegen = struct
@@ -264,7 +272,7 @@ module Codegen = struct
         bpf out "(Value.Util.to_array_of %a)" recurse items
       | A.Object { required; nullable; properties } ->
         bpf out "(fun v ->\n%a)"
-          (gen_fields ~inside ~required ~nullable ~properties)
+          (gen_fields ~check_type:None ~inside ~required ~nullable ~properties)
           "v"
       | A.Union { refs; closed } ->
         if read_type_key then
@@ -279,8 +287,22 @@ module Codegen = struct
             (gen_union ~inside ~refs ~closed ~type_expr:"type_tag")
             "v"
 
-    and gen_fields ~inside ~required ~nullable ~properties out (expr : string) =
+    and gen_fields ~(check_type : string option) ~inside ~required ~nullable
+        ~properties out (expr : string) =
       let recurse out e = gen_ty ~read_type_key:true ~inside out e in
+
+      (* check "$type" *)
+      Option.iter
+        (fun nsid ->
+          bpf out "    let _type_tag = Value.Util.get_type_key_exn %s in\n" expr;
+          bpf out
+            "    if _type_tag <> %S then Value.Util.conv_error \
+             {value=%s;path=[];msg=%S};\n"
+            nsid expr
+            (spf "Invalid type, expected it to be %S" nsid);
+          ())
+        check_type;
+
       List.iter
         (fun (k, ty) ->
           let required = list_opt_mem k required in
@@ -509,8 +531,8 @@ module Codegen = struct
     bpf out "\n  [@@deriving show {with_path=false}, make]\n\n";
     bpf out "  let %s_of_value : %s Value.Util.conv = fun v ->\n%a\n"
       (name_of_params ~ref p) (name_of_params ~ref p)
-      (Decode.gen_fields ~inside:ref ~required:p.required ~nullable:None
-         ~properties:p.properties)
+      (Decode.gen_fields ~check_type:None ~inside:ref ~required:p.required
+         ~nullable:None ~properties:p.properties)
       "v";
     bpf out "  let %s_to_value (self:%s) : Value.t =\n%a\n"
       (name_of_params ~ref p) (name_of_params ~ref p)
@@ -689,14 +711,24 @@ module Codegen = struct
       bpf out "  [@@deriving show {with_path=false}, make]\n\n";
 
       bpf out "  let %s_of_value : %s Value.Util.conv = fun v ->\n" name name;
-      Decode.gen_fields ~inside:ref ~required:r.record.required
-        ~nullable:r.record.nullable ~properties:r.record.properties out "v";
+      Decode.gen_fields
+        ~check_type:(Some (nsid_of_ref ref))
+        ~inside:ref ~required:r.record.required ~nullable:r.record.nullable
+        ~properties:r.record.properties out "v";
       bpf out "\n\n";
 
       bpf out "  let %s_to_value : %s -> Value.t = fun self ->\n" name name;
       Encode.gen_fields ~with_type:true ~inside:ref ~required:r.record.required
         ~nullable:r.record.nullable ~properties:r.record.properties out "self";
       bpf out "\n\n";
+
+      bpf out "  let %s : %s Base.record = {\n    key=%S; record=%s }\n\n" name
+        name (nsid_of_ref ref)
+        (base_encodeable_of_name name);
+
+      bpf out "  (* register the record *)\n";
+      bpf out "  let () = Hashtbl.add all_records %S (Any_record %s)\n\n"
+        (nsid_of_ref ref) name;
 
       ()
 

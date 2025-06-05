@@ -4,4 +4,4 @@
  (preprocess
   (pps ppx_deriving.std))
  (flags :standard -open Cephalopod_common)
- (libraries cephalopod.dasl cephalopod-models piaf eio logs))
+ (libraries cephalopod.dasl cephalopod.xrpc piaf eio logs))

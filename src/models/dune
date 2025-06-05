@@ -3,10 +3,11 @@
  (public_name cephalopod-models)
  (preprocess
   (pps ppx_deriving.std ppx_deriving_yojson))
- (libraries cephalopod.dasl))
+ (libraries cephalopod.dasl cephalopod.xrpc))
+
 
 (rule
- (targets models.ml)
+ (targets cephalopod_models.ml)
  (mode promote)
  (deps
   (:gen ./bin/codegen.exe)
@@ -16,6 +17,64 @@
   (run
    %{gen}
    %{project_root}/vendor/atproto/lexicons/app/bsky/
+   %{project_root}/vendor/atproto/lexicons/chat/bsky/
    %{project_root}/vendor/atproto/lexicons/com/atproto/
    -o
    %{targets})))
+
+;(rule
+; (targets com_atproto.ml)
+; (mode promote)
+; (deps
+;  (:gen ./bin/codegen.exe)
+;  (:lexicons
+;   (source_tree %{project_root}/vendor/atproto/lexicons/)))
+; (action
+;  (run
+;   %{gen}
+;   %{project_root}/vendor/atproto/lexicons/com/atproto/
+;   -o
+;   %{targets})))
+;
+;
+;(rule
+; (targets app_bsky.ml)
+; (mode promote)
+; (deps
+;  (:gen ./bin/codegen.exe)
+;  (:lexicons
+;   (source_tree %{project_root}/vendor/atproto/lexicons/)))
+; (action
+;  (run
+;   %{gen}
+;   %{project_root}/vendor/atproto/lexicons/app/bsky/
+;   -o
+;   %{targets})))
+;
+;(rule
+; (targets chat_bsky.ml)
+; (mode promote)
+; (deps
+;  (:gen ./bin/codegen.exe)
+;  (:lexicons
+;   (source_tree %{project_root}/vendor/atproto/lexicons/)))
+; (action
+;  (run
+;   %{gen}
+;   %{project_root}/vendor/atproto/lexicons/chat/bsky/
+;   -o
+;   %{targets})))
+;
+;(rule
+; (targets tools_ozone.ml)
+; (mode promote)
+; (deps
+;  (:gen ./bin/codegen.exe)
+;  (:lexicons
+;   (source_tree %{project_root}/vendor/atproto/lexicons/)))
+; (action
+;  (run
+;   %{gen}
+;   %{project_root}/vendor/atproto/lexicons/tools/ozone/
+;   -o
+;   %{targets})))
