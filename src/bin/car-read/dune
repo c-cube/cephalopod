@@ -1,0 +1,16 @@
+
+(executable
+ (name car_read)
+ (flags :standard -open Cephalopod_common)
+ (preprocess
+  (pps ppx_deriving.std))
+ (libraries
+  containers
+  cephalopod.common
+  cephalopod.dasl
+  cephalopod.xrpc
+  cephalopod.mst
+  cephalopod.mst.printbox
+  printbox
+  printbox-text
+  logs))

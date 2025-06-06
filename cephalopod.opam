@@ -26,6 +26,7 @@ depends: [
   "hmap" {with-test}
 ]
 depopts: [
+  "printbox"
   "trace" {>= "0.6"}
 ]
 build: [

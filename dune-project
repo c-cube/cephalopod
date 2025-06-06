@@ -42,6 +42,7 @@
   (odoc :with-doc)
   (hmap :with-test))
  (depopts
+  printbox
   (trace
    (>= 0.6)))
  (tags
