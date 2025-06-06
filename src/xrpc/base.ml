@@ -80,13 +80,20 @@ type ('params, 'msg, 'errors) subscription = {
 }
 [@@deriving make]
 
-type 'ty record = {
-  key: string;
+type 'ty record_def = {
+  nsid: string;
   record: 'ty encodable;
 }
 [@@deriving make]
 
-(** Type erased record *)
-type any_record = Any_record : _ record -> any_record
+type 'ty record = {
+  key: string;
+  value: 'ty;
+}
+[@@deriving show { with_path = false }, make]
 
-let pp_any_record out (Any_record r) = Fmt.fprintf out "<record key=%S>" r.key
+(** Type erased record *)
+type any_record_def = Any_record_def : _ record_def -> any_record_def
+
+let pp_any_record_def out (Any_record_def r) =
+  Fmt.fprintf out "<record nsid=%S>" r.nsid
