@@ -1,6 +1,6 @@
 let size_hash : int = 32
 
-type t = string [@@deriving eq]
+type t = string [@@deriving eq, ord]
 
 let to_hex = CCString.to_hex
 let show : t -> string = CCString.to_hex

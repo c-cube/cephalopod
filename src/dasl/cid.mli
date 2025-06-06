@@ -42,3 +42,6 @@ val encode_text : t -> string
 val new_compute_hash : Codec.t -> Byte_slice.t -> t
 val new_from_raw_data : Byte_slice.t -> t
 val new_from_raw_data_str : string -> t
+
+module Map : CCMap.S with type key = t
+module Set : CCSet.S with type elt = t

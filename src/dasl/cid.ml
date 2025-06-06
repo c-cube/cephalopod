@@ -5,7 +5,7 @@ type t = {
   codec: Codec.t;
   hash: Sha256.t;  (** len=size_hash *)
 }
-[@@deriving eq, show { with_path = false }]
+[@@deriving eq, ord, show { with_path = false }]
 
 type error_decode =
   [ `CidParseError of string
@@ -140,3 +140,12 @@ let new_from_raw_data_str (data : string) : t =
   { codec = Raw; hash = Sha256.hash_string data }
 
 (* TODO: parse the text format, with base32 *)
+
+module As_key = struct
+  type nonrec t = t
+
+  let compare = compare
+end
+
+module Map = CCMap.Make (As_key)
+module Set = CCSet.Make (As_key)

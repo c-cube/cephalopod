@@ -3,7 +3,7 @@
 val size_hash : int
 (** Size of SHA256 in bytes *)
 
-type t = private string [@@deriving eq, show]
+type t = private string [@@deriving eq, ord, show]
 (** len=32 *)
 
 val to_hex : t -> string

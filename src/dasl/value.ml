@@ -70,6 +70,19 @@ let of_cbor (c : Cbor.Decoder.t) : (t, [> error_of_cbor ]) result =
   in
   loop c
 
+open struct
+  let rec is_sorted_map = function
+    | [] | [ _ ] -> true
+    | (k1, _) :: ((k2, _) :: _ as tail) -> k1 < k2 && is_sorted_map tail
+
+  (** Maps need to be canonical, so we sort them *)
+  let ensure_map_sorted (m : _ list) : _ list =
+    if is_sorted_map m then
+      m
+    else
+      List.sort (fun (k1, _) (k2, _) -> String.compare k1 k2) m
+end
+
 let rec to_cbor (buf : Byte_buffer.t) (self : t) : unit =
   let module CE = Cbor.Encoder in
   match self with
@@ -87,6 +100,7 @@ let rec to_cbor (buf : Byte_buffer.t) (self : t) : unit =
     List.iter (to_cbor buf) l
   | Map l ->
     CE.push buf (Map (List.length l));
+    let l = ensure_map_sorted l in
     List.iter
       (fun (k, v) ->
         to_cbor buf (Text k);
@@ -174,7 +188,7 @@ module Util = struct
   let[@inline] bool x : t = Bool x
   let[@inline] bytes x : t = Bytes (Bytes.unsafe_to_string x)
   let[@inline] int x : t = Int x
-  let[@inline] map x : t = Map x
+  let[@inline] map x : t = Map (ensure_map_sorted x)
   let[@inline] cid x : t = Cid x
   let[@inline] text x : t = Text x
 

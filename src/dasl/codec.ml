@@ -1,7 +1,7 @@
 type t =
   | Raw
   | DCBOR42
-[@@deriving eq, show { with_path = false }]
+[@@deriving eq, ord, show { with_path = false }]
 
 let[@inline] to_hex (self : t) : char =
   match self with
