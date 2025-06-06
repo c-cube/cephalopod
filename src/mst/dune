@@ -1,0 +1,9 @@
+
+(library
+ (name cephalopod_mst)
+ (public_name cephalopod.mst)
+ (synopsis "Merkle Search Tree")
+ (flags :standard -open Cephalopod_common)
+ (preprocess
+  (pps ppx_deriving.std))
+ (libraries cephalopod.common cephalopod.dasl cephalopod.xrpc))
