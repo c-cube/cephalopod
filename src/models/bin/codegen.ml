@@ -129,7 +129,7 @@ open struct
     | Some v -> (key, enc v) :: l
 end
 
-let all_records : (string,Base.any_record) Hashtbl.t = Hashtbl.create 8
+let all_records : (string,Base.any_record_def) Hashtbl.t = Hashtbl.create 8
 |}
 
 module Codegen = struct
@@ -778,12 +778,12 @@ module Codegen = struct
         ~nullable:r.record.nullable ~properties:r.record.properties out "self";
       bpf out "\n\n";
 
-      bpf out "  let %s : %s Base.record = {\n    key=%S; record=%s }\n\n" name
-        name (nsid_of_ref ref)
+      bpf out "  let %s : %s Base.record_def = {\n    nsid=%S; record=%s }\n\n"
+        name name (nsid_of_ref ref)
         (base_encodeable_of_name name);
 
       bpf out "  (* register the record *)\n";
-      bpf out "  let () = Hashtbl.add all_records %S (Any_record %s)\n\n"
+      bpf out "  let () = Hashtbl.add all_records %S (Any_record_def %s)\n\n"
         (nsid_of_ref ref) name;
 
       ()

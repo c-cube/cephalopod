@@ -15,7 +15,7 @@ open struct
     | Some v -> (key, enc v) :: l
 end
 
-let all_records : (string,Base.any_record) Hashtbl.t = Hashtbl.create 8
+let all_records : (string,Base.any_record_def) Hashtbl.t = Hashtbl.create 8
 
 (** Type definitions *)
 module Types = struct
@@ -8853,14 +8853,14 @@ module Com_Atproto_Lexicon_Schema = struct
     let l = ("lexicon", Value.Util.int self.lexicon) :: l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="com.atproto.lexicon.schema"; record={
+  let main : main Base.record_def = {
+    nsid="com.atproto.lexicon.schema"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "com.atproto.lexicon.schema" (Any_record main)
+  let () = Hashtbl.add all_records "com.atproto.lexicon.schema" (Any_record_def main)
 
 
 
@@ -11697,14 +11697,14 @@ module Chat_Bsky_Actor_Declaration = struct
     let l = ("allowIncoming", Value.Util.text self.allowIncoming) :: l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="chat.bsky.actor.declaration"; record={
+  let main : main Base.record_def = {
+    nsid="chat.bsky.actor.declaration"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "chat.bsky.actor.declaration" (Any_record main)
+  let () = Hashtbl.add all_records "chat.bsky.actor.declaration" (Any_record_def main)
 
 
 
@@ -13450,14 +13450,14 @@ module App_Bsky_Labeler_Service = struct
     let l = add_opt_key_value (Value.Util.array_of Value.Util.text) "subjectCollections" self.subjectCollections l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="app.bsky.labeler.service"; record={
+  let main : main Base.record_def = {
+    nsid="app.bsky.labeler.service"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "app.bsky.labeler.service" (Any_record main)
+  let () = Hashtbl.add all_records "app.bsky.labeler.service" (Any_record_def main)
 
 
 
@@ -13568,14 +13568,14 @@ module App_Bsky_Graph_Verification = struct
     let l = ("createdAt", Value.Util.text self.createdAt) :: l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="app.bsky.graph.verification"; record={
+  let main : main Base.record_def = {
+    nsid="app.bsky.graph.verification"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "app.bsky.graph.verification" (Any_record main)
+  let () = Hashtbl.add all_records "app.bsky.graph.verification" (Any_record_def main)
 
 
 
@@ -13714,14 +13714,14 @@ module App_Bsky_Graph_Starterpack = struct
     let l = ("createdAt", Value.Util.text self.createdAt) :: l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="app.bsky.graph.starterpack"; record={
+  let main : main Base.record_def = {
+    nsid="app.bsky.graph.starterpack"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "app.bsky.graph.starterpack" (Any_record main)
+  let () = Hashtbl.add all_records "app.bsky.graph.starterpack" (Any_record_def main)
 
 
 
@@ -13919,14 +13919,14 @@ module App_Bsky_Graph_Listitem = struct
     let l = ("createdAt", Value.Util.text self.createdAt) :: l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="app.bsky.graph.listitem"; record={
+  let main : main Base.record_def = {
+    nsid="app.bsky.graph.listitem"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "app.bsky.graph.listitem" (Any_record main)
+  let () = Hashtbl.add all_records "app.bsky.graph.listitem" (Any_record_def main)
 
 
 
@@ -13961,14 +13961,14 @@ module App_Bsky_Graph_Listblock = struct
     let l = ("createdAt", Value.Util.text self.createdAt) :: l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="app.bsky.graph.listblock"; record={
+  let main : main Base.record_def = {
+    nsid="app.bsky.graph.listblock"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "app.bsky.graph.listblock" (Any_record main)
+  let () = Hashtbl.add all_records "app.bsky.graph.listblock" (Any_record_def main)
 
 
 
@@ -14036,14 +14036,14 @@ module App_Bsky_Graph_List = struct
     let l = ("createdAt", Value.Util.text self.createdAt) :: l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="app.bsky.graph.list"; record={
+  let main : main Base.record_def = {
+    nsid="app.bsky.graph.list"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "app.bsky.graph.list" (Any_record main)
+  let () = Hashtbl.add all_records "app.bsky.graph.list" (Any_record_def main)
 
 
 
@@ -14880,14 +14880,14 @@ module App_Bsky_Graph_Follow = struct
     let l = ("createdAt", Value.Util.text self.createdAt) :: l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="app.bsky.graph.follow"; record={
+  let main : main Base.record_def = {
+    nsid="app.bsky.graph.follow"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "app.bsky.graph.follow" (Any_record main)
+  let () = Hashtbl.add all_records "app.bsky.graph.follow" (Any_record_def main)
 
 
 
@@ -14922,14 +14922,14 @@ module App_Bsky_Graph_Block = struct
     let l = ("createdAt", Value.Util.text self.createdAt) :: l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="app.bsky.graph.block"; record={
+  let main : main Base.record_def = {
+    nsid="app.bsky.graph.block"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "app.bsky.graph.block" (Any_record main)
+  let () = Hashtbl.add all_records "app.bsky.graph.block" (Any_record_def main)
 
 
 
@@ -15111,14 +15111,14 @@ module App_Bsky_Feed_Repost = struct
     let l = add_opt_key_value com_atproto_repo_strongref_main_to_value "via" self.via l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="app.bsky.feed.repost"; record={
+  let main : main Base.record_def = {
+    nsid="app.bsky.feed.repost"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "app.bsky.feed.repost" (Any_record main)
+  let () = Hashtbl.add all_records "app.bsky.feed.repost" (Any_record_def main)
 
 
 
@@ -15224,14 +15224,14 @@ module App_Bsky_Feed_Post = struct
     let l = ("createdAt", Value.Util.text self.createdAt) :: l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="app.bsky.feed.post"; record={
+  let main : main Base.record_def = {
+    nsid="app.bsky.feed.post"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "app.bsky.feed.post" (Any_record main)
+  let () = Hashtbl.add all_records "app.bsky.feed.post" (Any_record_def main)
 
 
 
@@ -15310,14 +15310,14 @@ module App_Bsky_Feed_Like = struct
     let l = add_opt_key_value com_atproto_repo_strongref_main_to_value "via" self.via l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="app.bsky.feed.like"; record={
+  let main : main Base.record_def = {
+    nsid="app.bsky.feed.like"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "app.bsky.feed.like" (Any_record main)
+  let () = Hashtbl.add all_records "app.bsky.feed.like" (Any_record_def main)
 
 
 
@@ -16356,14 +16356,14 @@ module App_Bsky_Feed_Generator = struct
     let l = ("createdAt", Value.Util.text self.createdAt) :: l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="app.bsky.feed.generator"; record={
+  let main : main Base.record_def = {
+    nsid="app.bsky.feed.generator"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "app.bsky.feed.generator" (Any_record main)
+  let () = Hashtbl.add all_records "app.bsky.feed.generator" (Any_record_def main)
 
 
 
@@ -16481,14 +16481,14 @@ module App_Bsky_Actor_Status = struct
     let l = ("createdAt", Value.Util.text self.createdAt) :: l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="app.bsky.actor.status"; record={
+  let main : main Base.record_def = {
+    nsid="app.bsky.actor.status"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "app.bsky.actor.status" (Any_record main)
+  let () = Hashtbl.add all_records "app.bsky.actor.status" (Any_record_def main)
 
 
 
@@ -16718,14 +16718,14 @@ module App_Bsky_Actor_Profile = struct
     let l = add_opt_key_value Value.Util.text "createdAt" self.createdAt l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="app.bsky.actor.profile"; record={
+  let main : main Base.record_def = {
+    nsid="app.bsky.actor.profile"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "app.bsky.actor.profile" (Any_record main)
+  let () = Hashtbl.add all_records "app.bsky.actor.profile" (Any_record_def main)
 
 
 
@@ -18949,14 +18949,14 @@ module App_Bsky_Feed_Threadgate = struct
     let l = add_opt_key_value (Value.Util.array_of Value.Util.text) "hiddenReplies" self.hiddenReplies l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="app.bsky.feed.threadgate"; record={
+  let main : main Base.record_def = {
+    nsid="app.bsky.feed.threadgate"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "app.bsky.feed.threadgate" (Any_record main)
+  let () = Hashtbl.add all_records "app.bsky.feed.threadgate" (Any_record_def main)
 
 
 
@@ -19057,14 +19057,14 @@ module App_Bsky_Feed_Postgate = struct
     ))) "embeddingRules" self.embeddingRules l in
     Value.Util.map l
 
-  let main : main Base.record = {
-    key="app.bsky.feed.postgate"; record={
+  let main : main Base.record_def = {
+    nsid="app.bsky.feed.postgate"; record={
     to_value=main_to_value;
     of_value=main_of_value;
     pp=pp_main} }
 
   (* register the record *)
-  let () = Hashtbl.add all_records "app.bsky.feed.postgate" (Any_record main)
+  let () = Hashtbl.add all_records "app.bsky.feed.postgate" (Any_record_def main)
 
 
 
