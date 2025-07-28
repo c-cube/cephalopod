@@ -56,7 +56,12 @@ module U_value = struct
       @ [
           1, map (fun gen0 -> Text gen0) (string_size ~gen:printable (0 -- 28));
           1, map (fun gen0 -> Array gen0) (list_size (0 -- 3) self);
-          1, map (fun gen0 -> Map gen0) (list_size (0 -- 5) (pair gen_key self));
+          ( 1,
+            map
+              (fun gen0 -> Map gen0)
+              (let+ l = list_size (0 -- 5) (pair gen_key self) in
+               (* ensure no duplicates *)
+               List.sort_uniq (fun (k1, _) (k2, _) -> String.compare k1 k2) l) );
         ]
 
   let gen : t Q.Gen.t =
