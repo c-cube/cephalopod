@@ -1,4 +1,4 @@
-# Cephalopod
+# Cephalopod [![CI](https://github.com/c-cube/cephalopod/actions/workflows/main.yml/badge.svg)](https://github.com/c-cube/cephalopod/actions/workflows/main.yml)
 
 An incomplete collection of tools to deal with ATproto and bluesky, in OCaml.
 Currently, it has:
