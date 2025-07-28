@@ -22,4 +22,4 @@
 (rule
  (alias runtest)
  (action
-   (diff repo.car.txt.expected repo.car.txt)))
+  (diff repo.car.txt.expected repo.car.txt)))

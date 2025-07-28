@@ -1,4 +1,3 @@
-
 (executable
  (name car_read)
  (flags :standard -open Cephalopod_common)
