@@ -19,8 +19,8 @@ jobs:
           dune-cache: true
           allow-prerelease-opam: true
 
-      - run: opam install odig cephalopod
-      - run: opam exec -- odig odoc --cache-dir=_doc/ cephalopod
+      - run: opam install odig cephalopod cephalopod-models cephalopod-firehose-client
+      - run: opam exec -- odig odoc --cache-dir=_doc/ cephalopod cephalopod-models cephalopod-firehose-client
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
